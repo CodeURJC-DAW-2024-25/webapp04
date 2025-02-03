@@ -38,7 +38,7 @@
  
  The following diagram shows the system's entities, and how they relate to each other. 
   ##### img: Entity-Relationship Diagram
-  ![*1.1 entities*](https://github.com/.png) 
+  ![*1.1 entities*](https://dummyimage.com/600x400/000/fff) 
 
 
 
