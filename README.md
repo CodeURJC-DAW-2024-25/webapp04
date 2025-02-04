@@ -39,7 +39,7 @@
  
  The following diagram shows the system's entities, and how they relate to each other. 
   ##### img: Entity-Relationship Diagram
-  ![*1.1 entities*](https://dummyimage.com/600x400/000/fff) 
+  ![*1.1 entities*](ER-DIAGRAM.png) 
 
 
 
@@ -77,7 +77,8 @@
 -  **Google Maps**: users could use this aplication to locate the address of the seller (to see if the transportation management is suits them).
   
 ## 📊 Charts
-- **Selling chart**: users will be able to visualize an selling chart of the products they have selled throughout the year.
+- **Personal sell chart**: users will be able to visualize a sell chart of the products they have selled throughout the year.
+- **Top sell products chart**: users will be able to visualize a sales chart of the top-selling products in a certain category.
 
 ## ⚙️ Advanced algorithms
 - **Recommend by best seller**: This algorithm will choose products of the higher-rated seller first.
