@@ -1,15 +1,16 @@
 # webapp04
 
-# <p align="center"> 🌐 PCFind 🌐</p>
+# <p align="center"> 🌐 ByteMarket 🌐</p>
 # 📑Index
-- [Phase 0](#%EF%B8%8Fphase-0)
-   - [Team members](#team-members)
-   - [Entities](#entities)
-   - [Types of users](#types-of-users)
-   - [User requirements](#user-requirements)
-   - [Charts](#charts)
-   - [Advanced Algorithms](#advanced-algorithms)
-   - [Images](#images)
+- [Phase 0](#-phase-0)
+   - [Team members](#-team-members)
+   - [Entities](#-entities)
+   - [Types of users](#-types-of-users)
+   - [User requirements](#-user-requirements)
+   - [Additional Technologies](#-additional-technologies)
+   - [Charts](#-charts)
+   - [Advanced Algorithms](#-advanced-algorithms)
+   - [Images](#-images)
 - [Phase 1](#%EF%B8%8Fphase-1)
 
 ***   
