@@ -1,0 +1,15 @@
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .btn-custom:hover {
+    background-color: #823400;
+    color: white;
+  }
+
+  .btn-custom-register {
+    margin-left: 50px;
+
+  }
