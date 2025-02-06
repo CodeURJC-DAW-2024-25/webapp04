@@ -1,12 +1,51 @@
+.topProdContainer{
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 100%;
+}
 
 .topProducts{
     display: flex;
     flex-direction: row;
-    background-color: white;
+    
+    overflow: scroll;
+    width: 100%;
 }
 
-.col-3{ /*CAMBIAR ESTO*/
+/* Personalizar la barra de desplazamiento */
+.topProducts::-webkit-scrollbar {
+    height: 10px;
+}
+
+.topProducts::-webkit-scrollbar-button{
+    background: transparent;
+}
+
+.topProducts::-webkit-scrollbar-corner{
+    background: transparent;
+}
+
+.topProducts::-webkit-scrollbar-track {
+    background: transparent; /* Color del fondo de la barra de desplazamiento */
+}
+
+.topProducts::-webkit-scrollbar-thumb {
+    background: #777; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+.topProducts::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color de la barra de desplazamiento al pasar el ratón por encima */
+}
+
+.productCard{
+    width: 100%;
+
+}
+
+.topProduct{ 
     margin: 10px;
+    max-width: 20%;
 }
 
 .btn-custom {
@@ -23,4 +62,12 @@
 .btn-custom-register {
     margin-left: 50px;
 
+}
+
+.header-logo {
+    padding-left: 50px;
+}
+
+.header-profile{
+padding-right: 80px;
 }

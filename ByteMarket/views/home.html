@@ -15,19 +15,22 @@
 </head>
 
 <body>
-    <header class="bg-dark py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-2 d-flex align-items-center text-white">
+    <header class="bg-dark py-3">
+        <div class="container-fluid px-0">
+            <div class="row align-items-center">
+
+                <div class="col-2 d-flex align-items-center text-white header-logo"> <!-- Añadido clase header-logo -->
                     <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
                     <h5 class="fw-bolder mb-0">ByteMarket</h5>
                 </div>
+
                 <div class="col-7">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
                         <button class="btn btn-outline-dark btn-custom" type="submit">Buscar</button>
                     </form>
                 </div>
+
                 <div class="col-3">
                     <button class="btn btn-outline-dark btn-custom btn-custom-register" type="submit">
                         <i class="bi-person-fill me-1"></i> Iniciar sesión / Registrarme
@@ -60,13 +63,14 @@
         </div>
     </nav>
     <header class="bg-dark py-2">
-        <div class="container">
+        <div class="container topProdContainer">
             <div class="text-white">
                 <h2 class="fw-bolder">Productos Destacados</h2>
             </div>
             <div class="topProducts gx-4 gx-lg-5">
-                <div class="col-3">
-                    <div class="card h-100">
+                
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
                         <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                             alt="Product Image" />
                         <div class="card-body p-4">
@@ -81,8 +85,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card h-100">
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
                         <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                             alt="Product Image" />
                         <div class="card-body p-4">
@@ -97,8 +101,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card h-100">
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
                         <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                             alt="Product Image" />
                         <div class="card-body p-4">
@@ -113,8 +117,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card h-100">
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
                         <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                             alt="Product Image" />
                         <div class="card-body p-4">
@@ -129,8 +133,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <div class="card h-100">
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
+                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                            alt="Product Image" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">Product Name</h5>
+                                $40.00 - $80.00
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topProduct col-3">
+                    <div class="productCard card h-100">
                         <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                             alt="Product Image" />
                         <div class="card-body p-4">
@@ -189,7 +209,7 @@
         </div>
     </section>
 
-    <footer class="bg-dark text-white text-center py-2 fixed-bottom">Byte Market</footer>
+    <footer class="bg-dark text-white text-center py-2 fixed-bottom">ByteMarket</footer>
 
 </body>
 
