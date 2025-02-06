@@ -1,15 +1,26 @@
+
+.topProducts{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+}
+
+.col-3{ /*CAMBIAR ESTO*/
+    margin: 10px;
+}
+
 .btn-custom {
     background-color: #d35400; 
     color: #ffffff;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-  }
+}
 
-  .btn-custom:hover {
+.btn-custom:hover {
     background-color: #823400;
     color: white;
-  }
+}
 
-  .btn-custom-register {
+.btn-custom-register {
     margin-left: 50px;
 
-  }
+}
