@@ -17,23 +17,26 @@
 <body>
     <header class="bg-dark py-3">
         <div class="container-fluid px-0">
-            <div class="row align-items-center">
+            <div class="row align-items-center headerContainer">
 
                 <div class="col-2 d-flex align-items-center text-white header-logo"> <!-- Añadido clase header-logo -->
                     <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
                     <h5 class="fw-bolder mb-0">ByteMarket</h5>
                 </div>
 
-                <div class="col-7">
+                <div class="col-7 searchContainer">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
                         <button class="btn btn-outline-dark btn-custom" type="submit">Buscar</button>
                     </form>
                 </div>
 
-                <div class="col-3">
-                    <button class="btn btn-outline-dark btn-custom btn-custom-register" type="submit">
-                        <i class="bi-person-fill me-1"></i> Iniciar sesión / Registrarme
+                <div class="col-3 loginButtons">
+                    <button class="btn btn-outline-dark btn-custom" type="submit">
+                        <i class="bi-person-fill me-1"></i> Iniciar sesión
+                    </button>
+                    <button class="btn btn-outline-dark btn-custom" type="submit">
+                        <i class="bi-person-fill me-1"></i> Registrarse
                     </button>
                 </div>
             </div>
@@ -209,7 +212,7 @@
         </div>
     </section>
 
-    <footer class="bg-dark text-white text-center py-2 fixed-bottom">ByteMarket</footer>
+    <footer class="bg-dark text-white text-center py-2">ByteMarket</footer>
 
 </body>
 

@@ -1,3 +1,13 @@
+.headerContainer{
+    margin-right: 0px;
+}
+
+.loginButtons{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 .topProdContainer{
     padding-left: 50px;
     padding-right: 50px;
@@ -40,12 +50,12 @@
 
 .productCard{
     width: 100%;
-
 }
 
 .topProduct{ 
     margin: 10px;
     max-width: 20%;
+    min-width: 200px;
 }
 
 .btn-custom {
@@ -70,4 +80,53 @@
 
 .header-profile{
 padding-right: 80px;
+}
+
+
+/*RESPONSIVE*/
+@media (max-width: 1250px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .searchContainer{
+        width: 65%;
+        margin-left: 5%;
+    }
+
+    .loginButtons{
+        width: 30%;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+    
+}
+
+@media (max-width: 800px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .searchContainer{
+        width: 80%;
+        margin-bottom: 15px;
+        margin-left: 0px;
+        justify-content: center;
+    }
+
+    .loginButtons{
+        width: 100%;
+        justify-content: center;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+    
 }
