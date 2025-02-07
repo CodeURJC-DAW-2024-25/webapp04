@@ -82,6 +82,25 @@
 padding-right: 80px;
 }
 
+.otherProdContainer{
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 100%;
+}
+
+.otherProducts{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.otherProduct{ 
+    margin-bottom: 20px;
+    max-width: 25%;
+    min-width: 175px;
+}
+
 
 /*RESPONSIVE*/
 @media (max-width: 1250px){   
