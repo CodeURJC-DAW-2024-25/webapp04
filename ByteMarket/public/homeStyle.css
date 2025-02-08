@@ -78,7 +78,18 @@
 }
 
 .header-profile{
-padding-right: 80px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    max-width: fit-content;
+    border-radius: 10px;
+}
+
+.header-profile:hover{
+    cursor: pointer;
+    background:black;
 }
 
 .otherProdContainer{
@@ -100,6 +111,25 @@ padding-right: 80px;
     min-width: 175px;
 }
 
+.profilePic{
+    border-radius: 50%;
+    width: 50px;
+    margin: 3px;
+}
+
+.headerButtons{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+}
+
+.headerButton {
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
 
 /*RESPONSIVE*/
 @media (max-width: 1250px){   
@@ -107,6 +137,7 @@ padding-right: 80px;
         width: 100%;
         justify-content: center;
         margin-bottom: 15px;
+        padding-left: 0px;
     }
 
     .searchContainer{
