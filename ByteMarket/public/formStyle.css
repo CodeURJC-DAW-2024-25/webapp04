@@ -1,0 +1,67 @@
+/*HEADER*/
+.header-logo {
+    padding-left: 50px;
+}
+.headerContainer{
+    justify-content: space-between;
+}
+.header-profile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    max-width: fit-content;
+    border-radius: 10px;
+    margin-right: 50px;
+}
+
+.header-profile:hover{
+    cursor: pointer;
+    background:black;
+}
+
+.profilePic{
+    border-radius: 50%;
+    width: 50px;
+    margin: 3px;
+}
+.user-img {
+    width: 70px;
+    height: 70px;
+}
+
+.container{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+.form{
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #ffffff;
+    padding: 5%;
+    background-color: #777;
+    font-weight: bold;
+    border-radius: 0.8em;
+    z-index: 1; /*Para que un elemento no se superponga con otro junto*/
+}
+/* #map{
+    width: 100%;
+    border-radius: 0.8em;
+    margin-bottom: 5px;
+} */
+
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 2px solid #d35400;
+    margin-bottom: 10px;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    border-color: #823400;
+    color: white;
+}
