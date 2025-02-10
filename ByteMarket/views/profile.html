@@ -21,12 +21,15 @@
     <header class="bg-dark py-2">
         <div class="container-fluid px-0">
             <div class="row align-items-center headerContainer">
-                
-                <div class="col-2 d-flex align-items-center text-white header-logo"> <!-- Añadido clase header-logo -->
-                    <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
-                    <h5 class="fw-bolder mb-0">ByteMarket</h5>
+
+                <div class="col-2 d-flex align-items-center text-white header-logo">
+                    <a href="../views/home.html" class="d-flex align-items-center text-white text-decoration-none">
+                        <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
+                        <h5 class="fw-bolder mb-0">ByteMarket</h5>
+                    </a>
                 </div>
-    
+                
+
                 <div class="col-5 searchContainer">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
@@ -35,38 +38,41 @@
                         </button>
                     </form>
                 </div>
-    
+
                 <div class="col-3 m-0 justify-content-center headerButtons">
                     <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button">
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='../views/favorite.html'">
                             <i class="bi bi-heart-fill" style="color: white;"></i>
-                            <text class="fav-sellText">Favoritos</text>
+                            <span class="fav-sellText">Favoritos</span>
                         </button>
                     </div>
                     
-                    <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button">
-                            <i class="bi bi-plus-lg"></i>
-                            <text class="fav-sellText">Vender</text>
-                        </button>
-                    </div>
 
                     <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button">
-                            <i class="bi bi-chat-fill"></i>
-                            <text class="fav-sellText">Chats</text>
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='../views/newProductForm.html'">
+                            <i class="bi bi-plus-lg"></i>
+                            <span class="fav-sellText">Vender</span>
                         </button>
-                    </div>
-                </div>
-    
-                <div class="col-2 header-profile" height="55"> <!-- Añadido clase header-profile -->
-                    <div> 
-                        <img class="profilePic" src="../public/defaul-pfp.jpg" alt="Logo">
-                    </div>  
+                    </div>                    
+
                     <div>
-                        <p class="text-white fw-bolder mb-0">Usuario</p>
-                    </div>
-                </div>              
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='../views/chat.html'">
+                            <i class="bi bi-chat-fill"></i>
+                            <span class="fav-sellText">Chats</span>
+                        </button>
+                    </div>                    
+                </div>
+
+                <div class="col-2 header-profile" height="55">
+                    <a href="../views/profile.html" class="d-flex align-items-center text-decoration-none">
+                        <div>
+                            <img class="profilePic" src="../public/defaul-pfp.jpg" alt="Logo">
+                        </div>
+                        <div>
+                            <p class="text-white fw-bolder mb-0">Usuario</p>
+                        </div>
+                    </a>
+                </div>                
             </div>
         </div>
     </header>
@@ -79,10 +85,10 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link" href="#">Favoritos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Reseñas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Últimas compras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Últimas ventas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../views/favorite.html">Favoritos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">Reseñas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../views/historyPurchase.html">Últimas compras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../views/historySales.html">Últimas ventas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Valoraciones</a></li>
                 </ul>
             </div>
@@ -96,10 +102,13 @@
                     <h2 class="mb-4">Usuario123</h2>
         
                     <div class="profile-pic-wrapper">
-                        <label for="profilePicInput">
+                        <a href="../views/editProfile.html" class="d-inline-block position-relative">
                             <img src="../public/defaul-pfp.jpg" class="profile-pic mb-3" alt="Foto de perfil">
-                        </label>
-                    </div>
+                            <span class="edit-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
+                            </span>
+                        </a>
+                    </div>                    
                             
                     <form>
                         <div class="mb-3 text-start">

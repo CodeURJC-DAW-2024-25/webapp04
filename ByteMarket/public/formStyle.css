@@ -23,12 +23,9 @@
     background-color: #d35400; 
     color: #ffffff;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    border: 2px solid #d35400;
-    margin-bottom: 10px;
 }
 
 .btn-custom:hover {
     background-color: #823400;
-    border-color: #823400;
     color: white;
 }
