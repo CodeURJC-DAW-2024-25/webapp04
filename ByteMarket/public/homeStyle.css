@@ -49,6 +49,7 @@
 
 .productCard{
     width: 100%;
+    border:none; /* Quito el borde */
 }
 
 .topProduct{ 
