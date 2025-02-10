@@ -40,6 +40,13 @@
     margin: 3px;
 }
 
+.profilePicChat{
+    border-radius: 50%;
+    width: 8%;
+    height: 8%;
+    margin: 3px;
+}
+
 .headerButtons{
     display: flex;
     justify-content: center;
