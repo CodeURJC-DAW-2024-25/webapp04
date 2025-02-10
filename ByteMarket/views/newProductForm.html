@@ -22,10 +22,12 @@
         <div class="container-fluid px-0">
             <div class="row align-items-center headerContainer">
                 
-                <div class="col-2 d-flex align-items-center text-white header-logo"> <!-- Añadido clase header-logo -->
-                    <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
-                    <h5 class="fw-bolder mb-0">ByteMarket</h5>
-                </div>
+                <a href="home.html" class="col-2 text-decoration-none p-0">
+                    <div class="d-flex align-items-center text-white header-logo"> <!-- Añadido clase header-logo -->
+                        <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2">
+                        <h5 class="fw-bolder mb-0">ByteMarket</h5>
+                    </div>
+                </a>
     
                 <div class="col-5 searchContainer">
                     <form class="d-flex" role="search">
@@ -38,30 +40,36 @@
     
                 <div class="col-3 m-0 justify-content-center headerButtons">
                     <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button">
+                        <a href="favorite.html" class="btn btn-outline-dark btn-custom headerButton" role="button">
                             <i class="bi bi-heart-fill" style="color: white;"></i>
                             <text class="fav-sellText">Favoritos</text>
-                        </button>
+                        </a>
                     </div>
                     
-                    
+                    <div>
+                        <a href="newProductForm.html" class="btn btn-outline-dark btn-custom headerButton" role="button">
+                            <i class="bi bi-plus-lg"></i>
+                            <text class="fav-sellText">Vender</text>
+                        </a>
+                    </div>
 
                     <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button">
+                        <a href="chat.html" class="btn btn-outline-dark btn-custom headerButton" role="button">
                             <i class="bi bi-chat-fill"></i>
                             <text class="fav-sellText">Chats</text>
-                        </button>
+                        </a>
                     </div>
                 </div>
     
-                <div class="col-2 header-profile" height="55"> <!-- Añadido clase header-profile -->
-                    <div> 
+                <a href="profile.html" class="col-2 text-decoration-none header-profile">
+                    <div>
                         <img class="profilePic" src="../public/defaul-pfp.jpg" alt="Logo">
-                    </div>  
+                    </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">Usuario</p>
                     </div>
-                </div>              
+                </a>
+                            
             </div>
         </div>
     </header>
