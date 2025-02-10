@@ -11,7 +11,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../public/profileStyle.css">
-    <link rel="stylesheet" href="../public/editProfile.css">
     <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
     <title>ByteMarket</title>
 </head>
@@ -82,41 +81,22 @@
                     <li class="nav-item"><a class="nav-link" href="#">Mis productos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Últimas compras</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Últimas ventas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Valoraciones</a></li>
                 </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    </button>
+                </form>
             </div>
         </div>
     </nav>
 
     <section class="py-4">
         <div class="container otherProdContainer">
-            <div class="container py-5">
-                <div class="profile-container text-center">
-                    <h2 class="mb-4">Usuario123</h2>
-        
-                    <div class="profile-pic-wrapper">
-                        <label for="profilePicInput">
-                            <img src="../public/defaul-pfp.jpg" class="profile-pic mb-3" alt="Foto de perfil">
-                        </label>
-                    </div>
-                            
-                    <form>
-                        <div class="mb-3 text-start">
-                            <h5 class="fw-bolder">Ubicación:</h5>
-                            <p>Madrid, España</p>
-                        </div>
-                        <div class="mb-3 text-start">
-                            <h5 class="fw-bolder">Ventas:</h5>
-                            <p>34</p>
-                        </div>
-                        <div class="mb-3 text-start">
-                            <h5 class="fw-bolder">Valoraciones:</h5>
-                            <p>27</p>
-                        </div>
-                    </form>
-                </div>
+            <div class="">
+                <h2 class="fw-bolder mb-3">Productos favoritos</h2>
             </div>
-
             <div class="row otherProducts">
                 <div class="otherProduct col-3">
                     <div class="productCard card h-100">

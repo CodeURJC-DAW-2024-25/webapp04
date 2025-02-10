@@ -1,0 +1,121 @@
+/*SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+
+.headerContainer{
+    margin-right: 0px;
+}
+
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    color: white;
+}
+
+.header-logo {
+    padding-left: 50px;
+}
+
+.header-profile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    max-width: fit-content;
+    border-radius: 10px;
+}
+
+.header-profile:hover{
+    cursor: pointer;
+    background:black;
+}
+
+.profilePic{
+    border-radius: 50%;
+    width: 50px;
+    margin: 3px;
+}
+
+.headerButtons{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.headerButton {
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
+
+.fav-sellText{
+    margin-left: 5px;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.profile-pic-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d35400;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #d35400;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.edit-icon img {
+    width: 15px;
+    height: 15px;
+    filter: invert(1);
+}
+
+.file-input {
+    display: none;
+}
+
+.btn-delete {
+    color: #a94442;
+    font-size: 0.9em;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+}
