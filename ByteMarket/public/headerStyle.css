@@ -61,10 +61,6 @@
     font-size: 17px;
 }
 
-.fav-sellText{
-    margin-left: 5px;
-}
-
 /*RESPONSIVE*/
 @media (max-width: 1250px){   
     .header-logo{
