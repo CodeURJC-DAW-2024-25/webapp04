@@ -140,7 +140,7 @@ Some user (registered) information can be modified. This screen is only shown in
 
 ###  🔍 Profile review Screen
 All type of users can see the reviews of other users in their profile.
-![*2.10 Profile review Screen*](./Capturas/.PNG)
+![*2.10 Profile review Screen*](./Capturas/ReseñasPerfil.png)
 
 ### 📊 Sales history  Screen
 The products that were sold will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
