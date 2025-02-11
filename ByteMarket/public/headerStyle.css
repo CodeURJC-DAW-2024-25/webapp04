@@ -127,6 +127,14 @@
     
 }
 
+@media (max-width: 415px){   
+
+    .headerButtons{
+        width: 50%;
+    }
+    
+}
+
 /*FIN DE SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
 
 .productCard .card-img-top {
