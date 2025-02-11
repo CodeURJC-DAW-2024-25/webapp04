@@ -97,10 +97,10 @@
 ## 🖥️ Screens
 
 ### 🏠 Home Screen
-This screen will show to whoever the access to webpage. This image represents the anonymus user's header (depending on the user, the header will change), from which you can either login or sign in. Also, any user have access to view the details of the products. 
+This screen will show to whoever the access to webpage. This image represents the anonymus user's header (depending on the user, the header will change), from which you can either login or sign up. Also, any user have access to view the details of the products. 
 ![*2.1 Home Screen*](./Capturas/Home.PNG) 
 
-###  Product detail Screen
+###  🎮 Product detail Screen
 Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller.
 ![*2.2.1 Details Screen*](./Capturas/Detalle1.PNG)
 ![*2.2.2 Details Screen*](./Capturas/Detalle2.PNG)
@@ -109,20 +109,90 @@ If the user has purchased from this seller before, they will have the additional
 ![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.PNG)
 ![*2.2.2 Details Screen*](./Capturas/Detalle3-Reseña.PNG)
 
-###  Login/Sign in Screen
+###  👨‍💻 Login/Sign up Screen
 Depending on whether the user is registered or not, one of the two screens will be displayed. The login screen is shown only to registered users and in case they are not registered, the registration screen will be shown.
-![*2.1 Login Screen*](./Capturas/IniciarSesión.PNG)
-![*2.1 Sign in Screen*](./Capturas/Registro.PNG)
+![*2.3.1 Login Screen*](./Capturas/IniciarSesión.PNG)
+![*2.3.2 Sign up Screen*](./Capturas/Registro.PNG)
 
-###  Chat Screen
+###  ✉️ Chat Screen
+If a buyer wants to ask the seller some questions about the product, they will chat together.
+![*2.4 Chat Screen*](./Capturas/Chat.PNG)
 
-![*2.1 Chat Screen*](./Capturas/Chat.PNG)
+###  🚫 Reports Screen
+Admin users can manage the reports from this screen.
+![*2.5 Reports Screen*](./Capturas/Reporte.PNG)
 
-###  Reports Screen
+###  👤 Profile Screen
+All type of users can see other profiles. But only registered users and admins will be able to see their own profiles. 
+![*2.6 Profile Screen*](./Capturas/Perfil.PNG)
 
-![*2.1 Reports Screen*](./Capturas/Reporte.PNG)
+###  ❤️ Favorite products Screen
+The registered user will add products as favorites and they will be shown in their profile. This screen is only shown in the own profile of each registered user (nobody else can see it).
+![*2.7 Favorite products Screen*](./Capturas/Favoritos.PNG)
 
-###  Profile Screen
+###  🛒 Sell product Screen
+If a registered user wants to sell a product, this screen will be shown. The user should fill the form.
+![*2.8 Sell product Screen*](./Capturas/Vender.PNG)
 
-![*2.1 Profile Screen*](./Capturas/Perfil.PNG)
+###  ✏️ Edit profile Screen
+Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
+![*2.9 Edit profile Screen*](./Capturas/Editar%20Usuario.PNG)
+
+###  🔍 Profile review Screen
+All type of users can see the reviews of other users in their profile.
+![*2.10 Profile review Screen*](./Capturas/.PNG)
+
+### 📊 Sales history  Screen
+The products that were sold will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
+![*2.11 Sales history Screen*](./Capturas/HVentas.PNG)
+
+### 📜 History purchase Screen
+The purchased products will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
+![*2.12 History purchase Screen*](./Capturas/HCompras.PNG)
+
  
+### 🗺️ Screens Flowchart
+For simplicity, the arrows pointing to the "Favorites," "Sell," and "Chat" pages have been omitted since the navigation bar remains the same.
+All options under "View Profile," such as history, favorites, and account editing, are private. This means they are only visible from your own account and cannot be accessed when viewing other users' profiles.
+
+- ⚪️ For Anonymous Users
+- 🟢 For Registered Users
+- 🟠 All type of Users
+- 🔵 Administrator    
+ 
+ ![*2.13 Flowchart Screen*](./Capturas/flowchart.png)
+
+ ***   
+# 🌀 Phase 2  - Web with server-generated HTML and AJAX
+***
+
+## 🔣Execution instructions
+
+### 👟 Steps 
+1. Download this repository
+2. Check Requirements 
+3. Configure DataBase
+4. Configure IDE
+5. Run Application in the IDE
+6. Go to https://localhost/¿?¿?/
+
+### 📋 Requirements
+- Java: JDK 17 --> https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+- MySQL: v.8.0.36.0 (Explained in DataBase Configuration)
+- Maven: 4.0.0
+- Spring Boot 2.4.2
+- IDE (explained in IDE Configuration)
+
+### 💾 DataBase Config
+- Download MySQL v.8.0.36.0
+- Select default port (port 3306)
+- Create a user with name root and password "password" with DB admin as user role
+- Configure MySQL Server as Windows Service
+- Grant full access to the user
+- Create a new Schema named EventCrafters in the server using MySQL Workbench
+
+### 🕹️ IDE Config
+- We have used IntelliJ IDEA, bt it can be possible to use other IDE´S
+- Install Maven and Spring for your IDE
+
+## 🗃️ Diagrams
