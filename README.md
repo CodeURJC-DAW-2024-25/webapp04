@@ -98,31 +98,31 @@
 
 ### 🏠 Home Screen
 This screen will show to whoever the access to webpage. This image represents the anonymus user's header (depending on the user, the header will change), from which you can either login or sign in. Also, any user have access to view the details of the products. 
-![*2.1 Home Screen*](./Capturas/Home.png) 
+![*2.1 Home Screen*](./Capturas/Home.PNG) 
 
 ###  Product detail Screen
 Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller.
-![*2.2.1 Details Screen*](./Capturas/Detalle1.png)
-![*2.2.2 Details Screen*](./Capturas/Detalle2.png)
+![*2.2.1 Details Screen*](./Capturas/Detalle1.PNG)
+![*2.2.2 Details Screen*](./Capturas/Detalle2.PNG)
 
 If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
-![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.png)
-![*2.2.2 Details Screen*](./Capturas/Detalle3-Reseña.png)
+![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.PNG)
+![*2.2.2 Details Screen*](./Capturas/Detalle3-Reseña.PNG)
 
 ###  Login/Sign in Screen
 Depending on whether the user is registered or not, one of the two screens will be displayed. The login screen is shown only to registered users and in case they are not registered, the registration screen will be shown.
-![*2.1 Login Screen*](./Capturas/IniciarSesión.png)
-![*2.1 Sign in Screen*](./Capturas/Registro.png)
+![*2.1 Login Screen*](./Capturas/IniciarSesión.PNG)
+![*2.1 Sign in Screen*](./Capturas/Registro.PNG)
 
 ###  Chat Screen
 
-![*2.1 Chat Screen*](./Capturas/Chat.png)
+![*2.1 Chat Screen*](./Capturas/Chat.PNG)
 
 ###  Reports Screen
 
-![*2.1 Reports Screen*](./Capturas/Reporte.png)
+![*2.1 Reports Screen*](./Capturas/Reporte.PNG)
 
 ###  Profile Screen
 
-![*2.1 Profile Screen*](./Capturas/Perfil.png)
+![*2.1 Profile Screen*](./Capturas/Perfil.PNG)
  
