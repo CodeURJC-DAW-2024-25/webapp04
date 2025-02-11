@@ -39,7 +39,7 @@
  
  The following diagram shows the system's entities, and how they relate to each other. 
   ##### img: Entity-Relationship Diagram
-  ![*1.1 entities*](ER-DIAGRAM.png) 
+  ![*1.1 entities*](webapp04\Capturas\ER-DIAGRAM.png) 
 
 
 

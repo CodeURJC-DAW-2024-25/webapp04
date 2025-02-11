@@ -29,3 +29,13 @@
     background-color: #823400;
     color: white;
 }
+/* Garantiza que el footer siempre esté al final */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Ajusta el footer para que esté al final */
+#footer {
+    margin-top: auto; /* Empuja el footer al fondo */
+}
