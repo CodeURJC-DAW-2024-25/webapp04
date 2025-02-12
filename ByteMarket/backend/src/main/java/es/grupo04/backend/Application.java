@@ -1,13 +1,12 @@
-package es.grupo04.webapp04_backend;
+package es.grupo04.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Webapp04BackendApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Webapp04BackendApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
-
 }
