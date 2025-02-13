@@ -1,0 +1,58 @@
+<header class="bg-dark py-2">
+    <div class="container-fluid px-0">
+        <div class="row align-items-center headerContainer">
+
+            <div class="col-2 d-flex align-items-center text-white header-logo">
+                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                    <img src="../public/favicon.ico" alt="Logo" width="40" height="40" class="me-2"> <!-- La ruta del logo puede cambiar -->
+                    <h5 class="fw-bolder mb-0">ByteMarket</h5>
+                </a>
+            </div>
+            
+
+            <div class="col-5 searchContainer">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                    <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                        <i class="bi bi-search" style="color: white;"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-3 m-0 justify-content-center headerButtons">
+                <div>
+                    <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='/favorite'">
+                        <i class="bi bi-heart-fill" style="color: white;"></i>
+                        <span class="fav-sellText">Favoritos</span>
+                    </button>
+                </div>
+                
+
+                <div>
+                    <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='/newProduct'">
+                        <i class="bi bi-plus-lg"></i>
+                        <span class="fav-sellText">Vender</span>
+                    </button>
+                </div>                    
+
+                <div>
+                    <button class="btn btn-outline-dark btn-custom headerButton" type="button" onclick="window.location.href='/chats'">
+                        <i class="bi bi-chat-fill"></i>
+                        <span class="fav-sellText">Chats</span>
+                    </button>
+                </div>                    
+            </div>
+
+            <div class="col-2 header-profile" height="55">
+                <a href="../views/profile.html" class="d-flex align-items-center text-decoration-none">
+                    <div>
+                        <img class="profilePic" src="{{profilePic}}" alt="Logo"> <!-- Lo mismo hay que cambiar esto -->
+                    </div>
+                    <div>
+                        <p class="text-white fw-bolder mb-0">{{username}}</p>
+                    </div>
+                </a>
+            </div>                
+        </div>
+    </div>
+</header>
