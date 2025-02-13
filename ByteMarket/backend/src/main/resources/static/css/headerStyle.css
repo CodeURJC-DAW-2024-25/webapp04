@@ -1,0 +1,144 @@
+/*SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+
+.headerContainer{
+    margin-right: 0px;
+}
+
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    color: white;
+}
+
+.header-logo {
+    padding-left: 50px;
+}
+
+.header-profile{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
+    max-width: fit-content;
+    border-radius: 10px;
+}
+
+.header-profile:hover{
+    cursor: pointer;
+    background:black;
+}
+
+.profilePic{
+    border-radius: 50%;
+    width: 50px;
+    margin: 3px;
+}
+
+.profilePicChat{
+    border-radius: 50%;
+    width: 8%;
+    height: 8%;
+    margin: 3px;
+}
+
+.headerButtons{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.headerButton {
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
+
+/*RESPONSIVE*/
+@media (max-width: 1250px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+        padding-left: 0px;
+    }
+
+    .searchContainer{
+        width: 80%;
+        margin-bottom: 15px;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+
+    .headerButtons{
+        width: 50%;
+        gap: 5px;
+    }
+
+    .headerButton{
+        width: 100%;
+    }
+
+    .header-profile{
+        width: 50%;
+    }
+}
+
+@media (max-width: 800px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .searchContainer{
+        width: 80%;
+        margin-bottom: 15px;
+        margin-left: 0px;
+        justify-content: center;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+}
+
+@media (max-width: 615px){   
+    .fav-sellText{
+        display: none;
+    }
+
+    .header-profile{
+        width: 60%;
+    }
+
+    .headerButtons{
+        width: 40%;
+    }
+    
+}
+
+@media (max-width: 415px){   
+
+    .headerButtons{
+        width: 50%;
+    }
+    
+}
+
+/*FIN DE SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+
+.productCard .card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: 200px; /* Todos las imágenes tendrán la misma altura */
+}
