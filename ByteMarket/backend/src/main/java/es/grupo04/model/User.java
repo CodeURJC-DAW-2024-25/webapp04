@@ -1,6 +1,6 @@
 package es.grupo04.model;
 
-<<<<<<< HEAD
+import java.sql.Blob;
 import java.util.List;
 
 import jakarta.persistence.ElementCollection;
@@ -9,15 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-=======
-import java.sql.Blob;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
->>>>>>> f8ec2fb95a0e5346df47fb9b9383cae8159fa35b
 
 @Entity(name = "UserTable")
 public class User {
@@ -29,6 +21,7 @@ public class User {
 	private String name;
 	private String mail;
 	private String encodedPassword;
+	private boolean image;
 	
 	@Lob
 	private Blob imageFile;
@@ -39,15 +32,11 @@ public class User {
 	public User() {
 	}
 
-<<<<<<< HEAD
-	public User(String name, String encodedPassword, String... roles) {
-=======
-	public User(String name, String encodedPassword, String mail) {
-		this.mail = mail;
->>>>>>> f8ec2fb95a0e5346df47fb9b9383cae8159fa35b
+	public User(String name, String encodedPassword, String roles, String mail) {
 		this.name = name;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
+		this.mail = mail;
 	}
 
 	public String getName() {
@@ -74,4 +63,19 @@ public class User {
 		this.roles = roles;
 	}
 
+	public Blob getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(Blob image) {
+		this.imageFile = image;
+	}
+
+	public boolean getImage(){
+		return this.image;
+	}
+
+	public void setImage(boolean image){
+		this.image = image;
+	}
 }

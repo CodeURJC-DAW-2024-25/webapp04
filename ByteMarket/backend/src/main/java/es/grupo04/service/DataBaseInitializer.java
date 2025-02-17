@@ -77,8 +77,8 @@ public class DataBaseInitializer {
 
 		// Sample users
 
-		userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-		userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+		userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER", "user@users.com"));
+		userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "ADMIN", "admin@admins.com"));
 	}
 
 	public void setProductImage(Product product, String classpathResource) throws IOException {
