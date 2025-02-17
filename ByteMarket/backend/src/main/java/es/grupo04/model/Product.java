@@ -20,15 +20,15 @@ public class Product {
 	
 	private String title;
 	
-	//@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
-	//@Lob
-	private Blob imageFile;
+	@Lob
+	private Blob imageFile; //TODO lista de imagenes
 
 	private boolean image;
 
-	//@ManyToMany
+	@ManyToMany
  	private List<Shop> shops;
 
 	public Product() {}

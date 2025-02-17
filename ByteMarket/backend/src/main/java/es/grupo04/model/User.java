@@ -1,21 +1,33 @@
 package es.grupo04.model;
 
-//@Entity(name = "UserTable")
+import java.sql.Blob;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+
+@Entity(name = "UserTable")
 public class User {
 
-	/*@Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;*/
+	private Long id;
 
 	private String name;
-
+	private String mail;
 	private String encodedPassword;
+	
+	@Lob
+	private Blob imageFile;
 
 
 	public User() {
 	}
 
-	public User(String name, String encodedPassword) {
+	public User(String name, String encodedPassword, String mail) {
+		this.mail = mail;
 		this.name = name;
 		this.encodedPassword = encodedPassword;
 	}
