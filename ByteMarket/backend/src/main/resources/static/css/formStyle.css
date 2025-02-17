@@ -1,0 +1,41 @@
+.container{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+.form{
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #ffffff;
+    padding: 5%;
+    background-color: #777;
+    font-weight: bold;
+    border-radius: 0.8em;
+    z-index: 1; /*Para que un elemento no se superponga con otro junto*/
+}
+/* #map{
+    width: 100%;
+    border-radius: 0.8em;
+    margin-bottom: 5px;
+} */
+
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    color: white;
+}
+/* Garantiza que el footer siempre esté al final */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Ajusta el footer para que esté al final */
+#footer {
+    margin-top: auto; /* Empuja el footer al fondo */
+}
