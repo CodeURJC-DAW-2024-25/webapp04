@@ -1,5 +1,6 @@
 package es.grupo04.model;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import jakarta.persistence.ElementCollection;
@@ -8,6 +9,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+=======
+import java.sql.Blob;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+>>>>>>> f8ec2fb95a0e5346df47fb9b9383cae8159fa35b
 
 @Entity(name = "UserTable")
 public class User {
@@ -17,8 +27,11 @@ public class User {
 	private Long id;
 
 	private String name;
-
+	private String mail;
 	private String encodedPassword;
+	
+	@Lob
+	private Blob imageFile;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
@@ -26,7 +39,12 @@ public class User {
 	public User() {
 	}
 
+<<<<<<< HEAD
 	public User(String name, String encodedPassword, String... roles) {
+=======
+	public User(String name, String encodedPassword, String mail) {
+		this.mail = mail;
+>>>>>>> f8ec2fb95a0e5346df47fb9b9383cae8159fa35b
 		this.name = name;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
