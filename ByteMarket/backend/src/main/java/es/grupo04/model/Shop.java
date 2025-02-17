@@ -1,21 +1,27 @@
 package es.grupo04.model;
 
 import java.util.List;
-//import jakarta.persistence.*;
 
-//@Entity
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
+@Entity
 public class Shop {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id = null;
 	
 	private String name;
 	
-	//@Column(columnDefinition = "TEXT") // Esto sería para saber en qué tienda lo compró
+	@Column(columnDefinition = "TEXT") 
 	private String address;
 
-	//@ManyToMany(mappedBy="shops")
+	@ManyToMany(mappedBy="shops")
  	private List<Product> products;
 
 

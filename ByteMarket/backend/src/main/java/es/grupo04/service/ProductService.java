@@ -1,5 +1,5 @@
 package es.grupo04.service;
-/*
+
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +34,5 @@ public class ProductService {
 	public void delete(long id) {
 		repository.deleteById(id);
 	}
-}*/
+}
 

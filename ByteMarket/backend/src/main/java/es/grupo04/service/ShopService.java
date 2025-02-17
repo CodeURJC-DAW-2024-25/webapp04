@@ -1,12 +1,12 @@
 package es.grupo04.service;
-/*
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.grupo04.model.Product;
+import es.grupo04.model.Shop;
 import es.grupo04.repository.ShopRepository;
 
 @Service
@@ -40,5 +40,5 @@ public class ShopService {
 	}
 
 	
-}*/
+}
 
