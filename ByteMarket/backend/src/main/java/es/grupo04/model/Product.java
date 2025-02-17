@@ -3,7 +3,7 @@ package es.grupo04.model;
 import java.sql.Blob;
 import java.util.List;
 
-/*import jakarta.persistence.Column;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,11 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 
-@Entity*/
+@Entity
 public class Product {
 
-	/*@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)*/
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id = null;
 	
 	private String title;
