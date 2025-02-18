@@ -3,13 +3,15 @@ package es.grupo04.model;
 import java.sql.Blob;
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity(name = "UserTable")
 public class User {
@@ -18,24 +20,40 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String name;
+	@Column(unique = true)
 	private String mail;
+
+	private String role;
+	private String name;
 	private String encodedPassword;
-	private boolean image;
-	
+
 	@Lob
 	private Blob imageFile;
+	private boolean image;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> roles;
+	@OneToMany(mappedBy = "owner", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Product> products;
+
+	@OneToMany(mappedBy = "reviewedUser", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Review> reviews;
+	@OneToMany(mappedBy = "reviewOwner", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Review> postedReviews;
+
+	@OneToMany(mappedBy = "buyer")
+	private List<Purchase> purchases;
+	@OneToMany(mappedBy = "seller")
+	private List<Purchase> sales;
+
+	@ManyToMany
+	private List<Product> favorites;
 
 	public User() {
 	}
 
-	public User(String name, String encodedPassword, String roles, String mail) {
+	public User(String name, String encodedPassword, String role, String mail) {
 		this.name = name;
 		this.encodedPassword = encodedPassword;
-		this.roles = List.of(roles);
+		this.role = role;
 		this.mail = mail;
 	}
 
@@ -55,12 +73,12 @@ public class User {
 		this.encodedPassword = encodedPassword;
 	}
 
-	public List<String> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
+	public void setRoles(String role) {
+		this.role = role;
 	}
 
 	public Blob getImageFile() {

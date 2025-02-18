@@ -5,9 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Reviews {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,12 +16,25 @@ public class Reviews {
     @Column(columnDefinition = "TEXT")
 	private String description;
 
-    @Column(nullable = false)
-    private String user;
+    @ManyToOne
+    private String reviewOwner;
+
+    @ManyToOne
+    private User reviewedUser;
 
     @Column(nullable = false)
     private Integer rating;
 
+
+    public Review() {
+    }
+
+    public Review(String user, String description, Integer rating) {
+        this.reviewOwner = user;
+        this.description = description;
+        this.rating = rating;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -30,11 +44,11 @@ public class Reviews {
     }
 
     public String getUser() {
-        return user;
+        return reviewOwner;
     }
 
     public void setUser(String user) {
-        this.user = user;
+        this.reviewOwner = user;
     }
 
     public String getDescription() {
@@ -54,5 +68,13 @@ public class Reviews {
             throw new IllegalArgumentException("La valoración debe estar entre 1 y 5.");
         }
         this.rating = rating;
+    }
+
+    public User getReviewedUser() {
+        return reviewedUser;
+    }
+
+    public void setReviewedUser(User reviewedUser) {
+        this.reviewedUser = reviewedUser;
     }
 }

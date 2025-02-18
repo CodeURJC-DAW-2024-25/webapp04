@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -23,21 +25,27 @@ public class Product {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	@ManyToOne
+	private User owner;
+
 	@Lob
 	private Blob imageFile;
-
 	private boolean image;
 
-	@ManyToMany
- 	private List<Shop> shops;
+	@OneToOne
+	private Purchase purchase;
+	private boolean sold;
+
+	@ManyToMany(mappedBy = "favorites")
+	private List<User> usersFavorite;
+
 
 	public Product() {}
 
-	public Product(String nombre, String description, List<Shop> shops) {
+	public Product(String name, String description) {
 		super();
-		this.title = nombre;
+		this.title = name;
 		this.description = description;
-		this.shops = shops;
 	}
 
 	public String getTitle() {
@@ -80,12 +88,12 @@ public class Product {
 		this.image = image;
 	}
 
-	public List<Shop> getShops() {
-		return shops;
+	public boolean isSold() {
+		return sold;
 	}
 
-	public void setShops(List<Shop> shops) {
-		this.shops = shops;
+	public void setSold(boolean sold) {
+		this.sold = sold;
 	}
 
 	@Override
