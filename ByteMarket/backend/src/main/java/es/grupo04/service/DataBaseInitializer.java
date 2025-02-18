@@ -9,7 +9,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
 import es.grupo04.model.Product;
@@ -32,8 +32,6 @@ public class DataBaseInitializer {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@PostConstruct
 	public void init() throws IOException, URISyntaxException {
@@ -42,13 +40,10 @@ public class DataBaseInitializer {
 		Shop shop1 = new Shop("Casa del libro", "C/ Falsa 123");
 		Shop shop2 = new Shop("FNAC", "C/ Falsa 456");
 		Shop shop3 = new Shop("Librería de la plaza", "C/ Falsa 012");
-
 		shopRepository.save(shop1);
 		shopRepository.save(shop2);
 		shopRepository.save(shop3);
-
 		// Sample products
-
 		Product product1 = new Product("SUEÑOS DE ACERO Y NEON",
 				"Los personajes que protagonizan este relato sobreviven en una sociedad en decadencia a la que, no obstante, lograrán devolver la posibilidad de un futuro. Año 2484. En un mundo dominado por las grandes corporaciones, solo un hombre, Jordi Thompson, detective privado deslenguado y vividor, pero de gran talento y sentido d...",
 				new ArrayList<>(Arrays.asList(shop1, shop2)));
@@ -77,8 +72,7 @@ public class DataBaseInitializer {
 
 		// Sample users
 
-		userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER", "user@users.com"));
-		userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "ADMIN", "admin@admins.com"));
+
 	}
 
 	public void setProductImage(Product product, String classpathResource) throws IOException {

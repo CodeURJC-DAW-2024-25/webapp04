@@ -20,7 +20,7 @@ public class User {
 
 	private String name;
 	private String mail;
-	private String encodedPassword;
+	private String password;
 	private boolean image;
 	
 	@Lob
@@ -32,9 +32,9 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String encodedPassword, String roles, String mail) {
+	public User(String name, String password, String roles, String mail) {
 		this.name = name;
-		this.encodedPassword = encodedPassword;
+		this.password = password;
 		this.roles = List.of(roles);
 		this.mail = mail;
 	}
@@ -47,12 +47,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getEncodedPassword() {
-		return encodedPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<String> getRoles() {
