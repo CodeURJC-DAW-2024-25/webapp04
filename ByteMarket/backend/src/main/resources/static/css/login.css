@@ -1,0 +1,55 @@
+/* Igual que el estilo que ya tienes, solo ajustamos un par de detalles */
+.container{
+    margin-top: 60px;
+    margin-bottom: 60px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.header-logo {
+    padding-left: 50px;
+}
+.headerContainer{
+    justify-content: space-between;
+}
+.form{
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #ffffff;
+    padding: 5%;
+    background-color: #777;
+    font-weight: bold;
+    border-radius: 0.8em;
+}
+
+.btn-custom {
+    background-color: #d35400;
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 2px solid #d35400;
+    margin-bottom: 10px;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    border-color: #823400;
+    color: white;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.btn-close {
+    color: white;
+}
+/* Garantiza que el footer siempre esté al final */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* Ajusta el footer para que esté al final */
+#footer {
+    margin-top: auto; /* Empuja el footer al fondo */
+}

@@ -1,0 +1,18 @@
+.otherProdContainer{
+    padding-left: 3%;
+    padding-right: 3%;
+    max-width: 100%;
+}
+
+.otherProducts{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.otherProduct{ 
+    margin-bottom: 20px;
+    max-width: 25%;
+    min-width: 175px;
+}
