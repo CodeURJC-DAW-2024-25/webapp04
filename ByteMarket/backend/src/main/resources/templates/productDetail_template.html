@@ -13,9 +13,11 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/css/productDetailsStyle.css">
     <link rel="stylesheet" href="../static/css/headerStyle.css">
-    <link rel="icon" type="image/x-icon" href="../public/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <title>{{product.title}}</title>
 </head>
+
+{{>header}}
 
 <body>
     <div class="container mt-4">
@@ -59,7 +61,76 @@
             </div>
         </div>
         <hr>
-        <h3>Valoraciones</h3>
+        <div class="d-flex align-items-center justify-content-between mt-4">
+            <h3>Reportar un Problema</h3>
+            <button class="btn btn-custom" id="btn-report-issue">Añadir Reporte</button>
+        </div>
+        <hr>
+        <div id="report-form-container" class="mt-3 d-none">
+            <div id="report-form">
+                <h4>Detalles del Reporte</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="report-issue" class="form-label">Seleccionar Problema:</label>
+                        <select class="form-select" id="report-issue">
+                            <option value="damaged">Producto Dañado</option>
+                            <option value="wrong-product">Producto Diferente</option>
+                            <option value="missing-parts">Faltan Piezas</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="report-description" class="form-label">Descripción del Problema:</label>
+                        <textarea class="form-control" id="report-description" rows="3"
+                            placeholder="Describe el problema aquí..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom">Enviar Reporte</button>
+                </form>
+            </div>
+            <hr>
+        </div>
+        <script>
+            document.getElementById("btn-report-issue").addEventListener("click", function () {
+                document.getElementById("report-form-container").classList.toggle("d-none");
+            });
+        </script>
+        <hr>
+        <div class="d-flex align-items-center justify-content-between mt-4">
+            <h3>Valoraciones</h3>
+            <button class="btn btn-custom" id="btn-add-review">Añadir Reseña</button>
+        </div>
+        <br>
+        <div id="review-form-container" class="mt-3 d-none">
+            <hr>
+            <div id="review-form">
+                <h4>Escribe tu reseña</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="review-stars" class="form-label">Calificación:</label>
+                        <select class="form-select" id="review-stars">
+                            <option value="5">★★★★★ - 5/5</option>
+                            <option value="4">★★★★☆ - 4/5</option>
+                            <option value="3">★★★☆☆ - 3/5</option>
+                            <option value="2">★★☆☆☆ - 2/5</option>
+                            <option value="1">★☆☆☆☆ - 1/5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="review-text" class="form-label">Descripción:</label>
+                        <textarea class="form-control" id="review-text" rows="3"
+                            placeholder="Escribe tu reseña aquí..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom">Enviar Reseña</button>
+                </form>
+            </div>
+            <br>
+        </div>
+        
+        <script>
+            document.getElementById("btn-add-review").addEventListener("click", function () {
+                document.getElementById("review-form-container").classList.toggle("d-none");
+            });
+        </script>
         <div class="scrolling-wrapper">
             {{#reviews}}
                 <div class="card">
@@ -84,7 +155,9 @@
         <iframe src="https://www.google.com/maps/embed?pb={{map_embed_url}}" style="border:0;" allowfullscreen=""
             loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    <footer class="bg-dark text-white text-center py-2">ByteMarket</footer>
+   
+    
+    {{>footer}}
 </body>
 
 </html>
