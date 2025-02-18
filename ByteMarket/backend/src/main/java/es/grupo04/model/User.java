@@ -50,6 +50,7 @@ public class User {
 	public User() {
 	}
 
+
 	public User(String name, String encodedPassword, String role, String mail) {
 		this.name = name;
 		this.encodedPassword = encodedPassword;
@@ -65,12 +66,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getEncodedPassword() {
+	public String getPassword() {
 		return encodedPassword;
 	}
 
-	public void setEncodedPassword(String encodedPassword) {
-		this.encodedPassword = encodedPassword;
+	public void setPassword(String password) {
+		this.encodedPassword = password;
 	}
 
 	public String getRole() {
