@@ -34,7 +34,7 @@ public class GreetingController {
     public String home(Model model) {
         // Datos simulados para la vista
         model.addAttribute("navbar_home", "Inicio");
-        model.addAttribute("categories", Arrays.asList("Móviles", "Ordenadores", "Auriculares"));
+        model.addAttribute("categories", Arrays.asList("Móvil", "Ordenador", "Auriculares", "Electrónica", "Videojuegos", "Otros"));
         model.addAttribute("featured_title", "Productos destacados");
         
         List<Product> featuredProducts = Arrays.asList(

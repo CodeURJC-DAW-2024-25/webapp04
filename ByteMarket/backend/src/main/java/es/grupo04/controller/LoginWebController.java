@@ -1,20 +1,24 @@
 package es.grupo04.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginWebController {
    public LoginWebController() {
    }
-
-   @RequestMapping({"/login"})
-   public String login() {
-      return "login";
+   @GetMapping("/login")
+   public String login(){
+      return "login_template";
    }
 
-   @RequestMapping({"/loginerror"})
+   @GetMapping("/loginerror")
    public String loginerror() {
       return "loginerror";
+   }
+
+   @GetMapping("/signin")
+   public String signin(){
+      return "signin_template";
    }
 }
