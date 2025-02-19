@@ -1,82 +1,93 @@
-package es.grupo04.model;
+package es.grupo04.backend.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class Chat {
-    
+
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "buyer_id", nullable = false)
     private User userBuyer;
+
     @ManyToOne
+    @JoinColumn(name = "seller_id", nullable = false)
     private User userSeller;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-    
+
     public Chat() {
     }
-    
-    public Chat(User user1, User user2) {
+
+    public Chat(User user1, User user2, Product product) {
         this.userBuyer = user1;
         this.userSeller = user2;
+        this.product = product;
     }
-    
+
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public User getUserBuyer() {
         return userBuyer;
     }
-    
-    public void setUserBuyer(User user1) {
-        this.userBuyer = user1;
+
+    public void setUserBuyer(User userBuyer) {
+        this.userBuyer = userBuyer;
     }
-    
+
     public User getUserSeller() {
         return userSeller;
     }
-    
-    public void setUserSeller(User user2) {
-        this.userSeller = user2;
+
+    public void setUserSeller(User userSeller) {
+        this.userSeller = userSeller;
     }
-    
+
     public List<Message> getMessages() {
         return messages;
     }
-    
+
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-    
+
     public void addMessage(Message message) {
         this.messages.add(message);
+        message.setChat(this); // Asegurar la relación bidireccional
     }
-    
+
     public void removeMessage(Message message) {
         this.messages.remove(message);
+        message.setChat(null);
     }
-    
+
     public void clearMessages() {
+        this.messages.forEach(msg -> msg.setChat(null));
         this.messages.clear();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

@@ -1,4 +1,4 @@
-package es.grupo04.model;
+package es.grupo04.backend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +17,7 @@ public class Review {
 	private String description;
 
     @ManyToOne
-    private String reviewOwner;
+    private User reviewOwner;
 
     @ManyToOne
     private User reviewedUser;
@@ -29,7 +29,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String user, String description, Integer rating) {
+    public Review(User user, String description, Integer rating) {
         this.reviewOwner = user;
         this.description = description;
         this.rating = rating;
@@ -43,11 +43,11 @@ public class Review {
         this.id = id;
     }
 
-    public String getUser() {
+    public User getUser() {
         return reviewOwner;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.reviewOwner = user;
     }
 

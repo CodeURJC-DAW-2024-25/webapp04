@@ -1,4 +1,4 @@
-package es.grupo04.backend;
+package es.grupo04.backend.controller;
 
 import java.security.Principal;
 import java.util.Arrays;

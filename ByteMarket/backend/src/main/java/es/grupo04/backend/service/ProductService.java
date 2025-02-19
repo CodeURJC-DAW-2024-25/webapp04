@@ -1,4 +1,4 @@
-package es.grupo04.service;
+package es.grupo04.backend.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,39 +6,33 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.grupo04.model.Shop;
-import es.grupo04.repository.ShopRepository;
+import es.grupo04.backend.model.Product;
+import es.grupo04.backend.repository.ProductRepository;
 
 @Service
-public class ShopService {
+public class ProductService {
 
 	@Autowired
-	private ShopRepository repository;
+	private ProductRepository repository;
 
-	public Optional<Shop> findById(long id) {
+	public Optional<Product> findById(long id) {
 		return repository.findById(id);
-	}
-
-	public List<Shop> findById(List<Long> ids){
-		return repository.findAllById(ids);
 	}
 	
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
 
-	public List<Shop> findAll() {
+	public List<Product> findAll() {
 		return repository.findAll();
 	}
 
-	public void save(Shop Shop) {
-		repository.save(Shop);
+	public void save(Product product) {
+		repository.save(product);
 	}
 
 	public void delete(long id) {
 		repository.deleteById(id);
 	}
-
-	
 }
 

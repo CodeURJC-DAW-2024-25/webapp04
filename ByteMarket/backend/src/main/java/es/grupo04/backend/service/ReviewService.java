@@ -1,11 +1,11 @@
-package es.grupo04.service;
+package es.grupo04.backend.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import es.grupo04.model.Review;
-import es.grupo04.repository.ReviewRepository;
+import es.grupo04.backend.model.Review;
+import es.grupo04.backend.repository.ReviewRepository;
 
 public class ReviewService {
     

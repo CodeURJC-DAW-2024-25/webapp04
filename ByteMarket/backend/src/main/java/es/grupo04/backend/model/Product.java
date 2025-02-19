@@ -1,4 +1,4 @@
-package es.grupo04.model;
+package es.grupo04.backend.model;
 
 import java.sql.Blob;
 import java.util.List;
@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product {
@@ -32,11 +33,11 @@ public class Product {
 	private Blob imageFile; //TODO tiene que ser una lista, ElementCollection???
 	private boolean image;
 
-	/*
-	@OneToOne
-	private Purchase purchase; No parece necesario*/
-	private boolean sold = false;
+	// Añadir el campo 'sold'
+	private boolean sold;
 
+	@OneToMany(mappedBy = "product")
+	private List<Purchase> purchases;
 
 	public Product() {}
 
@@ -87,8 +88,9 @@ public class Product {
 		this.image = image;
 	}
 
+	// Método isSold() ya funciona correctamente con 'sold'
 	public boolean isSold() {
-		return sold;
+		return this.sold;
 	}
 
 	public void setSold(boolean sold) {
@@ -113,6 +115,6 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", description=" + description + "]";
+		return "Product [id=" + id + ", title=" + title + ", description=" + description + "]";
 	}
 }

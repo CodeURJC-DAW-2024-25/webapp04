@@ -1,11 +1,12 @@
-package es.grupo04.service;
+package es.grupo04.backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import es.grupo04.model.User;
-import es.grupo04.repository.UserRepository;
+import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.UserRepository;
 
 public class UserService {
     @Autowired
@@ -19,11 +20,11 @@ public class UserService {
         return repository.save(user);
     }
 
-    public User findByEmail(String email) {
-        return repository.findByEmail(email);
+    public Optional<User> findByMail(String mail) {
+        return repository.findByMail(mail);
     }
 
-    public User getAdmin() {
+    public Optional<User> getAdmin() {
         return repository.findByRole("ADMIN");
     }
 

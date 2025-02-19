@@ -1,37 +1,38 @@
-package es.grupo04.model;
+package es.grupo04.backend.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
+@Entity
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String message;
 
     @ManyToOne
+    @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
 
     @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
 
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime sentAt = LocalDateTime.now();
 
     public Message() {
     }
 
-    public Message(String message, User sender) {
+    public Message(String message, User sender, Chat chat) {
         this.message = message;
         this.sender = sender;
+        this.chat = chat;
+        this.sentAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -50,6 +51,14 @@ public class Message {
         this.message = message;
     }
 
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
     public User getSender() {
         return sender;
     }
@@ -62,8 +71,7 @@ public class Message {
         return sentAt;
     }
 
-    public void setSentAt(LocalDateTime createdAt) {
-        this.sentAt = createdAt;
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
     }
-
 }
