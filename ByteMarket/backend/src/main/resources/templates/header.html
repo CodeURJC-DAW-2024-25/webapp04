@@ -9,7 +9,8 @@
                 </a>
             </div>
 
-            <div class="col-5 searchContainer">
+            {{^logged}}
+            <div class="col-7 searchContainer">
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
@@ -18,7 +19,6 @@
                 </form>
             </div>
 
-            {{^logged}}
             <div class="col-3 loginButtons">
                 <a href="../login" style="text-decoration: none;">
                     <button class="btn btn-outline-dark btn-custom" type="submit">
@@ -30,6 +30,14 @@
 
             {{#logged}}
             {{#user}}
+            <div class="col-6 searchContainer">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                    <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                        <i class="bi bi-search" style="color: white;"></i>
+                    </button>
+                </form>
+            </div>
             <div class="col-3 m-0 justify-content-center headerButtons">
                 <div>
                     <button class="btn btn-outline-dark btn-custom headerButton" type="button"
@@ -38,8 +46,6 @@
                         <span class="fav-sellText">Favoritos</span>
                     </button>
                 </div>
-
-
                 <div>
                     <button class="btn btn-outline-dark btn-custom headerButton" type="button"
                         onclick="window.location.href='ByteMarket\backend\src\main\resources\templates\newProduct.html'">
@@ -56,11 +62,10 @@
                     </button>
                 </div>
             </div>
-
             <div class="col-2 header-profile" height="55">
                 <a href="../views/profile.html" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        <img class="profilePic" src="../public/defaul-pfp.jpg" alt="Logo">
+                        <img class="profilePic" src="images/perfil.png" alt="Logo">
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>
@@ -70,25 +75,33 @@
             {{/user}}
 
             {{#admin}}
-            <div>
-                <button class="btn btn-outline-dark btn-custom headerButton" type="button">
-                    <i class="bi bi-flag-fill" style="color: white;"></i>
-                    <span class="fav-sellText">Reportes</span>
-                </button>
+            <div class="col-6 searchContainer">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                    <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                        <i class="bi bi-search" style="color: white;"></i>
+                    </button>
+                </form>
             </div>
 
-            <div class="col-2 header-profile" height="55">
+            <div class="col-2 loginButtons justify-content-end">
+                <a href="../login" style="text-decoration: none;">
+                    <button class="btn btn-outline-dark btn-custom" type="submit">
+                        <i class="bi bi-flag-fill"></i> Reportes
+                    </button>
+                </a>
+            </div>
+            <div class="col-3 header-profile" height="55">
                 <a href="../views/profile.html" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        <img class="profilePic" src="../public/defaul-pfp.jpg" alt="Logo">
+                        <img class="profilePic" src="images/perfil.png" alt="Logo">
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{adminName}}</p>
                     </div>
                 </a>
-            </div> 
+            </div>
             {{/admin}}
-
             {{/logged}}
         </div>
     </div>

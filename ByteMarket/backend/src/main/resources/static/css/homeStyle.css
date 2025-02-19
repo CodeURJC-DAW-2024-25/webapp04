@@ -74,25 +74,6 @@
 
 }
 
-.header-logo {
-    padding-left: 50px;
-}
-
-.header-profile{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 10px;
-    max-width: fit-content;
-    border-radius: 10px;
-}
-
-.header-profile:hover{
-    cursor: pointer;
-    background:black;
-}
-
 .otherProdContainer{
     padding-left: 50px;
     padding-right: 50px;
