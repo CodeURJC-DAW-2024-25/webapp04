@@ -9,9 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -21,6 +19,8 @@ public class Product {
 	private Long id = null;
 	
 	private String title;
+	private Float price;
+	private String category;
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
@@ -29,23 +29,22 @@ public class Product {
 	private User owner;
 
 	@Lob
-	private Blob imageFile;
+	private Blob imageFile; //TODO tiene que ser una lista, ElementCollection???
 	private boolean image;
 
+	/*
 	@OneToOne
-	private Purchase purchase;
-	private boolean sold;
-
-	@ManyToMany(mappedBy = "favorites")
-	private List<User> usersFavorite;
+	private Purchase purchase; No parece necesario*/
+	private boolean sold = false;
 
 
 	public Product() {}
 
-	public Product(String name, String description) {
-		super();
-		this.title = name;
+	public Product(String title, String description, Float price, String category) {
+		this.title = title;
 		this.description = description;
+		this.price = price;
+		this.category = category;
 	}
 
 	public String getTitle() {
@@ -94,6 +93,22 @@ public class Product {
 
 	public void setSold(boolean sold) {
 		this.sold = sold;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	@Override

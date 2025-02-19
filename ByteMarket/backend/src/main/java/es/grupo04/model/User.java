@@ -47,6 +47,11 @@ public class User {
 	@ManyToMany
 	private List<Product> favorites;
 
+	@OneToMany(mappedBy = "userBuyer")
+	private List<Chat> chatsPurchase;
+	@OneToMany(mappedBy = "userSeller")
+	private List<Chat> chatsSales;
+
 	public User() {
 	}
 
