@@ -19,7 +19,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id = null;
 	
-	private String title;
+	private String name;
 	private Float price;
 	private String category;
 	
@@ -39,21 +39,22 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<Purchase> purchases;
 
-	public Product() {}
+	public Product() {
+    }
 
-	public Product(String title, String description, Float price, String category) {
-		this.title = title;
+	public Product(String name, String description, float price, String category) {
+		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.category = category;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getname() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setname(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -113,8 +114,12 @@ public class Product {
 		this.category = category;
 	}
 
+	public void setOwner(User user1) {
+        this.owner = user1;
+    }
+
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", title=" + title + ", description=" + description + "]";
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
 }
