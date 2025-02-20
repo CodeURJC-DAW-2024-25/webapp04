@@ -42,6 +42,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
+        //TODO hay que quitar esto y meterlo en el service
+        //El profe me ha dicho que esto esta mal lo de las categorias
         // Obtener todas las categorías únicas de los productos
         List<String> categories = productRepository.findAll()
                 .stream()
@@ -57,5 +59,6 @@ public class HomeController {
         model.addAttribute("other_products_title", "Otros Productos");
 
         return "home_template";
-    }      
+    }
+    
 }

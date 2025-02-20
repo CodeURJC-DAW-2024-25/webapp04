@@ -4,6 +4,7 @@ import java.sql.Blob;
 import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,8 +29,10 @@ public class Product {
 	@ManyToOne
 	private User owner;
 
+	@ElementCollection
 	@Lob
-	private Blob imageFile; //TODO tiene que ser una lista, ElementCollection???
+	private List<Blob> images;
+
 	private boolean image;
 
 	private boolean sold;
@@ -69,12 +72,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public Blob getImageFile() {
-		return imageFile;
+	public List<Blob> getImageFile() {
+		return images;
 	}
 
-	public void setImageFile(Blob image) {
-		this.imageFile = image;
+	public void setImageFile(List<Blob> image) {
+		this.images = image;
 	}
 
 	public boolean getImage(){

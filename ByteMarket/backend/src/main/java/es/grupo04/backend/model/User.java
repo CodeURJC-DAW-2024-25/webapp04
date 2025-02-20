@@ -22,7 +22,7 @@ public class User {
 
     @Column(unique = true)
     private String mail;
-    private String role;
+    private List<String> roles;
     private String name;
     private String encodedPassword;
 
@@ -57,10 +57,10 @@ public class User {
     public User() {
     }
 
-    public User(String name, String encodedPassword, String role, String mail) {
+    public User(String name, String encodedPassword, List<String> roles, String mail) {
         this.name = name;
         this.encodedPassword = encodedPassword;
-        this.role = role;
+        this.roles = roles;
         this.mail = mail;
     }
 
@@ -72,20 +72,20 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {
+    public String getEncodedPassword() {
         return encodedPassword;
     }
 
-    public void setPassword(String password) {
+    public void setEncodedPassword(String password) {
         this.encodedPassword = password;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public Blob getImageFile() {
