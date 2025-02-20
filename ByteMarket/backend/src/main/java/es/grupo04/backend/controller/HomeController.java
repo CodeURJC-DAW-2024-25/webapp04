@@ -22,9 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class HomeController {
-
-    @Autowired
-    private ProductRepository productRepository;
+    
+    // ESTO NO SE PUEDE hay que ponerlo desde el service
+    // @Autowired
+    // private ProductRepository productRepository;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
