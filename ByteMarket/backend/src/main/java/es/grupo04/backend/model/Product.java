@@ -1,6 +1,7 @@
 package es.grupo04.backend.model;
 
 import java.sql.Blob;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Product {
@@ -39,6 +41,9 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<Purchase> purchases;
 
+	@Column(name = "publish_date")
+    private LocalDate publishDate;
+
 	public Product() {
     }
 
@@ -47,6 +52,7 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.category = category;
+		this.publishDate = LocalDate.now();
 	}
 
 	public String getname() {
@@ -89,7 +95,6 @@ public class Product {
 		this.image = image;
 	}
 
-	// Método isSold() ya funciona correctamente con 'sold'
 	public boolean isSold() {
 		return this.sold;
 	}
@@ -116,6 +121,14 @@ public class Product {
 
 	public void setOwner(User user1) {
         this.owner = user1;
+    }
+
+	public LocalDate getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(LocalDate publishDate) {
+        this.publishDate = publishDate;
     }
 
 	@Override
