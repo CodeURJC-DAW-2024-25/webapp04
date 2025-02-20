@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product {
@@ -33,11 +32,8 @@ public class Product {
 	private Blob imageFile; //TODO tiene que ser una lista, ElementCollection???
 	private boolean image;
 
-	// Añadir el campo 'sold'
 	private boolean sold;
 
-	@OneToMany(mappedBy = "product")
-	private List<Purchase> purchases;
 
 	public Product() {
     }
