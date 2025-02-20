@@ -2,6 +2,7 @@ package es.grupo04.backend.model;
 
 import java.sql.Blob;
 import java.util.List;
+import java.time.Year;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -54,6 +55,8 @@ public class User {
     @OneToMany(mappedBy = "userSeller")
     private List<Chat> chatsSales;
 
+    private Integer creationYear;
+
     public User() {
     }
 
@@ -62,6 +65,7 @@ public class User {
         this.encodedPassword = encodedPassword;
         this.roles = roles;
         this.mail = mail;
+        this.creationYear = Year.now().getValue();
     }
 
     public String getName() {
@@ -102,5 +106,9 @@ public class User {
 
     public void setImage(boolean image) {
         this.image = image;
+    }
+
+    public void setCreationYear(Integer creationYear) {
+        this.creationYear = creationYear;
     }
 }
