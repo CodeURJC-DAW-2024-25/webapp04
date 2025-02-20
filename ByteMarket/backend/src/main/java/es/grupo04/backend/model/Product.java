@@ -35,11 +35,8 @@ public class Product {
 	private Blob imageFile; //TODO tiene que ser una lista, ElementCollection???
 	private boolean image;
 
-	// Añadir el campo 'sold'
 	private boolean sold;
 
-	@OneToMany(mappedBy = "product")
-	private List<Purchase> purchases;
 
 	@Column(name = "publish_date")
     private LocalDate publishDate;
