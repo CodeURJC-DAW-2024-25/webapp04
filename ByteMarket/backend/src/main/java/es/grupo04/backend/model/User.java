@@ -57,6 +57,7 @@ public class User {
 
     private Integer creationYear;
 
+
     public User() {
     }
 
@@ -110,5 +111,9 @@ public class User {
 
     public void setCreationYear(Integer creationYear) {
         this.creationYear = creationYear;
+    }
+    
+    public Integer getCreationYear() {
+        return creationYear;
     }
 }

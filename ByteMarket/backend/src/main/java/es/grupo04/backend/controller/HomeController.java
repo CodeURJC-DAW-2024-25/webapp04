@@ -1,7 +1,6 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,23 +8,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import es.grupo04.backend.model.Product;
-import es.grupo04.backend.repository.ProductRepository;
+import es.grupo04.backend.service.ProductService;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Controller
 public class HomeController {
     
-    // ESTO NO SE PUEDE hay que ponerlo desde el service
-    // @Autowired
-    // private ProductRepository productRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -46,10 +43,10 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-        //TODO hay que quitar esto y meterlo en el service
+        //TODO hay que quitar la logica y meterlo en el service
         //El profe me ha dicho que esto esta mal lo de las categorias
         // Obtener todas las categorías únicas de los productos
-        List<String> categories = productRepository.findAll()
+        List<String> categories = productService.findAll()
                 .stream()
                 .map(Product::getCategory)
                 .distinct()
@@ -57,8 +54,8 @@ public class HomeController {
         
         model.addAttribute("navbar_home", "Inicio");
         model.addAttribute("categories", categories);
-        model.addAttribute("other_products", productRepository.findAll());
-        model.addAttribute("featured_products", productRepository.findAll());
+        model.addAttribute("other_products", productService.findAll());
+        model.addAttribute("featured_products", productService.findAll());
         model.addAttribute("carrusel", true);
         model.addAttribute("featured_title", "Productos Destacados");
         model.addAttribute("other_products_title", "Otros Productos");
