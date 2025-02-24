@@ -12,8 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
+
 
 @Entity
 public class Product {
@@ -39,9 +38,7 @@ public class Product {
 	private boolean image;
 
 	private boolean sold;
-
-
-	@Column(name = "publish_date")
+	
     private LocalDate publishDate;
 
 	public Product() {

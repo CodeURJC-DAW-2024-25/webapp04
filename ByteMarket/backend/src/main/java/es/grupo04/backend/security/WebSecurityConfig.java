@@ -41,12 +41,13 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 					// PUBLIC PAGES
 					.requestMatchers("/").permitAll()
-                    .requestMatchers("/books/*").permitAll()
+                    .requestMatchers("/product/*").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/newbook").hasAnyRole("USER")
                     .requestMatchers("/editbook/*").hasAnyRole("USER")
                     .requestMatchers("/editbook").hasAnyRole("USER")
 					.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
+					.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")
