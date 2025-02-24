@@ -35,27 +35,23 @@
         <form class="form" action="login" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="username" placeholder="ejemplo@correo.com">
+                <input type="email" class="form-control" id="mail" name="mail" placeholder="ejemplo@correo.com">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password">
+                <input type="password" class="form-control" id="password" name="password">
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe" class="form-label ms-2 fw-normal">Recordarme</label>
-                </div>
                 <a href="../templates/singin" class="text-white fw-normal">¿Olvidaste tu contraseña?</a>
             </div>
 
             <div class="row d-flex justify-content-center buttons">
                 <div class="col-md-12">
                     <a href="../views/home.html" style="text-decoration: none;">
-                        <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
+                        <input type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
                             <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
-                        </button>
+                    </input>
                     </a>
                 </div>                
             </div>
