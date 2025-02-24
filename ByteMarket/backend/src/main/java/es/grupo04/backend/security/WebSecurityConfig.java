@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/editbook/*").hasAnyRole("USER")
                     .requestMatchers("/editbook").hasAnyRole("USER")
 					.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
+					.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")
