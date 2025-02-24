@@ -18,6 +18,11 @@ public class Image {
     @Lob
     private Blob image;
 
+    
+    public Long getId() {
+        return id;
+    }
+
     public Image() {
     }
 
