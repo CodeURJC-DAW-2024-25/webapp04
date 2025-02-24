@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Image {
@@ -19,15 +18,11 @@ public class Image {
     @Lob
     private Blob image;
 
-    @ManyToOne
-    private Product product;
-
     public Image() {
     }
 
-    public Image(Blob image, Product product) {
+    public Image(Blob image) {
         this.image = image;
-        this.product = product;
     }
 
     public Blob getImage() {
@@ -36,14 +31,6 @@ public class Image {
 
     public void setImage(Blob image) {
         this.image = image;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
 }
