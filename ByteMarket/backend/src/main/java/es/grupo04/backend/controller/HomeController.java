@@ -15,11 +15,12 @@ import es.grupo04.backend.model.Product;
 import es.grupo04.backend.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class HomeController {
-    
 
     @Autowired
     private ProductService productService;
@@ -27,31 +28,31 @@ public class HomeController {
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
 
-		Principal principal = request.getUserPrincipal();
+        Principal principal = request.getUserPrincipal();
 
-		if (principal != null) {
+        if (principal != null) {
 
-			model.addAttribute("logged", true);
-			model.addAttribute("userName", principal.getName());
-			model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", principal.getName());
+            model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
-		} else {
-			model.addAttribute("logged", false);
-		}
-	}
+        } else {
+            model.addAttribute("logged", false);
+        }
+    }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
-        //TODO hay que quitar la logica y meterlo en el service
-        //El profe me ha dicho que esto esta mal lo de las categorias
+        // TODO hay que quitar la lógica y meterla en el service
+        // El profe me ha dicho que esto está mal lo de las categorías
         // Obtener todas las categorías únicas de los productos
         List<String> categories = productService.findAll()
                 .stream()
                 .map(Product::getCategory)
                 .distinct()
                 .collect(Collectors.toList());
-        
+
         model.addAttribute("navbar_home", "Inicio");
         model.addAttribute("categories", categories);
         model.addAttribute("other_products", productService.findAll());
@@ -60,22 +61,44 @@ public class HomeController {
         model.addAttribute("featured_title", "Productos Destacados");
         model.addAttribute("other_products_title", "Otros Productos");
 
-        return "home_template";
+        if (userDetails != null) {
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", userDetails.getUsername());
 
-    }
-  
-    /* PASAR A PRODUCTCONTROLLER
-    @GetMapping("/product/{id}")
-    public String getProduct(@PathVariable("id") Long id, Model model) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        
-        if (productOptional.isEmpty()) {
-            model.addAttribute("message", "Producto no encontrado"); // Pasar un mensaje de error
-            return "error"; // Página de error si no se encuentra el producto
+            // Verificar roles
+            boolean isAdmin = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch(role -> role.equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                model.addAttribute("admin", true);
+                model.addAttribute("adminName", userDetails.getUsername());
+            } else {
+                model.addAttribute("user", true);
+            }
+
+        } else {
+            model.addAttribute("logged", false);
         }
-        
-        model.addAttribute("product", productOptional.get());
-        return "productDetail_template";
+
+        return "home_template";
     }
-    */
+
+    /*
+     * PASAR A PRODUCTCONTROLLER
+     * 
+     * @GetMapping("/product/{id}")
+     * public String getProduct(@PathVariable("id") Long id, Model model) {
+     * Optional<Product> productOptional = productRepository.findById(id);
+     * 
+     * if (productOptional.isEmpty()) {
+     * model.addAttribute("message", "Producto no encontrado"); // Pasar un mensaje
+     * de error
+     * return "error"; // Página de error si no se encuentra el producto
+     * }
+     * 
+     * model.addAttribute("product", productOptional.get());
+     * return "productDetail_template";
+     * }
+     */
 }

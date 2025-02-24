@@ -20,8 +20,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(unique = true)
     private String mail;
     private List<String> roles;
     private String name;
@@ -61,10 +59,10 @@ public class User {
     public User() {
     }
 
-    public User(String name, String encodedPassword, List<String> roles, String mail) {
+    public User(String name, String encodedPassword, String mail, String... roles) {
         this.name = name;
         this.encodedPassword = encodedPassword;
-        this.roles = roles;
+        this.roles = List.of(roles);
         this.mail = mail;
         this.creationYear = Year.now().getValue();
     }
@@ -86,8 +84,8 @@ public class User {
     }
 
     public List<String> getRoles() {
-        return roles;
-    }
+		return roles;
+	}
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
@@ -115,5 +113,13 @@ public class User {
     
     public Integer getCreationYear() {
         return creationYear;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }

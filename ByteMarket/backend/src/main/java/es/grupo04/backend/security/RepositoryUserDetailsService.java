@@ -17,22 +17,34 @@ import es.grupo04.backend.repository.UserRepository;
 @Service
 public class RepositoryUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
 
-		User user = userRepository.findByName(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        // Añadimos un log para ver si llega correctamente el email
+        System.out.println("Buscando usuario con email: " + mail);
 
-		List<GrantedAuthority> roles = new ArrayList<>();
-		for (String role : user.getRoles()) {
-			roles.add(new SimpleGrantedAuthority("ROLE_" + role));
-		}
+        User user = userRepository.findByMail(mail)
+                .orElseThrow(() -> {
+                    System.out.println("Usuario no encontrado con el email: " + mail); // Log si no se encuentra el usuario
+                    return new UsernameNotFoundException("User not found");
+                });
 
-		return new org.springframework.security.core.userdetails.User(user.getName(), 
-				user.getEncodedPassword(), roles);
+        // Mostramos el usuario encontrado (si lo encuentra)
+        System.out.println("Usuario encontrado: " + user.getName());
 
-	}
+        List<GrantedAuthority> roles = new ArrayList<>();
+        for (String role : user.getRoles()) {
+            System.out.println("Rol encontrado: " + role); // Log para ver los roles
+            roles.add(new SimpleGrantedAuthority("ROLE_" + role));
+        }
+
+        // Mostramos la contraseña codificada del usuario
+        System.out.println("Contraseña codificada del usuario: " + user.getEncodedPassword());
+
+        return new org.springframework.security.core.userdetails.User(user.getName(), 
+                user.getEncodedPassword(), roles);
+    }
 }

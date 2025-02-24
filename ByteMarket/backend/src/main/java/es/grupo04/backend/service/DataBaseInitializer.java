@@ -30,12 +30,11 @@ public class DataBaseInitializer {
     @PostConstruct
     public void init() throws IOException, URISyntaxException {
         // Crear usuarios
-        List<String> roles1 = Arrays.asList("USER", "ADMIN");
-        List<String> roles2 = Arrays.asList("USER", "ADMIN");
-        User user1 = new User("Alice", passwordEncoder.encode("password123"), roles1, "alice@example.com");
-        User user2 = new User("Bob", passwordEncoder.encode("securePass456"), roles2, "bob@example.com");
+        User user1 = new User("Alice", passwordEncoder.encode("password123"), "alice@example.com","USER");
+        User user2 = new User("Bob", passwordEncoder.encode("securePass456"), "bob@example.com","ADMIN","USER");
 
-        userRepository.saveAll(List.of(user1, user2));
+        userRepository.save(user1);
+        userRepository.save(user2);
 
         // Crear productos y asignarles propietarios
         List<Product> productsUser1 = List.of(
