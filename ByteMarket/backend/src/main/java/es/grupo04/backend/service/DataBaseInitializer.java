@@ -13,6 +13,7 @@ import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class DataBaseInitializer {
@@ -23,11 +24,16 @@ public class DataBaseInitializer {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void init() throws IOException, URISyntaxException {
         // Crear usuarios
-        User user1 = new User("Alice", "password123", Arrays.asList("USER", "ADMIN"), "alice@example.com");
-        User user2 = new User("Bob", "securePass456", Arrays.asList("USER"), "bob@example.com");
+        List<String> roles1 = Arrays.asList("USER", "ADMIN");
+        List<String> roles2 = Arrays.asList("USER", "ADMIN");
+        User user1 = new User("Alice", passwordEncoder.encode("password123"), roles1, "alice@example.com");
+        User user2 = new User("Bob", passwordEncoder.encode("securePass456"), roles2, "bob@example.com");
 
         userRepository.saveAll(List.of(user1, user2));
 

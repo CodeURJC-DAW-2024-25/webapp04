@@ -18,7 +18,7 @@ public class WebSecurityConfig {
     public RepositoryUserDetailsService userDetailService;
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	public static PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
