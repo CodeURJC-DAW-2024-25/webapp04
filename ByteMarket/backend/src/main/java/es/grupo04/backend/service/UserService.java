@@ -24,8 +24,4 @@ public class UserService {
         return repository.findByMail(mail);
     }
 
-    public Optional<User> getAdmin() {
-        return repository.findByRole("ADMIN");
-    }
-
 }

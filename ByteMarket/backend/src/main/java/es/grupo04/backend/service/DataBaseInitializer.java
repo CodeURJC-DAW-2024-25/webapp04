@@ -2,6 +2,7 @@ package es.grupo04.backend.service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class DataBaseInitializer {
     @PostConstruct
     public void init() throws IOException, URISyntaxException {
         // Crear usuarios
-        User user1 = new User("Alice", "password123", "USER", "alice@example.com");
-        User user2 = new User("Bob", "securePass456", "USER", "bob@example.com");
+        User user1 = new User("Alice", "password123", Arrays.asList("USER", "ADMIN"), "alice@example.com");
+        User user2 = new User("Bob", "securePass456", Arrays.asList("USER"), "bob@example.com");
 
         userRepository.saveAll(List.of(user1, user2));
 
