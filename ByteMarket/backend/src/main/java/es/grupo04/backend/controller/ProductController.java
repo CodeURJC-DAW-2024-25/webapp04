@@ -1,5 +1,6 @@
 package es.grupo04.backend.controller;
 
+import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,12 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.core.io.Resource;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.service.ImageService;
 
 @Controller
@@ -28,6 +34,25 @@ public class ProductController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private UserService userService;
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+
+        Principal principal = request.getUserPrincipal();
+
+        if (principal != null) {
+
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", principal.getName());
+            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+
+        } else {
+            model.addAttribute("logged", false);
+        }
+    }
 
     @GetMapping("/product/{id}")
     public String getProduct(@PathVariable Long id, Model model) {
@@ -77,11 +102,29 @@ public class ProductController {
 	}
 
     @GetMapping("/newProduct")
-	public String newBook(Model model) {
+    public String newProduct(Model model) {
+        model.addAttribute("product", new Product()); // Crear un nuevo objeto Producto
+        return "newProduct"; // Devolver la vista del formulario de creación
+    }
 
-		// TODO haría falta poner algo?
+    @PostMapping("/newProduct")
+    public String createProduct(@ModelAttribute Product product, Model model, HttpServletRequest request) {
+        // Establecer el propietario del producto, suponiendo que el usuario es un "User" en el sistema
+        Principal principal = request.getUserPrincipal();
+        if (principal != null) {
+            String username = principal.getName();
+            // Obtener el objeto `User` correspondiente al usuario logueado, posiblemente con un servicio de usuarios
+            Optional<User> user = userService.findByName(username);
+            
+            if (user.isPresent()) {
+                product.setOwner(user.get()); // Establecer el propietario del producto
+            }
+        }
+        
+        productService.save(product); // Guardar el nuevo producto en la base de datos
 
-		return "newProduct";
-	}
+        model.addAttribute("productId", product.getId()); // Añadir el id del producto a los atributos del modelo
+        return "redirect:/product/" + product.getId(); // Redirigir a la página de detalles del producto recién creado
+    }
 
 }

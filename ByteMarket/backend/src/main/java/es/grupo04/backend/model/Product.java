@@ -48,11 +48,11 @@ public class Product {
 		this.category = category;
 	}
 
-	public String getname() {
+	public String getName() {
 		return name;
 	}
 
-	public void setname(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 

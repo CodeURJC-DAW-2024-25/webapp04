@@ -48,6 +48,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/product/image/**").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER")
+					.requestMatchers("/newProduct").hasAnyRole("USER")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")
