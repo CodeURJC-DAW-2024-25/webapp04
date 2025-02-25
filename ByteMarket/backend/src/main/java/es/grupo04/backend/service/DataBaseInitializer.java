@@ -2,7 +2,6 @@ package es.grupo04.backend.service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ public class DataBaseInitializer {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public DataBaseInitializer() {
+    }
 
     @PostConstruct
     public void init() throws IOException, URISyntaxException {

@@ -1,17 +1,15 @@
 package es.grupo04.backend.model;
 
-import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -31,15 +29,14 @@ public class Product {
 	@ManyToOne
 	private User owner;
 
-	@ElementCollection
-	@Lob
-	private List<Blob> images;
+	@OneToMany
+	private List<Image> images;
 
 	private boolean image;
 
 	private boolean sold;
 	
-    private LocalDate publishDate;
+    private LocalDate publishDate = LocalDate.now();
 
 	public Product() {
     }
@@ -49,7 +46,6 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.category = category;
-		this.publishDate = LocalDate.now();
 	}
 
 	public String getname() {
@@ -76,12 +72,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public List<Blob> getImageFile() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImageFile(List<Blob> image) {
-		this.images = image;
+	public void setImageFile(List<Image> images) {
+		this.images = images;
 	}
 
 	public boolean getImage(){
