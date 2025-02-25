@@ -48,7 +48,7 @@ public class DataBaseInitializer {
     @PostConstruct
     public void init() throws IOException, URISyntaxException, SerialException, SQLException {
         // Crear usuarios
-        User user1 = new User("Alice", passwordEncoder.encode("password123"), "alice@example.com","USER");
+        User user1 = new User("Alice", passwordEncoder.encode("1234"), "a@example.com","USER");
         User user2 = new User("Bob", passwordEncoder.encode("securePass456"), "bob@example.com","ADMIN","USER");
 
         userRepository.save(user1);

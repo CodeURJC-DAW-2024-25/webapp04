@@ -31,4 +31,8 @@ public class UserService {
     public Optional<User> findByMail(String mail) {
         return repository.findByMail(mail);
     }
+
+    public Optional<User> findByName(String name) {
+        return repository.findByName(name);
+    }
 }

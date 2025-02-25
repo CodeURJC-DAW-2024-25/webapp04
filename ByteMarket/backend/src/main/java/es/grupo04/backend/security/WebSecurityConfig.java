@@ -36,7 +36,7 @@ public class WebSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		http.authenticationProvider(authenticationProvider());
-		//TODO: poner todas las URLs
+		
 		http
 			.authorizeHttpRequests(authorize -> authorize
 					// PUBLIC PAGES
@@ -47,15 +47,10 @@ public class WebSecurityConfig {
 					.requestMatchers("/error").permitAll()
 					.requestMatchers("/product/image/**").permitAll()
 					// PRIVATE PAGES
-					.requestMatchers("/newbook").hasAnyRole("USER")
-                    .requestMatchers("/editbook/*").hasAnyRole("USER")
-                    .requestMatchers("/editbook").hasAnyRole("USER")
-					.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
+					.requestMatchers("/profile").hasAnyRole("USER")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")
-					.usernameParameter("mail")
-        			.passwordParameter("password")
 					.failureUrl("/loginerror")
 					.defaultSuccessUrl("/", true)
 					.permitAll()
