@@ -3,6 +3,7 @@ package es.grupo04.backend.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import jakarta.servlet.http.HttpServletRequest;
 
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +27,9 @@ public class HomeController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserService userService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -81,8 +87,38 @@ public class HomeController {
             model.addAttribute("logged", false);
         }
 
+        if (userDetails != null) {
+            System.out.println("Usuario autenticado: " + userDetails.getUsername());
+        } else {
+            System.out.println("No hay usuario autenticado.");
+        }
+
         return "home_template";
     }
+
+    @GetMapping("/profile")
+    public String userProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails == null) {
+            return "redirect:/login";  // O la ruta que desees
+        }
+        
+        Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            return "redirect:/login";  // Redirigir si el usuario no se encuentra
+        }
+        
+        User user = optionalUser.get();
+        
+        model.addAttribute("username", user.getName());
+        model.addAttribute("profilePic", "");
+        model.addAttribute("location", "");
+        model.addAttribute("salesNumber", "");
+        model.addAttribute("purchasesNumber", "");
+        model.addAttribute("reviewsNumber", "");
+
+        return "profile_template";
+    }
+}
 
     /*
      * PASAR A PRODUCTCONTROLLER
@@ -101,4 +137,3 @@ public class HomeController {
      * return "productDetail_template";
      * }
      */
-}
