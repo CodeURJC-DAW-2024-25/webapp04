@@ -76,6 +76,10 @@ public class Product {
 		return images;
 	}
 
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
 	public void setImageFile(List<Image> images) {
 		this.images = images;
 	}
