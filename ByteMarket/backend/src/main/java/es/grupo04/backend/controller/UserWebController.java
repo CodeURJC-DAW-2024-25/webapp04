@@ -11,11 +11,11 @@ import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.UserService;
 
 @Controller
-public class LoginWebController {
+public class UserWebController {
    @Autowired
    private UserService userService;
 
-   public LoginWebController() {
+   public UserWebController() {
    }
 
    @GetMapping("/login")
@@ -51,4 +51,5 @@ public class LoginWebController {
          return "error";
       }
    }
+
 }

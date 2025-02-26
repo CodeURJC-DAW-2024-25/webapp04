@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.UserRepository;
 
@@ -48,6 +49,7 @@ public class UserService {
             return false;
         }
     }
+
     //User Validation
     public boolean validateUser(User user, String confirmPassword) {
         if (user.getName() == null || user.getName().isEmpty()) {   //Check if name is empty
@@ -68,5 +70,25 @@ public class UserService {
             return false;
         }
         return true; // No errors
+    }
+
+    //Add to favorites
+    public void addToFavorite(Product product, User user){
+        System.out.println("Añadiendo a favoritos");
+
+        // Get the list of favorite products
+        List<Product> favoriteProducts = user.getFavoriteProducts();
+
+        // Check if the product is already in the favorites list
+        if (!favoriteProducts.contains(product)) {
+            favoriteProducts.add(product);  
+            user.setFavoriteProducts(favoriteProducts); 
+            repository.save(user);  
+            System.out.println("Producto añadido a favoritos: " + product.getName());
+        } else {
+            System.out.println("El producto ya está en los favoritos.");
+        }
+
+        System.out.println("Favoritos actuales: " + user.getFavoriteProducts());
     }
 }

@@ -43,7 +43,8 @@ public class User {
     @OneToMany(mappedBy = "seller")
     private List<Purchase> sales;
 
-    @ManyToMany(mappedBy = "users")
+    //Se ha cambiado a unidirectional
+    @ManyToMany
     private List<Product> favoriteProducts;
 
     @OneToMany(mappedBy = "userBuyer")
@@ -124,5 +125,8 @@ public class User {
 
     public List<Product> getFavoriteProducts() {
         return favoriteProducts;
+    }
+    public void setFavoriteProducts(List<Product> favoriteProducts) {
+        this.favoriteProducts = favoriteProducts;
     }
 }

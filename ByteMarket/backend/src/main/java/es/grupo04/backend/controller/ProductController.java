@@ -28,6 +28,8 @@ import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.service.ImageService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class ProductController {
@@ -77,7 +79,28 @@ public class ProductController {
 
         return "productDetail_template";
     }
+    
+    //Add to favorites
+    @PostMapping("/product/{id}")
+    public String addToFavorite(@PathVariable Long id, HttpServletRequest request, Model model) {
+        System.out.println("Añadiendo a favoritos");
+        Principal principal = request.getUserPrincipal();
+        if (principal != null) {
+            String username = principal.getName();
+            Optional<User> userOptional = userService.findByName(username);
+            Optional<Product> productOptional = productService.findById(id);
 
+            if (userOptional.isPresent() && productOptional.isPresent()) {
+                userService.addToFavorite(productOptional.get(), userOptional.get());
+                return "redirect:/product/" + id;
+            }
+        } else {
+            return "redirect:/login";
+        }
+        model.addAttribute("message", "No se pudo añadir a favoritos");
+        return "error";
+    }
+    
     @GetMapping("/product/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<Image> imageOptional = imageService.findById(id);
