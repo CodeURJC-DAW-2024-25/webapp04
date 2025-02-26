@@ -61,7 +61,6 @@ public class ProductService {
 	public List<Purchase> getLastSales(User user) {
         return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
     }
-	}
 
 	public void addImages(Product product, MultipartFile[] images) throws IOException {
 		ArrayList<Image> imagesToStore = new ArrayList<>();
