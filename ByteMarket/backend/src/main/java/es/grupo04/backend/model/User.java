@@ -43,8 +43,8 @@ public class User {
     @OneToMany(mappedBy = "seller")
     private List<Purchase> sales;
 
-    @ManyToMany
-    private List<Product> favorites;
+    @ManyToMany(mappedBy = "users")
+    private List<Product> favoriteProducts;
 
     @OneToMany(mappedBy = "userBuyer")
     private List<Chat> chatsPurchase;
@@ -120,5 +120,9 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public List<Product> getFavoriteProducts() {
+        return favoriteProducts;
     }
 }

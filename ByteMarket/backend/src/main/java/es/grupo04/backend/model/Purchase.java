@@ -1,5 +1,7 @@
 package es.grupo04.backend.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +23,8 @@ public class Purchase {
 
     @ManyToOne
     private User seller;
+
+    private LocalDate purchaseDate = LocalDate.now();;
 
     
     public Purchase() {
@@ -62,5 +66,13 @@ public class Purchase {
 
     public void setSeller(User seller) {
         this.seller = seller;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void getPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 }
