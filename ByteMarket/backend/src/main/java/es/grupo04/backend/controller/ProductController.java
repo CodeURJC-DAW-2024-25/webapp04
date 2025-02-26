@@ -108,7 +108,7 @@ public class ProductController {
     }
 
     @PostMapping("/newProduct")
-    public String createProduct(@ModelAttribute Product product, Model model, HttpServletRequest request) {
+    public String createProduct(@ModelAttribute Product product, Model model, HttpServletRequest request) { 
         // Establecer el propietario del producto, suponiendo que el usuario es un "User" en el sistema
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
