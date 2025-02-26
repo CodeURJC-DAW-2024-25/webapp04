@@ -69,20 +69,18 @@ public class DataBaseInitializer {
         images.add(image2); //tienen que ser distintas
         
 
-        ImageRepository.save(image);
-        ImageRepository.save(image2);
+        /*ImageRepository.save(image);
+        ImageRepository.save(image2);*/
    
 
         // Crear productos y asignarles propietarios
         List<Product> productsUser1 = List.of(
+            new Product("Auriculares", "Auriculares inalámbricos con cancelación de ruido", 150, "Accesorios", images),
             new Product("Laptop", "Laptop potente para desarrollo", 1200, "Electrónica"),
             new Product("Smartphone", "Teléfono con gran autonomía", 800, "Electrónica"),
-            new Product("Auriculares", "Auriculares inalámbricos con cancelación de ruido", 150, "Accesorios"),
             new Product("Monitor", "Monitor 4K UHD para edición de video", 600, "Electrónica"),
             new Product("Teclado Mecánico", "Teclado mecánico con switches rojos para gaming", 100, "Accesorios")
         );
-
-        productsUser1.get(0).setImageFile(images);
 
         List<Product> productsUser2 = List.of(
             new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "Fotografía"),

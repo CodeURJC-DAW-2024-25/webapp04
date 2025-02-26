@@ -1,12 +1,18 @@
 package es.grupo04.backend.service;
 
+import java.io.IOException;
+import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
@@ -54,6 +60,19 @@ public class ProductService {
 
 	public List<Purchase> getLastSales(User user) {
         return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
+    }
+
+	public void addImages(Product product, MultipartFile[] images) throws IOException {
+		ArrayList<Image> imagesToStore = new ArrayList<>();
+        for(MultipartFile image : images) {
+			Blob blob = BlobProxy.generateProxy(image.getInputStream(),image.getSize());
+			Image imgToStore = new Image(blob);
+			imagesToStore.add(imgToStore);
+		}
+
+		product.setImages(imagesToStore);
+		product.setThumbnail(imagesToStore.get(0));
+
     }
 }
 

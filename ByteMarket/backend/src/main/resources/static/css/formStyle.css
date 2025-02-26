@@ -39,3 +39,20 @@ body {
 #footer {
     margin-top: auto; /* Empuja el footer al fondo */
 }
+
+/*Form error fields display control*/
+.ocult{
+    display: none;
+}
+.error{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color:#fff;
+    font-size: 0.7rem;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 
+               0 0 10px #fff,
+               0 0 5px #fff;
+}

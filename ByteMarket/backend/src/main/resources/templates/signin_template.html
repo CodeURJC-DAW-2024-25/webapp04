@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/headerStyle.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <title>ByteMarket</title>
+    <script src="/js/validate.js" defer></script>
 </head>
 
 <body>
@@ -31,45 +32,54 @@
     </header>
     <div class="container">
         <h2 class="mb-4">Crear Cuenta</h2>
-        <form class="form" action="createAccount">
+        <form class="form" action="/signin" method="post" id="form">
             <div class="mb-3">
+
                 <label for="fullName" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Juan Pérez" required>
+                <div id="errorName" class="ocult"></div>
             </div>
             <div class="mb-3">
                 <label for="registerUsername" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="registerUsername" placeholder="ejemplo@correo.com" required>
+                <input type="text" class="form-control" id="mail" name="mail" placeholder="ejemplo@correo.com" required>
+                <div id="errorMail" class="ocult"></div>
             </div>
+            <div id="errorPassword" class="ocult"></div>
             <div class="mb-3">
                 <label for="registerPassword" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="registerPassword" required>
+                <input type="password" class="form-control" id="password" name="encodedPassword" required>
             </div>
             <div class="mb-3">
                 <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" id="confirmPassword" required>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required/>
             </div>
-
+            <!-- Campo oculto para asignar un rol por defecto -->
+            <input type="hidden" name="roles" value="USER">
+            <input type="hidden" name="_csrf" value="{{token}}"/>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <input type="checkbox" id="acceptTerms">
+                    <input type="checkbox" id="acceptTerms" required>
                     <label for="acceptTerms" class="form-label ms-2 fw-normal">Acepto los términos y condiciones</label>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center buttons">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
+                    <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2 fw-bold">
                         <i class="bi bi-person-plus"></i> Registrarse
                     </button>
                 </div>
             </div>
 
             <div class="text-center">
-                <p>¿Ya tienes cuenta? <a href="/login" class="text-white">Inicia Sesión</a></p>
+                <p>¿Ya tienes cuenta? <a href="/login" class="text-black">Inicia Sesión</a></p>
             </div>
-
         </form>
+        {{#errorMessage}}
+            <p>{{errorMessage}}</p>
+        {{/errorMessage}}
     </div>
     {{>footer}}
 </body>
 </html>
+

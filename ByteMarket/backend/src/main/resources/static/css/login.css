@@ -15,11 +15,16 @@
 .form{
     text-align: left;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #ffffff;
+    color:black;
     padding: 5%;
-    background-color: #777;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-weight: bold;
     border-radius: 0.8em;
+}
+
+.form-control {
+    border-color: gray;
 }
 
 .btn-custom {
