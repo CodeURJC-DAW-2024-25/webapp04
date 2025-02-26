@@ -3,6 +3,7 @@ package es.grupo04.backend.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
@@ -29,10 +31,11 @@ public class Product {
 	@ManyToOne
 	private User owner;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Image> images;
-
-	private boolean image;
+	
+	@OneToOne
+	private Image thumbnail;
 
 	private boolean sold;
 	
@@ -41,12 +44,24 @@ public class Product {
 	public Product() {
     }
 
+	public Product(String name, String description, float price, String category, List<Image> images) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+		this.images = images;
+		if(!images.isEmpty()){
+			this.thumbnail = images.get(0);
+		}
+	}
+
 	public Product(String name, String description, float price, String category) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.category = category;
 	}
+
 
 	public String getName() {
 		return name;
@@ -84,12 +99,12 @@ public class Product {
 		this.images = images;
 	}
 
-	public boolean getImage(){
-		return this.image;
+	public Image getThumbnail(){
+		return this.thumbnail;
 	}
 
-	public void setImage(boolean image){
-		this.image = image;
+	public void setThumbnail(Image thumbnail){
+		this.thumbnail = thumbnail;
 	}
 
 	public boolean isSold() {

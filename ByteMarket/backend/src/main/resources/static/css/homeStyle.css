@@ -50,6 +50,8 @@
 .productCard{
     width: 100%;
     border:none; /* Quito el borde */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .topProduct{ 

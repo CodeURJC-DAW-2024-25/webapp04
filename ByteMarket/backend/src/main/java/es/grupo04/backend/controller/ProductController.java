@@ -1,5 +1,6 @@
 package es.grupo04.backend.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 
 import es.grupo04.backend.model.Image;
@@ -91,15 +94,15 @@ public class ProductController {
     }
 
     @GetMapping("/removeProduct/{id}")
-	public String removeProduct(Model model, @PathVariable long id) {
+    public String removeProduct(Model model, @PathVariable long id) {
 
-		Optional<Product> productOptional = productService.findById(id);
-		if (productOptional.isPresent()) {
-			productService.delete(id);
-			model.addAttribute("productOptional", productOptional.get());
-		}
-		return "deletedProduct";
-	}
+        Optional<Product> productOptional = productService.findById(id);
+        if (productOptional.isPresent()) {
+            productService.delete(id);
+            model.addAttribute("productOptional", productOptional.get());
+        }
+        return "deletedProduct";
+    }
 
     @GetMapping("/newProduct")
     public String newProduct(Model model) {
@@ -108,7 +111,7 @@ public class ProductController {
     }
 
     @PostMapping("/newProduct")
-    public String createProduct(@ModelAttribute Product product, Model model, HttpServletRequest request) {
+    public String createProduct(@ModelAttribute Product product, @RequestParam("imageUpload") MultipartFile[] images, Model model, HttpServletRequest request) throws IOException {
         // Establecer el propietario del producto, suponiendo que el usuario es un "User" en el sistema
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
@@ -119,7 +122,12 @@ public class ProductController {
             if (user.isPresent()) {
                 product.setOwner(user.get()); // Establecer el propietario del producto
             }
+        } else {
+            model.addAttribute("message", "Usuario no identificado");
+            return "error";
         }
+
+        productService.addImages(product, images); // Añadir las imágenes al producto
         
         productService.save(product); // Guardar el nuevo producto en la base de datos
 

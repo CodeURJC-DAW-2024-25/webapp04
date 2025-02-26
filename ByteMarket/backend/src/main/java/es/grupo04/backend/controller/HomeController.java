@@ -49,6 +49,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
+        //TODO mostrar los productos destacados
+
         List<Product> products = productService.findAll();
         model.addAttribute("other_products", products);
 
