@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -37,6 +40,9 @@ public class Product {
 	private boolean sold;
 	
     private LocalDate publishDate = LocalDate.now();
+
+	@ManyToMany
+	private List<User> users;
 
 	public Product() {
     }
@@ -114,6 +120,10 @@ public class Product {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public User getOwner() {
+		return owner;
 	}
 
 	public void setOwner(User user1) {

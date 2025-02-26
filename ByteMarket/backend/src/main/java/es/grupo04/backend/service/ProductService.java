@@ -2,12 +2,16 @@ package es.grupo04.backend.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Purchase;
+import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ProductRepository;
+import es.grupo04.backend.repository.PurchaseRepository;
 
 @Service
 public class ProductService {
@@ -15,9 +19,16 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 
+	@Autowired
+	private PurchaseRepository purchaseRepository;
+
 	public Optional<Product> findById(long id) {
 		return repository.findById(id);
 	}
+
+	public List<Product> findByOwner(User owner) {
+        return repository.findByOwner(owner);
+    }
 	
 	public boolean exist(long id) {
 		return repository.existsById(id);
@@ -34,5 +45,15 @@ public class ProductService {
 	public void delete(long id) {
 		repository.deleteById(id);
 	}
+
+    public List<Purchase> getLastPurchases(User user) {
+        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+	public List<Purchase> getLastSales(User user) {
+        return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
+    }
 }
 

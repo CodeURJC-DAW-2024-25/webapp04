@@ -22,6 +22,7 @@
 
     {{>navbar_profile}}
 
+    {{#showProfileSection}}
     <section class="py-4">
 
         <div class="container py-5">
@@ -57,17 +58,11 @@
                 </form>
             </div>
         </div>
-
-        <div class="container otherProdContainer">
-            <div class="">
-                <h2 class="fw-bolder mb-3">Productos en venta</h2>
-            </div>
-            <div class="row otherProducts">
-                <!-- AQUI METER PLANTILLA PRODUCTOS -->
-            </div>
-        </div>
-
     </section>
+    {{/showProfileSection}}
+
+    {{>showProducts_template}}
+
 
     <footer class="bg-dark text-white text-center py-2">ByteMarket</footer>
 

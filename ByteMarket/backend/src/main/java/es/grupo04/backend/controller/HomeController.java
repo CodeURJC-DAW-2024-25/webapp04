@@ -2,13 +2,13 @@ package es.grupo04.backend.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -56,7 +56,7 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String userProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String userProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
             return "redirect:/login";  // O la ruta que desees
         }
@@ -65,6 +65,9 @@ public class HomeController {
         if (!optionalUser.isPresent()) {
             return "redirect:/login";  // Redirigir si el usuario no se encuentra
         }
+
+        boolean showProfileSection = filter == null;
+        model.addAttribute("showProfileSection", showProfileSection);
         
         User user = optionalUser.get();
         
@@ -74,6 +77,20 @@ public class HomeController {
         model.addAttribute("salesNumber", "");
         model.addAttribute("purchasesNumber", "");
         model.addAttribute("reviewsNumber", "");
+
+        if ("favorites".equals(filter)) {
+            model.addAttribute("show_products", user.getFavoriteProducts());
+            model.addAttribute("title", "Mis favoritos");
+        } else if ("historyPurchase".equals(filter)) {
+            model.addAttribute("show_products", productService.getLastPurchases(user));
+            model.addAttribute("title", "Últimas compras");
+        } else if ("historySales".equals(filter)) {
+            model.addAttribute("show_products", productService.getLastSales(user));
+            model.addAttribute("title", "Últimas ventas");
+        } else {
+            model.addAttribute("show_products", productService.findByOwner(user));
+            model.addAttribute("title", "Mis productos");
+        }
 
         return "profile_template";
     }
