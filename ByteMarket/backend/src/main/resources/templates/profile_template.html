@@ -56,6 +56,14 @@
                         <p>{{reviewsNumber}}</p>
                     </div>
                 </form>
+                <div>
+                    <form action="/logout" method="POST">
+                        <button class="btn btn-custom" type="submit">
+                            <span class="fav-sellText">Cerrar Sesión</span>
+                        </button>
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                    </form>
+                </div>               
             </div>
         </div>
     </section>
