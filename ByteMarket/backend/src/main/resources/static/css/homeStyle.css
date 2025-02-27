@@ -114,6 +114,10 @@
     font-size: 17px;
 }
 
+.d-flex.justify-content-center {
+    margin-bottom: 30px;
+}
+
 /*RESPONSIVE*/
 @media (max-width: 1250px){   
     .header-logo{

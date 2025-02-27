@@ -47,13 +47,12 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-
-        //TODO mostrar los productos destacados
-
-        List<Product> products = productService.findAll();
+    public String home(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        // Mostrar 8 productos por página
+        int pageSize = 8;
+        List<Product> products = productService.findPaginated(page, pageSize); // Implementar paginación en el servicio
         model.addAttribute("other_products", products);
-
+        model.addAttribute("currentPage", page);
         return "home_template";
     }
 
