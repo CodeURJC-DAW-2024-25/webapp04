@@ -48,9 +48,9 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
-        // Mostrar 8 productos por página
+        // Show 8 products per page
         int pageSize = 8;
-        List<Product> products = productService.findPaginated(page, pageSize); // Implementar paginación en el servicio
+        List<Product> products = productService.findPaginated(page, pageSize);
         model.addAttribute("other_products", products);
         model.addAttribute("currentPage", page);
         return "home_template";
@@ -59,12 +59,12 @@ public class HomeController {
     @GetMapping("/profile")
     public String userProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
-            return "redirect:/login";  // O la ruta que desees
+            return "redirect:/login";
         }
         
         Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
-            return "redirect:/login";  // Redirigir si el usuario no se encuentra
+            return "redirect:/login";
         }
 
         boolean showProfileSection = filter == null;
