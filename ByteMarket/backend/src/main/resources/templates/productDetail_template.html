@@ -36,37 +36,47 @@
                 <div class="d-grid gap-2">
                     <div class="d-grid gap-2">
                         {{#isOwner}}
-                            <a href="/product/edit/{{product.id}}" class="btn btn-custom">
-                                <i class="bi bi-pencil-square m-2"></i>Editar Producto
-                            </a>
-                            <a href="/product/delete/{{product.id}}" class="btn btn-custom">
-                                <i class="bi bi-trash m-2"></i>Borrar Producto
-                            </a>
+                        <form action="/edit/{{product.id}}" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Editar Producto
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
+                        <form action="/delete/{{product.id}}" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Borrar Producto
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
                         {{/isOwner}}
                         {{#admin}}
-                            <a href="/product/delete/{{product.id}}" class="btn btn-custom">
-                                <i class="bi bi-trash m-2"></i>Borrar Producto
-                            </a>
+                        <form action="/delete/{{product.id}}" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Borrar Producto
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
                         {{/admin}}
                         {{^admin}}
                         {{^isOwner}}
-                            <button class="btn btn-custom"><i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor</button>
-                                {{^isFavorite}}
-                                    <form action="/product/{{product.id}}/addFavorite" method="post">
-                                        <button type="submit" class="btn btn-custom">
-                                            <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
-                                        </button>
-                                        <input type="hidden" name="_csrf" value="{{token}}"/>
-                                    </form>
-                                {{/isFavorite}}
-                                {{#isFavorite}}
-                                    <form action="/product/{{product.id}}/eliminateFavorite" method="post">
-                                        <button type="submit" class="btn btn-custom">
-                                            <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
-                                        </button>
-                                        <input type="hidden" name="_csrf" value="{{token}}"/>
-                                    </form>
-                                {{/isFavorite}}
+                        <button class="btn btn-custom"><i class="bi bi-chat-fill m-2"></i>Contactar con el
+                            vendedor</button>
+                        {{^isFavorite}}
+                        <form action="/product/{{product.id}}/addFavorite" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
+                        {{/isFavorite}}
+                        {{#isFavorite}}
+                        <form action="/product/{{product.id}}/eliminateFavorite" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
+                        {{/isFavorite}}
                         {{/isOwner}}
                         {{/admin}}
                     </div>
@@ -87,7 +97,7 @@
                     {{#empty_star}}<i class="bi bi-star"></i>{{/empty_star}}
                     {{/product.owner}}
                 </span>
-                <span class="text-muted">({{product.owner}}/{{product.owner}} 
+                <span class="text-muted">({{product.owner}}/{{product.owner}}
                     <!-- MEDIA / TOTAL -->
                     valoraciones)</span>
             </div>

@@ -50,6 +50,8 @@ public class WebSecurityConfig {
 					.requestMatchers("/profile").hasAnyRole("USER")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
 					.requestMatchers("/editProfile").hasAnyRole("USER")
+					.requestMatchers("/editProduct/**").hasAnyRole("USER")
+					.requestMatchers("delete/**").hasAnyRole("USER","ADMIN")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")

@@ -105,7 +105,8 @@ public class ProductController {
         return handleFavoriteAction(id, request, model, false);
     }
 
-    //Handle favorite action. add = true -> add to favorites, add = false -> remove from favorites
+    // Handle favorite action. add = true -> add to favorites, add = false -> remove
+    // from favorites
     private String handleFavoriteAction(Long id, HttpServletRequest request, Model model, boolean add) {
         System.out.println(add ? "Añadiendo a favoritos" : "Eliminando de favoritos");
         Principal principal = request.getUserPrincipal();
@@ -114,7 +115,7 @@ public class ProductController {
             String username = principal.getName();
             Optional<User> userOptional = userService.findByName(username);
             Optional<Product> productOptional = productService.findById(id);
-            
+
             // Check if the user and the product exist
             if (userOptional.isPresent() && productOptional.isPresent()) {
                 if (add) {
@@ -122,7 +123,8 @@ public class ProductController {
                 } else {
                     userService.removeFromFavorite(id, userOptional.get());
                 }
-                return "redirect:/product/" + id; // PROVISIONAL: devuelve un token por el redirect --> No es de nuestro formulario
+                return "redirect:/product/" + id; // PROVISIONAL: devuelve un token por el redirect --> No es de nuestro
+                                                  // formulario
             }
         } else {
             return "redirect:/login";
@@ -130,7 +132,6 @@ public class ProductController {
         model.addAttribute("message", add ? "No se pudo añadir a favoritos" : "No se pudo eliminar de favoritos");
         return "error";
     }
-
 
     @GetMapping("/product/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
@@ -147,7 +148,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/removeProduct/{id}")
+    @PostMapping("/delete/{id}")
     public String removeProduct(Model model, @PathVariable long id) {
 
         Optional<Product> productOptional = productService.findById(id);
@@ -155,7 +156,7 @@ public class ProductController {
             productService.delete(id);
             model.addAttribute("productOptional", productOptional.get());
         }
-        return "deletedProduct";
+        return "redirect:/"; // Redirige a la página principal después de eliminar el producto
     }
 
     @GetMapping("/newProduct")
