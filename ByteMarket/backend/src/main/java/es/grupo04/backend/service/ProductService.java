@@ -2,9 +2,11 @@ package es.grupo04.backend.service;
 
 import java.io.IOException;
 import java.sql.Blob;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -104,5 +106,20 @@ public class ProductService {
 		return repository.findByCategory(category);
 	}
 
+	// To search by name
+	public List<Product> searchByName(String searchTerm) {
+		String normalizedSearchTerm = normalizeText(searchTerm);
+		List<Product> products = repository.findAll(); 
+		return products.stream()
+				.filter(p -> normalizeText(p.getName()).contains(normalizedSearchTerm))
+				.collect(Collectors.toList());
+	}
+	
+	// To be able to search by names with accent ("Cámara")
+	public String normalizeText(String text) {
+    String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+    return pattern.matcher(normalized).replaceAll("").toLowerCase();
+}
 }
 

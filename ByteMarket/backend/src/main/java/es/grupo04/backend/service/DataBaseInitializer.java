@@ -46,7 +46,7 @@ public class DataBaseInitializer {
 
     @PostConstruct
     public void init() throws IOException, URISyntaxException, SerialException, SQLException {
-        // Crear usuarios
+        // Create users
         User user1 = new User("Alice", passwordEncoder.encode("1234"), "a@example.com","USER");
         User user2 = new User("Bob", passwordEncoder.encode("securePass456"), "bob@example.com","ADMIN","USER");
 
@@ -72,7 +72,7 @@ public class DataBaseInitializer {
         ImageRepository.save(image2);*/
    
 
-        // Crear productos y asignarles propietarios
+        // Create products in a list
         List<Product> productsUser1 = List.of(
             new Product("Auriculares", "Auriculares inalámbricos con cancelación de ruido", 150, "Auriculares", images),
             new Product("Laptop", "Laptop potente para desarrollo", 1200, "Ordenadores"),
@@ -90,11 +90,11 @@ public class DataBaseInitializer {
         );
 
 
-        // Asignar propietario a cada producto
+        // Assign owner to each product
         productsUser1.forEach(p -> p.setOwner(user1));
         productsUser2.forEach(p -> p.setOwner(user2));
 
-        // Guardar productos en la base de datos
+        // Save products in bd
         productRepository.saveAll(productsUser1);
         productRepository.saveAll(productsUser2);
     }

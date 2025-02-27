@@ -9,10 +9,10 @@
                 </a>
             </div>
 
-            {{^logged}}  <!-- Usuario NO autenticado -->
-            <div class="col-7 searchContainer">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+            {{^logged}}  <!-- Anonymous user -->
+            <div class="col-5 searchContainer">
+                <form class="d-flex" role="search" action="/products" method="GET">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
                         <i class="bi bi-search" style="color: white;"></i>
                     </button>
@@ -27,10 +27,10 @@
             </div>
             {{/logged}}
 
-            {{#admin}} <!-- Header para ADMINISTRADOR -->
+            {{#admin}} <!-- Header for administrator -->
             <div class="col-5 searchContainer">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                <form class="d-flex" role="search" action="/products" method="GET">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
                         <i class="bi bi-search" style="color: white;"></i>
                     </button>
@@ -60,11 +60,11 @@
             </div>
             {{/admin}}
 
-            {{#logged}} <!-- Header para USUARIO (solo si NO es admin) -->
+            {{#logged}} <!-- Header for user (if not admin) -->
             {{^admin}}
             <div class="col-5 searchContainer">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+                <form class="d-flex" role="search" action="/products" method="GET">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
                         <i class="bi bi-search" style="color: white;"></i>
                     </button>
