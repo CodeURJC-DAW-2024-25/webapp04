@@ -37,7 +37,7 @@ public class ProfileController {
         if (principal != null) {
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", principal.getName());
+            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         } else {
@@ -51,7 +51,7 @@ public class ProfileController {
             return "redirect:/login";  // O la ruta que desees
         }
         
-        Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             return "redirect:/login";  // Redirigir si el usuario no se encuentra
         }
@@ -84,10 +84,10 @@ public class ProfileController {
         return "profile_template";
     }
 
-    @GetMapping("editProfile")
+    @GetMapping("/editProfile")
     public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         
-        Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return "error";
@@ -98,21 +98,23 @@ public class ProfileController {
         return "editProfile";
     }
 
-    @PostMapping("editProfile")
-    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user) {
+    @PostMapping("/editProfile")
+    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user,
+        @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass) {
         
-        Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
-            model.addAttribute("message", "Usuario no encontrado");
+            model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
             return "error";
         }
 
-        //TODO Validar datos y guardar en la base de datos
-        model.addAttribute("message", user.getMail());
-        return "error";
-        
+        Optional<String> message = userService.editProfile(user, optionalUser.get(), newPass, repeatPass);
+        if(message.isPresent()) {
+            model.addAttribute("message", message.get());
+            return "error";
+        }
 
-        //return "redirect:/profile";
+        return "redirect:/profile";
         
     }
 }
