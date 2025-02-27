@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,9 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
 
@@ -30,7 +34,7 @@ public class HomeController {
         if (principal != null) {
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", principal.getName());
+            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         } else {

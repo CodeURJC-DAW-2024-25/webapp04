@@ -49,7 +49,7 @@ public class ProductController {
         if (principal != null) {
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", principal.getName());
+            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         } else {
@@ -73,7 +73,7 @@ public class ProductController {
         boolean isFavorite = false;
 
         if (principal != null) {
-            Optional<User> userOptional = userService.findByName(principal.getName());
+            Optional<User> userOptional = userService.findByMail(principal.getName());
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product);
@@ -113,7 +113,7 @@ public class ProductController {
         // Check if the user is logged in
         if (principal != null) {
             String username = principal.getName();
-            Optional<User> userOptional = userService.findByName(username);
+            Optional<User> userOptional = userService.findByMail(username);
             Optional<Product> productOptional = productService.findById(id);
 
             // Check if the user and the product exist
@@ -175,7 +175,7 @@ public class ProductController {
             String username = principal.getName();
             // Obtener el objeto `User` correspondiente al usuario logueado, posiblemente
             // con un servicio de usuarios
-            Optional<User> user = userService.findByName(username);
+            Optional<User> user = userService.findByMail(username);
 
             if (user.isPresent()) {
                 product.setOwner(user.get()); // Establecer el propietario del producto
