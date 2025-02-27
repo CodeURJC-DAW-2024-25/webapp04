@@ -11,6 +11,9 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
@@ -73,6 +76,12 @@ public class ProductService {
 		product.setImages(imagesToStore);
 		product.setThumbnail(imagesToStore.get(0));
     }
+
+	public List<Product> findPaginated(int page, int pageSize) {
+		Pageable pageable = PageRequest.of(page, pageSize);
+		Page<Product> productPage = repository.findAll(pageable);
+		return productPage.getContent();
+	}
 	
 	
 

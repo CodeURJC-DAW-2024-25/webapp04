@@ -31,7 +31,12 @@
     
                 <div class="profile-pic-wrapper">
                     <a href="/editProfile" class="d-inline-block position-relative">
-                        <img src="{{profilePic}}" class="profile-pic mb-3" alt="Foto de perfil"> <!-- Lo mismo hay que cambiar esto -->
+                        {{#image}}
+                        <img class="profile-pic mb-3" src="/user/{{id}}/image" alt="pfp">
+                        {{/image}}
+                        {{^image}}
+                        <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
+                        {{/image}}
                         <span class="edit-icon">
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
                         </span>
@@ -40,20 +45,16 @@
                         
                 <form>
                     <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Ubicación:</h5>
-                        <p>{{location}}</p>
+                        <h5 class="fw-bolder">Ubicación: {{location}}</h5>
                     </div>
                     <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Ventas:</h5>
-                        <p>{{salesNumber}}</p>
+                        <h5 class="fw-bolder">Ventas: <num class="fw-normal">{{salesNumber}}</num></h5>
                     </div>
                     <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Compras:</h5>
-                        <p>{{purchasesNumber}}</p>
+                        <h5 class="fw-bolder">Compras: <num class="fw-normal">{{purchasesNumber}}</num></h5>
                     </div>
                     <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Valoraciones:</h5>
-                        <p>{{reviewsNumber}}</p>
+                        <h5 class="fw-bolder">Valoraciones: <num class="fw-normal">{{reviewsNumber}}</num></h5>
                     </div>
                 </form>
                 <div>

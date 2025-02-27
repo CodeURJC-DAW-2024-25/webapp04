@@ -26,7 +26,7 @@ public class User {
 
     @Lob
     private Blob imageFile;
-    private boolean image;
+    private boolean image = false;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
@@ -127,5 +127,29 @@ public class User {
     }
     public void setFavoriteProducts(List<Product> favoriteProducts) {
         this.favoriteProducts = favoriteProducts;
+    }
+
+    public List<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
+    public List<Purchase> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<Purchase> sales) {
+        this.sales = sales;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
