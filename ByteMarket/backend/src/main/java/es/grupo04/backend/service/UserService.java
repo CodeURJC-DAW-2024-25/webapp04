@@ -105,13 +105,15 @@ public class UserService {
         return false;
     }
 
-    //Remove from favorites
     public boolean removeFromFavorite(Long productId, User user) {
         Optional<Product> productOptional = productService.findById(productId);
+
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
+
             // Get the list of favorite products
             List<Product> favoriteProducts = user.getFavoriteProducts();
+
             // Check if the product is in the favorites list
             if (favoriteProducts.contains(product)) {
                 favoriteProducts.remove(product);

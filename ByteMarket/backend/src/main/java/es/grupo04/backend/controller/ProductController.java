@@ -79,7 +79,6 @@ public class ProductController {
                 isFavorite = userService.isFavorite(userOptional.get(), product);
             }
         }
-
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
