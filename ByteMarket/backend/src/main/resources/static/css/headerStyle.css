@@ -2,6 +2,7 @@
 
 .headerContainer{
     margin-right: 0px;
+    justify-content: space-between;
 }
 
 .btn-custom {

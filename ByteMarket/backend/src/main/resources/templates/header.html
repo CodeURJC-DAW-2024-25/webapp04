@@ -28,7 +28,7 @@
             {{/logged}}
 
             {{#admin}} <!-- Header para ADMINISTRADOR -->
-            <div class="col-6 searchContainer">
+            <div class="col-5 searchContainer">
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
@@ -43,7 +43,7 @@
                     </button>
                 </a>
             </div>
-            <div class="col-3 header-profile" height="55">
+            <div class="col-4 header-profile" height="55">
                 <a href="../profile" class="d-flex align-items-center text-decoration-none">
                     <div>
                         <img class="profilePic" src="images/perfil.png" alt="Logo">
@@ -57,7 +57,7 @@
 
             {{#logged}} <!-- Header para USUARIO (solo si NO es admin) -->
             {{^admin}}
-            <div class="col-6 searchContainer">
+            <div class="col-5 searchContainer">
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
@@ -88,7 +88,8 @@
                     </button>
                 </div>
             </div>
-            <div class="col-2 header-profile" height="55">
+            
+            <div class="col-3 header-profile justify-content-end" height="55">
                 <a href="/profile" class="d-flex align-items-center text-decoration-none">
                     <div>
                         <img class="profilePic" src="images/perfil.png" alt="Logo">

@@ -47,6 +47,9 @@ public class Product {
 	@ManyToMany
 	private List<User> users;
 
+	@ManyToMany (mappedBy = "favoriteProducts")	//Tiene que llamarse igual
+	private List<User> favoriteOfUsers;
+
 	public Product() {
     }
 
@@ -156,5 +159,20 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + "]";
+	}
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public List<User> getFavoriteOfUsers() {
+		return favoriteOfUsers;
+	}
+
+	public void setFavoriteOfUsers(List<User> favoriteOfUsers) {
+		this.favoriteOfUsers = favoriteOfUsers;
 	}
 }

@@ -72,7 +72,9 @@ public class ProductService {
 
 		product.setImages(imagesToStore);
 		product.setThumbnail(imagesToStore.get(0));
-
     }
+	
+	
+
 }
 

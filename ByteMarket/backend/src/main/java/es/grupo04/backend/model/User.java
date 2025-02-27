@@ -43,7 +43,6 @@ public class User {
     @OneToMany(mappedBy = "seller")
     private List<Purchase> sales;
 
-    //Se ha cambiado a unidirectional
     @ManyToMany
     private List<Product> favoriteProducts;
 
