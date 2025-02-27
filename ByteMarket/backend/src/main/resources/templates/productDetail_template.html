@@ -44,7 +44,7 @@
                         </form>
                         <form action="/delete/{{product.id}}" method="post">
                             <button type="submit" class="btn btn-custom">
-                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Borrar Producto
+                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
                         </form>
@@ -52,7 +52,7 @@
                         {{#admin}}
                         <form action="/delete/{{product.id}}" method="post">
                             <button type="submit" class="btn btn-custom">
-                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Borrar Producto
+                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
                         </form>
@@ -71,8 +71,8 @@
                         {{/isFavorite}}
                         {{#isFavorite}}
                         <form action="/product/{{product.id}}/eliminateFavorite" method="post">
-                            <button type="submit" class="btn btn-custom">
-                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
+                            <button type="submit" class="btn btn-custom"> 
+                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Eliminar de favoritos
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
                         </form>

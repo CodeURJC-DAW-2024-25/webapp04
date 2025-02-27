@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
@@ -99,7 +99,10 @@ public class ProductService {
 		return productPage.getContent();
 	}
 	
-	
+	// For navbar of categories
+	public List<Product> findByCategory(String category) {
+		return repository.findByCategory(category);
+	}
 
 }
 

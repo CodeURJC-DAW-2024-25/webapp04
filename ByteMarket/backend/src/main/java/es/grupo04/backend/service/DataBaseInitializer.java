@@ -1,31 +1,30 @@
 package es.grupo04.backend.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.User;
-import es.grupo04.backend.model.Image;
-import es.grupo04.backend.repository.ProductRepository;
-import es.grupo04.backend.repository.UserRepository;
-import es.grupo04.backend.repository.ImageRepository;
-import jakarta.annotation.PostConstruct;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
-import java.io.File;
-import java.sql.Blob;
-import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import es.grupo04.backend.model.Image;
+import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.ImageRepository;
+import es.grupo04.backend.repository.ProductRepository;
+import es.grupo04.backend.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class DataBaseInitializer {
@@ -75,19 +74,19 @@ public class DataBaseInitializer {
 
         // Crear productos y asignarles propietarios
         List<Product> productsUser1 = List.of(
-            new Product("Auriculares", "Auriculares inalámbricos con cancelación de ruido", 150, "Accesorios", images),
-            new Product("Laptop", "Laptop potente para desarrollo", 1200, "Electrónica"),
-            new Product("Smartphone", "Teléfono con gran autonomía", 800, "Electrónica"),
-            new Product("Monitor", "Monitor 4K UHD para edición de video", 600, "Electrónica"),
-            new Product("Teclado Mecánico", "Teclado mecánico con switches rojos para gaming", 100, "Accesorios")
+            new Product("Auriculares", "Auriculares inalámbricos con cancelación de ruido", 150, "Auriculares", images),
+            new Product("Laptop", "Laptop potente para desarrollo", 1200, "Ordenadores"),
+            new Product("Smartphone", "Teléfono con gran autonomía", 800, "Móviles"),
+            new Product("Monitor", "Monitor 4K UHD para edición de video", 600, "Otros"),
+            new Product("Teclado Mecánico", "Teclado mecánico con switches rojos para gaming", 100, "Otros")
         );
 
         List<Product> productsUser2 = List.of(
-            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "Fotografía"),
-            new Product("Tablet", "Tablet de alta gama para diseño gráfico", 900, "Electrónica"),
-            new Product("Impresora 3D", "Impresora 3D de precisión para prototipado", 450, "Tecnología"),
-            new Product("Silla ergonómica", "Silla de oficina cómoda y ajustable", 250, "Mobiliario"),
-            new Product("Reloj inteligente", "Smartwatch con múltiples funciones de salud", 200, "Electrónica")
+            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "otros"),
+            new Product("Tablet", "Tablet de alta gama para diseño gráfico", 900, "Tablets"),
+            new Product("Impresora 3D", "Impresora 3D de precisión para prototipado", 450, "Otros"),
+            new Product("Silla ergonómica", "Silla de oficina cómoda y ajustable", 250, "Otros"),
+            new Product("Reloj inteligente", "Smartwatch con múltiples funciones de salud", 200, "SmartWatches")
         );
 
 
