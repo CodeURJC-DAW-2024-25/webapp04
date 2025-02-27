@@ -1,7 +1,6 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
@@ -101,7 +99,7 @@ public class ProfileController {
     }
 
     @PostMapping("editProfile")
-    public String postEditProfile(@ModelAttribute User user, @AuthenticationPrincipal UserDetails userDetails, Model model, HttpServletRequest request) {
+    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user) {
         
         Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
@@ -109,8 +107,12 @@ public class ProfileController {
             return "error";
         }
 
-        User user = optionalUser.get();
-        model.addAttribute("user", user);
-        return "editProfile";
+        //TODO Validar datos y guardar en la base de datos
+        model.addAttribute("message", user.getMail());
+        return "error";
+        
+
+        //return "redirect:/profile";
+        
     }
 }

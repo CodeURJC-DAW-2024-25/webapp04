@@ -39,26 +39,27 @@
         <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
             <div class="mb-3 text-start">
                 <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" value="{{user.name}}" title="Usuario">
+                <input type="text" class="form-control" value="{{user.name}}" title="Usuario" name="name">
             </div>
             <div class="mb-3 text-start">
                 <label class="form-label">Correo</label>
-                <input type="email" class="form-control" value="{{user.mail}}" title="Correo">
+                <input type="email" class="form-control" value="{{user.mail}}" title="Correo" name="mail">
             </div>
             <div class="mb-3 text-start">
                 <label class="form-label">Ubicación</label>
-                <input type="text" class="form-control" value="Madrid, España" title="Ubicacion">
+                <input type="text" class="form-control" value="Madrid, España" title="Ubicacion" name="location">
             </div>
             <div class="mb-3 text-start">
                 <label class="form-label">Nueva Contraseña</label>
-                <input type="password" class="form-control" title="Contraseña">
+                <input type="password" class="form-control" title="Contraseña" name="pass">
             </div>
             <div class="mb-3 text-start">
                 <label class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" title="Contraseña">
+                <input type="password" class="form-control" title="Contraseña" name="repeatPass">
             </div>
             <button type="submit" class="btn btn-custom w-100 mb-2">Guardar Cambios</button>
-            <a href="#" class="btn btn-custom w-100 mb-2">Eliminar cuenta</a>
+            <a href="#" class="btn btn-custom w-100">Eliminar cuenta</a>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
         </form>
     </div>
 </div>

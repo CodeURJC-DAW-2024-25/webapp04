@@ -28,7 +28,6 @@ import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.service.ImageService;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller

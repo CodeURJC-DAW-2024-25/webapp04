@@ -2,7 +2,6 @@ package es.grupo04.backend.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 
 import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
-import es.grupo04.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private UserService userService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
