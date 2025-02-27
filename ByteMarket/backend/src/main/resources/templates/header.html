@@ -46,7 +46,12 @@
             <div class="col-3 header-profile" height="55">
                 <a href="../profile" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        <img class="profilePic" src="images/perfil.png" alt="Logo">
+                        {{#image}}
+                        <img class="profilePic" src="/user/{{id}}/image" alt="pfp">
+                        {{/image}}
+                        {{^image}}
+                        <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
+                        {{/image}}
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>
@@ -91,7 +96,12 @@
             <div class="col-2 header-profile" height="55">
                 <a href="/profile" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        <img class="profilePic" src="images/perfil.png" alt="Logo">
+                        {{#image}}
+                        <img class="profilePic" src="/user/{{id}}/image" alt="pfp">
+                        {{/image}}
+                        {{^image}}
+                        <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
+                        {{/image}}
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>

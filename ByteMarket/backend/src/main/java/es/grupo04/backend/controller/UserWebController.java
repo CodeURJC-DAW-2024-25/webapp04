@@ -37,10 +37,8 @@ public class UserWebController {
 
    @PostMapping("/signin")
    public String createUser(Model model, @ModelAttribute User user, String confirmPassword) {
-      Boolean validationError = userService.validateUser(user, confirmPassword);
-      if(validationError){
-      boolean hasAccount = userService.createAccount(user);
-         if(hasAccount){   //If the user already has an account
+      if(userService.validateUser(user, confirmPassword)){
+         if(userService.createAccount(user)){   //If the user already has an account
             model.addAttribute("message", "El usuario ya tiene una cuenta");
             return "error";
          }else {          

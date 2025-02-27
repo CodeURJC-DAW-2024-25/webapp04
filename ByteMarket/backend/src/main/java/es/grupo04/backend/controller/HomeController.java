@@ -56,44 +56,4 @@ public class HomeController {
 
         return "home_template";
     }
-
-    @GetMapping("/profile")
-    public String userProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        if (userDetails == null) {
-            return "redirect:/login";  // O la ruta que desees
-        }
-        
-        Optional<User> optionalUser = userService.findByName(userDetails.getUsername());
-        if (!optionalUser.isPresent()) {
-            return "redirect:/login";  // Redirigir si el usuario no se encuentra
-        }
-
-        boolean showProfileSection = filter == null;
-        model.addAttribute("showProfileSection", showProfileSection);
-        
-        User user = optionalUser.get();
-        
-        model.addAttribute("username", user.getName());
-        model.addAttribute("profilePic", "");
-        model.addAttribute("location", "");
-        model.addAttribute("salesNumber", "");
-        model.addAttribute("purchasesNumber", "");
-        model.addAttribute("reviewsNumber", "");
-
-        if ("favorites".equals(filter)) {
-            model.addAttribute("show_products", user.getFavoriteProducts());
-            model.addAttribute("title", "Mis favoritos");
-        } else if ("historyPurchase".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastPurchases(user));
-            model.addAttribute("title", "Últimas compras");
-        } else if ("historySales".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastSales(user));
-            model.addAttribute("title", "Últimas ventas");
-        } else {
-            model.addAttribute("show_products", productService.findByOwner(user));
-            model.addAttribute("title", "Mis productos");
-        }
-
-        return "profile_template";
-    }
 }
