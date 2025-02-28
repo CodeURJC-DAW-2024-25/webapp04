@@ -59,24 +59,28 @@
                         {{/admin}}
                         {{^admin}}
                         {{^isOwner}}
-                        <button class="btn btn-custom"><i class="bi bi-chat-fill m-2"></i>Contactar con el
-                            vendedor</button>
-                        {{^isFavorite}}
-                        <form action="/product/{{product.id}}/addFavorite" method="post">
+                        <form action="/chat/new/{{product.id}}" method="POST">
                             <button type="submit" class="btn btn-custom">
-                                <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
+                                <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
-                        </form>
-                        {{/isFavorite}}
-                        {{#isFavorite}}
-                        <form action="/product/{{product.id}}/eliminateFavorite" method="post">
-                            <button type="submit" class="btn btn-custom"> 
-                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Eliminar de favoritos
-                            </button>
-                            <input type="hidden" name="_csrf" value="{{token}}" />
-                        </form>
-                        {{/isFavorite}}
+                        </form>                      
+                                {{^isFavorite}}
+                                    <form action="/product/{{product.id}}/addFavorite" method="post">
+                                        <button type="submit" class="btn btn-custom">
+                                            <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
+                                        </button>
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                    </form>
+                                {{/isFavorite}}
+                                {{#isFavorite}}
+                                    <form action="/product/{{product.id}}/eliminateFavorite" method="post">
+                                        <button type="submit" class="btn btn-custom">
+                                            <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
+                                        </button>
+                                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                                    </form>
+                                {{/isFavorite}}
                         {{/isOwner}}
                         {{/admin}}
                     </div>

@@ -33,7 +33,7 @@ public class Chat {
     public Chat(User user1, User user2, Product product) {
         this.userBuyer = user1;
         this.userSeller = user2;
-        this.product = product;
+        this.product = product; 
     }
 
     public Long getId() {
