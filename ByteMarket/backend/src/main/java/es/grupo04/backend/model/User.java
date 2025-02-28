@@ -3,7 +3,6 @@ package es.grupo04.backend.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.time.Year;
 
 import jakarta.persistence.CascadeType;
