@@ -56,24 +56,18 @@ public class UserService {
 
     // User Validation
     public boolean validateUser(User user, String confirmPassword) {
-        if (user.getName() == null || user.getName().isEmpty()) { // Check if name is empty
-            return false;
-        } else if (user.getName().length() > 16) { // Check if name is longer than 16 characters
-            return false;
-        }
-        String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"; // Email regex
-        if (user.getMail() == null || user.getMail().isEmpty()) { // Check if email is empty
-            return false;
-        } else if (!Pattern.matches(emailRegex, user.getMail())) { // Check if email is valid
+        if (!validateName(user.getName())) { // Check if name is valid
             return false;
         }
 
-        if ((user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty())
-                || (confirmPassword == null || confirmPassword.isEmpty())) { // Check if password is empty
-            return false;
-        } else if (!user.getEncodedPassword().equals(confirmPassword)) { // Check if passwords match
+        if(!validateMail(user)) { // Check if mail is valid
             return false;
         }
+
+        if(!validatePassword(user, confirmPassword)) { // Check if password is valid
+            return false;
+        }
+
         return true; // No errors
     }
 
@@ -105,13 +99,15 @@ public class UserService {
         return false;
     }
 
-    //Remove from favorites
     public boolean removeFromFavorite(Long productId, User user) {
         Optional<Product> productOptional = productService.findById(productId);
+
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
+
             // Get the list of favorite products
             List<Product> favoriteProducts = user.getFavoriteProducts();
+
             // Check if the product is in the favorites list
             if (favoriteProducts.contains(product)) {
                 favoriteProducts.remove(product);
@@ -126,6 +122,26 @@ public class UserService {
         }
         return false;
     }
+
+    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword) {
+        if(!user.getName().equals(oldUser.getName())){
+            if(!validateName(user.getName())) {
+                return Optional.of("Nombre de usuario no válido");
+            }
+            oldUser.setName(user.getName());
+        }
+
+        if(password.length()>0 && repeatPassword.length()>0) {
+            if(!password.equals(repeatPassword)){
+                return Optional.of("Las contraseñas no coinciden");
+            }
+            oldUser.setEncodedPassword(passwordEncoder.encode(password));
+        }
+
+        repository.save(oldUser);
+        return Optional.empty();
+    
+    }
     
     //Is Owner
     public boolean isOwner(User user, Product product) {
@@ -134,5 +150,29 @@ public class UserService {
     //Is Favorite
     public boolean isFavorite(User user, Product product) {
         return user.getFavoriteProducts().contains(product);
+    }
+
+
+    private boolean validateName(String name) {
+        if (name == null || name.isEmpty() || name.length() > 16) { 
+            return false;
+        }
+        return true; 
+    }
+
+    private boolean validatePassword(User user, String password) {
+        if (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty() 
+        || password == null || password.isEmpty() || !user.getEncodedPassword().equals(password)) { 
+            return false;
+        }
+        return true; 
+    }
+
+    private boolean validateMail(User user) {
+        String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"; // Email regex
+        if (user.getMail() == null || user.getMail().isEmpty() || !Pattern.matches(emailRegex, user.getMail())) {
+            return false;
+        }
+        return true;
     }
 }

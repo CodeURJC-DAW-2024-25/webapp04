@@ -166,7 +166,7 @@ All options under "View Profile," such as history, favorites, and account editin
 # 🌀 Phase 2  - Web with server-generated HTML and AJAX
 ***
 
-## 🔣Execution instructions
+## 🛠️ Execution instructions
 
 ### 👟 Steps 
 1. Download this repository
@@ -174,17 +174,17 @@ All options under "View Profile," such as history, favorites, and account editin
 3. Configure DataBase
 4. Configure IDE
 5. Run Application in the IDE
-6. Go to https://localhost/¿?¿?/
+6. Go to https://localhost/8443/
 
 ### 📋 Requirements
-- Java: JDK 17 --> https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-- MySQL: v.8.0.36.0 (Explained in DataBase Configuration)
+- Java: JDK 21 --> https://www.oracle.com/es/java/technologies/downloads/#java21
+- MySQL: v.????? (Explained in DataBase Configuration)
 - Maven: 4.0.0
-- Spring Boot 2.4.2
+- Spring Boot 3.4.2
 - IDE (explained in IDE Configuration)
 
 ### 💾 DataBase Config
-- Download MySQL v.8.0.36.0
+- Download MySQL v.?????
 - Select default port (port 3306)
 - Create a user with name root and password "password" with DB admin as user role
 - Configure MySQL Server as Windows Service
@@ -192,7 +192,48 @@ All options under "View Profile," such as history, favorites, and account editin
 - Create a new Schema named EventCrafters in the server using MySQL Workbench
 
 ### 🕹️ IDE Config
-- We have used IntelliJ IDEA, bt it can be possible to use other IDE´S
+- We have used Visual Studio Code
 - Install Maven and Spring for your IDE
 
+## ⚔️ Sample users
+### 🔑 @admin
+- email: jim@example.com
+- password: Password1234
+  
+### 🛡️ @user
+- email: a@example.com
+- password: 1234
+
+### 🛡️ @user
+- email: bob@example.com
+- password: securePass456
+
 ## 🗃️ Diagrams
+
+### 💽 DataBase diagram
+
+## 🏠 Clases and templates diagram
+
+## 🌐 ScreenFlow
+
+
+## ⚙️ Members Participation
+
+### 👤 Olga Chubinova Bortsova
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/) | |
+| [2º](https://github.com/) | |
+| [3º](https://github.com/) | Sell product |
+| [4º](https://github.com/) | Categories navbar |
+| [5º](https://github.com/) | Searcher |
+
+| File | Description |
+| :----: | :---------: |
+| [1º](link del archivo) | Product Controller |
+| [2º](link del archivo) | |
+| [3º](link del archivo) | Product service |
+| [4º](link del archivo) | |
+| [5º](link del archivo) | |
+
