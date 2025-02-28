@@ -132,7 +132,7 @@ public class UserService {
         return false;
     }
 
-    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword) {
+    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword, String iframe) {
         if(!user.getName().equals(oldUser.getName())){
             if(!validateName(user.getName())) {
                 return Optional.of("Nombre de usuario no válido");
@@ -145,6 +145,10 @@ public class UserService {
                 return Optional.of("Las contraseñas no coinciden");
             }
             oldUser.setEncodedPassword(passwordEncoder.encode(password));
+        }
+
+        if(iframe != null && !iframe.isEmpty()) {
+            oldUser.setIframe(iframe);
         }
 
         userRepository.save(oldUser);

@@ -60,3 +60,9 @@
 .btn-delete:hover {
     opacity: 1;
 }
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 10px;
+}

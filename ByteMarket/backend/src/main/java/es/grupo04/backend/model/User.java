@@ -60,6 +60,8 @@ public class User {
 
     private Integer creationYear;
 
+    private String iframe;
+
 
     public User() {
     }
@@ -174,5 +176,13 @@ public class User {
         allChats.addAll(chatsAsBuyer);
         allChats.addAll(chatsAsSeller);
         return allChats;
+    }
+
+    public String getIframe() {
+        return iframe;
+    }
+
+    public void setIframe(String iframe) {
+        this.iframe = iframe;
     }
 }

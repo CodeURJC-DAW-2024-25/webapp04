@@ -71,9 +71,12 @@ public class ProfileController {
         model.addAttribute("showProfileSection", showProfileSection);
         
         User user = optionalUser.get();
+
+        if (user.getIframe() != null){
+            model.addAttribute("location", user.getIframe());
+        }
         
         model.addAttribute("username", user.getName());
-        model.addAttribute("location", "");
         model.addAttribute("salesNumber", user.getSales().size());
         model.addAttribute("purchasesNumber", user.getPurchases().size());
         model.addAttribute("reviewsNumber", user.getReviews().size());
@@ -112,7 +115,8 @@ public class ProfileController {
     @PostMapping("/editProfile")
     public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user,
         @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass,
-        @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic) throws IOException {
+        @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic, @RequestParam(name = "iframe", required = false) String iframe
+        ) throws IOException {
         
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
@@ -124,7 +128,7 @@ public class ProfileController {
             userService.saveProfilePic(optionalUser.get(), profilePic);
         }
 
-        Optional<String> message = userService.editProfile(user, optionalUser.get(), newPass, repeatPass);
+        Optional<String> message = userService.editProfile(user, optionalUser.get(), newPass, repeatPass, iframe);
         if(message.isPresent()) {
             model.addAttribute("message", message.get());
             return "error";

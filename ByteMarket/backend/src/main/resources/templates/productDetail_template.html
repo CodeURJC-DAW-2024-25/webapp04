@@ -64,23 +64,23 @@
                                 <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
-                        </form>                      
-                                {{^isFavorite}}
-                                    <form action="/product/{{product.id}}/addFavorite" method="post">
-                                        <button type="submit" class="btn btn-custom">
-                                            <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
-                                        </button>
-                                        <input type="hidden" name="_csrf" value="{{token}}"/>
-                                    </form>
-                                {{/isFavorite}}
-                                {{#isFavorite}}
-                                    <form action="/product/{{product.id}}/eliminateFavorite" method="post">
-                                        <button type="submit" class="btn btn-custom">
-                                            <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
-                                        </button>
-                                        <input type="hidden" name="_csrf" value="{{token}}"/>
-                                    </form>
-                                {{/isFavorite}}
+                        </form>
+                        {{^isFavorite}}
+                        <form action="/product/{{product.id}}/addFavorite" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
+                        {{/isFavorite}}
+                        {{#isFavorite}}
+                        <form action="/product/{{product.id}}/eliminateFavorite" method="post">
+                            <button type="submit" class="btn btn-custom">
+                                <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
+                            </button>
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                        </form>
+                        {{/isFavorite}}
                         {{/isOwner}}
                         {{/admin}}
                     </div>
@@ -200,11 +200,16 @@
         {{/reviews}}
     </div>
     <hr>
-    <h3>Ubicación</h3>
-    {{!<iframe src="https://www.google.com/maps/embed?pb={{map_embed_url}}" style="border:0;" allowfullscreen=""
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}}
+    {{#location}}
+    <h5 class="fw-bolder">Ubicación:</h5>
+    <div class="d-flex justify-content-center">
+        <div class="location w-100" th:if="${location}">
+            <div class="map-container mx-auto">
+                {{{location}}}
+            </div>
+        </div>
     </div>
-
+    {{/location}}
 
     {{>footer}}
 </body>

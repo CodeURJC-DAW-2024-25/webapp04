@@ -83,6 +83,11 @@ public class ProductController {
                 isFavorite = userService.isFavorite(userOptional.get(), product);
             }
         }
+
+        if (product.getOwner().getIframe() != null){
+            model.addAttribute("location", product.getOwner().getIframe());
+        }
+        
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
