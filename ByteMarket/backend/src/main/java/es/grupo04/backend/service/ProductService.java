@@ -38,14 +38,17 @@ public class ProductService {
 	@Autowired
 	private PurchaseRepository purchaseRepository;
 
+	@Autowired
+	private EmailService emailService;
+
 	public Optional<Product> findById(long id) {
 		return repository.findById(id);
 	}
 
 	public List<Product> findByOwner(User owner) {
-        return repository.findByOwner(owner);
-    }
-	
+		return repository.findByOwner(owner);
+	}
+
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
@@ -53,55 +56,71 @@ public class ProductService {
 	public List<Product> findAll() {
 		return repository.findAll();
 	}
+
 	// Save a product
 	public Product save(Product product) {
 		return repository.save(product);
 	}
+
 	// Delete a product
 	public void delete(long id) {
 		Optional<Product> productOpt = repository.findById(id);
-        if (productOpt.isPresent()) {
-            Product product = productOpt.get();
-            //Look for users with the product as a favorite
-            List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
-            //Eliminate the product from the favorites of the users
-            for (User user : usersWithFavoriteProduct) {
-                user.getFavoriteProducts().remove(product);	
-                userRepository.save(user);
-            }
-            //Eliminate the product from the owner's products
-            repository.deleteById(id);
-        }
+		if (productOpt.isPresent()) {
+			Product product = productOpt.get();
+			// Look for users with the product as a favorite
+			List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
+			// Send an email to each user
+			String name = product.getName(); 
+			for (User user : usersWithFavoriteProduct) {
+				String subject = name + " se ha ido";
+				String body = "Hola " + user.getName() + ",\n\n"
+						+ "Queríamos informarle que uno de sus productos("+name+") favoritos ya no está disponible.\n"
+						+ "Esperamos que encuentre alternativas de su interés en nuestra página\n\n"
+						+ "Un saludo,\n ByteMarket";
+				emailService.sendEmail(user.getMail(), subject, body);
+			}
+			// Eliminate the product from the favorites of the users
+			for (User user : usersWithFavoriteProduct) {
+				user.getFavoriteProducts().remove(product);
+				userRepository.save(user);
+			}
+			// Eliminate the product from the owner's products
+			repository.deleteById(id);
+		}
 	}
+
 	// Get the last purchases of a users
-    public List<Purchase> getLastPurchases(User user) {
-        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
-                .limit(5)
-                .collect(Collectors.toList());
-    }
+	public List<Purchase> getLastPurchases(User user) {
+		return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
+				.limit(5)
+				.collect(Collectors.toList());
+	}
+
 	// Get the last sales of a user
 	public List<Purchase> getLastSales(User user) {
-        return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
-    }
+		return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
+	}
+
 	// Add images to a product
 	public void addImages(Product product, MultipartFile[] images) throws IOException {
 		ArrayList<Image> imagesToStore = new ArrayList<>();
-        for(MultipartFile image : images) {
-			Blob blob = BlobProxy.generateProxy(image.getInputStream(),image.getSize());
+		for (MultipartFile image : images) {
+			Blob blob = BlobProxy.generateProxy(image.getInputStream(), image.getSize());
 			Image imgToStore = new Image(blob);
 			imagesToStore.add(imgToStore);
 		}
 
 		product.setImages(imagesToStore);
 		product.setThumbnail(imagesToStore.get(0));
-    }
-	// Pagination 
+	}
+
+	// Pagination
 	public List<Product> findPaginated(int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
 		Page<Product> productPage = repository.findAll(pageable);
 		return productPage.getContent();
 	}
-	
+
 	// For navbar of categories
 	public List<Product> findByCategory(String category) {
 		return repository.findByCategory(category);
@@ -110,32 +129,31 @@ public class ProductService {
 	// To search by name
 	public List<Product> searchByName(String searchTerm) {
 		String normalizedSearchTerm = normalizeText(searchTerm);
-		List<Product> products = repository.findAll(); 
+		List<Product> products = repository.findAll();
 		return products.stream()
 				.filter(p -> normalizeText(p.getName()).contains(normalizedSearchTerm))
 				.collect(Collectors.toList());
 	}
-	
+
 	// To be able to search by names with accent ("Cámara")
 	public String normalizeText(String text) {
-    String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
-    Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    return pattern.matcher(normalized).replaceAll("").toLowerCase();
-}
+		String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
+		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+		return pattern.matcher(normalized).replaceAll("").toLowerCase();
+	}
 
-    public int calculateRating(User owner) {
-        List<Review> reviews = owner.getReviews();
-		if(reviews==null || reviews.isEmpty()) {
+	public int calculateRating(User owner) {
+		List<Review> reviews = owner.getReviews();
+		if (reviews == null || reviews.isEmpty()) {
 			return 0;
 		}
 
 		int total = 0;
-		for(Review review : reviews) {
+		for (Review review : reviews) {
 			review.getRating();
 			total += review.getRating();
 		}
 
 		return total / reviews.size();
-    }
+	}
 }
-
