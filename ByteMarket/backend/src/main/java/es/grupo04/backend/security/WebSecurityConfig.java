@@ -47,9 +47,9 @@ public class WebSecurityConfig {
 					.requestMatchers("/error").permitAll()
 					.requestMatchers("/product/image/**").permitAll()
 					// PRIVATE PAGES
-					.requestMatchers("/profile").hasAnyRole("USER")
+					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
-					.requestMatchers("/editProfile").hasAnyRole("USER")
+					.requestMatchers("/editProfile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/editProduct/**").hasAnyRole("USER")
 					.requestMatchers("delete/**").hasAnyRole("USER","ADMIN")
 			)

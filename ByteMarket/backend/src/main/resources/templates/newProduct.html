@@ -11,17 +11,19 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/homeStyle.css">
     <link rel="stylesheet" href="/css/headerStyle.css">
+    <link rel="stylesheet" href="/css/formStyle.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <title>ByteMarket</title>
 </head>
 {{>header}}
 
+<body>
 <div class="container">
     <h2>Añadir un nuevo producto</h2>
     <form class="form" method="POST" action="/newProduct" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Nombre del Producto</label>
-            <input type="text" class="form-control" id="name" name="name" required> <!-- Cambié 'productName' a 'name' -->
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Descripción</label>
@@ -36,10 +38,11 @@
                 <label for="category" class="form-label">Categoría</label>
                 <select class="form-select" id="category" name="category" required>
                     <option value="">Seleccione una categoría</option>
-                    <option value="Electrónica">Electrónica</option>
-                    <option value="Móvil">Móvil</option>
-                    <option value="Ordenador">Ordenador</option>
-                    <option value="Videojuegos">Videojuegos</option>
+                    <option value="Móviles">Móviles</option>
+                    <option value="Ordenadores">Ordenadores</option>
+                    <option value="Tablets">Tablets</option>
+                    <option value="Auriculares">Auriculares</option>
+                    <option value="SmartWatches">SmartWatches</option>
                     <option value="Otros">Otros</option>
                 </select>
             </div>
@@ -69,3 +72,5 @@
 </div>
 
 {{>footer}}
+</body>
+</html>

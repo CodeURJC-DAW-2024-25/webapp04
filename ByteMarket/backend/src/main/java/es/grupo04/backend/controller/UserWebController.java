@@ -39,7 +39,6 @@ public class UserWebController {
 
    @GetMapping("/login")
    public String login() {
-      System.out.println("Página de login");
       return "login_template";
    }
 
