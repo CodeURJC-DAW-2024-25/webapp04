@@ -47,7 +47,7 @@ public class ChatController {
         if (principal != null) {
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", principal.getName());
+            model.addAttribute("userName", userservice.findByMail(principal.getName()).get().getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
 
         } else {
@@ -57,7 +57,7 @@ public class ChatController {
 
     @GetMapping("/chat")
     public String HomeChat(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userservice.findByName(userDetails.getUsername()).orElse(null);   
+        User user = userservice.findByMail(userDetails.getUsername()).orElse(null);   
         model.addAttribute("chats", user.getAllChats());
         model.addAttribute("title", "Chats");      
         return "chat_template";
@@ -67,13 +67,13 @@ public class ChatController {
     public String newChat(@PathVariable Long productId, @AuthenticationPrincipal UserDetails userDetails, Model model, RedirectAttributes redirectAttributes) {
         Product product = productservice.findById(productId).orElse(null);        
         User seller = product.getOwner();
-        User buyer = userservice.findByName(userDetails.getUsername()).orElse(null);   
-        Chat existingChat = chatservice.findChat(buyer, seller, productId);
+        User user = userservice.findByMail(userDetails.getUsername()).orElse(null);   
+        Chat existingChat = chatservice.findChat(user, seller, productId);
 
         if (existingChat != null) {
             return "redirect:/chat/" + existingChat.getId();
         } else {
-            existingChat = chatservice.createChat(buyer, seller, productId);
+            existingChat = chatservice.createChat(user, seller, productId);
             return "redirect:/chat/" + existingChat.getId();
         } 
     }
@@ -82,7 +82,7 @@ public class ChatController {
     @GetMapping("/chat/{chatId}")
     public String privateChat(@PathVariable Long chatId, @AuthenticationPrincipal UserDetails userDetails, Model model) {  
 
-        User user = userservice.findByName(userDetails.getUsername()).orElse(null);
+        User user = userservice.findByMail(userDetails.getUsername()).orElse(null); 
         Chat existingChat = chatservice.findChatById(chatId).orElse(null);
         Product product = existingChat.getProduct(); 
 
