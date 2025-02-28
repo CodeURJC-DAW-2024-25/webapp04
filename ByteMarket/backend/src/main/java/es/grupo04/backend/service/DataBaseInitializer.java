@@ -48,10 +48,12 @@ public class DataBaseInitializer {
     public void init() throws IOException, URISyntaxException, SerialException, SQLException {
         // Create users
         User user1 = new User("Alice", passwordEncoder.encode("1234"), "a@example.com","USER");
-        User user2 = new User("Bob", passwordEncoder.encode("securePass456"), "bob@example.com","ADMIN","USER");
+        User user2 = new User("Bob", passwordEncoder.encode("securePass456"), "bob@example.com","USER");
+        User user3 = new User("Jim", passwordEncoder.encode("Password1234"), "jim@example.com","ADMIN");
 
         userRepository.save(user1);
         userRepository.save(user2);
+        userRepository.save(user3);
 
 
         // Read the image file from the static/images directory
@@ -63,9 +65,11 @@ public class DataBaseInitializer {
         Blob imageBlob = new SerialBlob(imageData);
         Image image = new Image(imageBlob); 
         Image image2 = new Image(imageBlob);
+        Image image3 = new Image(imageBlob);
         ArrayList<Image> images = new ArrayList<>();
         images.add(image);
         images.add(image2); //tienen que ser distintas
+        images.add(image3);
         
 
         /*ImageRepository.save(image);
