@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 
@@ -33,9 +34,12 @@ public class HomeController {
 
         if (principal != null) {
 
+            User user = userService.findByMail(principal.getName()).get();
+
             model.addAttribute("logged", true);
-            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
+            model.addAttribute("userName", user.getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            model.addAttribute("user", user);
 
         } else {
             model.addAttribute("logged", false);

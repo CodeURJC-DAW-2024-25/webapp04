@@ -1,22 +1,30 @@
 package es.grupo04.backend.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -36,9 +44,12 @@ public class ProfileController {
 
         if (principal != null) {
 
+            User user = userService.findByMail(principal.getName()).get();
+
             model.addAttribute("logged", true);
-            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
+            model.addAttribute("userName", user.getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            model.addAttribute("user", user);
 
         } else {
             model.addAttribute("logged", false);
@@ -100,12 +111,17 @@ public class ProfileController {
 
     @PostMapping("/editProfile")
     public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user,
-        @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass) {
+        @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass,
+        @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic) throws IOException {
         
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
             return "error";
+        }
+
+        if(!profilePic.isEmpty()){
+            userService.saveProfilePic(optionalUser.get(), profilePic);
         }
 
         Optional<String> message = userService.editProfile(user, optionalUser.get(), newPass, repeatPass);
@@ -116,5 +132,20 @@ public class ProfileController {
 
         return "redirect:/profile";
         
+    }
+
+    @GetMapping("/user/image/{id}")
+    public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
+        Optional<User> userOptional = userService.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Blob image = userOptional.get().getImageFile();
+        Resource file = new InputStreamResource(image.getBinaryStream());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .contentLength(image.length()).body(file);
+
     }
 }

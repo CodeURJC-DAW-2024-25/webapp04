@@ -20,23 +20,25 @@
 <div class="container py-5">
     <div class="profile-container text-center">
         <h2 class="mb-4">Editar Perfil</h2>
-
-        <div class="profile-pic-wrapper">
-            <label for="profilePicInput">
-                {{#image}}
-                <img class="profile-pic mb-3" src="/user/{{id}}/image" alt="pfp">
-                {{/image}}
-                {{^image}}
-                <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
-                {{/image}}
-                <span class="edit-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
-                </span>
-            </label>
-        </div>
-        <input type="file" id="profilePicInput" class="file-input" accept="image/*">
+        
 
         <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
+
+            <div class="profile-pic-wrapper">
+                <label for="profilePicInput">
+                    {{#user.image}}
+                    <img class="profile-pic mb-3" src="/user/image/{{user.id}}" id="pfp-preview" alt="pfp">
+                    {{/user.image}}
+                    {{^user.image}}
+                    <img class="profile-pic mb-3" src="/images/default_pfp.jpg" id="pfp-preview" alt="pfp">
+                    {{/user.image}}
+                    <span class="edit-icon">
+                        <i class="bi bi-upload"></i>
+                    </span>
+                </label>
+                <input type="file" id="profilePicInput" class="file-input" name="profilePicInput" accept="image/jpeg, image/png, image/jpg">
+            </div>
+            
             <div class="mb-3 text-start">
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-control" value="{{user.name}}" title="Usuario" name="name">
@@ -67,6 +69,16 @@
 </div>
 
 {{>footer}}
+
+<script>
+    document.getElementById('profilePicInput').addEventListener('change', function(event) {
+        const [file] = event.target.files;
+        if (file) {
+            const profilePicPreview = document.getElementById('pfp-preview');
+            profilePicPreview.src = URL.createObjectURL(file);
+        }
+    });
+</script>
 
 
 </body>
