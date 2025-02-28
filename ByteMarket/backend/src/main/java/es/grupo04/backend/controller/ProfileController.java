@@ -148,4 +148,18 @@ public class ProfileController {
                 .contentLength(image.length()).body(file);
 
     }
+
+    @PostMapping("/deleteAccount")
+    public String deleteAccount(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("message", "Usuario no encontrado");
+            return "error";
+        }
+
+        userService.delete(optionalUser.get());
+        return "/logout";
+    }
+
 }

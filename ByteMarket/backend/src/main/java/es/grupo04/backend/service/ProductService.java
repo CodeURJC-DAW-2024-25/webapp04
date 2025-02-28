@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
+import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.PurchaseRepository;
@@ -121,5 +122,20 @@ public class ProductService {
     Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
     return pattern.matcher(normalized).replaceAll("").toLowerCase();
 }
+
+    public int calculateRating(User owner) {
+        List<Review> reviews = owner.getReviews();
+		if(reviews==null || reviews.isEmpty()) {
+			return 0;
+		}
+
+		int total = 0;
+		for(Review review : reviews) {
+			review.getRating();
+			total += review.getRating();
+		}
+
+		return total / reviews.size();
+    }
 }
 

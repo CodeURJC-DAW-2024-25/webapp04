@@ -90,20 +90,24 @@
         <hr>
         <h3>Información del vendedor</h3>
         <div class="d-flex align-items-center">
-            <img src="#" class="rounded-circle me-3 user-img" alt="Vendedor">
+            {{#product.owner.image}}
+            <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
+            {{/product.owner.image}}
+            {{^product.owner.image}}
+            <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
+            {{/product.owner.image}}
+
+            
             <div>
                 <h5 class="mb-0">{{product.owner.name}}</h5>
-                <p class="text-muted">Miembro desde {{product.owner.creationYear}}</p>
-                <span class="text-warning">
-                    {{#product.owner}}
-                    {{#rating}}<i class="bi bi-star-fill"></i>{{/rating}}
-                    {{#half_star}}<i class="bi bi-star-half"></i>{{/half_star}}
-                    {{#empty_star}}<i class="bi bi-star"></i>{{/empty_star}}
-                    {{/product.owner}}
-                </span>
-                <span class="text-muted">({{product.owner}}/{{product.owner}}
-                    <!-- MEDIA / TOTAL -->
-                    valoraciones)</span>
+                <p class="text-muted">Miembro desde {{product.owner.creationYear}}<br>{{location}}Madrid,España</p>
+                <p></p>
+                <div>
+                    <inf>Ventas: {{salesNumber}}<br></inf>
+                    <inf>Compras: {{purchasesNumber}}<br></inf>
+                    <inf>Reseñas: {{reviewsNumber}}<br></inf>
+                    <inf>Valoración: {{rating}}/5 <i class="bi bi-star-fill" style="color: orange;"></i><br></inf>
+                </div>
             </div>
         </div>
     </div>

@@ -62,7 +62,11 @@
                 <input type="password" class="form-control" title="Contraseña" name="repeatPass">
             </div>
             <button type="submit" class="btn btn-custom w-100 mb-2">Guardar Cambios</button>
-            <a href="#" class="btn btn-custom w-100">Eliminar cuenta</a>
+            
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+        </form>
+        <form class="form" method="POST" action="/deleteAccount">
+            <button type="submit" class="btn btn-custom w-100 mb-2">Eliminar Cuenta</button>
             <input type="hidden" name="_csrf" value="{{token}}"/>
         </form>
     </div>

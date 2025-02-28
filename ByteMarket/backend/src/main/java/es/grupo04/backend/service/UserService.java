@@ -192,4 +192,27 @@ public class UserService {
 		user.setImageFile(blob);
         user.setImage(true);
     }
+
+    public void delete(User user) {
+
+        // Remove user from purchases
+        if (user.getPurchases() != null) {
+            user.getPurchases().forEach(purchase -> purchase.setBuyer(null));
+            user.setPurchases(null);
+        }
+
+        // Remove user from sales
+        if (user.getSales() != null) {
+            user.getSales().forEach(sale -> sale.setSeller(null));
+            user.setSales(null);
+        }
+
+        // Remove user from reviews
+        if (user.getReviews() != null) {
+            user.getReviews().forEach(review -> review.setUser(null));
+            user.setReviews(null);
+        }
+
+        userRepository.delete(user);
+    }
 }
