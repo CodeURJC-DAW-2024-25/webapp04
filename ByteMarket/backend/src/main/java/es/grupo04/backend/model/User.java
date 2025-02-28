@@ -1,7 +1,9 @@
 package es.grupo04.backend.model;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.time.Year;
 
 import jakarta.persistence.CascadeType;
@@ -46,11 +48,11 @@ public class User {
     @ManyToMany
     private List<Product> favoriteProducts;
 
-    @OneToMany(mappedBy = "userBuyer")
-    private List<Chat> chatsPurchase;
+    @OneToMany(mappedBy = "userBuyer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> chatsAsBuyer = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userSeller")
-    private List<Chat> chatsSales;
+    @OneToMany(mappedBy = "userSeller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Chat> chatsAsSeller = new ArrayList<>();
 
     private Integer creationYear;
 
@@ -151,5 +153,22 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public void addChatAsBuyer(Chat chat) {
+        if (!this.chatsAsBuyer.contains(chat)) {
+            this.chatsAsBuyer.add(chat);
+        }
+    }
+
+    public List<Chat> getChatsAsSeller() {
+        return chatsAsSeller;
+    }
+
+    public List<Chat> getAllChats() {
+        List<Chat> allChats = new ArrayList<>();
+        allChats.addAll(chatsAsBuyer);
+        allChats.addAll(chatsAsSeller);
+        return allChats;
     }
 }
