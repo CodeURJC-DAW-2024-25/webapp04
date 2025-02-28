@@ -49,9 +49,12 @@ public class ProductController {
 
         if (principal != null) {
 
+            User user = userService.findByMail(principal.getName()).get();
+
             model.addAttribute("logged", true);
-            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
+            model.addAttribute("userName", user.getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            model.addAttribute("user", user);
 
         } else {
             model.addAttribute("logged", false);
@@ -169,12 +172,10 @@ public class ProductController {
     @PostMapping("/newProduct")
     public String createProduct(@ModelAttribute Product product, @RequestParam("imageUpload") MultipartFile[] images,
             Model model, HttpServletRequest request) throws IOException {
-        // 'User' is the system
+
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
             String username = principal.getName();
-            // Obtain the related object 'User', the one that has logged in
-            // con un servicio de usuarios
             Optional<User> user = userService.findByMail(username);
 
             if (user.isPresent()) {
@@ -202,6 +203,7 @@ public class ProductController {
     
     List<Product> products;
 
+    //TODO esto va en una funcion de servicio que devuelva la lista que toque
     if (search != null && !search.isEmpty()) {
         products = productService.searchByName(search);
     } else if (category != null && !category.isEmpty()) {

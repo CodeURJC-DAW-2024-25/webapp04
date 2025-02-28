@@ -28,13 +28,16 @@ public class UserWebController {
 
         if (principal != null) {
 
-            model.addAttribute("logged", true);
-            model.addAttribute("userName", userService.findByMail(principal.getName()).get().getName());    
-            model.addAttribute("admin", request.isUserInRole("ADMIN"));
+         User user = userService.findByMail(principal.getName()).get();
 
-        } else {
-            model.addAttribute("logged", false);
-        }
+         model.addAttribute("logged", true);
+         model.addAttribute("userName", user.getName());    
+         model.addAttribute("admin", request.isUserInRole("ADMIN"));
+         model.addAttribute("user", user);
+
+     } else {
+         model.addAttribute("logged", false);
+     }
     }
 
    @GetMapping("/login")

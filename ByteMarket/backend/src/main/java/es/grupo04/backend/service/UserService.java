@@ -1,12 +1,17 @@
 package es.grupo04.backend.service;
 
+
+import java.io.IOException;
+import java.sql.Blob;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
@@ -15,7 +20,7 @@ import es.grupo04.backend.repository.UserRepository;
 @Service
 public class UserService {
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private ProductService productService;
@@ -24,7 +29,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
     public User saveUser(User user) {
@@ -34,19 +39,23 @@ public class UserService {
         }
         String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
         user.setEncodedPassword(encodedPassword);
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
     public Optional<User> findByMail(String mail) {
-        return repository.findByMail(mail);
+        return userRepository.findByMail(mail);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> findByName(String name) {
-        return repository.findByName(name);
+        return userRepository.findByName(name);
     }
 
     public boolean createAccount(User user) {
-        if (repository.findByMail(user.getMail()).isPresent()) {
+        if (userRepository.findByMail(user.getMail()).isPresent()) {
             return true; // Si tiene una cuenta devolvemos true
         } else {
             saveUser(user);
@@ -88,7 +97,7 @@ public class UserService {
             if (!favoriteProducts.contains(product)) {
                 favoriteProducts.add(product);
                 user.setFavoriteProducts(favoriteProducts);
-                repository.save(user);
+                userRepository.save(user);
                 System.out.println("Producto añadido a favoritos: " + product.getName());
                 return true;
             } else{
@@ -112,7 +121,7 @@ public class UserService {
             if (favoriteProducts.contains(product)) {
                 favoriteProducts.remove(product);
                 user.setFavoriteProducts(favoriteProducts);
-                repository.save(user);
+                userRepository.save(user);
                 System.out.println("Producto eliminado de favoritos: " + product.getName());
                 return true;
             } else {
@@ -138,7 +147,7 @@ public class UserService {
             oldUser.setEncodedPassword(passwordEncoder.encode(password));
         }
 
-        repository.save(oldUser);
+        userRepository.save(oldUser);
         return Optional.empty();
     
     }
@@ -174,5 +183,13 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public void saveProfilePic(User user, MultipartFile profilePic) throws IOException {
+
+        Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(),profilePic.getSize());
+
+		user.setImageFile(blob);
+        user.setImage(true);
     }
 }
