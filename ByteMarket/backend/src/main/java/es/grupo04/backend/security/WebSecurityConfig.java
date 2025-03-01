@@ -50,14 +50,14 @@ public class WebSecurityConfig {
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
-					.requestMatchers("/editProfile").hasAnyRole("USER")
+					.requestMatchers("/editProfile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/chat/**").hasAnyRole("USER")
 					.requestMatchers("/chat").hasAnyRole("USER")
-					.requestMatchers("/editProfile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/editProduct/**").hasAnyRole("USER")
 					.requestMatchers("delete/**").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/deleteAccount").hasAnyRole("USER")
-					.requestMatchers("/chat/sell/**")
+					.requestMatchers("/chat/sell/**").hasRole("USER")
+					.requestMatchers("/reports").hasAnyRole("ADMIN")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")

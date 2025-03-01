@@ -11,6 +11,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,9 +27,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Report;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.ReportService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -41,6 +46,9 @@ public class ProductController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReportService reportService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -147,6 +155,41 @@ public class ProductController {
         return "error";
     }
 
+    // New Report
+    @PostMapping("/product/{id}/newReport")
+    public String addReport(@PathVariable Long id, @RequestParam("reason") String reason, @RequestParam("description") String description, HttpServletRequest request, Model model) {
+        Principal principal = request.getUserPrincipal();
+
+        if (principal != null) {
+            Optional<User> userOptional = userService.findByMail(principal.getName());
+            Optional<Product> productOptional = productService.findById(id);
+
+            if (userOptional.isPresent() && productOptional.isPresent()) {
+                Report report = new Report();
+                report.setUser(userOptional.get());
+                report.setProduct(productOptional.get());
+                report.setReason(reason);
+                report.setDescription(description);
+
+                reportService.saveReport(report); 
+
+                return "redirect:/product/" + id;
+            }
+        }
+
+        model.addAttribute("message", "No se pudo enviar el reporte");
+        return "error";
+    }
+
+    // Show the reports
+    @GetMapping("/reports")
+    public String getReports(Model model) {
+        List<Report> reports = reportService.getAllReports();
+        model.addAttribute("reports", reports);
+        model.addAttribute("title", "Reportes");
+        return "reports";
+    }
+
     @GetMapping("/product/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<Image> imageOptional = imageService.findById(id);
@@ -209,29 +252,31 @@ public class ProductController {
     public String getProducts(
         @RequestParam(name = "category", required = false) String category,
         @RequestParam(name = "search", required = false) String search,
+        @RequestParam(value = "page", defaultValue = "0") int page,
         Model model) {
-    
-    List<Product> products;
 
-    //TODO esto va en una funcion de servicio que devuelva la lista que toque
-    if (search != null && !search.isEmpty()) {
-        products = productService.searchByName(search);
-    } else if (category != null && !category.isEmpty()) {
-        products = productService.findByCategory(category);
-    } else {
-        products = productService.findAll();
-    }
+        int pageSize = 8;
+        Page<Product> productPage;
 
-    if (products.isEmpty()) {
-        model.addAttribute("message", "No se encontraron productos.");
-        return "error"; 
-    }
+        if (search != null && !search.isEmpty()) {
+            productPage = productService.searchByName(search, page, pageSize);
+        } else if (category != null && !category.isEmpty()) {
+            productPage = productService.findByCategory(category, page, pageSize);
+        } else {
+            productPage = productService.findPaginatedCategory(page, pageSize);
+        }
 
-    model.addAttribute("products", products);
-    return "productByCategory"; 
-    }
+        if (productPage.isEmpty()) {
+            model.addAttribute("message", "No se encontraron productos.");
+            return "error";
+        }
 
-    
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+
+        return "productByCategory";
+}
 
 
 }

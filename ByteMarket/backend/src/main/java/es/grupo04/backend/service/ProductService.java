@@ -121,26 +121,43 @@ public class ProductService {
 		return productPage.getContent();
 	}
 
-	// For navbar of categories
-	public List<Product> findByCategory(String category) {
-		return repository.findByCategory(category);
+	// Pagination in categories and search
+	public Page<Product> findPaginatedCategory(int page, int pageSize) {
+		Pageable pageable = PageRequest.of(page, pageSize);
+		return repository.findAll(pageable);
 	}
+	
+
+	// For navbar of categories
+	public Page<Product> findByCategory(String category, int page, int pageSize) {
+		Pageable pageable = PageRequest.of(page, pageSize);
+		return repository.findByCategory(category, pageable);
+	}	
+	
 
 	// To search by name
-	public List<Product> searchByName(String searchTerm) {
+	public Page<Product> searchByName(String searchTerm, int page, int pageSize) {
 		String normalizedSearchTerm = normalizeText(searchTerm);
-		List<Product> products = repository.findAll();
-		return products.stream()
-				.filter(p -> normalizeText(p.getName()).contains(normalizedSearchTerm))
-				.collect(Collectors.toList());
+		Pageable pageable = PageRequest.of(page, pageSize);
+		return repository.findByNameContainingIgnoreCase(normalizedSearchTerm, pageable);
 	}
+	
 
 	// To be able to search by names with accent ("Cámara")
-	public String normalizeText(String text) {
-		String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
-		Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-		return pattern.matcher(normalized).replaceAll("").toLowerCase();
-	}
+	public static String normalizeText(String input) {
+        if (input == null) {
+            return null;
+        }
+        
+        String normalized = input.toLowerCase();
+
+        normalized = Normalizer.normalize(normalized, Normalizer.Form.NFD);
+        normalized = normalized.replaceAll("\\p{M}", ""); 
+
+        normalized = normalized.trim().replaceAll("\\s+", " ");
+
+        return normalized;
+    }
 
 	public int calculateRating(User owner) {
 		List<Review> reviews = owner.getReviews();
@@ -156,4 +173,5 @@ public class ProductService {
 
 		return total / reviews.size();
 	}
+
 }
