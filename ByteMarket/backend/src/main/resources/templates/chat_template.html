@@ -55,8 +55,9 @@
                                     <i class="text-decoration-none">{{product.name}}</i>
                                 </button>
                             </form>
-                            <form action="/chat/sell/{{id}}" method="POST" class="d-inline-block ms-2">
+                            <form action="/chat/sellScreen/{{id}}" method="POST" class="d-inline-block ms-2">
                                 <button type="submit" class="btn btn-custom">Vender</button>
+                                <input type="hidden" name="_csrf" value="{{token}}"/>
                             </form>
                         </li>
                         {{/selling}}

@@ -20,9 +20,14 @@ public class ChatService {
     @Autowired
     private ProductRepository productRepository;
 
+
     public Chat createChat(User buyer, User seller, Long productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
+            Chat existingChat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
+            if (existingChat != null) {
+                return existingChat; 
+            }
             Chat chat = new Chat(buyer, seller, product);
             return chatRepository.save(chat);
         }

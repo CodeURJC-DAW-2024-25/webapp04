@@ -37,13 +37,13 @@
                     <div class="d-grid gap-2">
                         {{#isOwner}}
                         <form action="/edit/{{product.id}}" method="post">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-heart-fill m-2" style="color: white;"></i>Editar Producto
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
                         </form>
                         <form action="/delete/{{product.id}}" method="post">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
@@ -51,7 +51,7 @@
                         {{/isOwner}}
                         {{#admin}}
                         <form action="/delete/{{product.id}}" method="post">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
@@ -60,14 +60,14 @@
                         {{^admin}}
                         {{^isOwner}}
                         <form action="/chat/new/{{product.id}}" method="POST">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
                         </form>
                         {{^isFavorite}}
                         <form action="/product/{{product.id}}/addFavorite" method="post">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />
@@ -75,7 +75,7 @@
                         {{/isFavorite}}
                         {{#isFavorite}}
                         <form action="/product/{{product.id}}/eliminateFavorite" method="post">
-                            <button type="submit" class="btn btn-custom">
+                            <button type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
                             </button>
                             <input type="hidden" name="_csrf" value="{{token}}" />

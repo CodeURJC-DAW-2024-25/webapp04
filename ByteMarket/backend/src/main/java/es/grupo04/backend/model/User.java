@@ -188,4 +188,12 @@ public class User {
     public List<Chat> getChatsAsBuyer() {
         return chatsAsBuyer;
     }
+
+    public void addPurchase(Purchase purchase) {
+        this.purchases.add( purchase);
+    }
+
+    public void addSale(Purchase purchase) {
+        this.sales.add(purchase);
+    }
 }

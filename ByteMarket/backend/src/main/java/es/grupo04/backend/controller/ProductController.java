@@ -130,7 +130,6 @@ public class ProductController {
     // Handle favorite action. add = true -> add to favorites, add = false -> remove
     // from favorites
     private String handleFavoriteAction(Long id, HttpServletRequest request, Model model, boolean add) {
-        System.out.println(add ? "Añadiendo a favoritos" : "Eliminando de favoritos");
         Principal principal = request.getUserPrincipal();
         // Check if the user is logged in
         if (principal != null) {
@@ -145,8 +144,7 @@ public class ProductController {
                 } else {
                     userService.removeFromFavorite(id, userOptional.get());
                 }
-                return "redirect:/product/" + id; // PROVISIONAL: devuelve un token por el redirect --> No es de nuestro
-                                                  // formulario
+                return "redirect:/product/" + id; 
             }
         } else {
             return "redirect:/login";
@@ -159,7 +157,6 @@ public class ProductController {
     @PostMapping("/product/{id}/newReport")
     public String addReport(@PathVariable Long id, @RequestParam("reason") String reason, @RequestParam("description") String description, HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
-
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
             Optional<Product> productOptional = productService.findById(id);

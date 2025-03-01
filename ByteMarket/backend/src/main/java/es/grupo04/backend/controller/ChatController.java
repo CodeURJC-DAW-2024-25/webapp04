@@ -1,6 +1,8 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +20,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Message;
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ChatService;
 import es.grupo04.backend.service.MessageService;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ChatController {
@@ -43,6 +48,9 @@ public class ChatController {
 
     @Autowired
     private MessageService messageservice;
+
+    @Autowired
+    private PurchaseService purchaseservice;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -62,7 +70,7 @@ public class ChatController {
             model.addAttribute("logged", false);
         }
     }
-    
+
     @GetMapping("/chat")
     public String HomeChat(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User user = userservice.findByMail(userDetails.getUsername()).orElse(null);
@@ -73,6 +81,7 @@ public class ChatController {
             checkedChats.add(chat);
         }
         model.addAttribute("chats", checkedChats);
+        model.addAttribute("isSeller", user.getChatsAsSeller().containsAll(chats));
         model.addAttribute("title", "Chats");
         return "chat_template";
     }
@@ -116,6 +125,7 @@ public class ChatController {
         model.addAttribute("title", "Chats");
         model.addAttribute("current_chat_name", product.getName());
         model.addAttribute("messages", existingChat != null ? existingChat.getMessages() : null);
+        model.addAttribute("isSeller", user.getChatsAsSeller().contains(existingChat));
 
         return "chat_template";
     }
@@ -135,6 +145,59 @@ public class ChatController {
 
         return "redirect:/chat/" + chatId;
     }
-    
+
+    //Sell a product
+    @PostMapping("/chat/sellScreen/{chatId}")
+    public String confirmSell(@PathVariable Long chatId, Model model,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        Chat chat = chatservice.findChatById(chatId).orElse(null);
+        if (chat == null) {
+            return "redirect:/chat";
+        }
+
+        //Get the logged user an verify its the seller
+        User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        if (seller == null || !chat.getProduct().getOwner().equals(seller)) {
+            return "redirect:/chat";
+        }
+
+        model.addAttribute("chat", chat);
+        model.addAttribute("product", chat.getProduct());
+        model.addAttribute("buyer", chat.getUserBuyer());
+        model.addAttribute("title", "Confirmar venta");
+        return "sell_template";
+    }
+
+    // New Purchase
+    @PostMapping("/chat/sell/{chatId}")
+    public String sellProduct(@PathVariable Long chatId, Model model,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        Chat chat = chatservice.findChatById(chatId).orElse(null);
+        if (chat == null) {
+            model.addAttribute("message", "El chat no existe o no tienes acceso a este chat.");
+            return "error"; 
+        }
+
+        //Check if the product was sold
+        if (chat.getProduct().isSold()) {
+            model.addAttribute("message", "El producto ya no está disponible");
+            return "error"; 
+        }
+
+        //Get the seller and verify its the owner
+        User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        if (seller == null || !chat.getProduct().getOwner().equals(seller)) {
+            model.addAttribute("message", "Solo el propietario del producto puede venderlo");
+            return "error"; 
+        }
+
+        //Create Purchase
+        Purchase purchase = purchaseservice.createPurchase(chat);
+        if (purchase == null) {
+            model.addAttribute("message", "No se ha podido realizar la venta del producto");
+            return "error"; 
+        }
+        return "redirect:/";
+    }
 
 }

@@ -10,7 +10,7 @@ import es.grupo04.backend.model.User;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
-
+        
     List<Purchase> findByBuyerOrderByPurchaseDateDesc(User buyer);
 
     List<Purchase> findBySellerOrderByPurchaseDateDesc(User seller);

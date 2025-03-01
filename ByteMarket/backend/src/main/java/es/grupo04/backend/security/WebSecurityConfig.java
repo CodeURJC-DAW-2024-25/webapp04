@@ -56,6 +56,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/editProduct/**").hasAnyRole("USER")
 					.requestMatchers("delete/**").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/deleteAccount").hasAnyRole("USER")
+					.requestMatchers("/chat/sellScreen/**").hasAnyRole("USER")
 					.requestMatchers("/chat/sell/**").hasRole("USER")
 					.requestMatchers("/reports").hasAnyRole("ADMIN")
 					.requestMatchers("/stats/get").hasAnyRole("USER")

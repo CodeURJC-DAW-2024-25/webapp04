@@ -82,23 +82,15 @@ public class DataBaseInitializer {
             new Product("Laptop", "Laptop potente para desarrollo", 1200, "Ordenadores"),
             new Product("Smartphone", "Teléfono con gran autonomía", 800, "Móviles"),
             new Product("Monitor", "Monitor 4K UHD para edición de video", 600, "Otros"),
-            new Product("Teclado Mecánico", "Teclado mecánico con switches rojos para gaming", 100, "Otros"),
-            new Product("Aspiradora para torre", "Aspria todo el polvo dentro de tu torre", 100, "Otros"),
-            new Product("Alfombrilla para ratón", "Alfombrilla con RGB cuadrada", 40, "Otros")
+            new Product("Teclado Mecánico", "Teclado mecánico con switches rojos para gaming", 100, "Otros")
         );
 
         List<Product> productsUser2 = List.of(
-            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "Otros"),
+            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "otros"),
             new Product("Tablet", "Tablet de alta gama para diseño gráfico", 900, "Tablets"),
             new Product("Impresora 3D", "Impresora 3D de precisión para prototipado", 450, "Otros"),
             new Product("Silla ergonómica", "Silla de oficina cómoda y ajustable", 250, "Otros"),
-            new Product("SmartWatch Xiaomi", "SmartWatch que calcula tus pasos", 450, "SmartWatches"),
-            new Product("Ratón RGB", "Ratón con 12000 clicks", 90, "Otros"),
-            new Product("Cable USB", "Cable USB para móvil", 15, "Otros"),
-            new Product("Altavoz Sony", "Altavoz vintage con potencia sonora", 200, "Otros"),
-            new Product("Cámara de seguridad", "Cámara de vigilancia WiFi", 150, "Otros"),
-            new Product("Cámara Nikon", "Cámara de alta resolucion", 150, "Otros"),
-            new Product("Mochila para portátil", "Mochila resistente para laptops", 50, "Otros")
+            new Product("Reloj inteligente", "Smartwatch con múltiples funciones de salud", 200, "SmartWatches")
         );
 
 
