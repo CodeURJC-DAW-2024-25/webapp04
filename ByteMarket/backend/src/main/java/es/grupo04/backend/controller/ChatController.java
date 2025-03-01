@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.model.Chat;
+import es.grupo04.backend.model.Message;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ChatService;
+import es.grupo04.backend.service.MessageService;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 
@@ -38,6 +40,9 @@ public class ChatController {
     @Autowired
     private UserService userservice;
 
+    @Autowired
+    private MessageService messageservice;
+
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -46,9 +51,12 @@ public class ChatController {
 
         if (principal != null) {
 
+            User user = userservice.findByMail(principal.getName()).get();
+
             model.addAttribute("logged", true);
-            model.addAttribute("userName", userservice.findByMail(principal.getName()).get().getName());    
+            model.addAttribute("userName", user.getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
+            model.addAttribute("user", user);
 
         } else {
             model.addAttribute("logged", false);
@@ -90,11 +98,28 @@ public class ChatController {
         model.addAttribute("current_chat_name", product.getName());
         model.addAttribute("messages", existingChat != null ? existingChat.getMessages() : null);
         model.addAttribute("chats", user.getAllChats());
+        model.addAttribute("messages", existingChat.getMessages());
         model.addAttribute("title", "Chats");
         model.addAttribute("current_chat_name", product.getName());
         model.addAttribute("messages", existingChat != null ? existingChat.getMessages() : null);
 
         return "chat_template"; 
+    }
+
+    @PostMapping("/chat/{chatId}/send")
+    public String sendMessage(@PathVariable Long chatId, 
+                            @RequestParam String message, 
+                            @AuthenticationPrincipal UserDetails userDetails) {  
+
+        User sender = userservice.findByMail(userDetails.getUsername()).orElse(null);  
+        Chat chat = chatservice.findChatById(chatId).orElse(null);
+
+        if (sender != null && chat != null) {
+            Message newMessage = new Message(message, sender, chat);
+            messageservice.save(newMessage);
+        }
+
+        return "redirect:/chat/" + chatId;
     }
 
 }

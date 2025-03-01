@@ -91,7 +91,6 @@ public class ProductController {
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
-        model.addAttribute("location", "");
         model.addAttribute("salesNumber", productOptional.get().getOwner().getSales().size());
         model.addAttribute("purchasesNumber", productOptional.get().getOwner().getPurchases().size());
         model.addAttribute("reviewsNumber", productOptional.get().getOwner().getReviews().size());

@@ -1,6 +1,7 @@
 package es.grupo04.backend.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.*;
 
@@ -22,8 +23,7 @@ public class Message {
     @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
 
-    @Column(columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime sentAt = LocalDateTime.now();
+    private String sentAt;
 
     public Message() {
     }
@@ -32,7 +32,7 @@ public class Message {
         this.message = message;
         this.sender = sender;
         this.chat = chat;
-        this.sentAt = LocalDateTime.now();
+        this.sentAt = formatDate(LocalDateTime.now());
     }
 
     public Long getId() {
@@ -67,11 +67,8 @@ public class Message {
         this.sender = sender;
     }
 
-    public LocalDateTime getSentAt() {
-        return sentAt;
-    }
-
-    public void setSentAt(LocalDateTime sentAt) {
-        this.sentAt = sentAt;
+    private String formatDate(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
+        return dateTime.format(formatter);
     }
 }
