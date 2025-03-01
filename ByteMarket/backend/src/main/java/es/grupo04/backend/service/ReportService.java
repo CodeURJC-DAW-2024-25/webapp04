@@ -1,0 +1,22 @@
+package es.grupo04.backend.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import es.grupo04.backend.model.Report;
+import es.grupo04.backend.repository.ReportRepository;
+import java.util.List;
+
+@Service
+public class ReportService {
+
+    @Autowired
+    private ReportRepository reportRepository;
+
+    public List<Report> getAllReports() {
+        return reportRepository.findAll();
+    }
+
+    public Report saveReport(Report report) {
+        return reportRepository.save(report);
+    }
+}

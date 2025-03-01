@@ -48,6 +48,9 @@ public class Product {
 	@ManyToMany (mappedBy = "favoriteProducts")	//Tiene que llamarse igual
 	private List<User> favoriteOfUsers;
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<Report> reports;
+
 	public Product() {
     }
 
@@ -172,5 +175,13 @@ public class Product {
 
 	public void setFavoriteOfUsers(List<User> favoriteOfUsers) {
 		this.favoriteOfUsers = favoriteOfUsers;
+	}
+
+	public List<Report> getReports() {
+		return reports;
+	}
+	
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
 	}
 }

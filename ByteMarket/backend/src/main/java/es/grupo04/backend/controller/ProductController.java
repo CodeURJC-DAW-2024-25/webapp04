@@ -24,9 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Report;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.ReportService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -41,6 +43,9 @@ public class ProductController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReportService reportService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -147,6 +152,41 @@ public class ProductController {
         return "error";
     }
 
+    // New Report
+    @PostMapping("/product/{id}/newReport")
+    public String addReport(@PathVariable Long id, @RequestParam("reason") String reason, @RequestParam("description") String description, HttpServletRequest request, Model model) {
+        Principal principal = request.getUserPrincipal();
+
+        if (principal != null) {
+            Optional<User> userOptional = userService.findByMail(principal.getName());
+            Optional<Product> productOptional = productService.findById(id);
+
+            if (userOptional.isPresent() && productOptional.isPresent()) {
+                Report report = new Report();
+                report.setUser(userOptional.get());
+                report.setProduct(productOptional.get());
+                report.setReason(reason);
+                report.setDescription(description);
+
+                reportService.saveReport(report); 
+
+                return "redirect:/product/" + id;
+            }
+        }
+
+        model.addAttribute("message", "No se pudo enviar el reporte");
+        return "error";
+    }
+
+    // Show the reports
+    @GetMapping("/reports")
+    public String getReports(Model model) {
+        List<Report> reports = reportService.getAllReports();
+        model.addAttribute("reports", reports);
+        model.addAttribute("title", "Reportes");
+        return "reports";
+    }
+
     @GetMapping("/product/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<Image> imageOptional = imageService.findById(id);
@@ -229,9 +269,6 @@ public class ProductController {
 
     model.addAttribute("products", products);
     return "productByCategory"; 
-    }
-
-    
-
+    }  
 
 }
