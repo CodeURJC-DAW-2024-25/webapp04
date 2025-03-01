@@ -24,19 +24,45 @@
 
     <div class="container mt-4">
         <div class="row">
-            <div class="col-md-4 border-end" style="height: 80vh; overflow-y: auto;">
-                <h5 class="p-3 border-bottom">Chat</h5>
-                <ul class="list-group">
-                    {{#chats}}
-                    <li class="list-group-item d-flex align-items-center">
-                        <form action="/chat/{{id}}" method="GET">
-                            <button type="submit" class="btn text-decoration-none">
-                                <i class="text-decoration-none"></i>{{product.name}}
-                            </button>
-                        </form>
-                    </li>
-                    {{/chats}}
-                </ul>
+            <div class="col-md-4 border-end" style="height: 80vh;">
+                <h5 class="p-3 border-bottom">Chats de Compra</h5>
+                <div style="height: 25vh; overflow-y: auto;">
+                    <ul class="list-group">
+                        {{#chats}}
+                        {{^selling}}
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <form action="/chat/{{id}}" method="GET" class="w-100">
+                                <button type="submit" class="btn w-100 text-decoration-none">
+                                    <i class="bi-person-fill me-1">{{userSeller.name}} -</i>
+                                    <i class="text-decoration-none"></i>{{product.name}}
+                                </button>
+                            </form>
+                        </li>
+                        {{/selling}}
+                        {{/chats}}
+                    </ul>
+                </div>
+
+                <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
+                <div style="height: 25vh; overflow-y: auto;">
+                    <ul class="list-group">
+                        {{#chats}}
+                        {{#selling}}
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                            <form action="/chat/{{id}}" method="GET" class="w-100">
+                                <button type="submit" class="btn w-100 text-decoration-none">
+                                    <i class="bi-person-fill me-1">{{userBuyer.name}} -</i>
+                                    <i class="text-decoration-none">{{product.name}}</i>
+                                </button>
+                            </form>
+                            <form action="/chat/sell/{{id}}" method="POST" class="d-inline-block ms-2">
+                                <button type="submit" class="btn btn-custom">Vender</button>
+                            </form>
+                        </li>
+                        {{/selling}}
+                        {{/chats}}
+                    </ul>
+                </div>
             </div>
 
             {{#current_chat}}
@@ -50,8 +76,8 @@
                     <div class="d-flex mb-4 justify-content-start align-items-center">
                         <div class="p-3 rounded shadow-sm d-flex align-items-center w-100">
                             {{#sender.image}}
-                            <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}" id="pfp-preview"
-                                alt="pfp" width="60" height="60">
+                            <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}"
+                                id="pfp-preview" alt="pfp" width="60" height="60">
                             {{/sender.image}}
                             {{^sender.image}}
                             <img class="profile-pic mb-3 rounded-circle" src="/images/default_pfp.jpg" id="pfp-preview"
