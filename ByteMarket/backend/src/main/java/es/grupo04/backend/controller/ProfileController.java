@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -179,9 +178,9 @@ public class ProfileController {
             return null;
         }
 
-        //List<ChartData> data = userService.getStats(optionalUser.get());
+        List<ChartData> data = userService.getStats(optionalUser.get());
 
-        /* TODO: Datos de prueba para ver como funciona la grafica, quitar luego*/
+        /* TODO: Datos de prueba para ver como funciona la grafica, quitar luego
         List<ChartData> data = new ArrayList<>();
         data.add(new ChartData(1, "purchase", 3));
         data.add(new ChartData(2, "purchase", 5));
@@ -199,7 +198,7 @@ public class ProfileController {
         data.add(new ChartData(5, "sale", 3));
         data.add(new ChartData(6, "sale", 5));
         data.add(new ChartData(7, "sale", 5));
-        data.add(new ChartData(8, "sale", 5));
+        data.add(new ChartData(8, "sale", 5));*/
 
         return ResponseEntity.ok(data);
     }
