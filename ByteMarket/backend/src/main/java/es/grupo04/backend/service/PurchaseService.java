@@ -22,6 +22,9 @@ public class PurchaseService {
     private UserRepository userRepository;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
@@ -48,6 +51,7 @@ public class PurchaseService {
         }
         //Update the product state
         product.setSold(true);
+        productService.sold(product, buyer);
         productRepository.saveAndFlush(product);
         //Purchase Creation
         Purchase purchase = new Purchase();

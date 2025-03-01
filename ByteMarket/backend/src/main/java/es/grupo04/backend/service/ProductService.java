@@ -69,15 +69,18 @@ public class ProductService {
 			Product product = productOpt.get();
 			// Look for users with the product as a favorite
 			List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
-			// Send an email to each user
-			String name = product.getName(); 
+			// Send an email
+			String name = product.getName();
 			for (User user : usersWithFavoriteProduct) {
+
 				String subject = name + " se ha ido";
 				String body = "Hola " + user.getName() + ",\n\n"
-						+ "Queríamos informarle que uno de sus productos("+name+") favoritos ya no está disponible.\n"
+						+ "Queríamos informarle que uno de sus productos (" + name
+						+ ") favoritos ya no está disponible.\n"
 						+ "Esperamos que encuentre alternativas de su interés en nuestra página\n\n"
 						+ "Un saludo,\n ByteMarket";
 				emailService.sendEmail(user.getMail(), subject, body);
+
 			}
 			// Eliminate the product from the favorites of the users
 			for (User user : usersWithFavoriteProduct) {
@@ -89,6 +92,30 @@ public class ProductService {
 		}
 	}
 
+	// Sold a favorite product
+	public void sold(Product product, User buyer) {
+		// Look for users with the product as a favorite
+		List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
+		// Send an email
+		String name = product.getName();
+		for (User user : usersWithFavoriteProduct) {
+			if (!user.equals(buyer)) {
+				String subject = name + " ha sido vendido";
+				String body = "Hola " + user.getName() + ",\n\n"
+						+ "Queríamos informarle que uno de sus productos (" + name
+						+ ") favoritos ha sido vendido.\n"
+						+ "Esperamos que encuentre alternativas de su interés en nuestra página\n\n"
+						+ "Un saludo,\n ByteMarket";
+				emailService.sendEmail(user.getMail(), subject, body);
+			}
+
+		}
+		// Eliminate the product from the favorites of the users
+		for (User user : usersWithFavoriteProduct) {
+			user.getFavoriteProducts().remove(product);
+			userRepository.save(user);
+		}
+	}
 
 	// Get the last purchases of a users
 	public List<Product> getLastPurchases(User user) {
@@ -131,14 +158,12 @@ public class ProductService {
 		Pageable pageable = PageRequest.of(page, pageSize);
 		return repository.findAll(pageable);
 	}
-	
 
 	// For navbar of categories
 	public Page<Product> findByCategory(String category, int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
 		return repository.findByCategory(category, pageable);
-	}	
-	
+	}
 
 	// To search by name
 	public Page<Product> searchByName(String searchTerm, int page, int pageSize) {
@@ -146,23 +171,22 @@ public class ProductService {
 		Pageable pageable = PageRequest.of(page, pageSize);
 		return repository.findByNameContainingIgnoreCase(normalizedSearchTerm, pageable);
 	}
-	
 
 	// To be able to search by names with accent ("Cámara")
 	public static String normalizeText(String input) {
-        if (input == null) {
-            return null;
-        }
-        
-        String normalized = input.toLowerCase();
+		if (input == null) {
+			return null;
+		}
 
-        normalized = Normalizer.normalize(normalized, Normalizer.Form.NFD);
-        normalized = normalized.replaceAll("\\p{M}", ""); 
+		String normalized = input.toLowerCase();
 
-        normalized = normalized.trim().replaceAll("\\s+", " ");
+		normalized = Normalizer.normalize(normalized, Normalizer.Form.NFD);
+		normalized = normalized.replaceAll("\\p{M}", "");
 
-        return normalized;
-    }
+		normalized = normalized.trim().replaceAll("\\s+", " ");
+
+		return normalized;
+	}
 
 	public int calculateRating(User owner) {
 		List<Review> reviews = owner.getReviews();
