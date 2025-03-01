@@ -170,11 +170,6 @@ public class ProfileController {
         return "/logout";
     }
 
-    @GetMapping("/getStats")
-    public String getStats() {
-        return "graphics";
-    }
-
     @GetMapping("/stats/get")
     public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         
