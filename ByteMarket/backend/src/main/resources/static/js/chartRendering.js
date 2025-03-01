@@ -1,26 +1,31 @@
-async function cargarGrafico() {
+async function loadChart() {
     const response = await fetch(`/stats/get`);
-    const datos = await response.json();
+    const data = await response.json();
 
-    const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
-    const compras = new Array(12).fill(0);
-    const ventas = new Array(12).fill(0);
+    console.log(data);
 
-    datos.forEach(d => {
-        if (d.tipo === "purchase") {
-            compras[d.mes - 1] = d.cantidad;
-        } else if (d.tipo === "sale") {
-            ventas[d.mes - 1] = d.cantidad;
+    const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    const purchases = new Array(12).fill(0);
+    const sales = new Array(12).fill(0);
+
+    data.forEach(d => {
+        if (d.type === "purchase") {
+            purchases[d.month - 1] = d.quantity;
+        } else if (d.type === "sale") {
+            sales[d.month - 1] = d.quantity;
         }
     });
+
+    console.log(purchases);
+    console.log(sales);
 
     const ctx = document.getElementById("graficoTransacciones").getContext("2d");
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: meses,
+            labels: months,
             datasets: [
-                { label: "Compras", data: compras,
+                { label: "Compras", data: purchases,
                 borderColor: "blue",           // Line color
                 pointBackgroundColor: "rgba(150, 150, 255, 1)",
                 pointHoverRadius: 7,           // Point size on hover
@@ -31,7 +36,7 @@ async function cargarGrafico() {
                 pointRadius: 5,                 // Point size
                 tension: 0.1                  // Line curvature
                  },
-                { label: "Ventas", data: ventas,
+                { label: "Ventas", data: sales,
                     borderColor: "green",
                     pointBackgroundColor: "rgba(150, 255, 150, 1)",
                     pointHoverRadius: 7,
@@ -50,4 +55,4 @@ async function cargarGrafico() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', cargarGrafico);
+document.addEventListener('DOMContentLoaded', loadChart);
