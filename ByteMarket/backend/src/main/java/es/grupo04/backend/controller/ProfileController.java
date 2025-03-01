@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
+import es.grupo04.backend.service.ChartData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -87,9 +90,11 @@ public class ProfileController {
         } else if ("historyPurchase".equals(filter)) {
             model.addAttribute("show_products", productService.getLastPurchases(user));
             model.addAttribute("title", "Últimas compras");
+            model.addAttribute("renderStats", true);
         } else if ("historySales".equals(filter)) {
             model.addAttribute("show_products", productService.getLastSales(user));
             model.addAttribute("title", "Últimas ventas");
+            model.addAttribute("renderStats", true);
         } else {
             model.addAttribute("show_products", productService.findByOwner(user));
             model.addAttribute("title", "Mis productos");
@@ -117,7 +122,7 @@ public class ProfileController {
         @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass,
         @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic, @RequestParam(name = "iframe", required = false) String iframe
         ) throws IOException {
-        
+
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
@@ -135,7 +140,6 @@ public class ProfileController {
         }
 
         return "redirect:/profile";
-        
     }
 
     @GetMapping("/user/image/{id}")
@@ -164,6 +168,44 @@ public class ProfileController {
 
         userService.delete(optionalUser.get());
         return "/logout";
+    }
+
+    @GetMapping("/getStats")
+    public String getStats() {
+        return "graphics";
+    }
+
+    @GetMapping("/stats/get")
+    public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("message", "Usuario no encontrado");
+            return null;
+        }
+
+        List<ChartData> data = userService.getStats(optionalUser.get());
+
+        /*List<DatosGrafico> data = new ArrayList<>();
+        data.add(new DatosGrafico(1, "compra", 3));
+        data.add(new DatosGrafico(2, "compra", 5));
+        data.add(new DatosGrafico(3, "compra", 2));
+        data.add(new DatosGrafico(4, "compra", 3));
+        data.add(new DatosGrafico(5, "compra", 5));
+        data.add(new DatosGrafico(6, "compra", 1));
+        data.add(new DatosGrafico(7, "compra", 1));
+        data.add(new DatosGrafico(8, "compra", 7));
+
+        data.add(new DatosGrafico(1, "venta", 2));
+        data.add(new DatosGrafico(2, "venta", 3));
+        data.add(new DatosGrafico(3, "venta", 5));
+        data.add(new DatosGrafico(4, "venta", 1));
+        data.add(new DatosGrafico(5, "venta", 3));
+        data.add(new DatosGrafico(6, "venta", 5));
+        data.add(new DatosGrafico(7, "venta", 5));
+        data.add(new DatosGrafico(8, "venta", 5));*/
+
+        return ResponseEntity.ok(data);
     }
 
 }

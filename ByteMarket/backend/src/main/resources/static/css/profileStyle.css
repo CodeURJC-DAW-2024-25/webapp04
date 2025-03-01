@@ -24,3 +24,9 @@
     width: 100%;
     margin-top: 20px;
 }
+
+.defaultText{
+    height: 200px; 
+    margin-top: 50px; 
+    color: rgb(150, 150, 150);
+}

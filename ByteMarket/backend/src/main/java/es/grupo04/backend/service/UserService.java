@@ -3,6 +3,8 @@ package es.grupo04.backend.service;
 
 import java.io.IOException;
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.UserRepository;
 
@@ -219,4 +222,34 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
+    public List<ChartData> getStats(User user) {
+        List<ChartData> stats = new ArrayList<>();
+        HashMap<Integer, ChartData> purchases = new HashMap<>();
+        HashMap<Integer, ChartData> sales = new HashMap<>();
+
+        for(Purchase purchase : user.getPurchases()) {
+            int month = purchase.getPurchaseDate().getMonthValue();
+            if(purchases.containsKey(month)) {
+                purchases.get(month).addOne();
+            } else {
+                purchases.put(month, new ChartData(month, "purchase", 1));
+            }
+        }
+        stats.addAll(purchases.values());
+
+        for(Purchase sale : user.getSales()) {
+            int month = sale.getPurchaseDate().getMonthValue();
+            if(sales.containsKey(month)) {
+                sales.get(month).addOne();
+            } else {
+                sales.put(month, new ChartData(month, "sale", 1));
+            }
+        }
+        stats.addAll(sales.values());
+
+        return stats;
+    }
+
+
 }

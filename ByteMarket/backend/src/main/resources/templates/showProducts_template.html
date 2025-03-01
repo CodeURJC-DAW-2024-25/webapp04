@@ -1,4 +1,6 @@
 <section>
+    
+
     <div class="container otherProdContainer">
         <div class="">
             <h2 class="fw-bolder mb-3">{{title}}</h2>
@@ -23,6 +25,11 @@
                     </div>
                 </a>
             </div>
+            {{/show_products}}
+            {{^show_products}}
+                <div class="text-center">
+                    <h3 class="py-4 mb-4 defaultText">Todavía no hay productos en esta sección</h3>
+                </div>
             {{/show_products}}
         </div>
     </div>
