@@ -179,27 +179,27 @@ public class ProfileController {
             return null;
         }
 
-        List<ChartData> data = userService.getStats(optionalUser.get());
+        //List<ChartData> data = userService.getStats(optionalUser.get());
 
-        /* TODO: Datos de prueba para ver como funciona la grafica, quitar luego
+        /* TODO: Datos de prueba para ver como funciona la grafica, quitar luego*/
         List<ChartData> data = new ArrayList<>();
-        data.add(new ChartData(1, "compra", 3));
-        data.add(new ChartData(2, "compra", 5));
-        data.add(new ChartData(3, "compra", 2));
-        data.add(new ChartData(4, "compra", 3));
-        data.add(new ChartData(5, "compra", 5));
-        data.add(new ChartData(6, "compra", 1));
-        data.add(new ChartData(7, "compra", 1));
-        data.add(new ChartData(8, "compra", 7));
+        data.add(new ChartData(1, "purchase", 3));
+        data.add(new ChartData(2, "purchase", 5));
+        data.add(new ChartData(3, "purchase", 2));
+        data.add(new ChartData(4, "purchase", 3));
+        data.add(new ChartData(5, "purchase", 5));
+        data.add(new ChartData(6, "purchase", 1));
+        data.add(new ChartData(7, "purchase", 1));
+        data.add(new ChartData(8, "purchase", 7));
 
-        data.add(new ChartData(1, "venta", 2));
-        data.add(new ChartData(2, "venta", 3));
-        data.add(new ChartData(3, "venta", 5));
-        data.add(new ChartData(4, "venta", 1));
-        data.add(new ChartData(5, "venta", 3));
-        data.add(new ChartData(6, "venta", 5));
-        data.add(new ChartData(7, "venta", 5));
-        data.add(new ChartData(8, "venta", 5));*/
+        data.add(new ChartData(1, "sale", 2));
+        data.add(new ChartData(2, "sale", 3));
+        data.add(new ChartData(3, "sale", 5));
+        data.add(new ChartData(4, "sale", 1));
+        data.add(new ChartData(5, "sale", 3));
+        data.add(new ChartData(6, "sale", 5));
+        data.add(new ChartData(7, "sale", 5));
+        data.add(new ChartData(8, "sale", 5));
 
         return ResponseEntity.ok(data);
     }
