@@ -46,12 +46,12 @@
             <div class="col-4 header-profile" height="55">
                 <a href="../profile" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        {{#image}}
-                        <img class="profilePic" src="/user/{{id}}/image" alt="pfp">
-                        {{/image}}
-                        {{^image}}
+                        {{#user.image}}
+                        <img class="profilePic" src="/user/image/{{user.id}}" alt="pfp">
+                        {{/user.image}}
+                        {{^user.image}}
                         <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
-                        {{/image}}
+                        {{/user.image}}
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>
