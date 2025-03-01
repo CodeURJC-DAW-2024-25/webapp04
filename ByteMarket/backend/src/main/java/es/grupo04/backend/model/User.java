@@ -184,4 +184,8 @@ public class User {
     public void setIframe(String iframe) {
         this.iframe = iframe;
     }
+
+    public List<Chat> getChatsAsBuyer() {
+        return chatsAsBuyer;
+    }
 }

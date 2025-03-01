@@ -27,6 +27,8 @@ public class Chat {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    private boolean selling;
+
     public Chat() {
     }
 
@@ -89,5 +91,13 @@ public class Chat {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public void isSelling(User user){
+        if(user.equals(this.userSeller)){
+            this.selling = true;
+        }else{
+            this.selling = false;
+        }
     }
 }
