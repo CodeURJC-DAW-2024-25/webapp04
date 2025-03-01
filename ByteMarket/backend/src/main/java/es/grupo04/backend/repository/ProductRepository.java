@@ -4,6 +4,8 @@ package es.grupo04.backend.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,10 +24,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT u FROM UserTable u JOIN u.favoriteProducts p WHERE p = :product")
     List<User> findUsersByFavoriteProduct(@Param("product") Product product);
 
-    List<Product> findByCategory(String category);
+    Page<Product> findByCategory(String category, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+    @Query("SELECT p FROM Product p WHERE LOWER(FUNCTION('UNACCENT', p.name)) LIKE LOWER(FUNCTION('UNACCENT', CONCAT('%', :searchTerm, '%')))")
     List<Product> searchByName(@Param("searchTerm") String searchTerm);
+
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
 }
 
