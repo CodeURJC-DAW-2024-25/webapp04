@@ -11,6 +11,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -209,27 +212,34 @@ public class ProductController {
     public String getProducts(
         @RequestParam(name = "category", required = false) String category,
         @RequestParam(name = "search", required = false) String search,
+        @RequestParam(value = "page", defaultValue = "0") int page,
         Model model) {
-    
-    List<Product> products;
 
-    //TODO esto va en una funcion de servicio que devuelva la lista que toque
-    if (search != null && !search.isEmpty()) {
-        products = productService.searchByName(search);
-    } else if (category != null && !category.isEmpty()) {
-        products = productService.findByCategory(category);
-    } else {
-        products = productService.findAll();
-    }
+        int pageSize = 8;
+        Page<Product> productPage;
 
-    if (products.isEmpty()) {
-        model.addAttribute("message", "No se encontraron productos.");
-        return "error"; 
-    }
+        if (search != null && !search.isEmpty()) {
+            productPage = productService.searchByName(search, page, pageSize);
+        } else if (category != null && !category.isEmpty()) {
+            productPage = productService.findByCategory(category, page, pageSize);
+        } else {
+            productPage = productService.findPaginatedCategory(page, pageSize);
+        }
 
-    model.addAttribute("products", products);
-    return "productByCategory"; 
-    }
+        if (productPage.isEmpty()) {
+            model.addAttribute("message", "No se encontraron productos.");
+            return "error";
+        }
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+
+        return "productByCategory";
+}
+
+
+
 
     
 
