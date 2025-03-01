@@ -89,16 +89,21 @@ public class ProductService {
 		}
 	}
 
+
 	// Get the last purchases of a users
-	public List<Purchase> getLastPurchases(User user) {
+	public List<Product> getLastPurchases(User user) {
 		return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
 				.limit(5)
+				.map(Purchase::getProduct)
 				.collect(Collectors.toList());
 	}
 
 	// Get the last sales of a user
-	public List<Purchase> getLastSales(User user) {
-		return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user);
+	public List<Product> getLastSales(User user) {
+		return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user).stream()
+				.limit(5)
+				.map(Purchase::getProduct)
+				.collect(Collectors.toList());
 	}
 
 	// Add images to a product
