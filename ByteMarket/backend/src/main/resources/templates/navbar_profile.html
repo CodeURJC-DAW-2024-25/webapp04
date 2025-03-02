@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/profile">Perfil</a>
+        {{#isOwnProfile}}
+            <a class="navbar-brand" href="/profile">Perfil</a>
+        {{/isOwnProfile}}
+        {{^isOwnProfile}}
+            <a class="navbar-brand" href="/profile/{{id}}">Perfil</a>
+        {{/isOwnProfile}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>

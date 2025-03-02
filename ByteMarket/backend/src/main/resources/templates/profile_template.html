@@ -26,8 +26,6 @@
     {{>navbar_profile}}
     {{#showProfileSection}}
 
-   
-
     <section class="py-4">
 
         <div class="container-fluid py-5">
@@ -121,11 +119,9 @@
         {{>reviews}}
     {{/reviewsSection}}
 
-    {{#isOwnProfile}}
-        {{^reviewsSection}}
-            {{>showProducts_template}} 
-        {{/reviewsSection}}  
-    {{/isOwnProfile}}
+    {{^reviewsSection}}
+        {{>showProducts_template}} 
+    {{/reviewsSection}}  
 
     {{/admin}}
 
