@@ -26,7 +26,6 @@
             <div class="col-12">
                 <h2 class="fw-bolder mb-3">Reportes</h2>
                 <div class="list-group">
-                    <!-- Iterar sobre la lista de reportes -->
                     {{#reports}}
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
@@ -37,6 +36,12 @@
                         <a href="/product/{{product.id}}" class="btn btn-custom">
                             <i class="bi bi-info-circle-fill"></i> Detalles
                         </a>
+                    </div>
+                    {{/reports}}
+
+                    {{^reports}}
+                    <div class="text-center">
+                        <h3 class="py-4 mb-4 defaultText">Todavía no hay reportes en esta sección</h3>
                     </div>
                     {{/reports}}
                 </div>

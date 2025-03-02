@@ -40,6 +40,14 @@
                         </li>
                         {{/selling}}
                         {{/chats}}
+
+                        {{^chats}}
+                        {{^selling}}
+                        <div class="text-center">
+                            <h3 class="py-4 mb-4 defaultText">Todavía no hay chats</h3>
+                        </div>
+                        {{/selling}}
+                        {{/chats}}
                     </ul>
                 </div>
 
@@ -57,9 +65,17 @@
                             </form>
                             <form action="/chat/sellScreen/{{id}}" method="POST" class="d-inline-block ms-2">
                                 <button type="submit" class="btn btn-custom">Vender</button>
-                                <input type="hidden" name="_csrf" value="{{token}}"/>
+                                <input type="hidden" name="_csrf" value="{{token}}" />
                             </form>
                         </li>
+                        {{/selling}}
+                        {{/chats}}
+                        
+                        {{^chats}}
+                        {{^selling}}
+                        <div class="text-center">
+                            <h3 class="py-4 mb-4 defaultText">Todavía no hay chats</h3>
+                        </div>
                         {{/selling}}
                         {{/chats}}
                     </ul>
