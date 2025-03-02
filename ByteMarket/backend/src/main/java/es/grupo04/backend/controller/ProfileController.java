@@ -83,6 +83,10 @@ public class ProfileController {
         User user = optionalUser.get();
         model.addAttribute("id", user.getId());
 
+        if (user.getRoles().contains("ADMIN")) {
+            return "adminProfile_template";
+        }
+
         if (user.getIframe() != null){
             model.addAttribute("location", user.getIframe());
         }
@@ -337,6 +341,38 @@ public class ProfileController {
         reviewService.saveReview(review); 
         return "redirect:/product/" + id;
     }
+
+    @PostMapping("/review/{id}/delete")
+    public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        System.out.println("Intentando eliminar review con ID: " + id);  // DEBUG
+
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("message", "Usuario no encontrado");
+            return "error";
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getRoles().contains("ADMIN")) {
+            model.addAttribute("message", "No tienes permisos para eliminar reseñas");
+            return "error";
+        }
+
+        Review review;
+        try {
+            review = reviewService.getReviewById(id);
+        } catch (RuntimeException e) {
+            model.addAttribute("message", "Review no encontrada");
+            return "error";
+        }
+
+        reviewService.delete(id);
+        return "redirect:/profile?filter=reviews";
+    }
+
+
 
 
     @GetMapping("/reviews")
