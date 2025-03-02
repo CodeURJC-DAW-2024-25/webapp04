@@ -72,21 +72,19 @@
 |   Delete users  | | | <p align="center"> ☑️ </p>  |
 
 ## 🖱️ Additional Technologies
-- **Discount email**: users will receive emails when the price of a saved product gets lower.
--  **Verification email**: users will receive an email when they buy or sell products with all the details.
+- **Email**: users will receive emails when their favorite product is sold.
 -  **Google Maps**: users could use this aplication to locate the address of the seller (to see if the transportation management is suits them).
   
 ## 📊 Charts
 - **Personal sell chart**: users will be able to visualize a sell chart of the products they have selled throughout the year.
-- **Top sell products chart**: users will be able to visualize a sales chart of the top-selling products in a certain category.
+- **Personal buy chart**: users will be able to visualize a buy chart of the products they have buyed throughout the year.
 
 ## ⚙️ Advanced algorithms
 - **Recommend by best seller**: This algorithm will choose products of the higher-rated seller first.
-- **Recommend by category**: This algorithm will choose the products to be featured in a registered user's home page based on products the user has searched for or buyed.
+- **Recommend by favorites**: This algorithm will choose the products to be featured in a registered user's home page based on products the user has saved as "favorite" products.
 
 ## 🎯 Images
 -  **User profile**: allow users to upload an image to their profile.
--  **User banner**: allow users to upload a banner to their profile.
 -  **Products photos**: allow users to upload images to their products.
 
 ***
@@ -125,6 +123,10 @@ Admin users can manage the reports from this screen.
 All type of users can see other profiles. But only registered users and admins will be able to see their own profiles. 
 ![*2.6 Profile Screen*](./Capturas/Perfil.PNG)
 
+###  ✏️ Edit profile Screen
+Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
+![*2.9 Edit profile Screen*](./Capturas/Editar%20Usuario.PNG)
+
 ###  ❤️ Favorite products Screen
 The registered user will add products as favorites and they will be shown in their profile. This screen is only shown in the own profile of each registered user (nobody else can see it).
 ![*2.7 Favorite products Screen*](./Capturas/Favoritos.PNG)
@@ -133,9 +135,8 @@ The registered user will add products as favorites and they will be shown in the
 If a registered user wants to sell a product, this screen will be shown. The user should fill the form.
 ![*2.8 Sell product Screen*](./Capturas/Vender.PNG)
 
-###  ✏️ Edit profile Screen
-Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.9 Edit profile Screen*](./Capturas/Editar%20Usuario.PNG)
+###  ✏️ Edit product
+Only the owners of the product can edit it.
 
 ###  🔍 Profile review Screen
 All type of users can see the reviews of other users in their profile.
@@ -213,8 +214,7 @@ All options under "View Profile," such as history, favorites, and account editin
 
 ## 🏠 Clases and templates diagram
 
-## 🌐 ScreenFlow
-
+## 📺 Updated ScreenFlow
 
 ## ⚙️ Members Participation
 
@@ -222,18 +222,70 @@ All options under "View Profile," such as history, favorites, and account editin
 
 | Commit | Description |
 | :----: | :---------: |
+| [1º](https://github.com/) | Recommended products |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/4245f60fddbd6747087313ccbeabc606873b19d7) | Filter by category and searcher with AJAX refreshing integration |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/60225ea378ec72903fb88e5ff9c6304064e41e0f) | Sell product |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d56ae86885e7ba4797e5d020725eefadb347a886) | Both navbars and profile views with user restrictions functional |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
+
+| File | Name |
+| :----: | :---------: |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/repository/ProductRepository.java) | Product Repository |
+
+### 👤 Marcos García García
+
+| Commit | Description |
+| :----: | :---------: |
 | [1º](https://github.com/) | |
-| [2º](https://github.com/) | Recommended products |
-| [3º](https://github.com/) | Sell product |
-| [4º](https://github.com/) | Categories navbar |
-| [5º](https://github.com/) | Searcher |
+| [2º](https://github.com/) | |
+| [3º](https://github.com/) | |
+| [4º](https://github.com/) | |
+| [5º](https://github.com/) | |
 
 | File | Description |
 | :----: | :---------: |
-| [1º](link del archivo) | Product Controller |
+| [1º](link del archivo) | |
 | [2º](link del archivo) | |
-| [3º](link del archivo) | Product service |
+| [3º](link del archivo) | |
 | [4º](link del archivo) | |
 | [5º](link del archivo) | |
 
-### 👤 ...
+### 👤 Naroa Martín Simón
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/) | |
+| [2º](https://github.com/) | |
+| [3º](https://github.com/) | |
+| [4º](https://github.com/) | |
+| [5º](https://github.com/) | |
+
+| File | Description |
+| :----: | :---------: |
+| [1º](link del archivo) | |
+| [2º](link del archivo) | |
+| [3º](link del archivo) | |
+| [4º](link del archivo) | |
+| [5º](link del archivo) | |
+
+### 👤 Adrián Muñoz Serrano
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/) | |
+| [2º](https://github.com/) | |
+| [3º](https://github.com/) | |
+| [4º](https://github.com/) | |
+| [5º](https://github.com/) | |
+
+| File | Description |
+| :----: | :---------: |
+| [1º](link del archivo) | |
+| [2º](link del archivo) | |
+| [3º](link del archivo) | |
+| [4º](link del archivo) | |
+| [5º](link del archivo) | |
