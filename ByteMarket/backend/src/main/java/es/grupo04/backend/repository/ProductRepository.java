@@ -31,6 +31,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
+    @Query("SELECT p, COALESCE(AVG(r.rating), 0) AS avg_rating " +
+           "FROM Product p " +
+           "JOIN Purchase pu ON pu.product = p " +
+           "JOIN UserTable s ON pu.seller = s " +
+           "LEFT JOIN Review r ON r.reviewedUser = s " +
+           "GROUP BY p.id " +
+           "ORDER BY avg_rating DESC")
+    List<Object[]> findTopRatedProducts(Pageable pageable);
+
+
+
 }
 
 

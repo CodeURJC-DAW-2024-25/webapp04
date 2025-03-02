@@ -6,7 +6,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.hibernate.engine.jdbc.BlobProxy;
@@ -205,5 +204,19 @@ public class ProductService {
 
 		return average;
 	}
+
+	public List<Product> findTopRatedProducts(int limit) {
+		Pageable pageable = PageRequest.of(0, limit);
+		List<Object[]> results = repository.findTopRatedProducts(pageable);
+	
+		// Convertir resultados de Object[] a una lista de productos
+		List<Product> topRatedProducts = new ArrayList<>();
+		for (Object[] result : results) {
+			topRatedProducts.add((Product) result[0]);
+		}
+		return topRatedProducts;
+	}
+	
+		
 
 }
