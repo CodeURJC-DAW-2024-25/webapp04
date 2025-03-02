@@ -1,15 +1,29 @@
 $(document).ready(function() {
-    let currentPage = $('#load-more').data('current-page');  // Obtain the value of the currentPage from atribute data
+    let currentPage = $('#load-more').data('current-page');  
 
     $('#load-more').on('click', function() {
-        currentPage++;  // Increments the page for the next charge
+        let $button = $(this);
+        let $spinner = $('#spinner');
+        
+        $spinner.show();  
+        $button.prop('disabled', true); 
+        
+        currentPage++;  
         $.ajax({
-            url: '/?page=' + currentPage,  // Pasar el parámetro de página
+            url: '/?page=' + currentPage,
             method: 'GET',
             success: function(data) {
-                // Obtain new products and add them to container
                 let newProducts = $(data).find('.otherProducts').html();
-                $('#products-list').append(newProducts); // Add products to final
+                
+                if ($.trim(newProducts) === '') {  // If there are no products, hide button
+                    $button.hide();
+                } else {
+                    $('#products-list').append(newProducts);
+                }
+            },
+            complete: function() {
+                $spinner.hide();  
+                $button.prop('disabled', false);  
             }
         });
     });

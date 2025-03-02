@@ -86,7 +86,7 @@ public class DataBaseInitializer {
         );
 
         List<Product> productsUser2 = List.of(
-            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "otros"),
+            new Product("Cámara DSLR", "Cámara profesional para fotografía", 1000, "Otros"),
             new Product("Tablet", "Tablet de alta gama para diseño gráfico", 900, "Tablets"),
             new Product("Impresora 3D", "Impresora 3D de precisión para prototipado", 450, "Otros"),
             new Product("Silla ergonómica", "Silla de oficina cómoda y ajustable", 250, "Otros"),

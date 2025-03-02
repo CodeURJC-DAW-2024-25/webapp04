@@ -93,13 +93,13 @@
         <h3>Información del vendedor</h3>
         <div class="d-flex align-items-center">
             <a href="../profile/{{product.owner.id}}" class="d-flex align-items-center text-decoration-none">
-            {{#product.owner.image}}
-            <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
-            {{/product.owner.image}}
-            {{^product.owner.image}}
-            <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
-            {{/product.owner.image}}
-            <input type="hidden" name="_csrf" value="{{token}}" />
+                {{#product.owner.image}}
+                <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
+                {{/product.owner.image}}
+                {{^product.owner.image}}
+                <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
+                {{/product.owner.image}}
+                <input type="hidden" name="_csrf" value="{{token}}" />
             </a>
 
             <div>
@@ -113,107 +113,127 @@
                 </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="d-flex align-items-center justify-content-between mt-4">
-        <h3>Reportar un Problema</h3>
-        <button class="btn btn-custom" id="btn-report-issue">Añadir Reporte</button>
-        <input type="hidden" name="_csrf" value="{{token}}" />
-    </div>
-    <hr>
-    <div id="report-form-container" class="mt-3 d-none">
-        <div id="report-form">
-            <h4>Detalles del Reporte</h4>
-            <form action="/product/{{product.id}}/newReport" method="POST">
-                <div class="mb-3">
-                    <label for="reason" class="form-label">Seleccionar Problema:</label>
-                    <select class="form-select" id="report-issue" name="reason" required
-                        title="Selecciona el problema que deseas reportar">
-                        <option value="Producto Dañado">Producto Dañado</option>
-                        <option value="Producto Diferente">Producto Diferente</option>
-                        <option value="Faltan Piezas">Faltan Piezas</option>
-                        <option value="Otro">Otro</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Descripción del Problema:</label>
-                    <textarea class="form-control" id="report-description" name="description" rows="3"
-                        placeholder="Describe el problema aquí..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-custom">Enviar Reporte</button>
-                <input type="hidden" name="_csrf" value="{{token}}" />
-            </form>
-        </div>
         <hr>
     </div>
 
-    <script>
-        document.getElementById("btn-report-issue").addEventListener("click", function () {
-            document.getElementById("report-form-container").classList.toggle("d-none");
-        });
-    </script>
-    <hr>
-    <div class="d-flex align-items-center justify-content-between mt-4">
-        <h3>Valoraciones</h3>
-        <button class="btn btn-custom" id="btn-add-review">Añadir Reseña</button>
+    <!--Reports-->
+    <div class="container mt-4">
+        {{#logged}}
+        {{^admin}}
+        {{^isOwner}}
+        <div class="d-flex align-items-center justify-content-between mt-4">
+            <h3>Reportar un Problema</h3>
+            <button class="btn btn-custom" id="btn-report-issue">Añadir Reporte</button>
+            <input type="hidden" name="_csrf" value="{{token}}" />
+        </div>
+        <hr>
+        <div id="report-form-container" class="mt-3 d-none">
+            <div id="report-form">
+                <h4>Detalles del Reporte</h4>
+                <form action="/product/{{product.id}}/newReport" method="POST">
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Seleccionar Problema:</label>
+                        <select class="form-select" id="report-issue" name="reason" required
+                            title="Selecciona el problema que deseas reportar">
+                            <option value="Producto Dañado">Producto Dañado</option>
+                            <option value="Producto Diferente">Producto Diferente</option>
+                            <option value="Faltan Piezas">Faltan Piezas</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción del Problema:</label>
+                        <textarea class="form-control" id="report-description" name="description" rows="3"
+                            placeholder="Describe el problema aquí..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom">Enviar Reporte</button>
+                    <input type="hidden" name="_csrf" value="{{token}}" />
+                </form>
+            </div>
+            <hr>
+        </div>
+
+        <script>
+            document.getElementById("btn-report-issue").addEventListener("click", function () {
+                document.getElementById("report-form-container").classList.toggle("d-none");
+            });
+        </script>
+        <hr>
     </div>
-    <div id="review-form-container" class="mt-3 d-none">
-        <div id="review-form">
-            <h4>Escribe tu reseña</h4>
-            <form action="/product/{{product.id}}/newReview" method="POST">
-                <div class="mb-3">
-                    <label for="rating" class="form-label">Calificación:</label>
-                    <select class="form-select" id="rating" name="rating" required
-                        title="Selecciona una calificación para el producto">
-                        <option value="5">★★★★★ - 5/5</option>
-                        <option value="4">★★★★☆ - 4/5</option>
-                        <option value="3">★★★☆☆ - 3/5</option>
-                        <option value="2">★★☆☆☆ - 2/5</option>
-                        <option value="1">★☆☆☆☆ - 1/5</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"
-                        placeholder="Escribe tu reseña aquí..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-custom">Enviar Reseña</button>
-                <input type="hidden" name="_csrf" value="{{token}}" />
-            </form>
+
+    <!--Add Review-->
+    <div class="container mt-4">
+        <div class="d-flex align-items-center justify-content-between mt-4">
+            <h3>Valoraciones</h3>
+            <button class="btn btn-custom" id="btn-add-review">Añadir Reseña</button>
+        </div>
+        <div id="review-form-container" class="mt-3 d-none">
+            <div id="review-form">
+                <h4>Escribe tu reseña</h4>
+                <form action="/product/{{product.id}}/newReview" method="POST">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Calificación:</label>
+                        <select class="form-select" id="rating" name="rating" required
+                            title="Selecciona una calificación para el producto">
+                            <option value="5">★★★★★ - 5/5</option>
+                            <option value="4">★★★★☆ - 4/5</option>
+                            <option value="3">★★★☆☆ - 3/5</option>
+                            <option value="2">★★☆☆☆ - 2/5</option>
+                            <option value="1">★☆☆☆☆ - 1/5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción:</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"
+                            placeholder="Escribe tu reseña aquí..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom">Enviar Reseña</button>
+                    <input type="hidden" name="_csrf" value="{{token}}" />
+                </form>
+            </div>
+            <hr>
         </div>
         <hr>
     </div>
-    <hr>
     <script>
         document.getElementById("btn-add-review").addEventListener("click", function () {
             document.getElementById("review-form-container").classList.toggle("d-none");
         });
     </script>
+    {{/isOwner}}
+    {{/admin}}
+    {{/logged}}
+
+    <!--Review-->
     {{#reviewsSection}}
-    <h3>Valoraciones</h3>
-    <div class="scrolling-wrapper">
-        {{#reviewStars}}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{owner}}</h5>
-                <p class="card-text">{{description}}</p>
-                <p>
-                    <span class="text-warning">
-                        {{#stars}}
-                        <i class="bi bi-star-fill"></i> <!-- Estrella llena -->
-                        {{/stars}}
-                        {{#emptyStars}}
-                        <i class="bi bi-star"></i> <!-- Estrella vacía -->
-                        {{/emptyStars}}
-                    </span>
-                    - {{rating}}/5
-                </p>
+    <div class="container mt-4">
+        <h3>Valoraciones</h3>
+        <div class="scrolling-wrapper">
+            {{#reviewStars}}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{owner}}</h5>
+                    <p class="card-text">{{description}}</p>
+                    <p>
+                        <span class="text-warning">
+                            {{#stars}}
+                            <i class="bi bi-star-fill"></i> <!-- Filled star -->
+                            {{/stars}}
+                            {{#emptyStars}}
+                            <i class="bi bi-star"></i> <!-- Empty star -->
+                            {{/emptyStars}}
+                        </span>
+                        - {{rating}}/5
+                    </p>
+                </div>
             </div>
+            {{/reviewStars}}
         </div>
-        {{/reviewStars}}
+        <hr>
     </div>
     {{/reviewsSection}}
-    <hr>
+    
+    <!--Location-->
     {{#location}}
     <h5 class="fw-bolder">Ubicación:</h5>
     <div class="d-flex justify-content-center">

@@ -65,12 +65,11 @@
 |   Message seller  | | <p align="center"> ☑️ </p>  | |
 |   Modify profile information  | | <p align="center"> ☑️ </p>  | |
 |   Modify product details  | | <p align="center"> ☑️ </p>  | |
-|   Delete published product  | | <p align="center"> ☑️ </p>  | |
-|   View graphics  | | <p align="center"> ☑️ </p>  | <p align="center"> ☑️ </p>  |
+|   Delete own product  | | <p align="center"> ☑️ </p>  | |
+|   View graphics  | | <p align="center"> ☑️ </p>  |  |
 |   Delete products (from other users)  | | | <p align="center"> ☑️ </p>  |
 |   Delete reviews (from other users)  | | | <p align="center"> ☑️ </p>  |
-|   Block users  | | | <p align="center"> ☑️ </p>  |
-|   Create/Modify tags  | | | <p align="center"> ☑️ </p>  |
+|   Delete users  | | | <p align="center"> ☑️ </p>  |
 
 ## 🖱️ Additional Technologies
 - **Discount email**: users will receive emails when the price of a saved product gets lower.
@@ -224,7 +223,7 @@ All options under "View Profile," such as history, favorites, and account editin
 | Commit | Description |
 | :----: | :---------: |
 | [1º](https://github.com/) | |
-| [2º](https://github.com/) | |
+| [2º](https://github.com/) | Recommended products |
 | [3º](https://github.com/) | Sell product |
 | [4º](https://github.com/) | Categories navbar |
 | [5º](https://github.com/) | Searcher |
@@ -237,3 +236,4 @@ All options under "View Profile," such as history, favorites, and account editin
 | [4º](link del archivo) | |
 | [5º](link del archivo) | |
 
+### 👤 ...

@@ -10,18 +10,28 @@ $(document).ready(function() {
             return;
         }
 
+        let $button = $(this);
+        let $spinner = $('#spinner');
+
+        $spinner.show();  
+        $button.prop('disabled', true);  
+        
         currentPage++;
 
         $.ajax({
             url: `/products?page=${currentPage}&category=${category}&search=${search}`,
             method: 'GET',
             success: function(data) {
-                let newProducts = $(data).find('.otherProducts').html(); // Extraer productos del HTML
+                let newProducts = $(data).find('.otherProducts').html(); 
                 if (newProducts.trim() === '') {
-                    $('#load-more').hide(); // Ocultar botón si no hay más productos
+                    $('#load-more').hide(); // Hide button if no more products
                 } else {
                     $('#products-list').append(newProducts);
                 }
+            },
+            complete: function() {
+                $spinner.hide();  
+                $button.prop('disabled', false);  
             }
         });
     });
