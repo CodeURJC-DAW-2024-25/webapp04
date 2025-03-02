@@ -23,9 +23,9 @@
 <body>
     {{>header}}
 
-    {{#showProfileSection}}
-
     {{>navbar_profile}}
+
+    {{#showProfileSection}}
 
     <section class="py-4">
 
@@ -120,9 +120,11 @@
         {{>reviews}}
     {{/reviewsSection}}
 
-    {{^reviewsSection}}
-        {{>showProducts_template}} 
-    {{/reviewsSection}}  
+    {{#isOwnProfile}}
+        {{^reviewsSection}}
+            {{>showProducts_template}} 
+        {{/reviewsSection}}  
+    {{/isOwnProfile}}
 
     {{/admin}}
 

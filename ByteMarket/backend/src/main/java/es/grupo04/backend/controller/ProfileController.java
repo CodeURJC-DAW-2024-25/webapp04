@@ -10,6 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,23 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletRequest;
 import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.Report;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
+import es.grupo04.backend.service.ChartData;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
-import es.grupo04.backend.service.ChartData;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
@@ -182,18 +180,44 @@ public class ProfileController {
         model.addAttribute("purchasesNumber", profileUser.getPurchases().size());
         model.addAttribute("reviewsNumber", profileUser.getReviews().size());
 
-        if ("favorites".equals(filter)) {
-            model.addAttribute("show_products", profileUser.getFavoriteProducts());
-            model.addAttribute("title", "Favoritos");
-        } else if ("historyPurchase".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastPurchases(profileUser));
-            model.addAttribute("title", "Últimas compras");
-            model.addAttribute("renderStats", true);
-        } else if ("historySales".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastSales(profileUser));
-            model.addAttribute("title", "Últimas ventas");
-            model.addAttribute("renderStats", true);
-        } else {
+        if ("reviews".equals(filter)) {
+            List<Review> reviews = profileUser.getReviews();
+            model.addAttribute("reviewsSection", true);
+
+            if (reviews == null || reviews.isEmpty()) {
+                model.addAttribute("reviews", false);
+            } else {
+                model.addAttribute("reviews", true);
+            }
+
+            List<Map<String, Object>> reviewStars = new ArrayList<>();
+
+            for (Review review : reviews) {
+                int rating = review.getRating();
+                List<Boolean> stars = new ArrayList<>();
+                List<Boolean> emptyStars = new ArrayList<>();
+
+                for (int i = 0; i < rating; i++) {
+                    stars.add(true);
+                }
+
+                for (int i = rating; i < 5; i++) {
+                    emptyStars.add(false);
+                }
+
+                Map<String, Object> reviewStarData = new HashMap<>();
+                reviewStarData.put("rating", rating);
+                reviewStarData.put("stars", stars);
+                reviewStarData.put("emptyStars", emptyStars);
+                reviewStarData.put("owner", review.getreviewOwner().getName());
+                reviewStarData.put("description", review.getDescription());
+                reviewStars.add(reviewStarData);
+            }
+
+            model.addAttribute("reviewStars", reviewStars);
+            model.addAttribute("title", "Reseñas");
+        }
+         else {
             model.addAttribute("show_products", productService.findByOwner(profileUser));
             model.addAttribute("title", "Productos");
         }
