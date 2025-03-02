@@ -1,30 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        {{#isOwnProfile}} <!-- Visible only for own users -->
-        <a class="navbar-brand" href="/profile">Perfil</a>
+        {{#isOwnProfile}}
+            <a class="navbar-brand" href="/profile">Perfil</a>
+        {{/isOwnProfile}}
+        {{^isOwnProfile}}
+            <a class="navbar-brand" href="/profile/{{id}}">Perfil</a>
+        {{/isOwnProfile}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                {{#isOwnProfile}} <!-- Visible only for own users -->
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=favorites" id="favoritesLink">Favoritos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=reviews" id="reviewsLink">Reseñas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=historyPurchase" id="historyPurchaseLink">Últimas compras</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile?filter=historySales" id="historySalesLink">Últimas ventas</a></li>                
+                <li class="nav-item"><a class="nav-link" href="/profile?filter=historySales" id="historySalesLink">Últimas ventas</a></li>
+                {{/isOwnProfile}}
+                {{^isOwnProfile}} <!-- Visible for everybody -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/{{id}}?filter=reviews" id="reviewsLink">Reseñas</a>
+                    </li>
+                {{/isOwnProfile}}
             </ul>            
         </div>
-        {{/isOwnProfile}}
-
-        {{^isOwnProfile}} <!-- Visible for everybody -->
-        <a class="navbar-brand" href="/profile/{{id}}">Perfil</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="/profile/{{id}}?filter=reviews" id="reviewsLink">Reseñas</a></li>
-            </ul>            
-        </div>
-        {{/isOwnProfile}}
     </div>
 </nav>

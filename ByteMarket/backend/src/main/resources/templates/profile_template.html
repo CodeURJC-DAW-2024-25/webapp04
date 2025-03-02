@@ -24,7 +24,6 @@
     {{>header}}
 
     {{>navbar_profile}}
-    {{#showProfileSection}}
 
     {{#showProfileSection}}
 
@@ -32,7 +31,7 @@
 
         <div class="container-fluid py-5">
             <div class="profile-container text-center col-5">
-                <h2 class="mb-4">{{username}}</h2>                
+                <h2 class="mb-4">{{username}}</h2>
                 <div class="profile-pic-wrapper">
                     {{^isOwnProfile}}
                     <a class="d-inline-block position-relative">
@@ -110,7 +109,7 @@
     <div class="container-fluid py-5">
         <div class="profile-container">
             <div>
-                <h5 class="fw-bolder" >Estadísticas:</h5>
+                <h5 class="fw-bolder">Estadísticas:</h5>
                 <canvas id="graficoTransacciones" width="400" height="200"></canvas>
             </div>
         </div>
@@ -118,14 +117,12 @@
     {{/renderStats}}
 
     {{#reviewsSection}}
-        {{>reviews}}
+    {{>reviews}}
     {{/reviewsSection}}
 
-    {{#isOwnProfile}}
-        {{^reviewsSection}}
-            {{>showProducts_template}} 
-        {{/reviewsSection}}  
-    {{/isOwnProfile}}
+    {{^reviewsSection}}
+    {{>showProducts_template}}
+    {{/reviewsSection}}
 
     {{/admin}}
 
