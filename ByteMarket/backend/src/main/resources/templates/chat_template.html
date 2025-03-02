@@ -43,7 +43,7 @@
 
                         {{^chats}}
                         <div class="text-center">
-                            <h3 class="py-4 mb-4 defaultText">Todavía no hay chats</h3>
+                            <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
                         </div>
                         {{/chats}}
                     </ul>
@@ -71,7 +71,7 @@
                         
                         {{^chats}}
                         <div class="text-center">
-                            <h3 class="py-4 mb-4 defaultText">Todavía no hay chats</h3>
+                            <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
                         </div>
                         {{/chats}}
                     </ul>
@@ -87,7 +87,7 @@
                 <div class="flex-grow-1 p-3 overflow-auto" style="background-color: #f8f9fa;" id="messages-container">
                     {{#messages}}
                     <div class="d-flex mb-4 justify-content-start align-items-center">
-                        <div class="p-3 rounded shadow-sm d-flex align-items-center w-100">
+                        <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
                             {{#sender.image}}
                             <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}"
                                 id="pfp-preview" alt="pfp" width="60" height="60">

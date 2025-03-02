@@ -188,19 +188,22 @@ public class ProductService {
 		return normalized;
 	}
 
-	public int calculateRating(User owner) {
+	public float calculateRating(User owner) {
 		List<Review> reviews = owner.getReviews();
 		if (reviews == null || reviews.isEmpty()) {
 			return 0;
 		}
 
-		int total = 0;
+		float total = 0;
 		for (Review review : reviews) {
 			review.getRating();
 			total += review.getRating();
 		}
 
-		return total / reviews.size();
+		float average = total / reviews.size();
+		average = Math.round(average * 100) / 100f;
+
+		return average;
 	}
 
 }

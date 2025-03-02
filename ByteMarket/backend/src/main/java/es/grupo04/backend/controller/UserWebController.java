@@ -49,8 +49,9 @@ public class UserWebController {
    }
 
    @GetMapping("/loginerror")
-   public String loginerror() {
-      return "loginerror";
+   public String loginerror(Model model) {
+      model.addAttribute("message", "El usuario o la contraseña son incorrectos");
+      return "error";
    }
 
    @GetMapping("/signin")
