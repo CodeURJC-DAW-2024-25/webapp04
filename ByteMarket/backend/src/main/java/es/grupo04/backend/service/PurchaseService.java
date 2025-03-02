@@ -1,6 +1,9 @@
 package es.grupo04.backend.service;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +14,6 @@ import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.PurchaseRepository;
 import es.grupo04.backend.repository.UserRepository;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PurchaseService {
@@ -54,7 +53,7 @@ public class PurchaseService {
         productService.sold(product, buyer);
         productRepository.saveAndFlush(product);
         //Purchase Creation
-        Purchase purchase = new Purchase(product,seller,buyer);        
+        Purchase purchase = new Purchase(product,buyer,seller);        
         purchaseRepository.saveAndFlush(purchase);
         //Users update
         buyer.addPurchase(purchase);
