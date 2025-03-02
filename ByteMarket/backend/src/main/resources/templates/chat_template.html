@@ -88,6 +88,7 @@
                     {{#messages}}
                     <div class="d-flex mb-4 justify-content-start align-items-center">
                         <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
+                            <a href="../profile/{{sender.id}}" class="d-flex align-items-center text-decoration-none">
                             {{#sender.image}}
                             <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}"
                                 id="pfp-preview" alt="pfp" width="60" height="60">
@@ -96,6 +97,7 @@
                             <img class="profile-pic mb-3 rounded-circle" src="/images/default_pfp.jpg" id="pfp-preview"
                                 alt="pfp" width="60" height="60">
                             {{/sender.image}}
+                            </a>
                             <div class="ms-3">
                                 <p class="mb-1">
                                     <strong>{{sender.name}}</strong>

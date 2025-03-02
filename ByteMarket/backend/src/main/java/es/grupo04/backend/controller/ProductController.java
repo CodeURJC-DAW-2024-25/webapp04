@@ -93,7 +93,7 @@ public class ProductController {
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product);
-                hasBought = userService.hasBought(userOptional.get(), product, isOwner);
+                hasBought = userService.hasBought(userOptional.get(), product.getOwner());
             }
         }
 
@@ -227,6 +227,17 @@ public class ProductController {
         model.addAttribute("reports", reports);
         model.addAttribute("title", "Reportes");
         return "reports";
+    }
+
+    @PostMapping("/solve-report/{id}")
+    public String solveReport(@PathVariable Long id, Model model) {
+        Optional<Report> reportOptional = reportService.findById(id);
+        if (reportOptional.isEmpty()) {
+            model.addAttribute("message", "Reporte no encontrado");
+            return "error";
+        }
+        reportService.delete(id);
+        return "redirect:/reports";
     }
 
     @GetMapping("/product/image/{id}")

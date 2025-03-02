@@ -1,4 +1,4 @@
-/*SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+/* CSS SECTION FOR HEADER WITH REGISTERED USER */
 
 .headerContainer{
     margin-right: 0px;
@@ -61,7 +61,7 @@
     font-size: 17px;
 }
 
-/*RESPONSIVE*/
+/* RESPONSIVE */
 @media (max-width: 1250px){   
     .header-logo{
         width: 100%;
@@ -135,10 +135,10 @@
     
 }
 
-/*FIN DE SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+/* END OF CSS SECTION FOR HEADER WITH REGISTERED USER */
 
 .productCard .card-img-top {
     object-fit: cover;
     width: 100%;
-    height: 200px; /* Todos las imágenes tendrán la misma altura */
+    height: 200px; /* All images will have the same height */
 }

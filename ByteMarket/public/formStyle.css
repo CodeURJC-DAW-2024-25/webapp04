@@ -11,7 +11,7 @@
     background-color: #777;
     font-weight: bold;
     border-radius: 0.8em;
-    z-index: 1; /*Para que un elemento no se superponga con otro junto*/
+    z-index: 1; /* To prevent one element from overlapping another */
 }
 /* #map{
     width: 100%;
@@ -29,13 +29,13 @@
     background-color: #823400;
     color: white;
 }
-/* Garantiza que el footer siempre esté al final */
+/* Ensures that the footer is always at the bottom */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-/* Ajusta el footer para que esté al final */
+
 #footer {
-    margin-top: auto; /* Empuja el footer al fondo */
+    margin-top: auto; 
 }

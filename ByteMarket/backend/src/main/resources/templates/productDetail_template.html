@@ -28,6 +28,11 @@
                 {{/images}}
             </div>
             <div class="col-md-6">
+                {{#product.isSold}}
+                <div class="alert alert-danger text-center fw-bold" role="alert">
+                    ¡Producto Vendido!
+                </div>
+                {{/product.isSold}}
                 <h1 class="fw-bold">{{product.name}}</h1>
                 <h5 class="text">Categoría: {{product.category}}</h5>
                 <h3 class="text-success">{{product.price}}€</h3>
@@ -247,8 +252,8 @@
         </div>
     </div>
     {{/location}}
-    <hr>
-    <hr>
+    <br>
+    <br>
 
     {{>footer}}
 </body>
