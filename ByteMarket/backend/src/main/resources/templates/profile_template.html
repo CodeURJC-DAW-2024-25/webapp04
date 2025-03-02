@@ -82,8 +82,6 @@
             </div>
             
         </div>
-
-     
     </section>
     {{/showProfileSection}}
 
@@ -100,7 +98,14 @@
     </div>
     {{/renderStats}}
 
-    {{>showProducts_template}}
+    {{#reviewsSection}}
+        {{>reviews}}
+    {{/reviewsSection}}
+
+    {{^reviewsSection}}
+        {{>showProducts_template}} 
+    {{/reviewsSection}}  
+
     {{/admin}}
 
     {{>footer}}

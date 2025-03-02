@@ -1,23 +1,23 @@
 package es.grupo04.backend.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.repository.ReviewRepository;
 
+@Service
 public class ReviewService {
     
     @Autowired
-	private ReviewRepository repository;
+    private ReviewRepository repository;
 
     public List<Review> getAllReviews() {
         return repository.findAll();
     }
 
-    public Review saveReview(Review Review) {
-        return repository.save(Review);
+    public Review saveReview(Review review) {
+        return repository.save(review);
     }
 
     public Review getReviewById(Long id) {

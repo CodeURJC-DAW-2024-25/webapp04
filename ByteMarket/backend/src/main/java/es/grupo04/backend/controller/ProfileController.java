@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -17,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
+import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Report;
+import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
 import es.grupo04.backend.service.ChartData;
 
@@ -38,6 +45,9 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -82,6 +92,7 @@ public class ProfileController {
         model.addAttribute("salesNumber", user.getSales().size());
         model.addAttribute("purchasesNumber", user.getPurchases().size());
         model.addAttribute("reviewsNumber", user.getReviews().size());
+        model.addAttribute("reviewsSection", false);
 
         if ("favorites".equals(filter)) {
             model.addAttribute("show_products", user.getFavoriteProducts());
@@ -94,6 +105,46 @@ public class ProfileController {
             model.addAttribute("show_products", productService.getLastSales(user));
             model.addAttribute("title", "Últimas ventas");
             model.addAttribute("renderStats", true);
+        } if ("reviews".equals(filter)) {
+            List<Review> reviews = user.getReviews();
+            model.addAttribute("reviewsSection", true);
+
+            if (reviews == null || reviews.isEmpty()) {
+                model.addAttribute("reviews", false);
+            } else {
+                model.addAttribute("reviews", true);
+            }
+
+            List<Map<String, Object>> reviewStars = new ArrayList<>();
+
+            // Llenar la información de las reseñas
+            for (Review review : reviews) {
+                int rating = review.getRating();
+                List<Boolean> stars = new ArrayList<>();
+                List<Boolean> emptyStars = new ArrayList<>();
+
+                // Llenar estrellas llenas
+                for (int i = 0; i < rating; i++) {
+                    stars.add(true);
+                }
+
+                // Llenar estrellas vacías
+                for (int i = rating; i < 5; i++) {
+                    emptyStars.add(false);
+                }
+
+                // Mapear la información de las estrellas
+                Map<String, Object> reviewStarData = new HashMap<>();
+                reviewStarData.put("rating", rating);
+                reviewStarData.put("stars", stars); // Lista de estrellas llenas
+                reviewStarData.put("emptyStars", emptyStars); // Lista de estrellas vacías
+                reviewStarData.put("owner", review.getreviewOwner().getName());  // Nombre del propietario de la reseña
+                reviewStarData.put("description", review.getDescription());  // Descripción de la reseña
+                reviewStars.add(reviewStarData);
+            }
+
+            model.addAttribute("reviewStars", reviewStars);
+            model.addAttribute("title", "Mis Reseñas");
         } else {
             model.addAttribute("show_products", productService.findByOwner(user));
             model.addAttribute("title", "Mis productos");
@@ -202,5 +253,26 @@ public class ProfileController {
 
         return ResponseEntity.ok(data);
     }
+
+    @PostMapping("/product/{id}/newReview")
+    public String addReview(@PathVariable Long id, @RequestParam("rating") int rating, @RequestParam("description") String description, HttpServletRequest request, Model model) {
+        Principal principal = request.getUserPrincipal();
+        User reviewOwner = userService.findByMail(principal.getName()).orElse(null);
+        Optional<Product> optionalProduct = productService.findById(id);
+        User reviewedUser = optionalProduct.get().getOwner();
+        Review review = new Review(reviewOwner,reviewedUser,description,rating);
+        reviewService.saveReview(review); 
+        return "redirect:/product/" + id;
+    }
+
+
+    @GetMapping("/reviews")
+    public String getReviews(Model model) {
+        List<Review> reviews = reviewService.getAllReviews();
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("title", "Reseñas");
+        return "reviews";
+    }
+
 
 }

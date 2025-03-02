@@ -35,7 +35,7 @@
                 <p>{{product.description}}</p>
                 <div class="d-grid gap-2">
                     <div class="d-grid gap-2">
-                    {{^product.isSold}}
+                        {{^product.isSold}}
                         {{#isOwner}}
                         <form action="/edit/{{product.id}}" method="post">
                             <button type="submit" class="btn btn-custom w-100">
@@ -84,7 +84,7 @@
                         {{/isFavorite}}
                         {{/isOwner}}
                         {{/admin}}
-                    {{/product.isSold}}
+                        {{/product.isSold}}
                     </div>
                 </div>
             </div>
@@ -105,8 +105,9 @@
                 <div>
                     <inf>Ventas: {{salesNumber}}<br></inf>
                     <inf>Compras: {{purchasesNumber}}<br></inf>
-                    <inf>Reseñas: {{reviewsNumber}}<br></inf>
-                    <inf>Valoración: {{rating}}/5 <i class="bi bi-star-fill" style="color: orange;"></i><br></inf>
+                    <span class="text-muted">
+                        {{rating}}/5 - {{reviewsNumber}} valoraciones
+                    </span>
                 </div>
             </div>
         </div>
@@ -124,11 +125,12 @@
             <form action="/product/{{product.id}}/newReport" method="POST">
                 <div class="mb-3">
                     <label for="reason" class="form-label">Seleccionar Problema:</label>
-                    <select class="form-select" id="report-issue" name="reason" required title="Selecciona el problema que deseas reportar">
-                        <option value="damaged">Producto Dañado</option>
-                        <option value="wrong-product">Producto Diferente</option>
-                        <option value="missing-parts">Faltan Piezas</option>
-                        <option value="other">Otro</option>
+                    <select class="form-select" id="report-issue" name="reason" required
+                        title="Selecciona el problema que deseas reportar">
+                        <option value="Producto Dañado">Producto Dañado</option>
+                        <option value="Producto Diferente">Producto Diferente</option>
+                        <option value="Faltan Piezas">Faltan Piezas</option>
+                        <option value="Otro">Otro</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -153,15 +155,14 @@
         <h3>Valoraciones</h3>
         <button class="btn btn-custom" id="btn-add-review">Añadir Reseña</button>
     </div>
-    <br>
     <div id="review-form-container" class="mt-3 d-none">
-        <hr>
         <div id="review-form">
             <h4>Escribe tu reseña</h4>
-            <form>
+            <form action="/product/{{product.id}}/newReview" method="POST">
                 <div class="mb-3">
-                    <label for="review-stars" class="form-label">Calificación:</label>
-                    <select class="form-select" id="review-stars">
+                    <label for="rating" class="form-label">Calificación:</label>
+                    <select class="form-select" id="rating" name="rating" required
+                        title="Selecciona una calificación para el producto">
                         <option value="5">★★★★★ - 5/5</option>
                         <option value="4">★★★★☆ - 4/5</option>
                         <option value="3">★★★☆☆ - 3/5</option>
@@ -170,40 +171,46 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="review-text" class="form-label">Descripción:</label>
-                    <textarea class="form-control" id="review-text" rows="3"
-                        placeholder="Escribe tu reseña aquí..."></textarea>
+                    <label for="description" class="form-label">Descripción:</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"
+                        placeholder="Escribe tu reseña aquí..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-custom">Enviar Reseña</button>
+                <input type="hidden" name="_csrf" value="{{token}}" />
             </form>
         </div>
-        <br>
+        <hr>
     </div>
-
+    <hr>
     <script>
         document.getElementById("btn-add-review").addEventListener("click", function () {
             document.getElementById("review-form-container").classList.toggle("d-none");
         });
     </script>
+    {{#reviewsSection}}
+    <h3>Valoraciones</h3>
     <div class="scrolling-wrapper">
-        {{#reviews}}
+        {{#reviewStars}}
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{this.reviewer_name}}</h5>
-                <p class="card-text">{{this.comment}}</p>
+                <h5 class="card-title">{{owner}}</h5>
+                <p class="card-text">{{description}}</p>
                 <p>
                     <span class="text-warning">
-                        {{#this.rating}}
-                        {{#rating}}<i class="bi bi-star-fill"></i>{{/rating}}
-                        {{#half_star}}<i class="bi bi-star-half"></i>{{/half_star}}
-                        {{#empty_star}}<i class="bi bi-star"></i>{{/empty_star}}
-                        {{/this.rating}}
-                    </span> - {{this.rating_average}}/5
+                        {{#stars}}
+                        <i class="bi bi-star-fill"></i> <!-- Estrella llena -->
+                        {{/stars}}
+                        {{#emptyStars}}
+                        <i class="bi bi-star"></i> <!-- Estrella vacía -->
+                        {{/emptyStars}}
+                    </span>
+                    - {{rating}}/5
                 </p>
             </div>
         </div>
-        {{/reviews}}
+        {{/reviewStars}}
     </div>
+    {{/reviewsSection}}
     <hr>
     {{#location}}
     <h5 class="fw-bolder">Ubicación:</h5>

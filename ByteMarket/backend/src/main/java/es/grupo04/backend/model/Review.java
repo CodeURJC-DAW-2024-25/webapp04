@@ -29,8 +29,9 @@ public class Review {
     public Review() {
     }
 
-    public Review(User user, String description, Integer rating) {
-        this.reviewOwner = user;
+    public Review(User reviewOwner, User reviewedUser, String description, Integer rating) {
+        this.reviewOwner = reviewOwner;
+        this.reviewedUser = reviewedUser;
         this.description = description;
         this.rating = rating;
     }
@@ -43,11 +44,11 @@ public class Review {
         this.id = id;
     }
 
-    public User getUser() {
+    public User getreviewOwner() {
         return reviewOwner;
     }
 
-    public void setUser(User user) {
+    public void setreviewOwner(User user) {
         this.reviewOwner = user;
     }
 

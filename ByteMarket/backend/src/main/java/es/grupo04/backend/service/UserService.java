@@ -216,7 +216,7 @@ public class UserService {
 
         // Remove user from reviews
         if (user.getReviews() != null) {
-            user.getReviews().forEach(review -> review.setUser(null));
+            user.getReviews().forEach(review -> review.setreviewOwner(null));
             user.setReviews(null);
         }
 

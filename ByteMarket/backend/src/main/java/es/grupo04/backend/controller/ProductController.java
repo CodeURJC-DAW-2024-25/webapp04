@@ -5,7 +5,9 @@ import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Report;
+import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
@@ -111,6 +114,43 @@ public class ProductController {
             imageURLs.add("/product/image/" + image.getId());
         }
         model.addAttribute("images", imageURLs);
+
+
+        List<Review> reviews = product.getOwner().getReviews();
+        if (reviews == null || reviews.isEmpty()) {
+            model.addAttribute("reviewsSection", false); 
+        } else {
+            model.addAttribute("reviewsSection", true);
+        }
+
+        List<Map<String, Object>> reviewStars = new ArrayList<>();
+
+        for (Review review : reviews) {
+            int rating = review.getRating();
+            List<Boolean> stars = new ArrayList<>();
+            List<Boolean> emptyStars = new ArrayList<>();
+            
+            // Stars full
+            for (int i = 0; i < rating; i++) {
+                stars.add(true);
+            }
+
+            // Stars empty
+            for (int i = rating; i < 5; i++) {
+                emptyStars.add(false);
+            }
+
+            Map<String, Object> reviewStarData = new HashMap<>();
+            reviewStarData.put("rating", rating);
+            reviewStarData.put("stars", stars); // Full stars list
+            reviewStarData.put("emptyStars", emptyStars); // Empty stars list
+            reviewStarData.put("owner", review.getreviewOwner().getName());
+            reviewStarData.put("description", review.getDescription());
+            reviewStars.add(reviewStarData);
+        }
+
+        model.addAttribute("reviewStars", reviewStars);
+
 
         return "productDetail_template";
     }
