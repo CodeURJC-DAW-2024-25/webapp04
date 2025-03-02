@@ -13,7 +13,9 @@
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=historySales" id="historySalesLink">Últimas ventas</a></li>
                 {{/isOwnProfile}}
                 {{^isOwnProfile}} <!-- Visible for everybody -->
-                <li class="nav-item"><a class="nav-link" href="/profile?filter=reviews" id="reviewsLink">Reseñas</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/{{id}}?filter=reviews" id="reviewsLink">Reseñas</a>
+                    </li>
                 {{/isOwnProfile}}
             </ul>            
         </div>

@@ -182,18 +182,7 @@ public class ProfileController {
         model.addAttribute("purchasesNumber", profileUser.getPurchases().size());
         model.addAttribute("reviewsNumber", profileUser.getReviews().size());
 
-        if ("favorites".equals(filter)) {
-            model.addAttribute("show_products", profileUser.getFavoriteProducts());
-            model.addAttribute("title", "Favoritos");
-        } else if ("historyPurchase".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastPurchases(profileUser));
-            model.addAttribute("title", "Últimas compras");
-            model.addAttribute("renderStats", true);
-        } else if ("historySales".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastSales(profileUser));
-            model.addAttribute("title", "Últimas ventas");
-            model.addAttribute("renderStats", true);
-        } else if ("reviews".equals(filter)) {
+        if ("reviews".equals(filter)) {
             List<Review> reviews = profileUser.getReviews();
             model.addAttribute("reviewsSection", true);
 
@@ -229,9 +218,6 @@ public class ProfileController {
 
             model.addAttribute("reviewStars", reviewStars);
             model.addAttribute("title", "Mis Reseñas");
-        } else {
-            model.addAttribute("show_products", productService.findByOwner(profileUser));
-            model.addAttribute("title", "Productos");
         }
 
         return "profile_template";
