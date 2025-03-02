@@ -1,14 +1,14 @@
 {{#reviews}}
-    <div class="container mt-4">
-        <h3>Mis Reseñas</h3>
-        <div class="row">
-            {{#reviewStars}}
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">{{owner}}</h5>
-                        <p class="card-text">{{description}}</p>
-                        <p><span class="text-warning">
+<div class="container mt-4">
+    <h3>Mis Reseñas</h3>
+    <div class="row">
+        {{#reviewStars}}
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{owner}}</h5>
+                    <p class="card-text">{{description}}</p>
+                    <p><span class="text-warning">
                             {{#stars}}
                             <i class="bi bi-star-fill"></i>
                             {{/stars}}
@@ -16,12 +16,12 @@
                             <i class="bi bi-star"></i>
                             {{/emptyStars}}
                         </span> - {{rating}}/5</p>
-                    </div>
                 </div>
             </div>
-            {{/reviewStars}}
         </div>
+        {{/reviewStars}}
     </div>
+</div>
 
 {{/reviews}}
 

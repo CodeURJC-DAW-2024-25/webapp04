@@ -120,9 +120,11 @@
         {{>reviews}}
     {{/reviewsSection}}
 
-    {{^reviewsSection}}
-        {{>showProducts_template}} 
-    {{/reviewsSection}}  
+    {{#isOwnProfile}}
+        {{^reviewsSection}}
+            {{>showProducts_template}} 
+        {{/reviewsSection}}  
+    {{/isOwnProfile}}
 
     {{/admin}}
 

@@ -193,6 +193,42 @@ public class ProfileController {
             model.addAttribute("show_products", productService.getLastSales(profileUser));
             model.addAttribute("title", "Últimas ventas");
             model.addAttribute("renderStats", true);
+        } else if ("reviews".equals(filter)) {
+            List<Review> reviews = profileUser.getReviews();
+            model.addAttribute("reviewsSection", true);
+
+            if (reviews == null || reviews.isEmpty()) {
+                model.addAttribute("reviews", false);
+            } else {
+                model.addAttribute("reviews", true);
+            }
+
+            List<Map<String, Object>> reviewStars = new ArrayList<>();
+
+            for (Review review : reviews) {
+                int rating = review.getRating();
+                List<Boolean> stars = new ArrayList<>();
+                List<Boolean> emptyStars = new ArrayList<>();
+
+                for (int i = 0; i < rating; i++) {
+                    stars.add(true);
+                }
+
+                for (int i = rating; i < 5; i++) {
+                    emptyStars.add(false);
+                }
+
+                Map<String, Object> reviewStarData = new HashMap<>();
+                reviewStarData.put("rating", rating);
+                reviewStarData.put("stars", stars);
+                reviewStarData.put("emptyStars", emptyStars);
+                reviewStarData.put("owner", review.getreviewOwner().getName());
+                reviewStarData.put("description", review.getDescription());
+                reviewStars.add(reviewStarData);
+            }
+
+            model.addAttribute("reviewStars", reviewStars);
+            model.addAttribute("title", "Mis Reseñas");
         } else {
             model.addAttribute("show_products", productService.findByOwner(profileUser));
             model.addAttribute("title", "Productos");
