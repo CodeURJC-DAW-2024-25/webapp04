@@ -229,6 +229,17 @@ public class ProductController {
         return "reports";
     }
 
+    @PostMapping("/solve-report/{id}")
+    public String solveReport(@PathVariable Long id, Model model) {
+        Optional<Report> reportOptional = reportService.findById(id);
+        if (reportOptional.isEmpty()) {
+            model.addAttribute("message", "Reporte no encontrado");
+            return "error";
+        }
+        reportService.delete(id);
+        return "redirect:/reports";
+    }
+
     @GetMapping("/product/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<Image> imageOptional = imageService.findById(id);
