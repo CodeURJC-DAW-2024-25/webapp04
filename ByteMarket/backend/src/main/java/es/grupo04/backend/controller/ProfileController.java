@@ -159,11 +159,16 @@ public class ProfileController {
         User profileUser = profileOptional.get();
         if (userDetails == null) {
             isOwnProfile = false;
-        }else{
+        } else {
             Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
             User user = optionalUser.get();
             isOwnProfile = user.equals(profileUser);
         }
+        
+        if (isOwnProfile) {
+            return "redirect:/profile";
+        }
+
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
@@ -224,6 +229,7 @@ public class ProfileController {
 
         return "profile_template";
     }
+
 
     @GetMapping("/editProfile")
     public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {

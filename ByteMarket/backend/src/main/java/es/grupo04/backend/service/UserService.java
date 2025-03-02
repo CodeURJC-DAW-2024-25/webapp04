@@ -1,10 +1,10 @@
 package es.grupo04.backend.service;
 
-
 import java.io.IOException;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -72,11 +72,11 @@ public class UserService {
             return false;
         }
 
-        if(!validateMail(user)) { // Check if mail is valid
+        if (!validateMail(user)) { // Check if mail is valid
             return false;
         }
 
-        if(!validatePassword(user, confirmPassword)) { // Check if password is valid
+        if (!validatePassword(user, confirmPassword)) { // Check if password is valid
             return false;
         }
 
@@ -103,7 +103,7 @@ public class UserService {
                 userRepository.save(user);
                 System.out.println("Producto añadido a favoritos: " + product.getName());
                 return true;
-            } else{
+            } else {
                 System.out.println("El producto ya está en los favoritos.");
                 return false;
             }
@@ -135,53 +135,54 @@ public class UserService {
         return false;
     }
 
-    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword, String iframe) {
-        if(!user.getName().equals(oldUser.getName())){
-            if(!validateName(user.getName())) {
+    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword,
+            String iframe) {
+        if (!user.getName().equals(oldUser.getName())) {
+            if (!validateName(user.getName())) {
                 return Optional.of("Nombre de usuario no válido");
             }
             oldUser.setName(user.getName());
         }
 
-        if(password.length()>0 && repeatPassword.length()>0) {
-            if(!password.equals(repeatPassword)){
+        if (password.length() > 0 && repeatPassword.length() > 0) {
+            if (!password.equals(repeatPassword)) {
                 return Optional.of("Las contraseñas no coinciden");
             }
             oldUser.setEncodedPassword(passwordEncoder.encode(password));
         }
 
-        if(iframe != null && !iframe.isEmpty()) {
+        if (iframe != null && !iframe.isEmpty()) {
             oldUser.setIframe(iframe);
         }
 
         userRepository.save(oldUser);
         return Optional.empty();
-    
+
     }
-    
-    //Is Owner
+
+    // Is Owner
     public boolean isOwner(User user, Product product) {
         return user.equals(product.getOwner());
     }
-    //Is Favorite
+
+    // Is Favorite
     public boolean isFavorite(User user, Product product) {
         return user.getFavoriteProducts().contains(product);
     }
 
-
     private boolean validateName(String name) {
-        if (name == null || name.isEmpty() || name.length() > 16) { 
+        if (name == null || name.isEmpty() || name.length() > 16) {
             return false;
         }
-        return true; 
+        return true;
     }
 
     private boolean validatePassword(User user, String password) {
-        if (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty() 
-        || password == null || password.isEmpty() || !user.getEncodedPassword().equals(password)) { 
+        if (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty()
+                || password == null || password.isEmpty() || !user.getEncodedPassword().equals(password)) {
             return false;
         }
-        return true; 
+        return true;
     }
 
     private boolean validateMail(User user) {
@@ -194,9 +195,9 @@ public class UserService {
 
     public void saveProfilePic(User user, MultipartFile profilePic) throws IOException {
 
-        Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(),profilePic.getSize());
+        Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(), profilePic.getSize());
 
-		user.setImageFile(blob);
+        user.setImageFile(blob);
         user.setImage(true);
     }
 
@@ -228,9 +229,9 @@ public class UserService {
         HashMap<Integer, ChartData> purchases = new HashMap<>();
         HashMap<Integer, ChartData> sales = new HashMap<>();
 
-        for(Purchase purchase : user.getPurchases()) {
+        for (Purchase purchase : user.getPurchases()) {
             int month = purchase.getPurchaseDate().getMonthValue();
-            if(purchases.containsKey(month)) {
+            if (purchases.containsKey(month)) {
                 purchases.get(month).addOne();
             } else {
                 purchases.put(month, new ChartData(month, "purchase", 1));
@@ -238,9 +239,9 @@ public class UserService {
         }
         stats.addAll(purchases.values());
 
-        for(Purchase sale : user.getSales()) {
+        for (Purchase sale : user.getSales()) {
             int month = sale.getPurchaseDate().getMonthValue();
-            if(sales.containsKey(month)) {
+            if (sales.containsKey(month)) {
                 sales.get(month).addOne();
             } else {
                 sales.put(month, new ChartData(month, "sale", 1));
@@ -251,5 +252,20 @@ public class UserService {
         return stats;
     }
 
-
+    public boolean hasBought(User user, Product product, boolean isOwner) {
+        if (isOwner) {
+            return false;
+        }
+        boolean bought = false;
+        Iterator<Purchase> iterator = user.getPurchases().iterator();
+        while (iterator.hasNext() && !bought) {
+            Purchase purchase = iterator.next();
+            if (purchase.getProduct().getOwner().equals(product.getOwner())) {
+                {
+                    bought = true;
+                }
+            }
+        }
+        return bought;
+    }
 }
