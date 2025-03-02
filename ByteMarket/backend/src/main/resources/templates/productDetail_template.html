@@ -108,7 +108,7 @@
                     <inf>Ventas: {{salesNumber}}<br></inf>
                     <inf>Compras: {{purchasesNumber}}<br></inf>
                     <span class="text-muted">
-                        {{rating}}/5 - {{reviewsNumber}} valoraciones
+                        {{rating}}/5 - {{reviewsNumber}} reseñas
                     </span>
                 </div>
             </div>
@@ -124,7 +124,7 @@
     <div class="container mt-4">
         <div class="d-flex align-items-center justify-content-between mt-4">
             <h3>Reportar un Problema</h3>
-            <button class="btn btn-custom" id="btn-report-issue">Añadir Reporte</button>
+            <button class="btn btn-custom" id="btn-report-issue">Añadir</button>
             <input type="hidden" name="_csrf" value="{{token}}" />
         </div>
         <hr>
@@ -164,8 +164,8 @@
     <!--Add Review-->
     <div class="container mt-4">
         <div class="d-flex align-items-center justify-content-between mt-4">
-            <h3>Valoraciones</h3>
-            <button class="btn btn-custom" id="btn-add-review">Añadir Reseña</button>
+            <h3>Añadir reseña</h3>
+            <button class="btn btn-custom" id="btn-add-review">Añadir</button>
         </div>
         <div id="review-form-container" class="mt-3 d-none">
             <div id="review-form">
@@ -208,7 +208,7 @@
     <!--Review-->
     {{#reviewsSection}}
     <div class="container mt-4">
-        <h3>Valoraciones</h3>
+        <h3>Reseñas</h3>
         <div class="scrolling-wrapper">
             {{#reviewStars}}
             <div class="card">

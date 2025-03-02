@@ -69,7 +69,7 @@
                         </h5>
                     </div>
                     <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Valoraciones: <num class="fw-normal">{{reviewsNumber}}</num>
+                        <h5 class="fw-bolder">Reseñas: <num class="fw-normal">{{reviewsNumber}}</num>
                         </h5>
                     </div>
                     {{#location}}
@@ -106,7 +106,7 @@
     </section>
     {{/showProfileSection}}
 
-    {{^admin}} <!--Only shown for users, not for admin-->
+    
 
     {{#renderStats}}
     <div class="container-fluid py-5">
@@ -119,15 +119,17 @@
     </div>
     {{/renderStats}}
 
+   
     {{#reviewsSection}}
     {{>reviews}}
     {{/reviewsSection}}
 
+    
     {{^reviewsSection}}
     {{>showProducts_template}}
     {{/reviewsSection}}
-
-    {{/admin}}
+    
+    
 
     {{>footer}}
 
