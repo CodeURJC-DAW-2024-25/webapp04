@@ -24,7 +24,9 @@
     {{>header}}
 
     {{^admin}} <!--Only shown for users, not for admin-->
+    {{#isOwnProfile}}
     {{>navbar_profile}}
+    {{/isOwnProfile}}
     {{/admin}}
 
     {{#showProfileSection}}
@@ -32,10 +34,19 @@
 
         <div class="container-fluid py-5">
             <div class="profile-container text-center col-5">
-                <h2 class="mb-4">{{username}}</h2>
-
-                
+                <h2 class="mb-4">{{username}}</h2>                
                 <div class="profile-pic-wrapper">
+                    {{^isOwnProfile}}
+                    <a class="d-inline-block position-relative">
+                        {{#image}}
+                        <img class="profile-pic mb-3" src="/user/image/{{id}}" alt="pfp">
+                        {{/image}}
+                        {{^image}}
+                        <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
+                        {{/image}}
+                    </a>
+                    {{/isOwnProfile}}
+                    {{#isOwnProfile}}
                     <a href="/editProfile" class="d-inline-block position-relative">
                         {{#user.image}}
                         <img class="profile-pic mb-3" src="/user/image/{{user.id}}" alt="pfp">
@@ -47,9 +58,10 @@
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
                         </span>
                     </a>
+                    {{/isOwnProfile}}
                 </div>
 
-                {{^admin}}
+                <!-- {{^admin}} -->
                 <form>
                     <div class="mb-3 text-start">
                         <h5 class="fw-bolder">Ventas: <num class="fw-normal">{{salesNumber}}</num>
@@ -70,17 +82,26 @@
                     </div>
                     {{/location}}
                 </form>
-                {{/admin}}
+                <!-- {{/admin}} -->
                 <div>
+                    {{#isOwnProfile}}
                     <form action="/logout" method="POST">
                         <button class="btn btn-custom" type="submit">
                             <span>Cerrar Sesión</span>
                         </button>
                         <input type="hidden" name="_csrf" value="{{token}}" />
                     </form>
+                    {{/isOwnProfile}}
+                    {{#admin}}
+                    <form action="/deleteAccount/{{id}}" method="POST">
+                        <button class="btn btn-custom" type="submit">
+                            <span>Borrar Cuenta</span>
+                        </button>
+                        <input type="hidden" name="_csrf" value="{{token}}" />
+                    </form>
+                    {{/admin}}
                 </div>
             </div>
-            
         </div>
 
      

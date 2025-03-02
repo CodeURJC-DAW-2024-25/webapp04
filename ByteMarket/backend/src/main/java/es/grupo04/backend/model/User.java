@@ -196,4 +196,7 @@ public class User {
     public void addSale(Purchase purchase) {
         this.sales.add(purchase);
     }
+    public Long getId() {
+        return id;
+    }
 }

@@ -47,6 +47,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/error").permitAll()
 					.requestMatchers("/product/image/**").permitAll()
 					.requestMatchers("/user/image/**").permitAll()
+					.requestMatchers("/profile/**").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
@@ -55,7 +56,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/chat").hasAnyRole("USER")
 					.requestMatchers("/editProduct/**").hasAnyRole("USER")
 					.requestMatchers("delete/**").hasAnyRole("USER","ADMIN")
-					.requestMatchers("/deleteAccount").hasAnyRole("USER")
+					.requestMatchers("/deleteAccount/**").hasRole("ADMIN")
 					.requestMatchers("/chat/sellScreen/**").hasAnyRole("USER")
 					.requestMatchers("/chat/sell/**").hasRole("USER")
 					.requestMatchers("/reports").hasAnyRole("ADMIN")
