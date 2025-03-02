@@ -23,13 +23,10 @@
 <body>
     {{>header}}
 
-    {{^admin}} <!--Only shown for users, not for admin-->
-    {{#isOwnProfile}}
-    {{>navbar_profile}}
-    {{/isOwnProfile}}
-    {{/admin}}
-
     {{#showProfileSection}}
+
+    {{>navbar_profile}}
+
     <section class="py-4">
 
         <div class="container-fluid py-5">

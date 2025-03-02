@@ -1,5 +1,3 @@
-
-<!--Esto tiene que ser privado ¿Cómo lo pongo?-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="/profile">Perfil</a>
@@ -8,10 +6,15 @@
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                {{#isOwnProfile}} <!-- Visible only for own users -->
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=favorites" id="favoritesLink">Favoritos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=reviews" id="reviewsLink">Reseñas</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=historyPurchase" id="historyPurchaseLink">Últimas compras</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile?filter=historySales" id="historySalesLink">Últimas ventas</a></li>
+                {{/isOwnProfile}}
+                {{^isOwnProfile}} <!-- Visible for everybody -->
+                <li class="nav-item"><a class="nav-link" href="/profile?filter=reviews" id="reviewsLink">Reseñas</a></li>
+                {{/isOwnProfile}}
             </ul>            
         </div>
     </div>

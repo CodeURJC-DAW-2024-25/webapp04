@@ -117,10 +117,10 @@
     </div>
 
     <!--Reports-->
+    {{#logged}}
+    {{^admin}}
+    {{^isOwner}}
     <div class="container mt-4">
-        {{#logged}}
-        {{^admin}}
-        {{^isOwner}}
         <div class="d-flex align-items-center justify-content-between mt-4">
             <h3>Reportar un Problema</h3>
             <button class="btn btn-custom" id="btn-report-issue">Añadir Reporte</button>
@@ -158,7 +158,6 @@
                 document.getElementById("report-form-container").classList.toggle("d-none");
             });
         </script>
-        <hr>
     </div>
 
     <!--Add Review-->
@@ -195,14 +194,14 @@
         </div>
         <hr>
     </div>
+    {{/isOwner}}
+    {{/admin}}
+    {{/logged}}
     <script>
         document.getElementById("btn-add-review").addEventListener("click", function () {
             document.getElementById("review-form-container").classList.toggle("d-none");
         });
     </script>
-    {{/isOwner}}
-    {{/admin}}
-    {{/logged}}
 
     <!--Review-->
     {{#reviewsSection}}
@@ -232,14 +231,16 @@
         <hr>
     </div>
     {{/reviewsSection}}
-    
+
     <!--Location-->
     {{#location}}
-    <h5 class="fw-bolder">Ubicación:</h5>
-    <div class="d-flex justify-content-center">
-        <div class="location w-100" th:if="${location}">
-            <div class="map-container mx-auto">
-                {{{location}}}
+    <div class="container mt-4">
+        <h5 class="fw-bolder">Ubicación:</h5>
+        <div class="d-flex justify-content-center">
+            <div class="location w-100" th:if="${location}">
+                <div class="map-container mx-auto">
+                    {{{location}}}
+                </div>
             </div>
         </div>
     </div>
