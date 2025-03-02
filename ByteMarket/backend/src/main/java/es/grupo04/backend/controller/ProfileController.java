@@ -106,7 +106,7 @@ public class ProfileController {
             model.addAttribute("show_products", productService.getLastSales(user));
             model.addAttribute("title", "Últimas ventas");
             model.addAttribute("renderStats", true);
-        } if ("reviews".equals(filter)) {
+        } else if ("reviews".equals(filter)) {
             List<Review> reviews = user.getReviews();
             model.addAttribute("reviewsSection", true);
 
