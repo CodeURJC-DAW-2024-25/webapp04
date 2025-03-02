@@ -63,4 +63,12 @@ public class PurchaseService {
         userRepository.save(seller);
         return purchase;
     }
+
+    public List<Purchase> findByBuyer(User buyer){
+        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer);
+    }
+
+    public boolean hasBought(User user, User owner) {
+        return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
+    }
 }

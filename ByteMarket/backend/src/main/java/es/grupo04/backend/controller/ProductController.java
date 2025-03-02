@@ -93,7 +93,7 @@ public class ProductController {
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product);
-                hasBought = userService.hasBought(userOptional.get(), product, isOwner);
+                hasBought = userService.hasBought(userOptional.get(), product.getOwner());
             }
         }
 
