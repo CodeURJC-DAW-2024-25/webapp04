@@ -117,29 +117,25 @@ public class ProfileController {
 
             List<Map<String, Object>> reviewStars = new ArrayList<>();
 
-            // Llenar la información de las reseñas
             for (Review review : reviews) {
                 int rating = review.getRating();
                 List<Boolean> stars = new ArrayList<>();
                 List<Boolean> emptyStars = new ArrayList<>();
 
-                // Llenar estrellas llenas
                 for (int i = 0; i < rating; i++) {
                     stars.add(true);
                 }
 
-                // Llenar estrellas vacías
                 for (int i = rating; i < 5; i++) {
                     emptyStars.add(false);
                 }
 
-                // Mapear la información de las estrellas
                 Map<String, Object> reviewStarData = new HashMap<>();
                 reviewStarData.put("rating", rating);
-                reviewStarData.put("stars", stars); // Lista de estrellas llenas
-                reviewStarData.put("emptyStars", emptyStars); // Lista de estrellas vacías
-                reviewStarData.put("owner", review.getreviewOwner().getName());  // Nombre del propietario de la reseña
-                reviewStarData.put("description", review.getDescription());  // Descripción de la reseña
+                reviewStarData.put("stars", stars);
+                reviewStarData.put("emptyStars", emptyStars);
+                reviewStarData.put("owner", review.getreviewOwner().getName());
+                reviewStarData.put("description", review.getDescription());
                 reviewStars.add(reviewStarData);
             }
 
