@@ -58,7 +58,7 @@
                     {{/isOwnProfile}}
                 </div>
 
-                <!-- {{^admin}} -->
+                {{^admin}} <!--Admins dont have this parameters-->
                 <form>
                     <div class="mb-3 text-start">
                         <h5 class="fw-bolder">Ventas: <num class="fw-normal">{{salesNumber}}</num>
@@ -79,7 +79,8 @@
                     </div>
                     {{/location}}
                 </form>
-                <!-- {{/admin}} -->
+                {{/admin}}
+
                 <div>
                     {{#isOwnProfile}}
                     <form action="/logout" method="POST">
@@ -90,12 +91,14 @@
                     </form>
                     {{/isOwnProfile}}
                     {{#admin}}
+                    {{^isOwnProfile}} <!-- They can eliminate their account in edit profile -->
                     <form action="/deleteAccount/{{id}}" method="POST">
                         <button class="btn btn-custom" type="submit">
                             <span>Borrar Cuenta</span>
                         </button>
                         <input type="hidden" name="_csrf" value="{{token}}" />
                     </form>
+                    {{/isOwnProfile}}
                     {{/admin}}
                 </div>
             </div>

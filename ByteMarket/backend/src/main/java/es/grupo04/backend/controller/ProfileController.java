@@ -69,18 +69,19 @@ public class ProfileController {
     @GetMapping("/profile")
     public String userProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
-            return "redirect:/login";  // O la ruta que desees
+            return "redirect:/login";  
         }
         
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
-            return "redirect:/login";  // Redirigir si el usuario no se encuentra
+            return "redirect:/login";  
         }
 
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
         
         User user = optionalUser.get();
+        model.addAttribute("id", user.getId());
 
         if (user.getIframe() != null){
             model.addAttribute("location", user.getIframe());
