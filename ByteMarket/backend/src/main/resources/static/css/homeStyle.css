@@ -21,7 +21,7 @@
     width: 100%;
 }
 
-/* Personalizar la barra de desplazamiento */
+/* Customize the scrollbar */
 .topProducts::-webkit-scrollbar {
     height: 10px;
 }
@@ -35,21 +35,21 @@
 }
 
 .topProducts::-webkit-scrollbar-track {
-    background: transparent; /* Color del fondo de la barra de desplazamiento */
+    background: transparent; /* Background color of the scrollbar */
 }
 
 .topProducts::-webkit-scrollbar-thumb {
-    background: #777; /* Color de la barra de desplazamiento */
+    background: #777; /* Color of the scrollbar */
     border-radius: 10px;
 }
 
 .topProducts::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color de la barra de desplazamiento al pasar el ratón por encima */
+    background: #555; /* Color of the scrollbar on hover */
 }
 
 .productCard{
     width: 100%;
-    border:none; /* Quito el borde */
+    border:none; /* Remove the border */
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -73,7 +73,6 @@
 
 .btn-custom-register {
     margin-left: 50px;
-
 }
 
 .otherProdContainer{

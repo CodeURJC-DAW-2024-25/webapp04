@@ -1,5 +1,5 @@
-/* Igual que el estilo que ya tienes, solo ajustamos un par de detalles */
-.container{
+/* Same style as you already have, just adjusting a couple of details */
+.container {
     margin-top: 60px;
     margin-bottom: 60px;
     text-align: center;
@@ -9,10 +9,12 @@
 .header-logo {
     padding-left: 50px;
 }
-.headerContainer{
+
+.headerContainer {
     justify-content: space-between;
 }
-.form{
+
+.form {
     text-align: left;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #ffffff;
@@ -43,13 +45,14 @@
 .btn-close {
     color: white;
 }
-/* Garantiza que el footer siempre esté al final */
+
+/* Ensures the footer is always at the bottom */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-/* Ajusta el footer para que esté al final */
+
 #footer {
-    margin-top: auto; /* Empuja el footer al fondo */
+    margin-top: auto; 
 }

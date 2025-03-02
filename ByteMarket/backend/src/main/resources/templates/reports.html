@@ -33,15 +33,24 @@
                             <p class="mb-1">{{description}}</p>
                             <small class="text-muted">Reportado: {{user.name}}</small>
                         </div>
-                        <a href="/product/{{product.id}}" class="btn btn-custom">
-                            <i class="bi bi-info-circle-fill"></i> Detalles
-                        </a>
+                        <div>
+                            <form action="/solve-report/{{id}}" method="POST">
+                                <button type="submit" class="btn btn-custom m-1">
+                                    <i class="bi bi-shield-fill-check"></i> Reporte resuelto
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}">
+                            
+                                <a href="/product/{{product.id}}" class="btn btn-custom m-1">
+                                    <i class="bi bi-info-circle-fill"></i> Detalles
+                                </a>
+                            </form>
+                        </div>
                     </div>
                     {{/reports}}
 
                     {{^reports}}
                     <div class="text-center">
-                        <h3 class="py-4 mb-4 defaultText">Todavía no hay reportes en esta sección</h3>
+                        <h3 class="py-4 mb-4 defaultText">No hay reportes pendientes</h3>
                     </div>
                     {{/reports}}
                 </div>

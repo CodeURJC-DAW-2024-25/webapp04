@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     $('#load-more').on('click', function() {
         if (currentPage + 1 >= totalPages) {
-            $('#load-more').hide(); // Ocultar botón si ya no hay más páginas
+            $('#load-more').hide(); // Hide button if no more pages
             return;
         }
 

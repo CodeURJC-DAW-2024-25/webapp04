@@ -1,4 +1,4 @@
-/*SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+/* CSS SECTION FOR HEADER WITH REGISTERED USER */
 
 .headerContainer{
     margin-right: 0px;
@@ -63,7 +63,7 @@
     font-size: 17px;
 }
 
-/*RESPONSIVE*/
+/* RESPONSIVE */
 @media (max-width: 1250px){   
     .header-logo{
         width: 100%;
@@ -137,9 +137,9 @@
     
 }
 
-/*FIN DE SECCION DE CSS PARA LA CABECERA CON EL USUARIO REGISTRAD0*/
+/* END OF CSS SECTION FOR HEADER WITH REGISTERED USER */
 
-/* Estilo para el footer */
+/* Style for the footer */
 
 footer{
     position: fixed;

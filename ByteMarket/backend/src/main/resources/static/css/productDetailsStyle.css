@@ -5,7 +5,7 @@
 }
 
 .sell {
-    color:white;
+    color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 17px;
 }
@@ -17,30 +17,30 @@
     padding: 10px 0;
 }
 
-/* Personalizar la barra de desplazamiento */
+/* Customize the scrollbar */
 .scrolling-wrapper::-webkit-scrollbar {
     height: 10px;
 }
 
-.scrolling-wrapper::-webkit-scrollbar-button{
+.scrolling-wrapper::-webkit-scrollbar-button {
     background: transparent;
 }
 
-.scrolling-wrapper::-webkit-scrollbar-corner{
+.scrolling-wrapper::-webkit-scrollbar-corner {
     background: transparent;
 }
 
 .scrolling-wrapper::-webkit-scrollbar-track {
-    background: transparent; /* Color del fondo de la barra de desplazamiento */
+    background: transparent; /* Background color of the scrollbar */
 }
 
 .scrolling-wrapper::-webkit-scrollbar-thumb {
-    background: #777; /* Color de la barra de desplazamiento */
+    background: #777; /* Color of the scrollbar */
     border-radius: 10px;
 }
 
 .scrolling-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color de la barra de desplazamiento al pasar el ratón por encima */
+    background: #555; /* Color of the scrollbar on hover */
 }
 
 .card {
@@ -69,24 +69,24 @@
 
 iframe {
     width: 100%;
-    height: 450px; /* Puedes ajustar la altura si lo necesitas */
+    height: 450px; /* You can adjust the height if needed */
     border: none;
 }
 
-.otherProdContainer{
+.otherProdContainer {
     padding-left: 3%;
     padding-right: 3%;
     max-width: 100%;
 }
 
-.otherProducts{
+.otherProducts {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.otherProduct{ 
+.otherProduct {
     margin-bottom: 20px;
     max-width: 25%;
     min-width: 175px;
@@ -108,4 +108,3 @@ iframe {
 .general-container {
     padding-bottom: 20px;
 }
-

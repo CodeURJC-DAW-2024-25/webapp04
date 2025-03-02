@@ -63,6 +63,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/reports").hasAnyRole("ADMIN")
 					.requestMatchers("/stats/get").hasAnyRole("USER")
 					.requestMatchers("/review/*/delete").hasRole("ADMIN")
+					.requestMatchers("/solve-report/**").hasRole("ADMIN")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")

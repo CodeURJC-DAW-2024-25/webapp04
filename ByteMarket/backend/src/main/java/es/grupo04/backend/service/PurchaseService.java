@@ -1,6 +1,9 @@
 package es.grupo04.backend.service;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +14,6 @@ import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.PurchaseRepository;
 import es.grupo04.backend.repository.UserRepository;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PurchaseService {
@@ -62,5 +61,13 @@ public class PurchaseService {
         userRepository.save(buyer);
         userRepository.save(seller);
         return purchase;
+    }
+
+    public List<Purchase> findByBuyer(User buyer){
+        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer);
+    }
+
+    public boolean hasBought(User user, User owner) {
+        return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
     }
 }

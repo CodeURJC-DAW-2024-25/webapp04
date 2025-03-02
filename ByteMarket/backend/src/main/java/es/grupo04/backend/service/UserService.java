@@ -31,6 +31,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PurchaseService purchaseService;
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -252,20 +255,7 @@ public class UserService {
         return stats;
     }
 
-    public boolean hasBought(User user, Product product, boolean isOwner) {
-        if (isOwner) {
-            return false;
-        }
-        boolean bought = false;
-        Iterator<Purchase> iterator = user.getPurchases().iterator();
-        while (iterator.hasNext() && !bought) {
-            Purchase purchase = iterator.next();
-            if (purchase.getProduct().getOwner().equals(product.getOwner())) {
-                {
-                    bought = true;
-                }
-            }
-        }
-        return bought;
+    public boolean hasBought(User user, User owner) {
+        return purchaseService.hasBought(user, owner);
     }
 }
