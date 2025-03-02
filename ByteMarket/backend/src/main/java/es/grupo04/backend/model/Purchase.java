@@ -24,7 +24,7 @@ public class Purchase {
     @ManyToOne
     private User seller;
 
-    private LocalDate purchaseDate;
+    private LocalDate purchaseDate = LocalDate.now();
 
     
     public Purchase() {

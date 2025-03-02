@@ -54,11 +54,7 @@ public class PurchaseService {
         productService.sold(product, buyer);
         productRepository.saveAndFlush(product);
         //Purchase Creation
-        Purchase purchase = new Purchase();
-        purchase.setSeller(seller);
-        purchase.setBuyer(buyer);
-        purchase.setProduct(product);
-        purchase.setPurchaseDate(LocalDate.now());        
+        Purchase purchase = new Purchase(product,seller,buyer);        
         purchaseRepository.saveAndFlush(purchase);
         //Users update
         buyer.addPurchase(purchase);
