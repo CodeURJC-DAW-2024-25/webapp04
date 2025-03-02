@@ -120,6 +120,7 @@
     {{#logged}}
     {{^admin}}
     {{^isOwner}}
+    {{#hasBought}}
     <div class="container mt-4">
         <div class="d-flex align-items-center justify-content-between mt-4">
             <h3>Reportar un Problema</h3>
@@ -194,6 +195,7 @@
         </div>
         <hr>
     </div>
+    {{/hasBought}}
     {{/isOwner}}
     {{/admin}}
     {{/logged}}

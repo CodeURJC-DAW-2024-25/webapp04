@@ -86,12 +86,14 @@ public class ProductController {
         Principal principal = request.getUserPrincipal();
         boolean isOwner = false;
         boolean isFavorite = false;
+        boolean hasBought = false;
 
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product);
+                hasBought = userService.hasBought(userOptional.get(), product, isOwner);
             }
         }
 
@@ -99,6 +101,7 @@ public class ProductController {
             model.addAttribute("location", product.getOwner().getIframe());
         }
         
+        model.addAttribute("hasBought", hasBought);
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
@@ -150,7 +153,6 @@ public class ProductController {
         }
 
         model.addAttribute("reviewStars", reviewStars);
-
 
         return "productDetail_template";
     }
@@ -281,7 +283,7 @@ public class ProductController {
         productService.save(product); 
 
         model.addAttribute("productId", product.getId()); // add id of the product as attribute
-        return "redirect:/product/" + product.getId(); // redirecta to the detail screen product created as new
+        return "redirect:/product/" + product.getId(); // redirect to the detail screen product created as new
     }
 
     // To show by category or to search in header
