@@ -152,17 +152,18 @@ public class ProductService {
 		return productPage.getContent();
 	}
 
-	// Pagination in categories and search
-	public Page<Product> findPaginatedCategory(int page, int pageSize) {
+	// Pagination for available products
+	public Page<Product> findPaginatedAvailable(int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
-		return repository.findAll(pageable);
+		return repository.findAllByAvailableTrue(pageable);
 	}
 
-	// For navbar of categories
-	public Page<Product> findByCategory(String category, int page, int pageSize) {
+	// Pagination for available products in a specific category
+	public Page<Product> findAvailableByCategory(String category, int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
-		return repository.findByCategory(category, pageable);
+		return repository.findByCategoryAndAvailableTrue(category, pageable);
 	}
+
 
 	// To search by name
 	public Page<Product> searchByName(String searchTerm, int page, int pageSize) {

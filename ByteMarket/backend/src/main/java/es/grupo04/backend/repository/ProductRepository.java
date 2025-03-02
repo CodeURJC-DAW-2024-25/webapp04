@@ -26,6 +26,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByCategory(String category, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.sold = false")
+    public Page<Product> findAllByAvailableTrue(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.category = :category AND p.sold = false")
+    public Page<Product> findByCategoryAndAvailableTrue(@Param("category") String category, Pageable pageable);
+
     @Query("SELECT p FROM Product p WHERE LOWER(FUNCTION('UNACCENT', p.name)) LIKE LOWER(FUNCTION('UNACCENT', CONCAT('%', :searchTerm, '%')))")
     List<Product> searchByName(@Param("searchTerm") String searchTerm);
 

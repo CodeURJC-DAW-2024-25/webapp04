@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -311,9 +312,9 @@ public class ProductController {
         if (search != null && !search.isEmpty()) {
             productPage = productService.searchByName(search, page, pageSize);
         } else if (category != null && !category.isEmpty()) {
-            productPage = productService.findByCategory(category, page, pageSize);
+            productPage = productService.findAvailableByCategory(category, page, pageSize);
         } else {
-            productPage = productService.findPaginatedCategory(page, pageSize);
+            productPage = productService.findPaginatedAvailable(page, pageSize);
         }
 
         if (productPage.isEmpty()) {
