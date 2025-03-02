@@ -50,6 +50,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/profile/**").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
+					.requestMatchers("/adminProfile").hasAnyRole("ADMIN")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
 					.requestMatchers("/editProfile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/chat/**").hasAnyRole("USER")
@@ -61,6 +62,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/chat/sell/**").hasRole("USER")
 					.requestMatchers("/reports").hasAnyRole("ADMIN")
 					.requestMatchers("/stats/get").hasAnyRole("USER")
+					.requestMatchers("/review/*/delete").hasRole("ADMIN")
 			)
 			.formLogin(formLogin -> formLogin
 					.loginPage("/login")

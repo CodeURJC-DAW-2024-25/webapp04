@@ -58,27 +58,6 @@
                     {{/isOwnProfile}}
                 </div>
 
-                <form>
-                    <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Ventas: <num class="fw-normal">{{salesNumber}}</num>
-                        </h5>
-                    </div>
-                    <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Compras: <num class="fw-normal">{{purchasesNumber}}</num>
-                        </h5>
-                    </div>
-                    <div class="mb-3 text-start">
-                        <h5 class="fw-bolder">Reseñas: <num class="fw-normal">{{reviewsNumber}}</num>
-                        </h5>
-                    </div>
-                    {{#location}}
-                    <div class="mb-3 text-start" th:if="${location}">
-                        <h5 class="fw-bolder">Ubicación:</h5>
-                        <div class="map-container">{{{location}}}</div>
-                    </div>
-                    {{/location}}
-                </form>
-
                 <div>
                     {{#isOwnProfile}}
                     <form action="/logout" method="POST">
@@ -88,42 +67,11 @@
                         <input type="hidden" name="_csrf" value="{{token}}" />
                     </form>
                     {{/isOwnProfile}}
-                    {{#admin}}
-                    <form action="/deleteAccount/{{id}}" method="POST">
-                        <button class="btn btn-custom" type="submit">
-                            <span>Borrar Cuenta</span>
-                        </button>
-                        <input type="hidden" name="_csrf" value="{{token}}" />
-                    </form>
-                    {{/admin}}
                 </div>
             </div>
         </div>
     </section>
     {{/showProfileSection}}
-
-    
-
-    {{#renderStats}}
-    <div class="container-fluid py-5">
-        <div class="profile-container">
-            <div>
-                <h5 class="fw-bolder">Estadísticas:</h5>
-                <canvas id="graficoTransacciones" width="400" height="200"></canvas>
-            </div>
-        </div>
-    </div>
-    {{/renderStats}}
-
-   
-    {{#reviewsSection}}
-    {{>reviews}}
-    {{/reviewsSection}}
-
-    
-    {{^reviewsSection}}
-    {{>showProducts_template}}
-    {{/reviewsSection}}
     
     
 

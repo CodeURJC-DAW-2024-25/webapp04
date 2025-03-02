@@ -148,6 +148,28 @@ public class ProfileController {
 
         return "profile_template";
     }
+
+    @GetMapping("/adminProfile")
+    public String adminProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails == null) {
+            return "redirect:/login";  
+        }
+        
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            return "redirect:/login";  
+        }
+
+        boolean showProfileSection = filter == null;
+        model.addAttribute("showProfileSection", showProfileSection);
+        
+        User user = optionalUser.get();
+        model.addAttribute("id", user.getId());
+        model.addAttribute("isOwnProfile", true);
+        model.addAttribute("username", user.getName());
+
+        return "adminProfile_template";
+    }
     
     @GetMapping("/profile/{profileId}")
     public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -337,6 +359,36 @@ public class ProfileController {
         reviewService.saveReview(review); 
         return "redirect:/product/" + id;
     }
+
+    @PostMapping("/review/{id}/delete")
+    public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("message", "Usuario no encontrado");
+            return "error";
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getRoles().contains("ADMIN")) {
+            model.addAttribute("message", "No tienes permisos para eliminar reseñas");
+            return "error";
+        }
+
+        Review review;
+        try {
+            review = reviewService.getReviewById(id);
+        } catch (RuntimeException e) {
+            model.addAttribute("message", "Review no encontrada");
+            return "error";
+        }
+
+        reviewService.delete(id);
+        return "redirect:/";
+    }
+
+
 
 
     @GetMapping("/reviews")
