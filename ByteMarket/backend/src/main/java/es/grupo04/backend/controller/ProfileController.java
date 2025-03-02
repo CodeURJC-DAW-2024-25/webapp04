@@ -83,10 +83,6 @@ public class ProfileController {
         User user = optionalUser.get();
         model.addAttribute("id", user.getId());
 
-        if (user.getRoles().contains("ADMIN")) {
-            return "adminProfile_template";
-        }
-
         if (user.getIframe() != null){
             model.addAttribute("location", user.getIframe());
         }
@@ -151,6 +147,28 @@ public class ProfileController {
         }
 
         return "profile_template";
+    }
+
+    @GetMapping("/adminProfile")
+    public String adminProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails == null) {
+            return "redirect:/login";  
+        }
+        
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            return "redirect:/login";  
+        }
+
+        boolean showProfileSection = filter == null;
+        model.addAttribute("showProfileSection", showProfileSection);
+        
+        User user = optionalUser.get();
+        model.addAttribute("id", user.getId());
+        model.addAttribute("isOwnProfile", true);
+        model.addAttribute("username", user.getName());
+
+        return "adminProfile_template";
     }
     
     @GetMapping("/profile/{profileId}")
@@ -344,8 +362,6 @@ public class ProfileController {
 
     @PostMapping("/review/{id}/delete")
     public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        System.out.println("Intentando eliminar review con ID: " + id);  // DEBUG
-
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
 
         if (!optionalUser.isPresent()) {
@@ -369,7 +385,7 @@ public class ProfileController {
         }
 
         reviewService.delete(id);
-        return "redirect:/profile?filter=reviews";
+        return "redirect:/";
     }
 
 

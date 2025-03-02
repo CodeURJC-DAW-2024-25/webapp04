@@ -50,6 +50,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/profile/**").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
+					.requestMatchers("/adminProfile").hasAnyRole("ADMIN")
 					.requestMatchers("/newProduct").hasAnyRole("USER")
 					.requestMatchers("/editProfile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/chat/**").hasAnyRole("USER")

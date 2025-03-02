@@ -1,7 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         {{#isOwnProfile}}
-            <a class="navbar-brand" href="/profile">Perfil</a>
+            {{#admin}}
+                <a class="navbar-brand" href="/adminProfile">Perfil</a>
+            {{/admin}}
+            {{^admin}}
+                <a class="navbar-brand" href="/profile">Perfil</a>
+            {{/admin}}
         {{/isOwnProfile}}
         {{^isOwnProfile}}
             <a class="navbar-brand" href="/profile/{{id}}">Perfil</a>
