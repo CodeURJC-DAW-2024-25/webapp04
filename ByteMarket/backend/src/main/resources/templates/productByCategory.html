@@ -32,7 +32,6 @@
             </div>
             <div class="row otherProducts" id="products-list">
                 {{#products}}
-                {{^sold}}
                 <div class="otherProduct col-3">
                     <a href="/product/{{id}}" style="text-decoration: none;">
                         <div class="productCard card h-100">
@@ -53,7 +52,6 @@
                         </div>
                     </a>
                 </div>
-                {{/sold}}
                 {{/products}}
             </div>
         </div> 
