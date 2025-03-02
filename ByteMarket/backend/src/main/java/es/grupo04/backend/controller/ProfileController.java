@@ -88,6 +88,7 @@ public class ProfileController {
             model.addAttribute("location", user.getIframe());
         }
         
+        model.addAttribute("isOwnProfile", true);
         model.addAttribute("username", user.getName());
         model.addAttribute("salesNumber", user.getSales().size());
         model.addAttribute("purchasesNumber", user.getPurchases().size());
@@ -144,6 +145,57 @@ public class ProfileController {
         } else {
             model.addAttribute("show_products", productService.findByOwner(user));
             model.addAttribute("title", "Mis productos");
+        }
+
+        return "profile_template";
+    }
+    
+    @GetMapping("/profile/{profileId}")
+    public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        boolean isOwnProfile = false;
+        Optional<User> profileOptional = userService.findById(profileId);
+        if(!profileOptional.isPresent()){
+            model.addAttribute("message", "No se encuentra el perfil");
+            return "error";
+        }
+        User profileUser = profileOptional.get();
+        if (userDetails == null) {
+            isOwnProfile = false;
+        }else{
+            Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+            User user = optionalUser.get();
+            isOwnProfile = user.equals(profileUser);
+        }
+        boolean showProfileSection = filter == null;
+        model.addAttribute("showProfileSection", showProfileSection);
+
+        if (profileUser.getIframe() != null){
+            model.addAttribute("location", profileUser.getIframe());
+        }
+        if(!isOwnProfile){
+            model.addAttribute("image", profileUser.getImageFile());
+            model.addAttribute("id", profileUser.getId());
+        }
+        model.addAttribute("isOwnProfile", isOwnProfile);
+        model.addAttribute("username", profileUser.getName());
+        model.addAttribute("salesNumber", profileUser.getSales().size());
+        model.addAttribute("purchasesNumber", profileUser.getPurchases().size());
+        model.addAttribute("reviewsNumber", profileUser.getReviews().size());
+
+        if ("favorites".equals(filter)) {
+            model.addAttribute("show_products", profileUser.getFavoriteProducts());
+            model.addAttribute("title", "Favoritos");
+        } else if ("historyPurchase".equals(filter)) {
+            model.addAttribute("show_products", productService.getLastPurchases(profileUser));
+            model.addAttribute("title", "Últimas compras");
+            model.addAttribute("renderStats", true);
+        } else if ("historySales".equals(filter)) {
+            model.addAttribute("show_products", productService.getLastSales(profileUser));
+            model.addAttribute("title", "Últimas ventas");
+            model.addAttribute("renderStats", true);
+        } else {
+            model.addAttribute("show_products", productService.findByOwner(profileUser));
+            model.addAttribute("title", "Productos");
         }
 
         return "profile_template";

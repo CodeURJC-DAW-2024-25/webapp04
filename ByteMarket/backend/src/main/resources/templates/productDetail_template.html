@@ -92,13 +92,15 @@
         <hr>
         <h3>Información del vendedor</h3>
         <div class="d-flex align-items-center">
+            <a href="../profile/{{product.owner.id}}" class="d-flex align-items-center text-decoration-none">
             {{#product.owner.image}}
             <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
             {{/product.owner.image}}
             {{^product.owner.image}}
             <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
             {{/product.owner.image}}
-
+            <input type="hidden" name="_csrf" value="{{token}}" />
+            </a>
 
             <div>
                 <h5 class="mb-0">{{product.owner.name}}</h5>

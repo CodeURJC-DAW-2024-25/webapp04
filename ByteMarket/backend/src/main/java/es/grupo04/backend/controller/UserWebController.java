@@ -1,14 +1,17 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,23 +25,23 @@ public class UserWebController {
    }
 
    @ModelAttribute
-    public void addAttributes(Model model, HttpServletRequest request) {
+   public void addAttributes(Model model, HttpServletRequest request) {
 
-        Principal principal = request.getUserPrincipal();
+      Principal principal = request.getUserPrincipal();
 
-        if (principal != null) {
+      if (principal != null) {
 
          User user = userService.findByMail(principal.getName()).get();
 
          model.addAttribute("logged", true);
-         model.addAttribute("userName", user.getName());    
+         model.addAttribute("userName", user.getName());
          model.addAttribute("admin", request.isUserInRole("ADMIN"));
          model.addAttribute("user", user);
 
-     } else {
+      } else {
          model.addAttribute("logged", false);
-     }
-    }
+      }
+   }
 
    @GetMapping("/login")
    public String login() {
@@ -58,15 +61,38 @@ public class UserWebController {
 
    @PostMapping("/signin")
    public String createUser(Model model, @ModelAttribute User user, String confirmPassword) {
-      if(userService.validateUser(user, confirmPassword)){
-         if(userService.createAccount(user)){   //If the user already has an account
+      if (userService.validateUser(user, confirmPassword)) {
+         if (userService.createAccount(user)) { // If the user already has an account
             model.addAttribute("message", "El usuario ya tiene una cuenta");
             return "error";
-         }else {          
+         } else {
             return "login_template";
          }
-      }else{
+      } else {
          model.addAttribute("message", "Error en la validación de los datos");
+         return "error";
+      }
+   }
+
+   @PostMapping("/deleteAccount/{userId}")
+   public String deleteAccount(@PathVariable Long userId, HttpServletRequest request, Model model) {
+      Optional<User> userOptional = userService.findById(userId);
+      System.out.println("Searching for user with ID: " + userId);  // Add logging here
+      if (!userOptional.isPresent()) {
+         model.addAttribute("message", "Usuario no encontrado");
+         return "error";
+      }
+      User userToDelete = userOptional.get();
+      if (request.isUserInRole("ADMIN")) {
+         if (userToDelete != null && !userToDelete.getName().equals(request.getUserPrincipal().getName())) {
+            userService.delete(userToDelete);
+            return "redirect:/";
+         }else{
+            model.addAttribute("message", "Este usuario no puede ser borrado");
+            return "error";  
+         }
+      }else{
+         model.addAttribute("message", "No tienes permisos para realizar esta operación");
          return "error";
       }
    }
