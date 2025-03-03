@@ -197,26 +197,80 @@ public class DataBaseInitializer {
         images7.add(image16);
         images7.add(image17);
         
+        // AURICULARES INALÁMBRICOS
+        Path imagePath18 = Paths.get("src", "main", "resources", "static", "images", "auricularesinalambricos1.jpg");
+        File imageFile18 = imagePath18.toFile();
+        byte[] imageData18 = Files.readAllBytes(imageFile18.toPath());
 
-        /*ImageRepository.save(image);
-        ImageRepository.save(image2);*/
-   
+        Path imagePath19 = Paths.get("src", "main", "resources", "static", "images", "auricularesinalambricos1.jpg");
+        File imageFile19 = imagePath19.toFile();
+        byte[] imageData19 = Files.readAllBytes(imageFile19.toPath());
+
+        Blob imageBlob18 = new SerialBlob(imageData18);
+        Image image18 = new Image(imageBlob18); 
+        Blob imageBlob19 = new SerialBlob(imageData19);
+        Image image19 = new Image(imageBlob19);
+        ArrayList<Image> images8 = new ArrayList<>();
+        images8.add(image18);
+        images8.add(image19);
+
+        // PC TORRE
+        Path imagePath20 = Paths.get("src", "main", "resources", "static", "images", "pc1.jpg");
+        File imageFile20 = imagePath20.toFile();
+        byte[] imageData20 = Files.readAllBytes(imageFile20.toPath());
+
+        Path imagePath21 = Paths.get("src", "main", "resources", "static", "images", "pc2.jpg");
+        File imageFile21 = imagePath21.toFile();
+        byte[] imageData21 = Files.readAllBytes(imageFile21.toPath());
+
+        Blob imageBlob20 = new SerialBlob(imageData20);
+        Image image20 = new Image(imageBlob20); 
+        Blob imageBlob21 = new SerialBlob(imageData21);
+        Image image21 = new Image(imageBlob21);
+        ArrayList<Image> images9 = new ArrayList<>();
+        images9.add(image20);
+        images9.add(image21);
+  
+        // SMARTWATCH
+        Path imagePath22 = Paths.get("src", "main", "resources", "static", "images", "reloj1.jpg");
+        File imageFile22 = imagePath22.toFile();
+        byte[] imageData22 = Files.readAllBytes(imageFile22.toPath());
+
+        Path imagePath23 = Paths.get("src", "main", "resources", "static", "images", "reloj2.jpg");
+        File imageFile23 = imagePath23.toFile();
+        byte[] imageData23 = Files.readAllBytes(imageFile23.toPath());
+
+        Blob imageBlob22 = new SerialBlob(imageData22);
+        Image image22 = new Image(imageBlob22); 
+        Blob imageBlob23 = new SerialBlob(imageData23);
+        Image image23 = new Image(imageBlob23);
+        ArrayList<Image> images10 = new ArrayList<>();
+        images10.add(image22);
+        images10.add(image23);
 
         // Create products in a list
         List<Product> productsUser1 = List.of(
-            new Product("Air Pods Apple", "", 590, "Auriculares", images),
-            new Product("Portatil Toshiba", "", 400, "Ordenadores", images3),
-            new Product("Xiaomi Redmi Note 11", "", 200, "Móviles", images2),
-            new Product("Teclado Mecánico", "", 100, "Otros", images6),
-            new Product("Monitor HP", "", 600, "Otros", images5)
+            new Product("Air Pods Apple", "Auriculares inalámbricos de alta calidad con tecnología de cancelación de ruido activa. Incluyen un estuche de carga que proporciona hasta 24 horas de autonomía y conectividad Bluetooth de última generación para una experiencia de audio envolvente.", 590, "Auriculares", images),
+            new Product("Portatil Toshiba", "Ordenador portátil diseñado para el rendimiento y la productividad. Equipado con un procesador Intel Core i5 de décima generación, 8GB de RAM y un disco SSD de 512GB, ideal para multitarea y aplicaciones exigentes.", 400, "Ordenadores", images3),
+            new Product("Xiaomi Redmi Note 11", "Smartphone con pantalla AMOLED de 6.43 pulgadas y tasa de refresco de 90Hz. Cuenta con una cámara principal de 50 MP, batería de 5000mAh con carga rápida de 33W y procesador Snapdragon 680 para un rendimiento fluido.", 200, "Móviles", images2),
+            new Product("Teclado Mecánico", "Teclado mecánico retroiluminado con switches personalizables para una experiencia de escritura y gaming precisa. Dispone de estructura ergonómica, teclas anti-ghosting y compatibilidad con Windows y macOS.", 80, "Otros", images6),
+            new Product("Monitor HP", "Monitor de 27 pulgadas con resolución Full HD y tecnología antirreflejo. Ofrece colores vibrantes, amplio ángulo de visión y conectividad HDMI y DisplayPort, ideal para trabajo, entretenimiento y gaming.", 250, "Otros", images5)
         );
 
+
         List<Product> productsUser2 = List.of(
-            new Product("Cámara Nikon", "",800, "Otros", images4),
-            new Product("Tablet", "", 900, "Tablets", images7),
-            new Product("Impresora 3D", "", 450, "Otros"),
-            new Product("Silla ergonómica", "", 250, "Otros"),
-            new Product("Reloj inteligente", "", 200, "SmartWatches")
+            new Product("Cámara Nikon", "Cámara profesional de alta resolución con sensor de 24 MP y sistema de enfoque avanzado. Ideal para fotografía y video en alta calidad, con conectividad WiFi y Bluetooth para compartir imágenes al instante.", 800, "Otros", images4),
+            new Product("Tablet", "Tableta con pantalla de 10.1 pulgadas y resolución Full HD. Equipada con un potente procesador, 4GB de RAM y 64GB de almacenamiento, ideal para entretenimiento, trabajo y estudio.", 900, "Tablets", images7),
+            new Product("Auriculares inalámbricos", "Auriculares Bluetooth con cancelación de ruido activa, sonido envolvente y batería de larga duración. Diseño ergonómico para un ajuste cómodo y micrófono integrado para llamadas claras.", 450, "Auriculares", images8),
+            new Product("PC Gaming", "Amd Ryzen 5 3600 (6/12)\r\n" + //
+                                "🔸P.Base Gigabyte A520M S2H\r\n" + //
+                                "🔸16 GB DDR4 Kingston 3200 (2x8GB)\r\n" + //
+                                "🔸Disco m2 nvme SDD Kingston 1TB.\r\n" + //
+                                "🔸T.Gráfica Intel ARC A380 6GB GDDR6.\r\n" + //
+                                "🔸Torre ATX Montech X3 Mesh Black.\r\n" + //
+                                "🔸F.Alimentación Nox VX 650W Bronze.\r\n" + //
+                                "🔸Windows 11 Pro.", 250, "Ordenadores", images9),
+            new Product("Smartwatch", "Compatible con iPhone, hace/contesta llamadas, compatible con Android/iphone, aprueba de agua, bateria de larga duracion, pantalla tactil, control de música, registro de actividad fisica, diversas esferas de reloj, cable USB para su correspondiente carga, eleccion ideal para regalar.", 200, "SmartWatches", images10)
         );
 
 
