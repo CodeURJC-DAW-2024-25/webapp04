@@ -95,25 +95,29 @@
 
 ### 🏠 Home Screen
 This screen will show to whoever the access to webpage. This image represents the anonymus user's header (depending on the user, the header will change), from which you can either login or sign up. Also, any user have access to view the details of the products. 
-<!-- ![*2.1 Home Screen*](./Capturas/Home.PNG) -->
+
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
 | ![*2.1.1 Home Screen*](./Capturas/actualizado/InicioUser.png) | ![*2.1.2 Home Screen*](./Capturas/actualizado/admin/Inicio.jpg) | () |
 
 
 ###  🎮 Product detail Screen
-Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller.
-![*2.2.1 Details Screen*](./Capturas/Detalle1.PNG)
-![*2.2.2 Details Screen*](./Capturas/Detalle2.PNG)
+Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller. If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
 
 | Product detail of other user |
+| :----: | :------: | :------: |
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.2.1 Details Screen*](./Capturas/actualizado/detalleProductoAjeno.jpg) | ![*2.2.2 Details Screen*](./Capturas/actualizado/admin/InicioUser.png) | () |
+| ![*2.2.1 Details Screen*](./Capturas/actualizado/detalleProductoAjeno.jpg) | ![*2.2.2 Details Screen*](./Capturas/actualizado/admin/detalle.jpg) | () |
 
-If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
-![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.PNG)
-![*2.2.2 Details Screen*](./Capturas/Detalle3-Reseña.PNG)
+| Product detail of buyed product (user) |
+| :----: | :------: | :------: |
+| ![*2.2.3 Details Screen*](./Capturas/actualizado/detalleProductoComprado.jpg) |
+
+| Product detail of own product |
+| :----: | :------: | :------: |
+| ![*2.2.4 Details Screen*](./Capturas/actualizado/detalleProductoPropio.jpg) |
+
 
 ###  👨‍💻 Login/Sign up Screen
 Depending on whether the user is registered or not, one of the two screens will be displayed. The login screen is shown only to registered users and in case they are not registered, the registration screen will be shown.
@@ -121,43 +125,66 @@ Depending on whether the user is registered or not, one of the two screens will 
 ![*2.3.2 Sign up Screen*](./Capturas/Registro.PNG)
 
 ###  ✉️ Chat Screen
-If a buyer wants to ask the seller some questions about the product, they will chat together.
-![*2.4 Chat Screen*](./Capturas/Chat.PNG)
+If a buyer wants to ask the seller some questions about the product, they will chat together. The buyer should talk with the seller to the seller be able to sell the product.
+![*2.4 Chat Screen*](./Capturas/actualizado/Chat.jpg)
 
 ###  🚫 Reports Screen
 Admin users can manage the reports from this screen.
-![*2.5 Reports Screen*](./Capturas/Reporte.PNG)
+![*2.5 Reports Screen*](./Capturas/actualizado/admin/Reportes.jpg)
 
 ###  👤 Profile Screen
 All type of users can see other profiles. But only registered users and admins will be able to see their own profiles. 
 ![*2.6 Profile Screen*](./Capturas/Perfil.PNG)
 
+| Profile of other user |
+| :----: | :------: | :------: |
+| User | Admin | Anonymous |
+| :----: | :------: | :------: |
+| ![*2.6.1.1 Profile Screen*](./Capturas/actualizado/perfilAjeno.jpg) | ![*2.6.1.2 Profile Screen*](./Capturas/actualizado/admin/perfilOtro1.jpg) | only changes the header |
+
+| Own profile |
+| :----: | :------: |
+| User | Admin |
+| :----: | :------: |
+| ![*2.6.2.1 Profile Screen*](./Capturas/actualizado/perfilPropio.png) | ![*2.6.2.2 Profile Screen*](./Capturas/actualizado/admin/propioPerfil.jpg) | 
+
 ###  ✏️ Edit profile Screen
 Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.9 Edit profile Screen*](./Capturas/Editar%20Usuario.PNG)
+![*2.7 Edit profile Screen*](./Capturas/Editar%20Usuario.PNG)
+
+| User | Admin |
+| :----: | :------: |
+| ![*2.7.1 Edit profile Screen*](./Capturas/actualizado/editarPerfil.png) | ![*2.7.2 Edit profile Screen*](./Capturas/actualizado/admin/editarPerfil.jpg) | 
+
 
 ###  ❤️ Favorite products Screen
 The registered user will add products as favorites and they will be shown in their profile. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.7 Favorite products Screen*](./Capturas/Favoritos.PNG)
+
+| No empty | Empty |
+| :----: | :------: |
+| ![*2.8.1 Edit profile Screen*](./Capturas/actualizado/favoritos.jpg) | ![*2.8.2 Edit profile Screen*](./Capturas/actualizado/favoritosVacio.jpg) | 
 
 ###  🛒 Sell product Screen
-If a registered user wants to sell a product, this screen will be shown. The user should fill the form.
-![*2.8 Sell product Screen*](./Capturas/Vender.PNG)
+If a registered user wants to sell a product, this screen will be shown. The user should fill all sections of the form.
+
+| Normal | Error (no fill) |
+| :----: | :------: |
+| ![*2.9.1 Sell product Screen*](./Capturas/actualizado/venderProducto.jpg) | ![*2.9.2 Sell product Screen*](./Capturas/actualizado/venderProductoError.jpg) |
 
 ###  ✏️ Edit product
-Only the owners of the product can edit it.
+Only the owners of the product can edit all the parameters.
 
 ###  🔍 Profile review Screen
 All type of users can see the reviews of other users in their profile.
-![*2.10 Profile review Screen*](./Capturas/ReseñasPerfil.png)
+<!-- ![*2.10 Profile review Screen*](./Capturas/) -->
 
 ### 📊 Sales history  Screen
 The products that were sold will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.11 Sales history Screen*](./Capturas/HVentas.PNG)
+![*2.11 Sales history Screen*](./Capturas/actualizado/historialVenta.jpg)
 
 ### 📜 History purchase Screen
 The purchased products will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.12 History purchase Screen*](./Capturas/HCompras.PNG)
+![*2.12 History purchase Screen*](./Capturas/actualizado/historialCompra.jpg)
 
  
 ### 🗺️ Screens Flowchart
