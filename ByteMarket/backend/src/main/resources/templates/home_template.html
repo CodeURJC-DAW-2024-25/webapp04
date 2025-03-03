@@ -23,13 +23,14 @@
 {{>navbar_home}}
 
 <body>
+    {{#top_seller_products}}
     <section class="py-4">
         <div class="container">
             <h2 class="fw-bolder mb-3">Productos destacados</h2>
     
             <div class="carousel-container">
                 <div class="carousel-scroll" id="product-carousel">
-                    {{#top_seller_products}}
+                    
                     <div class="product-item">
                         <a href="/product/{{id}}" style="text-decoration: none;">
                             <div class="productCard card h-100">
@@ -48,11 +49,12 @@
                             </div>
                         </a>
                     </div>
-                    {{/top_seller_products}}
+                    
                 </div>
             </div>
         </div>
     </section>
+    {{/top_seller_products}}
 
 
     <section class="py-4">
