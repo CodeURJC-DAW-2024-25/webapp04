@@ -222,10 +222,11 @@ All options under "View Profile," such as history, favorites, and account editin
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/) | Recommended products |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/4245f60fddbd6747087313ccbeabc606873b19d7) | Filter by category and searcher with AJAX refreshing integration |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/60225ea378ec72903fb88e5ff9c6304064e41e0f) | Sell product |
-| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d56ae86885e7ba4797e5d020725eefadb347a886) | Both navbars and profile views with user restrictions functional |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/4245f60fddbd6747087313ccbeabc606873b19d7) | Filter by category and searcher with AJAX refreshing integration |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d56ae86885e7ba4797e5d020725eefadb347a886) | Both navbars and profile views with user restrictions functional |
+| [2º](https://github.com/) | Recommended products |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/60225ea378ec72903fb88e5ff9c6304064e41e0f) | |
+
 | [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
 
 | File | Name |
