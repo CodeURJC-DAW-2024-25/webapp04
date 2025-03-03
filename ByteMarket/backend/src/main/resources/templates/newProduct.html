@@ -47,12 +47,14 @@
                     </select>
                 </div>
             </div>
+            {{^edit}}
             <div class="mb-3">
     
                 <label for="imageUpload" class="form-label">Subir Imágenes (máx. 5) </label>
                 <input type="file" class="form-control" id="imageUpload" name="imageUpload" multiple accept="image/jpeg, image/png, image/jpg" required>
            
             </div>
+            {{/edit}}
             <div class="row d-flex justify-content-between buttons">
                 <input type="hidden" name="_csrf" value="{{token}}"/>
                 <div class="col-md-6">
@@ -68,7 +70,56 @@
                     </a>
                 </div>
             </div>
-        </form>    
+        </form> 
+        
+        {{#edit}}
+            <h2>Gestionar imágenes</h2>
+            <div class="form">
+                <div class="form-label">Imágenes del producto</div>
+                <div class="image-container">
+                    {{#oneImage}}
+                        {{#images}}
+                            <div class="m-2 position-relative">
+                                <img src="/product/image/{{id}}" style="height: 300px;">
+                            </div>
+                        {{/images}}
+                    {{/oneImage}}
+                    {{^oneImage}}
+                        {{#images}}
+                        <form action="/delete/image/{{id}}" class="m-2 position-relative imgForm" method="POST">
+                            <img src="/product/image/{{id}}" class="prodImg">
+                            <button type="submit" class="deleteImg"> <i class="bi bi-x-circle-fill"></i> </button>
+                            <input type="hidden" name="_csrf" value="{{token}}"/>
+                            <input type="text" name="productId" value="{{product.id}}" hidden>
+                        </form>
+                        {{/images}}
+                    {{/oneImage}}
+                </div>
+                <div>
+                    {{#maxImages}}
+                        <div class="info">
+                            <i class="bi bi-info-circle-fill"></i> No puedes añadir más imágenes a este producto
+                        </div>
+                    {{/maxImages}}
+                    {{^maxImages}}
+                        <form action="/add/image/{{product.id}}" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="imageUpload" class="form-label">Añadir Imagen</label>
+                                <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/jpeg, image/png, image/jpg" required>
+                            </div>
+                            <input type="hidden" name="_csrf" value="{{token}}"/>
+                            <button type="submit" class="btn btn-outline-dark btn-custom w-100">
+                                <i class="bi bi-upload"></i> Añadir Imagen
+                            </button>
+                        </form>
+                    {{/maxImages}}	
+                </div>
+            </div>
+        {{/edit}}
+        <!-- Si edit => si maxImagenes entonces sin boton de añadir
+             si no con campo para añadir una sola imagen que se haga el post y te 
+             redirija al formulario de edicion -->
+        
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {

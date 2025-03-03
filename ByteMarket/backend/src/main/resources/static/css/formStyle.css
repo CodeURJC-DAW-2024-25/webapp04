@@ -1,18 +1,32 @@
 .container{
-    margin-top: 60px;
-    margin-bottom: 60px;
-    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
 }
 .form{
     text-align: left;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #ffffff;
+    color: black;
     padding: 5%;
-    background-color: #777;
+    background-color:white;
     font-weight: bold;
     border-radius: 0.8em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     z-index: 1; /* To prevent an element from overlapping with another */
+    margin-bottom: 10px;
 }
+
+.form input {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form textarea {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form select {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* #map{
     width: 100%;
     border-radius: 0.8em;
@@ -55,4 +69,43 @@ body {
     box-shadow: 
                0 0 10px #fff,
                0 0 5px #fff;
+}
+
+.image-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+}
+
+.deleteImg{
+    border: none;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 0 0 0 7px;
+    color: black;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+.deleteImg:hover{
+    color: #d35400;
+    transition: color 0.3s ease;
+}
+
+.prodImg{
+    width: 200px;
+    margin: 5px;
+}
+
+.info{
+    text-align: center;
+    margin: auto;
+    width: fit-content;
+    font-weight: bold;
+    background-color: #ffcaa7;
+    padding: 15px;
+    border-radius: 8px;
+    color: rgb(180, 96, 0);
+    border: solid rgb(255, 157, 38);
 }
