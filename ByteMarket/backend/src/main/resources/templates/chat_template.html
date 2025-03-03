@@ -68,7 +68,7 @@
                         </li>
                         {{/selling}}
                         {{/chats}}
-                        
+
                         {{^chats}}
                         <div class="text-center">
                             <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
@@ -81,7 +81,9 @@
             {{#current_chat}}
             <div class="col-md-8 d-flex flex-column" style="height: 80vh;">
                 <div class="p-3 border-bottom">
-                    <h5>{{current_chat_name}}</h5>
+                    <a href="../product/{{current_chat.product.id}}" class="d-flex align-items-center text-decoration-none text-dark">
+                        <h5 class="m-0">{{current_chat_name}}</h5>
+                    </a>                                                            
                 </div>
 
                 <div class="flex-grow-1 p-3 overflow-auto" style="background-color: #f8f9fa;" id="messages-container">
@@ -89,14 +91,14 @@
                     <div class="d-flex mb-4 justify-content-start align-items-center">
                         <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
                             <a href="../profile/{{sender.id}}" class="d-flex align-items-center text-decoration-none">
-                            {{#sender.image}}
-                            <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}"
-                                id="pfp-preview" alt="pfp" width="60" height="60">
-                            {{/sender.image}}
-                            {{^sender.image}}
-                            <img class="profile-pic mb-3 rounded-circle" src="/images/default_pfp.jpg" id="pfp-preview"
-                                alt="pfp" width="60" height="60">
-                            {{/sender.image}}
+                                {{#sender.image}}
+                                <img class="profile-pic mb-3 rounded-circle" src="/user/image/{{sender.id}}"
+                                    id="pfp-preview" alt="pfp" width="60" height="60">
+                                {{/sender.image}}
+                                {{^sender.image}}
+                                <img class="profile-pic mb-3 rounded-circle" src="/images/default_pfp.jpg"
+                                    id="pfp-preview" alt="pfp" width="60" height="60">
+                                {{/sender.image}}
                             </a>
                             <div class="ms-3">
                                 <p class="mb-1">
