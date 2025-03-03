@@ -98,7 +98,7 @@ This screen will show to whoever the access to webpage. This image represents th
 <!-- ![*2.1 Home Screen*](./Capturas/Home.PNG) -->
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| (./Capturas/actualizado/InicioUser.png) | (./Capturas/actualizado/admin/Inicio.jpg) | () |
+| ![*2.1.1 Home Screen*](./Capturas/actualizado/InicioUser.png) | ![*2.1.2 Home Screen*](./Capturas/actualizado/admin/Inicio.jpg) | () |
 
 
 ###  🎮 Product detail Screen
@@ -109,7 +109,7 @@ Screen showing information about the product for sale (price, description) and t
 | Product detail of other user |
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| (./Capturas/actualizado/detalleProductoAjeno.jpg) | (./Capturas/actualizado/admin/InicioUser.png) | () |
+| ![*2.2.1 Details Screen*](./Capturas/actualizado/detalleProductoAjeno.jpg) | ![*2.2.2 Details Screen*](./Capturas/actualizado/admin/InicioUser.png) | () |
 
 If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
 ![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.PNG)
