@@ -16,15 +16,17 @@
     <link rel="stylesheet" href="/css/profileStyle.css">
     <link rel="stylesheet" href="/css/editProfile.css">
     <link rel="stylesheet" href="/css/headerStyle.css">
+    <link rel="stylesheet" href="/css/homeStyle.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <title>ByteMarket</title>
 </head>
 
+{{>header}}
+
+{{>navbar_profile}}
+
 <body>
-    {{>header}}
-
-    {{>navbar_profile}}
-
+    
     {{#showProfileSection}}
 
     <section class="py-4">
