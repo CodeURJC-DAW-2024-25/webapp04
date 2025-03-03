@@ -18,59 +18,75 @@
 {{>header}}
 
 <body>
-<div class="container">
-    <h2>Añadir un nuevo producto</h2>
-    <form class="form" method="POST" action="/newProduct" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="name" class="form-label">Nombre del Producto</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Descripción</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="price" class="form-label">Precio</label>
-                <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required>
+    <div class="container">
+        <h2>{{#edit}}Editar Producto{{/edit}}{{^edit}}Nuevo Producto{{/edit}}</h2>
+        <form class="form" method="POST" action="{{#edit}}/editProduct/{{product.id}}{{/edit}}{{^edit}}/newProduct{{/edit}}" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre del Producto</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{#edit}}{{product.name}}{{/edit}}" required>
             </div>
-            <div class="col-md-6">
-                <label for="category" class="form-label">Categoría</label>
-                <select class="form-select" id="category" name="category" required>
-                    <option value="">Seleccione una categoría</option>
-                    <option value="Móviles">Móviles</option>
-                    <option value="Ordenadores">Ordenadores</option>
-                    <option value="Tablets">Tablets</option>
-                    <option value="Auriculares">Auriculares</option>
-                    <option value="SmartWatches">SmartWatches</option>
-                    <option value="Otros">Otros</option>
-                </select>
+            <div class="mb-3">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" name="description" rows="4" required>{{#edit}}{{product.description}}{{/edit}}</textarea>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="price" class="form-label">Precio</label>
+                    <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" value="{{#edit}}{{product.price}}{{/edit}}" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">Categoría</label>
+                    <select class="form-select" id="category" name="category" required>
+                        <option value="">Seleccione una categoría</option>
+                        <option value="Móviles">Móviles</option>
+                        <option value="Ordenadores">Ordenadores</option>
+                        <option value="Tablets">Tablets</option>
+                        <option value="Auriculares">Auriculares</option>
+                        <option value="SmartWatches">SmartWatches</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3">
+    
                 <label for="imageUpload" class="form-label">Subir Imágenes (máx. 5) </label>
                 <input type="file" class="form-control" id="imageUpload" name="imageUpload" multiple accept="image/jpeg, image/png, image/jpg" required>
+           
             </div>
-        </div>
-        <div class="row d-flex justify-content-between buttons">
-            <input type="hidden" name="_csrf" value="{{token}}"/>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
-                    <i class="bi bi-upload"></i> Publicar Producto
-                </button>
-            </div>
-            <div class="col-md-6">
-                <a href="/" class="w-100">
-                    <button type="button" class="btn btn-outline-dark btn-custom w-100">
-                        <i class="bi bi-x-circle"></i> Cancelar
+            <div class="row d-flex justify-content-between buttons">
+                <input type="hidden" name="_csrf" value="{{token}}"/>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
+                        <i class="bi bi-upload"></i>{{#edit}} Actualizar Producto{{/edit}}{{^edit}} Crear Producto{{/edit}}
                     </button>
-                </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="/" class="w-100">
+                        <button type="button" class="btn btn-outline-dark btn-custom w-100">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </button>
+                    </a>
+                </div>
             </div>
-        </div>
-    </form>    
-</div>
-
-{{>footer}}
-</body>
+        </form>    
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const categorySelect = document.getElementById("category");
+            const selectedCategory = "{{#edit}}{{product.category}}{{/edit}}";
+    
+            if (selectedCategory) {
+                for (let option of categorySelect.options) {
+                    if (option.value === selectedCategory) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+    
+    {{>footer}}
+    </body>
+    </html>
 </html>

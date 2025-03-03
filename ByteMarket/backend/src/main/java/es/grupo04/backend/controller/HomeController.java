@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -51,12 +52,14 @@ public class HomeController {
                     Model model, 
                     @AuthenticationPrincipal UserDetails userDetails) {
         int pageSize = 8;
-        List<Product> products = productService.findPaginated(page, pageSize);
-        model.addAttribute("other_products", products);
+
+        Page<Product> productPage = productService.findPaginatedAvailable(page, pageSize);
+        model.addAttribute("other_products", productPage.getContent());
 
         List<Product> topRatedSellersProducts = productService.findTopRatedSellersProducts();
         model.addAttribute("top_seller_products", topRatedSellersProducts);
         model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
 
         return "home_template";
     }
