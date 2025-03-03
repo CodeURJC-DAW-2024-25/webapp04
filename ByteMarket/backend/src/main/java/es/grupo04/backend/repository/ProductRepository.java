@@ -50,7 +50,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             JOIN SellerRatings sr ON p.owner_id = sr.seller_id
         )
         SELECT * FROM RankedProducts
-        WHERE product_rank <= 2
+        WHERE product_rank <= 3
         ORDER BY avg_rating DESC, publish_date DESC
     """, nativeQuery = true)
     List<Product> findTopRatedSellersProducts();
