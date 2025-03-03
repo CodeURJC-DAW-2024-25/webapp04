@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -266,6 +268,31 @@ public class ProductController {
         }
         return "redirect:/"; 
     }
+    // Edit Product
+     @GetMapping("/editProduct/{id}")
+     public String editProduct(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+         Optional<Product> optionalProduct = productService.findById(id);
+     
+         if (!optionalProduct.isPresent()) {
+             model.addAttribute("message", "Producto no encontrado");
+             return "error";
+         }
+     
+         Product product = optionalProduct.get();
+         System.out.println("El producto que se pasa es:" + product.getName());
+         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+     
+         if (!optionalUser.isPresent() || !product.getOwner().equals(optionalUser.get())) {
+             model.addAttribute("message", "No autorizado para editar este producto");
+             return "error";
+         }
+         
+         model.addAttribute("product", product);
+         model.addAttribute("edit", true); 
+         return "newProduct";
+     }
+     
+
 
     @GetMapping("/newProduct")
     public String newProduct(Model model) {
