@@ -224,10 +224,11 @@ All options under "View Profile," such as history, favorites, and account editin
 | :----: | :---------: |
 | [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/4245f60fddbd6747087313ccbeabc606873b19d7) | Filter by category and searcher with AJAX refreshing integration |
 | [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d56ae86885e7ba4797e5d020725eefadb347a886) | Both navbars and profile views with user restrictions functional |
-| [2º](https://github.com/) | Recommended products |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/60225ea378ec72903fb88e5ff9c6304064e41e0f) | |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/ed3e581aac8d4e1f9a1adbd24f7e848faa2420ff) | Recommended products |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f4a4625be3606e88a90bb10543acb94a2eedbe99) | Data base initializer products |
 
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
+
 
 | File | Name |
 | :----: | :---------: |
