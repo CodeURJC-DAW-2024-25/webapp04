@@ -57,15 +57,15 @@ public class DataBaseInitializer {
 
         // AIR PODS
         // Read the image file from the static/images directory
-        Path imagePath = Paths.get("src", "main", "resources", "static", "images", "auriculares1.jpeg");
+        Path imagePath = Paths.get("src", "main", "resources", "static", "images", "auriculares1.jpg");
         File imageFile = imagePath.toFile();
         byte[] imageData = Files.readAllBytes(imageFile.toPath());
 
-        Path imagePath2 = Paths.get("src", "main", "resources", "static", "images", "auriculares2.jpeg");
+        Path imagePath2 = Paths.get("src", "main", "resources", "static", "images", "auriculares2.jpg");
         File imageFile2 = imagePath2.toFile();
         byte[] imageData2 = Files.readAllBytes(imageFile2.toPath());
 
-        Path imagePath3 = Paths.get("src", "main", "resources", "static", "images", "auriculares3.jpeg");
+        Path imagePath3 = Paths.get("src", "main", "resources", "static", "images", "auriculares3.jpg");
         File imageFile3 = imagePath3.toFile();
         byte[] imageData3 = Files.readAllBytes(imageFile3.toPath());
 
