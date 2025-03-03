@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,16 +47,22 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+    public String home(@RequestParam(value = "page", defaultValue = "0") int page, 
+                    Model model, 
+                    @AuthenticationPrincipal UserDetails userDetails) {
         int pageSize = 8;
         List<Product> products = productService.findPaginated(page, pageSize);
         model.addAttribute("other_products", products);
 
-        List<Product> topRatedProducts = productService.findTopRatedProducts(4);
-        model.addAttribute("featured_products", topRatedProducts);
-
+        List<Product> topRatedSellersProducts = productService.findTopRatedSellersProducts();
+        model.addAttribute("top_seller_products", topRatedSellersProducts);
         model.addAttribute("currentPage", page);
+
         return "home_template";
     }
+
+
+
+
 
 }

@@ -24,33 +24,32 @@
 
 <body>
     <section class="py-4">
-        <div class="container otherProdContainer">
-            <div class="">
-                <h2 class="fw-bolder mb-3">Mejor valorados</h2>
-            </div>
-            <div class="row otherProducts" id="products-list">
-                {{#featured_products}}
-                <div class="otherProduct col-3">
-                    <a href="/product/{{id}}" style="text-decoration: none;">
-                        <div class="productCard card h-100">
-                            {{#thumbnail}}
-                            <img class="card-img-top" src="/product/image/{{id}}" alt="{{name}}" />
-                            {{/thumbnail}}
-                            {{^thumbnail}} <!-- PROVISIONAL -->
-                            <img class="card-img-top"
-                                src="data:image/png;base64,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"
-                                alt="{{name}}" />
-                            {{/thumbnail}}
-                            <div class="card-body p-4">
-                                <div class="text-center">
+        <div class="container">
+            <h2 class="fw-bolder mb-3">Productos destacados</h2>
+    
+            <div class="carousel-container">
+                <div class="carousel-scroll" id="product-carousel">
+                    {{#top_seller_products}}
+                    <div class="product-item">
+                        <a href="/product/{{id}}" style="text-decoration: none;">
+                            <div class="productCard card h-100">
+                                {{#thumbnail}}
+                                <img class="card-img-top" src="/product/image/{{id}}" alt="{{name}}" />
+                                {{/thumbnail}}
+                                {{^thumbnail}}
+                                <img class="card-img-top"
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADh..."
+                                    alt="{{name}}" />
+                                {{/thumbnail}}
+                                <div class="card-body p-4 text-center">
                                     <h5 class="fw-bolder">{{name}}</h5>
-                                    {{price}}€
+                                    <p>{{price}}€</p>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                    {{/top_seller_products}}
                 </div>
-                {{/featured_products}}
             </div>
         </div>
     </section>

@@ -117,6 +117,48 @@
     margin-bottom: 30px;
 }
 
+.carousel-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+    padding-bottom: 10px;
+}
+
+.carousel-scroll {
+    display: flex;
+    gap: 16px;
+}
+
+.product-item {
+    flex: 0 0 auto;
+    width: 250px; 
+}
+
+.carousel-container {
+    background-color: #333; 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+
+.carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 /*RESPONSIVE*/
 @media (max-width: 1250px){   
     .header-logo{
