@@ -95,12 +95,21 @@
 
 ### 🏠 Home Screen
 This screen will show to whoever the access to webpage. This image represents the anonymus user's header (depending on the user, the header will change), from which you can either login or sign up. Also, any user have access to view the details of the products. 
-![*2.1 Home Screen*](./Capturas/Home.PNG) 
+<!-- ![*2.1 Home Screen*](./Capturas/Home.PNG) -->
+| User | Admin | Anonymous |
+| :----: | :------: | :------: |
+| (./Capturas/actualizado/InicioUser.png) | (./Capturas/actualizado/admin/Inicio.jpg) | () |
+
 
 ###  🎮 Product detail Screen
 Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller.
 ![*2.2.1 Details Screen*](./Capturas/Detalle1.PNG)
 ![*2.2.2 Details Screen*](./Capturas/Detalle2.PNG)
+
+| Product detail of other user |
+| User | Admin | Anonymous |
+| :----: | :------: | :------: |
+| (./Capturas/actualizado/detalleProductoAjeno.jpg) | (./Capturas/actualizado/admin/InicioUser.png) | () |
 
 If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
 ![*2.2.1 Details Screen*](./Capturas/Detalle3-Reporte.PNG)
