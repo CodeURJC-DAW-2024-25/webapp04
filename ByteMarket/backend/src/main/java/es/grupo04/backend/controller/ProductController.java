@@ -37,6 +37,7 @@ import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.ReportService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,6 +56,9 @@ public class ProductController {
 
     @Autowired
     private ReportService reportService;
+
+    @Autowired
+    private PurchaseService purchaseService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -90,6 +94,7 @@ public class ProductController {
         boolean isOwner = false;
         boolean isFavorite = false;
         boolean hasBought = false;
+        boolean hasBoughtProduct = false;
 
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
@@ -97,6 +102,7 @@ public class ProductController {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product);
                 hasBought = userService.hasBought(userOptional.get(), product.getOwner());
+                hasBoughtProduct = purchaseService.hasUserBoughtProduct(userOptional.get(), product);
             }
         }
 
@@ -105,6 +111,7 @@ public class ProductController {
         }
         
         model.addAttribute("hasBought", hasBought);
+        model.addAttribute("hasBoughtProduct", hasBoughtProduct);
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());

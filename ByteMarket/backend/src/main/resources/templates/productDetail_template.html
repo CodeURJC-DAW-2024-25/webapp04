@@ -125,7 +125,7 @@
     {{#logged}}
     {{^admin}}
     {{^isOwner}}
-    {{#hasBought}}
+    {{#hasBoughtProduct}}
     <div class="container mt-4">
         <div class="d-flex align-items-center justify-content-between mt-4">
             <h3>Reportar un Problema</h3>
@@ -165,7 +165,9 @@
             });
         </script>
     </div>
+    {{/hasBoughtProduct}}
 
+    {{#hasBought}}
     <!--Add Review-->
     <div class="container mt-4">
         <div class="d-flex align-items-center justify-content-between mt-4">

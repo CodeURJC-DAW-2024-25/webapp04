@@ -70,4 +70,8 @@ public class PurchaseService {
     public boolean hasBought(User user, User owner) {
         return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
     }
+
+    public boolean hasUserBoughtProduct(User user, Product product) {
+        return purchaseRepository.hasUserBoughtProduct(user, product);
+    }
 }
