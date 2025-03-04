@@ -251,7 +251,7 @@ All options under "View Profile," such as history, favorites, and account editin
 - **Email:** hugo@gmail.com
 - **Password:** securePass456
 
-## 👤 @user
+## 👤 User
 - **Email:** alex@gmail.com
 - **Password:** securePass1234
 
