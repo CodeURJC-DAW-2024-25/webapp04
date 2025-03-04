@@ -77,7 +77,7 @@ public class ProductService {
 						+ "Queríamos informarle que uno de sus productos (" + name
 						+ ") favoritos ya no está disponible.\n"
 						+ "Esperamos que encuentre alternativas de su interés en nuestra página\n\n"
-						+ "Un saludo,\n ByteMarket";
+						+ "Un saludo,\nByteMarket";
 				emailService.sendEmail(user.getMail(), subject, body);
 
 			}
@@ -104,7 +104,7 @@ public class ProductService {
 						+ "Queríamos informarle que uno de sus productos (" + name
 						+ ") favoritos ha sido vendido.\n"
 						+ "Esperamos que encuentre alternativas de su interés en nuestra página\n\n"
-						+ "Un saludo,\n ByteMarket";
+						+ "Un saludo,\nByteMarket";
 				emailService.sendEmail(user.getMail(), subject, body);
 			}
 

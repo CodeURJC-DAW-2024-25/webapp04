@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByCategory(String category, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.sold = false")
+    @Query("SELECT p FROM Product p WHERE p.sold = false ORDER BY p.publishDate DESC")
     public Page<Product> findAllByAvailableTrue(Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.category = :category AND p.sold = false")
@@ -48,6 +48,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                    ROW_NUMBER() OVER (PARTITION BY p.owner_id ORDER BY p.publish_date DESC) AS product_rank
             FROM Product p
             JOIN SellerRatings sr ON p.owner_id = sr.seller_id
+            WHERE p.sold = false
         )
         SELECT * FROM RankedProducts
         WHERE product_rank <= 3
