@@ -155,7 +155,6 @@ All type of users can see other profiles. But only registered users and admins w
 
 ###  ✏️ Edit profile Screen
 Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.16 Edit product Screen*](./Capturas/actualizado/editarProducto.png) 
 
 | User | Admin |
 | :----: | :------: |
@@ -178,6 +177,7 @@ If a registered user wants to sell a product, this screen will be shown. The use
 
 ###  ✏️ Edit product
 Only the owners of the product can edit all the parameters.
+![*2.16 Edit product Screen*](./Capturas/actualizado/editarProducto.png)
 
 ###  🔍 Profile review Screen
 All type of users can see the reviews of other users in their profile. Only admins will be able to eliminate users reviews.
