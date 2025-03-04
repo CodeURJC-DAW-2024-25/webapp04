@@ -17,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
+import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -33,6 +35,9 @@ public class UserService {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -205,27 +210,30 @@ public class UserService {
     }
 
     public void delete(User user) {
-
-        // Remove user from purchases
-        if (user.getPurchases() != null) {
-            user.getPurchases().forEach(purchase -> purchase.setBuyer(null));
-            user.setPurchases(null);
-        }
-
-        // Remove user from sales
-        if (user.getSales() != null) {
-            user.getSales().forEach(sale -> sale.setSeller(null));
-            user.setSales(null);
-        }
-
-        // Remove user from reviews
-        if (user.getReviews() != null) {
-            user.getReviews().forEach(review -> review.setreviewOwner(null));
-            user.setReviews(null);
-        }
-
+        Optional<User> deleteUserOptional = userRepository.findByName("Usuario Eliminado");
+        if (deleteUserOptional.isPresent()) {
+            User deleteUser  = deleteUserOptional.get();
+            // Remove user from purchases 
+            if (user.getPurchases() != null) {
+                for (Purchase purchase : user.getPurchases()) {
+                    purchase.setBuyer(deleteUser);
+                    purchaseService.save(purchase);
+                    }
+            }
+            if(user.getSales() != null){
+                for (Purchase sale : user.getSales()) {
+                    sale.setSeller(deleteUser);
+                    Product product = sale.getProduct();
+                    product.setOwner(deleteUser);
+                    productService.save(product);
+                    purchaseService.save(sale);
+                }
+            }
         userRepository.delete(user);
+        userRepository.save(deleteUser);               
+        }
     }
+        
 
     public List<ChartData> getStats(User user) {
         List<ChartData> stats = new ArrayList<>();

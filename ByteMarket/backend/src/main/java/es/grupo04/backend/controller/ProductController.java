@@ -95,6 +95,7 @@ public class ProductController {
         boolean isFavorite = false;
         boolean hasBought = false;
         boolean hasBoughtProduct = false;
+        boolean deletedUser = false;
 
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
@@ -103,6 +104,7 @@ public class ProductController {
                 isFavorite = userService.isFavorite(userOptional.get(), product);
                 hasBought = userService.hasBought(userOptional.get(), product.getOwner());
                 hasBoughtProduct = purchaseService.hasUserBoughtProduct(userOptional.get(), product);
+                deletedUser = (product.getOwner().getId() == 1);    //Deleted Users Info management
             }
         }
 
@@ -110,6 +112,7 @@ public class ProductController {
             model.addAttribute("location", product.getOwner().getIframe());
         }
         
+        model.addAttribute("deletedUser", deletedUser);
         model.addAttribute("hasBought", hasBought);
         model.addAttribute("hasBoughtProduct", hasBoughtProduct);
         model.addAttribute("isOwner", isOwner);

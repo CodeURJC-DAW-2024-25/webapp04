@@ -1,5 +1,6 @@
 package es.grupo04.backend.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,10 +17,10 @@ public class Review {
     @Column(columnDefinition = "TEXT")
 	private String description;
 
-    @ManyToOne
+    @ManyToOne 
     private User reviewOwner;
-
-    @ManyToOne
+    
+    @ManyToOne 
     private User reviewedUser;
 
     @Column(nullable = false)

@@ -47,10 +47,13 @@ public class DataBaseInitializer {
     @PostConstruct
     public void init() throws IOException, URISyntaxException, SerialException, SQLException {
         // Create users
+        User deleteUser = new User ();
+        deleteUser.setName("Usuario Eliminado");
         User user1 = new User("Pedro", passwordEncoder.encode("12341234"), "pedro@gmail.com","USER");
         User user2 = new User("Hugo", passwordEncoder.encode("securePass456"), "hugo@gmail.com","USER");
         User user3 = new User("Sara", passwordEncoder.encode("Password1234"), "sara@gmail.com","ADMIN");
 
+        userRepository.save(deleteUser);
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);

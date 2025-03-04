@@ -62,7 +62,7 @@ public class User {
     private String iframe;
 
 
-    public User() {
+    public User(){
     }
 
     public User(String name, String encodedPassword, String mail, String... roles) {
@@ -198,5 +198,12 @@ public class User {
     }
     public Long getId() {
         return id;
+    }
+    public List<Review> getPostedReviews() {
+        return postedReviews;
+    }
+
+    public void setPostedReviews(List<Review> postedReviews) {
+        this.postedReviews = postedReviews;
     }
 }

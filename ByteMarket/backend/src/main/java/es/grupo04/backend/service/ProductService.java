@@ -213,6 +213,10 @@ public class ProductService {
 	
 	public Optional<User> findUserByName(String name) {
 		return userRepository.findByName(name);
-	}		
+	}
+
+    public void saveAndFlush(Product product) {
+		repository.saveAndFlush(product);
+    }		
 
 }
