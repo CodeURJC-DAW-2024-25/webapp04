@@ -334,7 +334,7 @@ All options under "View Profile," such as history, favorites, and account editin
 | [4º](link del archivo) | |
 | [5º](link del archivo) | |
 
-# Posible actions to perform in the application
+# ⚙️ Posible actions to perform in the application
 ## Anonimous User
 Any user, whether logged in the application or registered or not in the application, will have access to the following actions:
 ### Login
