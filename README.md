@@ -80,8 +80,7 @@
 - **Personal buy chart**: users will be able to visualize a buy chart of the products they have buyed throughout the year.
 
 ## ⚙️ Advanced algorithms
-- **Recommend by best seller**: This algorithm will choose products of the higher-rated seller first.
-- **Recommend by favorites**: This algorithm will choose the products to be featured in a registered user's home page based on products the user has saved as "favorite" products.
+- **Recommend by best seller**: This algorithm will choose the products to be featured in a registered user's home page based on higher-rated seller first.
 
 ## 🎯 Images
 -  **User profile**: allow users to upload an image to their profile.
@@ -195,7 +194,7 @@ The purchased products will be shown in this screen. This screen is only shown i
 ![*2.12 History purchase Screen*](./Capturas/actualizado/historialCompra.jpg)
 
  
-### 🗺️ Screens Flowchart
+### 📺 Screens Flowchart
 For simplicity, the arrows pointing to the "Favorites," "Sell," and "Chat" pages have been omitted since the navigation bar remains the same.
 All options under "View Profile," such as history, favorites, and account editing, are private. This means they are only visible from your own account and cannot be accessed when viewing other users' profiles.
 
@@ -252,17 +251,20 @@ All options under "View Profile," such as history, favorites, and account editin
 - email: hugo@gmail.com
 - password: securePass456
 
+### 🛡️ @user
+- email: alex@gmail.com
+- password: securePass1234
+
 ## 🗃️ Diagrams
 
 ### 💽 DataBase diagram
 
-## 🏠 Clases and templates diagram
-
-## 📺 Updated ScreenFlow
+### 🏠 Clases and templates diagram
 
 ## ⚙️ Members Participation
 
 ### 👤 Olga Chubinova Bortsova
+He sido responsable del apartado de filtrar los productos por categorías y el buscador, además he añadido AJAX para que recargasen más productos en todas las páginas excepto la principal. Me he encargado de añadir todos los productos inicializados por defecto. Por otra parte, he hecho el algoritmo de productos recomendados de la página principal. Al principio de la práctica, modifiqué la mayoría de templates para que se viesen con Mustache y creé varios modelos (junto a sus controladores, servicio y repositorio). Además, arreglé errores de permisos entre tipos de usuario, tanto en editar perfil, como ver perfil, etc.
 
 | Commit | Description |
 | :----: | :---------: |
