@@ -290,19 +290,19 @@ At the beginning of the project, I modified most of the templates to work with M
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/) | |
-| [2º](https://github.com/) | |
-| [3º](https://github.com/) | |
-| [4º](https://github.com/) | |
-| [5º](https://github.com/) | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/905774803863853dca6f9f6760852833eafea400) | Uploading, storing and showing multiple images for products | 
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/264dee19f3fb5b2b62dad0b0136140d9edec144b) | Adding and deleting images when editing a product as well as editing the rest of the attributes |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/9d234141816e9d0d6fb3f9e0ba4c9155bca20259) | Charts showing user stats over time |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d18e17bbf77f99dee6601d37fed8f2f766ebba9c) | Editing profile information (except map) and profile pic |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/da4c6529f7af16de5f581c33faf9aa191c1d48ea) | Calculating and showing rating in the product detail page and first version of delete account |
 
 | File | Description |
 | :----: | :---------: |
-| [1º](link del archivo) | |
-| [2º](link del archivo) | |
-| [3º](link del archivo) | |
-| [4º](link del archivo) | |
-| [5º](link del archivo) | |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service) | Image Service |
 
 ### 👤 Naroa Martín Simón
 
