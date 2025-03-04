@@ -17,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
+import es.grupo04.backend.model.Report;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.ReportRepository;
 import es.grupo04.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
@@ -35,6 +37,9 @@ public class UserService {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired 
+    private ReportService reportService;
 
     @Autowired
     private ReviewService reviewService;
@@ -212,15 +217,15 @@ public class UserService {
     public void delete(User user) {
         Optional<User> deleteUserOptional = userRepository.findByName("Usuario Eliminado");
         if (deleteUserOptional.isPresent()) {
-            User deleteUser  = deleteUserOptional.get();
-            // Remove user from purchases 
+            User deleteUser = deleteUserOptional.get();
+            // Remove user from purchases
             if (user.getPurchases() != null) {
                 for (Purchase purchase : user.getPurchases()) {
                     purchase.setBuyer(deleteUser);
                     purchaseService.save(purchase);
-                    }
+                }
             }
-            if(user.getSales() != null){
+            if (user.getSales() != null) {
                 for (Purchase sale : user.getSales()) {
                     sale.setSeller(deleteUser);
                     Product product = sale.getProduct();
@@ -229,11 +234,13 @@ public class UserService {
                     purchaseService.save(sale);
                 }
             }
-        userRepository.delete(user);
-        userRepository.save(deleteUser);               
+            
+            productService.deleteFavorites(user.getProducts());
+            reportService.deleteAllReportsByUser(user);
+            userRepository.delete(user);
+            userRepository.save(deleteUser);
         }
     }
-        
 
     public List<ChartData> getStats(User user) {
         List<ChartData> stats = new ArrayList<>();

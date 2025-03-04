@@ -310,6 +310,13 @@ I developed the charts showing user stats (number of sales and purchases) over t
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service) | Image Service |
 
 ### 👤 Naroa Martín Simón
+I have been responsible for implementing user registration in the application, ensuring a smooth experience by adding validation for the sign-in form both on the frontend and backend.
+
+Additionally, I have managed users' favorite products, allowing them to add or remove items from their favorites section. I also set up the email notification system to alert users when one of their favorite products is either sold to another user or removed.
+
+I have implemented the functionality to delete products, both from the seller's side and from the administrator’s side. I also implemented the whole account deletion process. This deletion process ensures that the sales and products already sold by the user remain intact, but other elements such as reviews, reports, and available products are removed when the account is deleted.
+
+Furthermore, I have also managed the creation of sales/purchases in the application, ensuring that once a product is sold, it cannot be resold. Lastly, I have implemented the ability for users to view public profiles of other users, further enhancing the social interaction within the platform.
 
 | Commit | Description |
 | :----: | :---------: |

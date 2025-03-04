@@ -61,6 +61,18 @@ public class ProductService {
 		return repository.save(product);
 	}
 
+	
+	//Delete favorites
+	public void deleteFavorites(List<Product> products){
+		for (Product product : products) {
+			List<User> users = repository.findUsersByFavoriteProduct(product);
+			for (User user : users) {
+				user.getFavoriteProducts().remove(product);
+				userRepository.save(user);
+			}
+		}
+	}
+
 	// Delete a product
 	public void delete(long id) {
 		Optional<Product> productOpt = repository.findById(id);

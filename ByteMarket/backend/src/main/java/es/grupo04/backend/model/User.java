@@ -206,4 +206,8 @@ public class User {
     public void setPostedReviews(List<Review> postedReviews) {
         this.postedReviews = postedReviews;
     }
+
+    public List<Product> getProducts() {
+        return products;
+    }
 }
