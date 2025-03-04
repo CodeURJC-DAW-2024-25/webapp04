@@ -80,8 +80,7 @@
 - **Personal buy chart**: users will be able to visualize a buy chart of the products they have buyed throughout the year.
 
 ## ⚙️ Advanced algorithms
-- **Recommend by best seller**: This algorithm will choose products of the higher-rated seller first.
-- **Recommend by favorites**: This algorithm will choose the products to be featured in a registered user's home page based on products the user has saved as "favorite" products.
+- **Recommend by best seller**: This algorithm will choose the products to be featured in a registered user's home page based on higher-rated seller first.
 
 ## 🎯 Images
 -  **User profile**: allow users to upload an image to their profile.
@@ -195,7 +194,7 @@ The purchased products will be shown in this screen. This screen is only shown i
 ![*2.12 History purchase Screen*](./Capturas/actualizado/historialCompra.jpg)
 
  
-### 🗺️ Screens Flowchart
+### 📺 Screens Flowchart
 For simplicity, the arrows pointing to the "Favorites," "Sell," and "Chat" pages have been omitted since the navigation bar remains the same.
 All options under "View Profile," such as history, favorites, and account editing, are private. This means they are only visible from your own account and cannot be accessed when viewing other users' profiles.
 
@@ -252,17 +251,24 @@ All options under "View Profile," such as history, favorites, and account editin
 - **Email:** hugo@gmail.com
 - **Password:** securePass456
 
-# 📊 Diagrams
+### 👤 @user
+- email: alex@gmail.com
+- password: securePass1234
 
-## 🏛️ Database Diagram
+## 🗃️ Diagrams
+
+### 🏛️ Database Diagram
 ![*3.1. DataBase*](./Capturas/Diagramas/BD%20Diagram.jpg) 
-## 📌 Classes and Templates Diagram
-![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
-## 🎬 Updated ScreenFlow
 
-# 👥 Members Participation
+### 📌 Classes and Templates Diagram
+![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
+
+## ⚙️ Members Participation
 
 ### 👤 Olga Chubinova Bortsova
+I was responsible for the filtering of products by categories and the search functionality. Additionally, I added AJAX to load more products on all pages except the main one. I was in charge of adding all the default initialized products. Furthermore, I developed the recommendation algorithm for the main page.
+
+At the beginning of the project, I modified most of the templates to work with Mustache and created several models along with their controllers, service, and repository. Additionally, I fixed permission issues between user types, including editing and viewing profiles, among others.
 
 | Commit | Description |
 | :----: | :---------: |

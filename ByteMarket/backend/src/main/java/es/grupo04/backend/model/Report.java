@@ -16,7 +16,7 @@ public class Report {
     @ManyToOne
     private Product product;
 
-    @ManyToOne (cascade = CascadeType.ALL)  
+    @ManyToOne 
     private User user;
 
     public Report() {
