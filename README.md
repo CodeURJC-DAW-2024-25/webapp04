@@ -308,37 +308,38 @@ At the beginning of the project, I modified most of the templates to work with M
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/) | |
-| [2º](https://github.com/) | |
-| [3º](https://github.com/) | |
-| [4º](https://github.com/) | |
-| [5º](https://github.com/) | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/8000fbe1024c3ef2c1998e264d4f06ca126e766f) | User Registration with Validation in Frontend and Backend
+ |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/a9f2eec2a4221d44c160f8689acb170f866cf5dd) | Add and eliminate favorites from users who are not owners profile only |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/6d88a7a1f76e2ea7d4adbe13d0b0021fbe70730d) | Send mail after favorite product delete |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/62e0bb1a60143cb8cdf2e86b744b4258e489b064) | Sell products between users and some template fixes |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/5d81e9681ed08f4b8c6e8e6d79a806f09d1514e4) | Public Profile and Account Delete |
 
 | File | Description |
 | :----: | :---------: |
-| [1º](link del archivo) | |
-| [2º](link del archivo) | |
-| [3º](link del archivo) | |
-| [4º](link del archivo) | |
-| [5º](link del archivo) | |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserWebController.java) | User Web Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/PurchaseService.java) | Purchase Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
 
 ### 👤 Adrián Muñoz Serrano
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/) | |
-| [2º](https://github.com/) | |
-| [3º](https://github.com/) | |
-| [4º](https://github.com/) | |
-| [5º](https://github.com/) | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/1f23678c6888d09f79262df1ac1f95f2bc0747fb) | newProduct (without images) |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/b5f943ce92234835b806c3bcbf9ff58f8dc4b043) | create chat (without messages) |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/6d6aa0c2d9203f27f8b3f7bd6419525687999daf) | Messages in Chats |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/791561868aceb6cbdf681fa82047ccf95c5601a1) | NewReport and ShowReports (only for admin) |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/1d078f84aad184e08f31af992b9e13cedbf56975) | add reviews and show reviews in productDetail and in Profile |
 
 | File | Description |
 | :----: | :---------: |
-| [1º](link del archivo) | |
-| [2º](link del archivo) | |
-| [3º](link del archivo) | |
-| [4º](link del archivo) | |
-| [5º](link del archivo) | |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ChatController.java) | Chat Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/MessageService.java) | Message Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ReviewService.java) | Review Service |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ChatService.java) | Chat Service |
 
 # ⚙️ Posible actions to perform in the application
 ## Anonimous User
