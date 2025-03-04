@@ -40,7 +40,7 @@
  
  The following diagram shows the system's entities, and how they relate to each other. 
   ##### img: Entity-Relationship Diagram
-  ![*1.1 entities*](./Capturas/ER-DIAGRAM.png) 
+  ![*1.1 entities*](./Capturas/Diagramas/ER%20Diagram.jpg) 
 
 
 
@@ -199,55 +199,55 @@ All options under "View Profile," such as history, favorites, and account editin
 
 ## 🛠️ Execution instructions
 
-### 👟 Steps 
+# 🚀 Steps 
 1. Download this repository
 2. Check Requirements 
-3. Configure DataBase
+3. Configure Database
 4. Configure IDE
 5. Run Application in the IDE
 6. Go to https://localhost/8443/
 
-### 📋 Requirements
-- Java: JDK 21 --> https://www.oracle.com/es/java/technologies/downloads/#java21
-- MySQL: v.????? (Explained in DataBase Configuration)
+# 📌 Requirements
+- Java: JDK 21 → [Download](https://www.oracle.com/java/technologies/downloads/#java21)
+- MySQL: v 8.0.28 (Explained in Database Configuration)
 - Maven: 4.0.0
 - Spring Boot 3.4.2
 - IDE (explained in IDE Configuration)
 
-### 💾 DataBase Config
-- Download MySQL v.?????
+# 🗄️ Database Configuration
+- Download MySQL v.8.0.41
 - Select default port (port 3306)
-- Create a user with name root and password "password" with DB admin as user role
-- Configure MySQL Server as Windows Service
+- Create a user with name `root` and password `"password"` with DB admin as user role
+- Configure MySQL Server as a Windows Service
 - Grant full access to the user
-- Create a new Schema named EventCrafters in the server using MySQL Workbench
+- Create a new Schema named `ByteMarket` in the server using MySQL Workbench
 
-### 🕹️ IDE Config
+# 🛠️ IDE Configuration
 - We have used Visual Studio Code
 - Install Maven and Spring for your IDE
 
-## ⚔️ Sample users
-### 🔑 @admin
-- email: jim@example.com
-- password: Password1234
+# 🔐 Sample Users
+## 👑 Admin
+- **Email:** sara@gmail.com
+- **Password:** Password1234
   
-### 🛡️ @user
-- email: a@example.com
-- password: 1234
+## 👤 User
+- **Email:** pedro@gmail.com
+- **Password:** 12341234
 
-### 🛡️ @user
-- email: bob@example.com
-- password: securePass456
+## 👤 User
+- **Email:** hugo@gmail.com
+- **Password:** securePass456
 
-## 🗃️ Diagrams
+# 📊 Diagrams
 
-### 💽 DataBase diagram
+## 🏛️ Database Diagram
+![*3.1. DataBase*](./Capturas/Diagramas/BD%20Diagram.jpg) 
+## 📌 Classes and Templates Diagram
+![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
+## 🎬 Updated ScreenFlow
 
-## 🏠 Clases and templates diagram
-
-## 📺 Updated ScreenFlow
-
-## ⚙️ Members Participation
+# 👥 Members Participation
 
 ### 👤 Olga Chubinova Bortsova
 
@@ -258,8 +258,6 @@ All options under "View Profile," such as history, favorites, and account editin
 | [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/ed3e581aac8d4e1f9a1adbd24f7e848faa2420ff) | Recommended products |
 | [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
 | [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f4a4625be3606e88a90bb10543acb94a2eedbe99) | Data base initializer products |
-
-
 
 | File | Name |
 | :----: | :---------: |
@@ -322,3 +320,6 @@ All options under "View Profile," such as history, favorites, and account editin
 | [3º](link del archivo) | |
 | [4º](link del archivo) | |
 | [5º](link del archivo) | |
+
+# Posible actions to perform in the application
+## Login
