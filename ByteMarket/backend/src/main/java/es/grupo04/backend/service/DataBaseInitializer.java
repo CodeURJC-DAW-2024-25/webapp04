@@ -18,11 +18,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+
+import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Image;
+import es.grupo04.backend.model.Message;
 import es.grupo04.backend.model.Product;
+import es.grupo04.backend.model.Purchase;
+import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.ChatRepository;
 import es.grupo04.backend.repository.ImageRepository;
+import es.grupo04.backend.repository.MessageRepository;
 import es.grupo04.backend.repository.ProductRepository;
+import es.grupo04.backend.repository.PurchaseRepository;
+import es.grupo04.backend.repository.ReviewRepository;
 import es.grupo04.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 
@@ -40,6 +50,18 @@ public class DataBaseInitializer {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ChatRepository chatRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
+    @Autowired
+    private PurchaseRepository purchaseRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     public DataBaseInitializer() {
     }
@@ -485,8 +507,9 @@ public class DataBaseInitializer {
         );
 
 
+        Product p1 = new Product("Cámara Nikon", "Cámara profesional de alta resolución con sensor de 24 MP y sistema de enfoque avanzado. Ideal para fotografía y video en alta calidad, con conectividad WiFi y Bluetooth para compartir imágenes al instante.", 800, "Otros", images4);
         List<Product> productsUser2 = List.of(
-            new Product("Cámara Nikon", "Cámara profesional de alta resolución con sensor de 24 MP y sistema de enfoque avanzado. Ideal para fotografía y video en alta calidad, con conectividad WiFi y Bluetooth para compartir imágenes al instante.", 800, "Otros", images4),
+            p1,
             new Product("Tablet", "Tableta con pantalla de 10.1 pulgadas y resolución Full HD. Equipada con un potente procesador, 4GB de RAM y 64GB de almacenamiento, ideal para entretenimiento, trabajo y estudio.", 900, "Otros", images7),
             new Product("Auriculares inalámbricos", "Auriculares Bluetooth con cancelación de ruido activa, sonido envolvente y batería de larga duración. Diseño ergonómico para un ajuste cómodo y micrófono integrado para llamadas claras.", 450, "Auriculares", images8),
             new Product("PC Gaming", "Amd Ryzen 5 3600 (6/12)\r\n" + //
@@ -537,5 +560,24 @@ public class DataBaseInitializer {
         productRepository.saveAll(productsUser1);
         productRepository.saveAll(productsUser2);
         productRepository.saveAll(productsUser4);
+        
+        // Create chat
+        Chat chat = new Chat(user1, user2, p1);
+        chatRepository.save(chat);
+        Message message1 = new Message("Hola quiero comprar la cámara", user1, chat);
+        Message message2 = new Message("Si perfecto, ¿hoy a las 20:00 en Mostoles Central te viene bien?", user2, chat);
+        Message message3 = new Message("Si, genial, luego nos vemos", user1, chat);
+        Message message4 = new Message("Muchas gracias", user1, chat);
+        messageRepository.save(message1);
+        messageRepository.save(message2);
+        messageRepository.save(message3);
+        messageRepository.save(message4);
+        Purchase purchase = new Purchase(p1, user1, user2);
+        purchaseRepository.save(purchase);
+        p1.setSold(true);
+        productRepository.save(p1);
+        Review review = new Review(user1,user2, "Muy buen servicio", 4);
+        reviewRepository.save(review);
     }
+
 }
