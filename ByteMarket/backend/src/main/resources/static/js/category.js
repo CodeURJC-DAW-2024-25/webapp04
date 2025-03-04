@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const categoryName = urlParams.get("category");
 
-    console.log("Category from URL:", categoryName); // Para depuración
+    console.log("Category from URL:", categoryName); 
 
     if (categoryName) {
         document.getElementById("category-title").textContent = decodeURIComponent(categoryName);
