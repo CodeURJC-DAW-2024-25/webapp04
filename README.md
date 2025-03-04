@@ -308,8 +308,7 @@ At the beginning of the project, I modified most of the templates to work with M
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/8000fbe1024c3ef2c1998e264d4f06ca126e766f) | User Registration with Validation in Frontend and Backend
- |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/8000fbe1024c3ef2c1998e264d4f06ca126e766f) | User Registration with Validation in Frontend and Backend |
 | [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/a9f2eec2a4221d44c160f8689acb170f866cf5dd) | Add and eliminate favorites from users who are not owners profile only |
 | [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/6d88a7a1f76e2ea7d4adbe13d0b0021fbe70730d) | Send mail after favorite product delete |
 | [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/62e0bb1a60143cb8cdf2e86b744b4258e489b064) | Sell products between users and some template fixes |
