@@ -287,6 +287,11 @@ At the beginning of the project, I modified most of the templates to work with M
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/repository/ProductRepository.java) | Product Repository |
 
 ### 👤 Marcos García García
+I colaborated in the creation of the model classes and the definition of their dependencies for the database.
+
+I was responsible for everything related to image upload, storage and display, as well as the Image model and its relations, needed for the correct storage of the images, and a way of getting the images from the database for display. I implemented this functionality for product creation and edition of multiple images, and for the user's profile picture. In addition, I developed the functionality for editing the user profile information (except for the map) and the rest of the products attributes. 
+
+I developed the charts showing user stats (number of sales and purchases) over time and their style. Beside all this, I also made other changes and additions to the project such as some templates and styling, and other minor changes and fixes.
 
 | Commit | Description |
 | :----: | :---------: |
