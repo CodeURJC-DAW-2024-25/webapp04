@@ -16,9 +16,11 @@
 .topProducts{
     display: flex;
     flex-direction: row;
-    
+    gap: 15px;
     overflow: scroll;
     width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 /* Customize the scrollbar */
@@ -137,9 +139,8 @@
 }
 
 .carousel-container {
-    background-color: #333; 
-    padding: 20px; 
-    border-radius: 10px; 
+    background-color: #333;
+    padding: 20px 50px 40px 50px; 
 }
 
 .carousel-container::-webkit-scrollbar {
