@@ -131,8 +131,8 @@ Everybody can see the seller profile throughout the profile photo.
 
 ###  👨‍💻 Login/Sign up Screen
 Depending on whether the user is registered or not, one of the two screens will be displayed. The login screen is shown only to registered users and in case they are not registered, the registration screen will be shown.
-![*2.3.1 Login Screen*](./Capturas/IniciarSesión.PNG)
-![*2.3.2 Sign up Screen*](./Capturas/Registro.PNG)
+![*2.3.1 Login Screen*](./Capturas/actualizado/iniciarSesion.png)
+![*2.3.2 Sign up Screen*](./Capturas//actualizado/registrarse.png)
 
 ###  ✉️ Chat Screen
 If a buyer wants to ask the seller questions about the product, they can chat. The buyer should contact the seller so that the seller can proceed with the sale.
@@ -175,10 +175,11 @@ If a registered user wants to sell a product, this screen will be shown. The use
 
 | Normal | Error (no fill) |
 | :----: | :------: |
-| ![*2.9.1 Sell product Screen*](./Capturas/actualizado/venderProducto.jpg) | ![*2.9.2 Sell product Screen*](./Capturas/actualizado/venderProductoError.jpg) |
+| ![*2.9.1 Sell product Screen*](./Capturas/actualizado/nuevoProducto.png) | ![*2.9.2 Sell product Screen*](./Capturas/actualizado/nuevoProductoError.png) |
 
 ###  ✏️ Edit product
 Only the owners of the product can edit all the parameters.
+![*2.16 Edit product Screen*](./Capturas/actualizado/editarProducto.png)
 
 ###  🔍 User Reviews Screen
 All type of users can see the reviews of other users in their profile. Only admins will be able to delete users reviews.
@@ -205,7 +206,7 @@ All options under "View Profile," such as history, favorites, and account editin
 - 🟠 All type of Users
 - 🔵 Admin   
  
- ![*2.13 Flowchart Screen*](./Capturas/flowchart.png)
+ ![*2.13 Flowchart Screen*](./Capturas/actualizado/flowchart.png)
 
  ***   
 # 🌀 Phase 2  - Web with server-generated HTML and AJAX
@@ -278,7 +279,7 @@ At the beginning of the project, I modified most of the templates to work with M
 | [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/d56ae86885e7ba4797e5d020725eefadb347a886) | Both navbars and profile views with user restrictions functional |
 | [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/ed3e581aac8d4e1f9a1adbd24f7e848faa2420ff) | Recommended products |
 | [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/49b4473dd69503395801ccecebb602728c9a2c80) | Templates upgraded and models created |
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f4a4625be3606e88a90bb10543acb94a2eedbe99) | Data base initializer products |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f736e4a62efe176da38766c2549f15aeb2a21f16) | Data base initializer products |
 
 | File | Name |
 | :----: | :---------: |
@@ -286,7 +287,7 @@ At the beginning of the project, I modified most of the templates to work with M
 | [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
 | [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
 | [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
-| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/repository/ProductRepository.java) | Product Repository |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/DataBaseInitializer.java) | DataBaseInitializer |
 
 ### 👤 Marcos García García
 I colaborated in the creation of the model classes and the definition of their dependencies for the database.
