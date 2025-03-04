@@ -251,24 +251,24 @@ All options under "View Profile," such as history, favorites, and account editin
 - **Email:** hugo@gmail.com
 - **Password:** securePass456
 
-### 🛡️ @user
+### 👤 @user
 - email: alex@gmail.com
 - password: securePass1234
 
 ## 🗃️ Diagrams
 
-## 🏛️ Database Diagram
+### 🏛️ Database Diagram
 ![*3.1. DataBase*](./Capturas/Diagramas/BD%20Diagram.jpg) 
-## 📌 Classes and Templates Diagram
-![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
-## 🎬 Updated ScreenFlow
 
-### 🏠 Clases and templates diagram
+### 📌 Classes and Templates Diagram
+![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
 
 ## ⚙️ Members Participation
 
 ### 👤 Olga Chubinova Bortsova
-He sido responsable del apartado de filtrar los productos por categorías y el buscador, además he añadido AJAX para que recargasen más productos en todas las páginas excepto la principal. Me he encargado de añadir todos los productos inicializados por defecto. Por otra parte, he hecho el algoritmo de productos recomendados de la página principal. Al principio de la práctica, modifiqué la mayoría de templates para que se viesen con Mustache y creé varios modelos (junto a sus controladores, servicio y repositorio). Además, arreglé errores de permisos entre tipos de usuario, tanto en editar perfil, como ver perfil, etc.
+I was responsible for the filtering of products by categories and the search functionality. Additionally, I added AJAX to load more products on all pages except the main one. I was in charge of adding all the default initialized products. Furthermore, I developed the recommendation algorithm for the main page.
+
+At the beginning of the project, I modified most of the templates to work with Mustache and created several models along with their controllers, service, and repository. Additionally, I fixed permission issues between user types, including editing and viewing profiles, among others.
 
 | Commit | Description |
 | :----: | :---------: |
