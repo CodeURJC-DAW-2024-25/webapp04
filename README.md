@@ -323,6 +323,13 @@ At the beginning of the project, I modified most of the templates to work with M
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
 
 ### 👤 Adrián Muñoz Serrano
+I participated in the initial creation of the classes and the definition of their dependencies, as well as developing their respective repositories and a DataBaseInitializer with test objects to facilitate website testing. I implemented the login functionality, profile display, and logout. I also unified all templates related to products to improve design consistency.
+
+On the main screen, I added a "Load More" button with AJAX, allowing products to load progressively in blocks of eight. I developed the selling functionality, enabling users to add products. Additionally, I implemented a chat system between two users to facilitate the purchase of a specific product.
+
+I incorporated the option to report purchased products, with their corresponding display in the administration panel. I also developed the rating system, allowing buyers to rate sellers, with their scores visible both on the user's profile and in a carousel within the product details screen.
+
+I added the option for users to set a location through an interactive map that generates an iframe when clicked, making it visible on both their profile and the product details screen. Finally, I migrated the project from the H2 database to MySQL.
 
 | Commit | Description |
 | :----: | :---------: |
