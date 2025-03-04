@@ -335,4 +335,86 @@ All options under "View Profile," such as history, favorites, and account editin
 | [5º](link del archivo) | |
 
 # Posible actions to perform in the application
-## Login
+## Anonimous User
+Any user, whether logged in the application or registered or not in the application, will have access to the following actions:
+### Login
+Allows users to log into the application if they have an account. Their credentials (email and password) are verified. If the accounts exists and the credentials are correct, they will log in and have access to aditional features. 
+
+### Register
+Allows users to create a new account in the application to access personalized features that will will be explained later. If there is already an account linked to the mail, it is not allowed to create a second account.
+
+### View the main page
+Any user has access and can navigate through the main page of the application. It shows the products for sale from other users of the application. In addition, the products shown at the top are products of the top rated users. 
+
+### Search for products
+The application offers two alternative methods for searching products. One method uses a navigation bar, allowing users to type and search for specific products. The other method is category-based, enabling users to browse and find products within a specific category. The navigation bar is accessible from most pages in the application, while the category-based search is only available on the main page.
+
+### View individual products
+Users can view individual products, which includes detailed information such as descriptions, images, pricing, and availability. Additionally, they can read reviews left by previous buyers, offering insights into the quality of the product and the reliability of the seller.
+
+### View other users profile
+Users can view other registered users profiles, which include details such as the number of sales, purchases, and reviews they have received. They can also browse the products listed by the user and read the reviews left about them, providing a comprehensive view of the user's reputation and offerings.
+
+## Registered User
+### Logout
+Registered users can log out of their account at any time by selecting the logout option. This will securely end their session and prevent unauthorized access to their account, ensuring privacy and security. The logout option is accesible from the users profile.
+
+### Favorites
+A registered user can mark products as favorites to save items they’re interested in. This allows them to easily access these products later. If a favorite product is sold or deleted, the user will receive an email notification to inform them about the change, keeping them updated on the status of their favorite items.These favorite products can be accessed at any time through the user's profile or the "Favoritos" button included in the header.
+
+### Sell products
+Registered users can sell products by filling out a form that allows them to provide detailed information about the product. The form includes fields for product name, description, price, category, and images. Once the product is submitted, it will be listed in the marketplace for other users to browse and purchase.
+
+### Chats
+Registered users can communicate with sellers and buyers through a chat feature. This allows them to ask questions, negotiate prices, and finalize transactions. The chat interface is simple to use and accessible from the product pages or the header.
+
+### Edit profile
+Users can update their profile to change personal information, such as their name, address, profile picture, or password. This allows for easy management of account details.
+
+### Edit products
+Registered users can edit the products they have listed for sale. This feature allows them to update product details such as price, description, images, and category. 
+
+### Delete Products
+Registered useres can delete products they no longer want to sell.
+
+### Delete Account
+Registered users can delete their account. This will also delete all the unsold products, reviews and reports asociated with the deleted user.
+
+### Purchase and Sale History 
+Logged-in users have access to separate histories for both their purchases and sales. Each history includes graphical representations of sold and purchased products, providing users with a visual overview of their activity. Users can also view the products they’ve purchased or sold. Users can also access detailed information about the products they’ve purchased or sold, allowing them to explore further details as needed.
+
+### Leave a review
+Once a user has purchased a product from another, they can leave reviews for the seller. This reviews will help other buyers assess the seller's reliability and product quality. The feedback left by buyers will impact the seller's reputation and overall rating.
+
+### Report a user
+Users can report a seller directly from the product they bought(in the purchase history) if the product does not meet expectations or if there are any issues with the transaction. These reports are submitted to the administrators, who will review the situation and take appropriate action.
+
+## Admin
+### Logout
+Registered users can log out of their account at any time by selecting the logout option. This will securely end their session and prevent unauthorized access to their account, ensuring privacy and security. The logout option is accesible from the users profile.
+
+### Manage Reports
+Admins can manage reports submitted by users regarding other users. They have the ability to review, investigate, and take appropriate actions based on the nature of the reports, ensuring the platform remains safe and compliant with its policies.
+
+### Delete Account
+Admins have the authority to delete other users' accounts when necessary. This action permanently removes the user's profile, including their products, reviews, and associated data, in accordance with platform guidelines and policies.
+
+# 📈 Product Display Algorithm
+The algorithm used to display recommended products on the main page works as follows:
+1. **Seller Ratings Calculation**:  
+   First, the algorithm calculates the average rating for each seller based on the reviews they’ve received. If a seller has no ratings, their average rating defaults to 0.
+
+2. **Rank Products by Recency**:  
+   For each seller, the products they own are ranked by their publication date. The algorithm assigns a rank to each product, starting from the most recently published, and limits the ranking to the top 3 products per seller.
+
+3. **Filter Unsolved Products**:  
+   The algorithm filters out products that have already been sold, ensuring that only unsold products are considered for display.
+
+4. **Sort by Seller Rating and Publication Date**:  
+   Once the products are ranked and filtered, they are sorted in descending order by the seller's average rating. If two products have the same rating, they are then sorted by the publication date, with the most recently published products appearing first.
+
+5. **Final Product List**:  
+   The result is a list of products where each seller’s top 3 most recent unsold products are shown, prioritized first by the seller's average rating and then by the publication date.
+
+This approach ensures that users see highly rated products from active sellers while considering the recency of the product listings.
+
