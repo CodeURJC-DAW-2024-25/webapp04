@@ -34,9 +34,7 @@ public class HomeController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-
             User user = userService.findByMail(principal.getName()).get();
-
             model.addAttribute("logged", true);
             model.addAttribute("userName", user.getName());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));

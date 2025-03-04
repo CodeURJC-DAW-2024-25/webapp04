@@ -175,7 +175,7 @@ public class ProfileController {
     public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         boolean isOwnProfile = false;
         Optional<User> profileOptional = userService.findById(profileId);
-        if(!profileOptional.isPresent()){
+        if(!profileOptional.isPresent() || profileId == 1){     //profileId 1 reserved to manage deleted users
             model.addAttribute("message", "No se encuentra el perfil");
             return "error";
         }

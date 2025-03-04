@@ -14,15 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -95,6 +92,7 @@ public class ProductController {
         boolean isFavorite = false;
         boolean hasBought = false;
         boolean hasBoughtProduct = false;
+        boolean deletedUser = false;
 
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
@@ -103,6 +101,7 @@ public class ProductController {
                 isFavorite = userService.isFavorite(userOptional.get(), product);
                 hasBought = userService.hasBought(userOptional.get(), product.getOwner());
                 hasBoughtProduct = purchaseService.hasUserBoughtProduct(userOptional.get(), product);
+                deletedUser = (product.getOwner().getId() == 1);    //Deleted Users Info management
             }
         }
 
@@ -110,6 +109,7 @@ public class ProductController {
             model.addAttribute("location", product.getOwner().getIframe());
         }
         
+        model.addAttribute("deletedUser", deletedUser);
         model.addAttribute("hasBought", hasBought);
         model.addAttribute("hasBoughtProduct", hasBoughtProduct);
         model.addAttribute("isOwner", isOwner);
@@ -276,30 +276,79 @@ public class ProductController {
         return "redirect:/"; 
     }
     // Edit Product
-     @GetMapping("/editProduct/{id}")
-     public String editProduct(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-         Optional<Product> optionalProduct = productService.findById(id);
-     
-         if (!optionalProduct.isPresent()) {
-             model.addAttribute("message", "Producto no encontrado");
-             return "error";
-         }
-     
-         Product product = optionalProduct.get();
-         System.out.println("El producto que se pasa es:" + product.getName());
-         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
-     
-         if (!optionalUser.isPresent() || !product.getOwner().equals(optionalUser.get())) {
-             model.addAttribute("message", "No autorizado para editar este producto");
-             return "error";
-         }
-         
-         model.addAttribute("product", product);
-         model.addAttribute("edit", true); 
-         return "newProduct";
-     }
+    @GetMapping("/editProduct/{id}")
+    public String editProduct(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        Optional<Product> optionalProduct = productService.findById(id);
+    
+        if (!optionalProduct.isPresent()) {
+            model.addAttribute("message", "Producto no encontrado");
+            return "error";
+        }
+    
+        Product product = optionalProduct.get();
+        System.out.println("El producto que se pasa es:" + product.getName());
+        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+    
+        if (!optionalUser.isPresent() || !product.getOwner().equals(optionalUser.get())) {
+            model.addAttribute("message", "No autorizado para editar este producto");
+            return "error";
+        }
+        
+        model.addAttribute("product", product);
+        model.addAttribute("edit", true); 
+        model.addAttribute("images", product.getImages());
+        model.addAttribute("oneImage", product.getImages().size() == 1);
+        model.addAttribute("maxImages", product.getImages().size() == 5);
+
+        return "newProduct";
+    }
+
+    @PostMapping("/editProduct/{id}")
+    public String updateProduct(@PathVariable long id, @ModelAttribute Product product, Model model) {
+        Optional<Product> optionalProduct = productService.findById(id);
+        if (!optionalProduct.isPresent()) {
+            model.addAttribute("message", "Producto no encontrado");
+            return "error";
+        }
+        Product oldProduct = optionalProduct.get();
+        productService.updateProduct(oldProduct, product);
+        productService.save(oldProduct);
+        return "redirect:/product/" + id;
+    }
      
 
+    @PostMapping("/delete/image/{id}")
+    public String removeImage(@PathVariable long id, @RequestParam("productId") long productId, Model model) {
+        Optional<Product> productOptional = productService.findById(productId);
+        if(productOptional.get().getImages().size() == 1){
+            model.addAttribute("message", "Un producto debe tener al menos una imagen");
+            return "error";
+        }
+
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            if(product.getThumbnail().getId() == id){
+                product.setThumbnail(product.getImages().get(1));
+            }
+            product.getImages().remove(imageService.findById(id).get());
+            imageService.delete(id);
+        }
+        return "redirect:/editProduct/" + productId;
+    }
+
+    @PostMapping("/add/image/{id}")
+    public String addImage(@PathVariable long id, @RequestParam("imageUpload") MultipartFile image, Model model) throws IOException {
+        Optional<Product> productOptional = productService.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            productService.addImageEditing(product, image);
+            productService.save(product);
+        } else {
+            model.addAttribute("message", "Producto no encontrado");
+            return "error";
+        }
+        return "redirect:/editProduct/" + id;
+    }
 
     @GetMapping("/newProduct")
     public String newProduct(Model model) {
@@ -321,6 +370,11 @@ public class ProductController {
             }
         } else {
             model.addAttribute("message", "Usuario no identificado");
+            return "error";
+        }
+
+        if(images.length > 5){
+            model.addAttribute("message", "No puedes subir más de 5 imágenes");
             return "error";
         }
 

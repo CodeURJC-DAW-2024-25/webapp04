@@ -213,6 +213,23 @@ public class ProductService {
 	
 	public Optional<User> findUserByName(String name) {
 		return userRepository.findByName(name);
-	}		
+	}
+
+    public void addImageEditing(Product product, MultipartFile image) throws IOException {
+		
+		Blob blob = BlobProxy.generateProxy(image.getInputStream(), image.getSize());
+		Image imgToStore = new Image(blob);
+
+		product.getImages().add(imgToStore);
+    }
+
+    public void updateProduct(Product oldProduct, Product product) {
+		oldProduct.setName(product.getName());
+		oldProduct.setDescription(product.getDescription());
+		oldProduct.setCategory(product.getCategory());
+		oldProduct.setPrice(product.getPrice());
+    }		
+
+
 
 }
