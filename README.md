@@ -34,21 +34,21 @@
       - [Sales History Screen](#-sales-history-screen)
       - [Purchase History Screen](#-purchase-history-screen)
       - [Screens Flowchart](#-screens-flowchart)
-- [Fase 2 - Web con springboot y mysql](#-fase-2---web-con-springboot-y-mysql)
-   - [Instrucciones de ejecución](#-instrucciones-de-ejecución)
-   - [Requisitos](#-requisitos)
-   - [Configuración de base de datos](#-configuración-de-base-de-datos)
-   - [Configuración de IDE](#-configuración-de-ide)
-   - [Usuarios de ejemplo](#-usuarios-de-ejemplo)
-   - [Diagramas](#-diagramas)
-      - [Diagrama de base de datos](#-diagrama-de-base-de-datos)
-      - [Diagrama de clases y plantillas](#-diagrama-de-clases-y-plantillas)
-   - [Participación de miembros](#-participación-de-miembros)
+- [Phase 2 - Web with Spring Boot and MySQL](#-phase-2---web-with-spring-boot-and-mysql)
+   - [Execution Instructions](#-execution-instructions)
+   - [Requirements](#-requirements)
+   - [Database Configuration](#-database-configuration)
+   - [IDE Configuration](#-ide-configuration)
+   - [Sample Users](#-sample-users)
+   - [Diagrams](#-diagrams)
+      - [Database Diagram](#-database-diagram)
+      - [Classes and Templates Diagram](#-classes-and-templates-diagram)
+   - [Member Contributions](#-member-contributions)
       - [Olga Chubinova Bortsova](#-olga-chubinova-bortsova)
       - [Marcos García García](#-marcos-garcía-garcía)
       - [Naroa Martín Simón](#-naroa-martín-simón)
       - [Adrián Muñoz Serrano](#-adrián-muñoz-serrano)
-
+      
 ***   
 # 🌀 Phase 0
 ***
