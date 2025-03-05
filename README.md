@@ -26,28 +26,28 @@
       - [Profile Screen](#-profile-screen)
          - [Profile of other user](#-profile-of-other-user)
          - [Own profile](#-own-profile)
-      - [Edit profile Screen](#edit-profile-screen)
-      - [Favorite products Screen](#favorite-products-screen)
-      - [Sell product Screen](#sell-product-screen)
-      - [Edit product](#edit-product)
-      - [User Reviews Screen](#user-reviews-screen)
-      - [Sales History Screen](#sales-history-screen)
-      - [Purchase History Screen](#purchase-history-screen)
-      - [Screens Flowchart](#screens-flowchart)
-- [Fase 2 - Web con servidor generado HTML y AJAX](#fase-2---web-con-servidor-generado-html-y-ajax)
-   - [Instrucciones de ejecución](#instrucciones-de-ejecución)
-   - [Requisitos](#requisitos)
-   - [Configuración de base de datos](#configuración-de-base-de-datos)
-   - [Configuración de IDE](#configuración-de-ide)
-   - [Usuarios de ejemplo](#usuarios-de-ejemplo)
-   - [Diagramas](#diagramas)
-      - [Diagrama de base de datos](#diagrama-de-base-de-datos)
-      - [Diagrama de clases y plantillas](#diagrama-de-clases-y-plantillas)
-   - [Participación de miembros](#participación-de-miembros)
-      - [Olga Chubinova Bortsova](#olga-chubinova-bortsova)
-      - [Marcos García García](#marcos-garcía-garcía)
-      - [Naroa Martín Simón](#naroa-martín-simón)
-      - [Adrián Muñoz Serrano](#adrián-muñoz-serrano)
+      - [Edit profile Screen](#-edit-profile-screen)
+      - [Favorite products Screen](#-favorite-products-screen)
+      - [Sell product Screen](#-sell-product-screen)
+      - [Edit product](#-edit-product)
+      - [User Reviews Screen](#-user-reviews-screen)
+      - [Sales History Screen](#-sales-history-screen)
+      - [Purchase History Screen](#-purchase-history-screen)
+      - [Screens Flowchart](#-screens-flowchart)
+- [Fase 2 - Web con springboot y mysql](#-fase-2---web-con-springboot-y-mysql)
+   - [Instrucciones de ejecución](#-instrucciones-de-ejecución)
+   - [Requisitos](#-requisitos)
+   - [Configuración de base de datos](#-configuración-de-base-de-datos)
+   - [Configuración de IDE](#-configuración-de-ide)
+   - [Usuarios de ejemplo](#-usuarios-de-ejemplo)
+   - [Diagramas](#-diagramas)
+      - [Diagrama de base de datos](#-diagrama-de-base-de-datos)
+      - [Diagrama de clases y plantillas](#-diagrama-de-clases-y-plantillas)
+   - [Participación de miembros](#-participación-de-miembros)
+      - [Olga Chubinova Bortsova](#-olga-chubinova-bortsova)
+      - [Marcos García García](#-marcos-garcía-garcía)
+      - [Naroa Martín Simón](#-naroa-martín-simón)
+      - [Adrián Muñoz Serrano](#-adrián-muñoz-serrano)
 
 ***   
 # 🌀 Phase 0
@@ -244,7 +244,7 @@ All options under "View Profile," such as history, favorites, and account editin
  ![*2.13 Flowchart Screen*](./Capturas/actualizado/flowchart.png)
 
  ***   
-# 🌀 Phase 2  - Web with server-generated HTML and AJAX
+# 🌀 Phase 2  - Web with springboot and mysql
 ***
 
 ## 🛠️ Execution instructions
