@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -67,26 +68,33 @@ public class ProfileController {
     }
 
     @GetMapping("/profile")
-    public String userProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String userProfile(
+            @RequestParam(value = "filter", required = false) String filter,
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            Model model) {
+
         if (userDetails == null) {
             return "redirect:/login";  
         }
-        
+
+        int pageSize = 4;
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+
         if (!optionalUser.isPresent()) {
             return "redirect:/login";  
         }
 
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
-        
+
         User user = optionalUser.get();
         model.addAttribute("id", user.getId());
 
-        if (user.getIframe() != null){
+        if (user.getIframe() != null) {
             model.addAttribute("location", user.getIframe());
         }
-        
+
         model.addAttribute("isOwnProfile", true);
         model.addAttribute("username", user.getName());
         model.addAttribute("salesNumber", user.getSales().size());
@@ -95,16 +103,26 @@ public class ProfileController {
         model.addAttribute("reviewsSection", false);
 
         if ("favorites".equals(filter)) {
-            model.addAttribute("show_products", user.getFavoriteProducts());
+            Page<Product> productPage = productService.getFavoriteProducts(user, page, pageSize);
+            model.addAttribute("show_products", productPage.getContent());
             model.addAttribute("title", "Mis favoritos");
+            model.addAttribute("filter", "favorites");
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", productPage.getTotalPages());
         } else if ("historyPurchase".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastPurchases(user));
+            model.addAttribute("show_products", productService.getLastPurchases(user)); 
             model.addAttribute("title", "Últimas compras");
+            model.addAttribute("filter", "historyPurchase");
             model.addAttribute("renderStats", true);
+            model.addAttribute("currentPage", 0); 
+            model.addAttribute("totalPages", 1);
         } else if ("historySales".equals(filter)) {
-            model.addAttribute("show_products", productService.getLastSales(user));
+            model.addAttribute("show_products", productService.getLastSales(user)); 
             model.addAttribute("title", "Últimas ventas");
+            model.addAttribute("filter", "historySales");
             model.addAttribute("renderStats", true);
+            model.addAttribute("currentPage", 0);
+            model.addAttribute("totalPages", 1);
         } else if ("reviews".equals(filter)) {
             List<Review> reviews = user.getReviews();
             model.addAttribute("reviewsSection", true);
@@ -116,7 +134,6 @@ public class ProfileController {
             }
 
             List<Map<String, Object>> reviewStars = new ArrayList<>();
-
             for (Review review : reviews) {
                 int rating = review.getRating();
                 List<Boolean> stars = new ArrayList<>();
@@ -131,6 +148,7 @@ public class ProfileController {
                 }
 
                 Map<String, Object> reviewStarData = new HashMap<>();
+                reviewStarData.put("id", review.getId());  
                 reviewStarData.put("rating", rating);
                 reviewStarData.put("stars", stars);
                 reviewStarData.put("emptyStars", emptyStars);
@@ -142,12 +160,17 @@ public class ProfileController {
             model.addAttribute("reviewStars", reviewStars);
             model.addAttribute("title", "Mis Reseñas");
         } else {
-            model.addAttribute("show_products", productService.findByOwner(user));
+            Page<Product> productPage = productService.findProductsByOwner(user, page, pageSize);
+            model.addAttribute("show_products", productPage.getContent()); 
             model.addAttribute("title", "Mis productos");
+            model.addAttribute("filter", "products");
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", productPage.getTotalPages());
         }
 
         return "profile_template";
     }
+
 
     @GetMapping("/adminProfile")
     public String adminProfile(@RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -172,20 +195,24 @@ public class ProfileController {
     }
     
     @GetMapping("/profile/{profileId}")
-    public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, @RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        int pageSize = 4;
         boolean isOwnProfile = false;
         Optional<User> profileOptional = userService.findById(profileId);
         if(!profileOptional.isPresent() || profileId == 1){     //profileId 1 reserved to manage deleted users
             model.addAttribute("message", "No se encuentra el perfil");
+            model.addAttribute("user", null);
             return "error";
         }
         User profileUser = profileOptional.get();
         if (userDetails == null) {
             isOwnProfile = false;
+            model.addAttribute("user", null);
         }else{
             Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
             User user = optionalUser.get();
             isOwnProfile = user.equals(profileUser);
+            model.addAttribute("user", user);
         }
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
@@ -229,6 +256,7 @@ public class ProfileController {
                 }
 
                 Map<String, Object> reviewStarData = new HashMap<>();
+                reviewStarData.put("id", review.getId()); 
                 reviewStarData.put("rating", rating);
                 reviewStarData.put("stars", stars);
                 reviewStarData.put("emptyStars", emptyStars);
@@ -237,12 +265,18 @@ public class ProfileController {
                 reviewStars.add(reviewStarData);
             }
 
+model.addAttribute("reviewStars", reviewStars);
+
             model.addAttribute("reviewStars", reviewStars);
             model.addAttribute("title", "Reseñas");
         }
          else {
-            model.addAttribute("show_products", productService.findByOwner(profileUser));
+            Page<Product> productPage = productService.findProductsByOwner(profileUser, page, pageSize);
+            model.addAttribute("show_products", productPage.getContent()); 
             model.addAttribute("title", "Productos");
+            model.addAttribute("filter", "products");
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", productPage.getTotalPages());
         }
 
         return "profile_template";
@@ -342,6 +376,7 @@ public class ProfileController {
 
     @PostMapping("/review/{id}/delete")
     public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+        System.out.println("Intentando eliminar la reseña con ID: " + id);
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
 
         if (!optionalUser.isPresent()) {
@@ -351,24 +386,22 @@ public class ProfileController {
 
         User user = optionalUser.get();
 
-        if (!user.getRoles().contains("ADMIN")) {
-            model.addAttribute("message", "No tienes permisos para eliminar reseñas");
-            return "error";
-        }
+        // if (!user.getRoles().contains("USER")) {
+        //     model.addAttribute("message", "No tienes permisos para eliminar reseñas");
+        //     return "error";
+        // }
 
         Review review;
         try {
             review = reviewService.getReviewById(id);
         } catch (RuntimeException e) {
-            model.addAttribute("message", "Review no encontrada");
+            model.addAttribute("message", "Review no encontrada con ID: " + id);
             return "error";
         }
 
         reviewService.delete(id);
-        return "redirect:/";
+        return "redirect:/";  
     }
-
-
 
 
     @GetMapping("/reviews")
@@ -378,6 +411,7 @@ public class ProfileController {
         model.addAttribute("title", "Reseñas");
         return "reviews";
     }
+
 
 
 }

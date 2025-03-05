@@ -21,11 +21,11 @@
 
                     {{#admin}}
                     <form action="/review/{{id}}/delete" method="post">
-                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                        <input type="hidden" name="_csrf" value="{{token}}" />
                         <button type="submit" class="btn btn-danger btn-sm" title="Delete review">
-                            <i class="bi bi-trash"></i> 
+                            <i class="bi bi-trash"></i>
                         </button>
-                    </form>                                       
+                    </form>
                     {{/admin}}
                 </div>
             </div>
@@ -33,7 +33,6 @@
         {{/reviewStars}}
     </div>
 </div>
-
 {{/reviews}}
 
 {{^reviews}}

@@ -16,7 +16,10 @@ import es.grupo04.backend.model.User;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByOwner(User owner);
+    Page<Product> findProductByOwner(User owner, Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p IN :favorites")
+    Page<Product> findFavoriteProducts(@Param("favorites") List<Product> favorites, Pageable pageable);
 
     @Query("SELECT p FROM Product p JOIN p.users u WHERE u = :user")
     List<Product> findFavoritesByUser(@Param("user") User user);

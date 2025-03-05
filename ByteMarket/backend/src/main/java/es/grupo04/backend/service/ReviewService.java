@@ -24,12 +24,18 @@ public class ReviewService {
     }
 
     public Review getReviewById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID de la reseña no puede ser nulo");
+        }
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review no encontrada con ID: " + id));
     }
-
+    
     @Transactional
     public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Review no encontrada con ID: " + id);
+        }
         repository.deleteById(id);
         repository.flush();
     }

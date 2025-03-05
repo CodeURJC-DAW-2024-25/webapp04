@@ -44,8 +44,9 @@ public class ProductService {
 		return repository.findById(id);
 	}
 
-	public List<Product> findByOwner(User owner) {
-		return repository.findByOwner(owner);
+	public Page<Product> findProductsByOwner(User owner, int page, int pageSize) {
+		Pageable pageable = PageRequest.of(page, pageSize);
+    	return repository.findProductByOwner(owner, pageable);
 	}
 
 	public boolean exist(long id) {
@@ -142,6 +143,12 @@ public class ProductService {
 				.limit(5)
 				.map(Purchase::getProduct)
 				.collect(Collectors.toList());
+	}
+
+	// Get favorite products
+	public Page<Product> getFavoriteProducts(User user, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return repository.findFavoriteProducts(user.getFavoriteProducts(), pageable);
 	}
 
 	// Add images to a product
