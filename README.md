@@ -48,7 +48,7 @@
       - [Marcos García García](#-marcos-garcía-garcía)
       - [Naroa Martín Simón](#-naroa-martín-simón)
       - [Adrián Muñoz Serrano](#-adrián-muñoz-serrano)
-      
+
 ***   
 # 🌀 Phase 0
 ***
@@ -244,10 +244,10 @@ All options under "View Profile," such as history, favorites, and account editin
  ![*2.13 Flowchart Screen*](./Capturas/actualizado/flowchart.png)
 
  ***   
-# 🌀 Phase 2  - Web with springboot and mysql
+# 🌀 Phase 2  - Web with Spring Boot and MySQL
 ***
 
-## 🛠️ Execution instructions
+## 🛠️ Execution Instructions
 
 # 🚀 Steps 
 1. Download this repository
