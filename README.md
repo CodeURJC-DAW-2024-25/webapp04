@@ -318,11 +318,12 @@ At the beginning of the project, I modified most of the templates to work with M
 
 | File | Name |
 | :----: | :---------: |
-| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
-| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
-| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
-| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
-| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/DataBaseInitializer.java) | DataBaseInitializer |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/DataBaseInitializer.java) | DataBaseInitializer |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ReviewService.java) | Review Service |
+
 
 ### 👤 Marcos García García
 I colaborated in the creation of the model classes and the definition of their dependencies for the database.
