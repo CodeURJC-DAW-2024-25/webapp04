@@ -45,7 +45,7 @@ public class Product {
     @ManyToMany
     private List<User> users;
 
-    @ManyToMany (mappedBy = "favoriteProducts")	//Tiene que llamarse igual
+    @ManyToMany (mappedBy = "favoriteProducts")
     private List<User> favoriteOfUser;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Report> reports;

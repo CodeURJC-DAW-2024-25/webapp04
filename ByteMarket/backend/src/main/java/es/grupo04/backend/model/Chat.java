@@ -72,7 +72,7 @@ public class Chat {
 
     public void addMessage(Message message) {
         this.messages.add(message);
-        message.setChat(this); // Asegurar la relación bidireccional
+        message.setChat(this);
     }
 
     public void removeMessage(Message message) {

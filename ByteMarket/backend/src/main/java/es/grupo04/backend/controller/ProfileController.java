@@ -74,16 +74,8 @@ public class ProfileController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
 
-        if (userDetails == null) {
-            return "redirect:/login";  
-        }
-
-        int pageSize = 4;
+        int pageSize = 8;
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
-
-        if (!optionalUser.isPresent()) {
-            return "redirect:/login";  
-        }
 
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
@@ -196,7 +188,7 @@ public class ProfileController {
     
     @GetMapping("/profile/{profileId}")
     public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, @RequestParam(value = "page", defaultValue = "0") int page, Model model) {
-        int pageSize = 4;
+        int pageSize = 8;
         boolean isOwnProfile = false;
         Optional<User> profileOptional = userService.findById(profileId);
         if(!profileOptional.isPresent() || profileId == 1){     //profileId 1 reserved to manage deleted users

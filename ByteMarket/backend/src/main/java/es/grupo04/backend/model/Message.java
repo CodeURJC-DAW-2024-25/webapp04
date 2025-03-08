@@ -71,4 +71,8 @@ public class Message {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm");
         return dateTime.format(formatter);
     }
+
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = formatDate(sentAt);
+    }
 }

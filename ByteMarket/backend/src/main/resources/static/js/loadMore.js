@@ -1,5 +1,10 @@
 $(document).ready(function() {
-    let currentPage = $('#load-more').data('current-page');  
+    let currentPage = $('#load-more').data('current-page'); 
+    let totalPages = $('#load-more').data('total-pages');
+    
+    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+        $('#load-more').hide();
+    }
 
     $('#load-more').on('click', function() {
         let $button = $(this);
@@ -19,7 +24,12 @@ $(document).ready(function() {
                     $button.hide();
                 } else {
                     $('#products-list').append(newProducts);
+                    $('#load-more').data('current-page', currentPage+1);
+                    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+                        $('#load-more').hide();
+                    }
                 }
+
             },
             complete: function() {
                 $spinner.hide();  

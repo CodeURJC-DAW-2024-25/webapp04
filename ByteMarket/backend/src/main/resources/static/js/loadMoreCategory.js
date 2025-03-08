@@ -3,6 +3,10 @@ $(document).ready(function() {
     let totalPages = $('#load-more').data('total-pages');  
     let category = new URLSearchParams(window.location.search).get("category") || "";
     let search = new URLSearchParams(window.location.search).get("search") || "";
+    
+    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+        $('#load-more').hide();
+    }
 
     $('#load-more').on('click', function() {
         if (currentPage + 1 >= totalPages) {
@@ -27,6 +31,10 @@ $(document).ready(function() {
                     $('#load-more').hide(); // Hide button if no more products
                 } else {
                     $('#products-list').append(newProducts);
+                    $('#load-more').data('current-page', currentPage+1);
+                    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+                        $('#load-more').hide();
+                    }
                 }
             },
             complete: function() {

@@ -2,26 +2,30 @@ $(document).ready(function() {
     let $button = $('#load-more');
     let currentPage = $button.data('current-page');
     let totalPages = $button.data('total-pages');
-    let filter = $button.data('filter'); // Obtener el valor de filter del botón
+    let filter = $button.data('filter'); // Get the value of filter from the button
+    
+    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+        $('#load-more').hide();
+    }
 
-    // Extraer el profileId de la URL o usar el ID del usuario si está en su propio perfil
-    let profileId = window.location.pathname.split('/')[2];  // Extrae el id del usuario desde la URL
+    // Extract the profileId from the URL or use the user's ID if on their own profile
+    let profileId = window.location.pathname.split('/')[2];  // Extract the user id from the URL
 
     if (!profileId) {
-        profileId = $('#userId').val();  // Fallback al ID del usuario actual si no se encuentra en la URL
+        profileId = $('#userId').val();  // Fallback to the current user's ID if not found in the URL
     }
 
     if (!profileId) {
-        console.error('No se pudo obtener el profileId');
+        console.error('Could not obtain profileId');
         return;  
     }
 
-    // Si estamos en la última página o no hay más productos, esconder el botón
+    // If we are on the last page or there are no more products, hide the button
     if (currentPage >= totalPages || $('.otherProduct').length === 0) {
         $button.hide();
     }
 
-    // Cuando el usuario hace clic en el botón 'load more', se hace la petición Ajax
+    // When the user clicks the 'load more' button, make the Ajax request
     $button.on('click', function() {
         let $spinner = $('#spinner');
         $spinner.show();
@@ -31,12 +35,12 @@ $(document).ready(function() {
 
         let url;
 
-        // Construir la URL de la solicitud en función de si es para favoritos o perfil
+        // Build the request URL based on whether it is for favorites or profile
         if (filter === "favorites") {
-            // Para favoritos no necesitamos el profileId en la URL
+            // For favorites we don't need the profileId in the URL
             url = '/profile?page=' + currentPage + (filter ? '&filter=' + filter : '');
         } else {
-            // Para productos del perfil usamos el profileId
+            // For profile products we use the profileId
             url = '/profile/' + profileId + '?page=' + currentPage + (filter ? '&filter=' + filter : '');
         }
 
@@ -48,11 +52,15 @@ $(document).ready(function() {
                     return $('#products-list .otherProducts[data-id="' + $(this).data('id') + '"]').length === 0;
                 });
 
-                // Si no hay productos nuevos o hemos llegado a la última página, esconder el botón
+                // If there are no new products or we have reached the last page, hide the button
                 if (newProducts.length === 0 || currentPage >= totalPages) {
                     $button.hide();
                 } else {
-                    newProducts.appendTo('#products-list'); // Añadir los nuevos productos
+                    newProducts.appendTo('#products-list'); // Add the new products
+                    $('#load-more').data('current-page', currentPage+1);
+                    if (currentPage === totalPages-1) {  // If there are no more pages, hide button
+                        $('#load-more').hide();
+                    }
                 }
             },
             complete: function() {

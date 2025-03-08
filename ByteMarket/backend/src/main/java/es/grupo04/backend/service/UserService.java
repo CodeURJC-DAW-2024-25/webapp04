@@ -51,7 +51,7 @@ public class UserService {
     public User saveUser(User user) {
         System.out.println("Saving user");
         if (user.getRoles() == null) {
-            user.setRoles(List.of("USER")); // Asignar rol por defecto si no se pasa en el formulario
+            user.setRoles(List.of("USER")); 
         }
         String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
         user.setEncodedPassword(encodedPassword);
@@ -72,7 +72,7 @@ public class UserService {
 
     public boolean createAccount(User user) {
         if (userRepository.findByMail(user.getMail()).isPresent()) {
-            return true; // Si tiene una cuenta devolvemos true
+            return true; 
         } else {
             saveUser(user);
             return false;

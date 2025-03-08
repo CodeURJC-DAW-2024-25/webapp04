@@ -50,7 +50,8 @@ async function loadChart() {
         },
         options: {
             responsive: true,
-            scales: { y: { beginAtZero: true } }
+            scales: { y: { beginAtZero: true } },
+            ticks: {stepSize: 1}
         }
     });
 }
