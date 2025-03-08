@@ -1,11 +1,8 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +28,6 @@ import es.grupo04.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ChatController {

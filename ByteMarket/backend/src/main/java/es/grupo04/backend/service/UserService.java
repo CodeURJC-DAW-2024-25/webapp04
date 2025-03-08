@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -17,12 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
-import es.grupo04.backend.model.Report;
-import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
-import es.grupo04.backend.repository.ReportRepository;
 import es.grupo04.backend.repository.UserRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -40,9 +35,6 @@ public class UserService {
 
     @Autowired 
     private ReportService reportService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

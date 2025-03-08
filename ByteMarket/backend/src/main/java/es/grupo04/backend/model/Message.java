@@ -25,6 +25,7 @@ public class Message {
 
     private String sentAt;
 
+
     public Message() {
     }
 
@@ -74,5 +75,9 @@ public class Message {
 
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = formatDate(sentAt);
+    }
+
+    public String getSentAt() {
+        return sentAt;
     }
 }

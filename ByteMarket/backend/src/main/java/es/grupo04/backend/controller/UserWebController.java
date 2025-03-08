@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

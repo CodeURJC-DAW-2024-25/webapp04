@@ -376,18 +376,9 @@ model.addAttribute("reviewStars", reviewStars);
             return "error";
         }
 
-        User user = optionalUser.get();
-
-        // if (!user.getRoles().contains("USER")) {
-        //     model.addAttribute("message", "No tienes permisos para eliminar reseñas");
-        //     return "error";
-        // }
-
-        Review review;
-        try {
-            review = reviewService.getReviewById(id);
-        } catch (RuntimeException e) {
-            model.addAttribute("message", "Review no encontrada con ID: " + id);
+        
+        if(reviewService.getReviewById(id) == null){
+            model.addAttribute("message", "Review no encontrada");
             return "error";
         }
 

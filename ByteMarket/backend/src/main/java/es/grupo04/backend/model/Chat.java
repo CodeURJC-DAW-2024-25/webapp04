@@ -29,6 +29,7 @@ public class Chat {
 
     private boolean selling;
 
+
     public Chat() {
     }
 
@@ -99,5 +100,9 @@ public class Chat {
         }else{
             this.selling = false;
         }
+    }
+
+    public boolean isSelling() {
+        return selling;
     }
 }

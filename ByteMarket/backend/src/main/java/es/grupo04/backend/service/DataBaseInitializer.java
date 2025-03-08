@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -31,7 +30,6 @@ import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ChatRepository;
-import es.grupo04.backend.repository.ImageRepository;
 import es.grupo04.backend.repository.MessageRepository;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.PurchaseRepository;
@@ -47,9 +45,6 @@ public class DataBaseInitializer {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ImageRepository ImageRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
