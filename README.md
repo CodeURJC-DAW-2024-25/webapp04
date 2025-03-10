@@ -75,7 +75,7 @@
  
  The following diagram shows the system's entities, and how they relate to each other. 
   ##### img: Entity-Relationship Diagram
-  ![*1.1 entities*](./Capturas/Diagramas/ER%20Diagram.jpg) 
+  ![*1.1 entities*](./Screenshots/Diagrams/ER%20Diagram.jpg) 
 
 
 
@@ -134,17 +134,17 @@ This screen will be shown to anyone who accesses the webpage. This image represe
 Everybody has the same access to all products, only the header changes.
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.1.1 Home Screen*](./Capturas/actualizado/InicioUser.png) | ![*2.1.2 Home Screen*](./Capturas/actualizado/admin/Inicio.jpg) | ![*2.1.3 Home Screen*](./Capturas/actualizado/inicioSinUser.png) |
+| ![*2.1.1 Home Screen*](./Screenshots/Updated/homeUser.png) | ![*2.1.2 Home Screen*](./Screenshots/Updated/admin/Inicio.jpg) | ![*2.1.3 Home Screen*](./Screenshots/Updated/homeAnonimus.png) |
 
 ###  🔍 Searcher Screen
 All type of users can search products, only the header will change.
 | Product exists | No product |
 | :----: | :------: |
-| ![*2.14.1 Searcher Screen*](./Capturas/actualizado/buscador.jpg) | ![*2.14.2 Searcher Screen*](./Capturas/actualizado/buscarProductoERROR.jpg) | 
+| ![*2.14.1 Searcher Screen*](./Screenshots/Updated/navbar.jpg) | ![*2.14.2 Searcher Screen*](./Screenshots/Updated/seachProductError.jpg) | 
 
 ###  📂 Category filter Screen
 All type of users can search products, only the header will change.
-![*2.15 Category Screen*](./Capturas/actualizado/admin/categoria.png) 
+![*2.15 Category Screen*](./Screenshots/Updated/admin/categoria.png) 
 
 ###  🎮 Product detail Screen
 Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller. If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
@@ -155,27 +155,27 @@ Admins can only delete the product.
 Everybody can see the seller profile throughout the profile photo.
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.2.1 Details Screen*](./Capturas/actualizado/detalleProductoAjeno.jpg) | ![*2.2.2 Details Screen*](./Capturas/actualizado/admin/detalle.jpg) | ![*2.2.3 Details Screen*](./Capturas/actualizado/admin/detalleSinUser.png) |
+| ![*2.2.1 Details Screen*](./Screenshots/Updated/othersProductDetail.jpg) | ![*2.2.2 Details Screen*](./Screenshots/Updated/admin/detalle.jpg) | ![*2.2.3 Details Screen*](./Screenshots/Updated/admin/detalleSinUser.png) |
 
 #### Product detail of bought product (user) 
-![*2.2.3 Details Screen*](./Capturas/actualizado/detalleProductoComprado.png)
+![*2.2.3 Details Screen*](./Screenshots/Updated/boughtProductDetail.png)
 
 #### Product detail of own product 
-![*2.2.4 Details Screen*](./Capturas/actualizado/detalleProductoPropio.jpg)
+![*2.2.4 Details Screen*](./Screenshots/Updated/ownProductDetail.jpg)
 
 
 ###  👨‍💻 Login/Sign up Screen
 Depending on whether the user is registered or not, one of the two screens will be displayed. The login screen is shown only to registered users and in case they are not registered, the registration screen will be shown.
-![*2.3.1 Login Screen*](./Capturas/actualizado/iniciarSesion.png)
-![*2.3.2 Sign up Screen*](./Capturas//actualizado/registrarse.png)
+![*2.3.1 Login Screen*](./Screenshots/Updated/login.png)
+![*2.3.2 Sign up Screen*](./Screenshots//Updated/register.png)
 
 ###  ✉️ Chat Screen
 If a buyer wants to ask the seller questions about the product, they can chat. The buyer should contact the seller so that the seller can proceed with the sale.
-![*2.4 Chat Screen*](./Capturas/actualizado/Chat.jpg)
+![*2.4 Chat Screen*](./Screenshots/Updated/Chat.jpg)
 
 ###  🚫 Reports Screen
 Admin users can manage the reports from this screen.
-![*2.5 Reports Screen*](./Capturas/actualizado/admin/Reportes.jpg)
+![*2.5 Reports Screen*](./Screenshots/Updated/admin/Reportes.jpg)
 
 ###  👤 Profile Screen
 All type of users can see other profiles. But only registered users and admins will be able to see their own profiles. 
@@ -183,19 +183,19 @@ All type of users can see other profiles. But only registered users and admins w
 #### Profile of other user 
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.6.1.1 Profile Screen*](./Capturas/actualizado/perfilAjeno.jpg) | ![*2.6.1.2 Profile Screen*](./Capturas/actualizado/admin/perfilOtro1.jpg) | ![*2.6.1.3 Profile Screen*](./Capturas/actualizado/admin/perfilOtroSinUser1.png) |
+| ![*2.6.1.1 Profile Screen*](./Screenshots/Updated/othersProfile.jpg) | ![*2.6.1.2 Profile Screen*](./Screenshots/Updated/admin/perfilOtro1.jpg) | ![*2.6.1.3 Profile Screen*](./Screenshots/Updated/admin/perfilOtroSinUser1.png) |
 
 #### Own profile 
 | User | Admin |
 | :----: | :------: |
-| ![*2.6.2.1 Profile Screen*](./Capturas/actualizado/perfilPropio.png) | ![*2.6.2.2 Profile Screen*](./Capturas/actualizado/admin/propioPerfil.jpg) | 
+| ![*2.6.2.1 Profile Screen*](./Screenshots/Updated/ownProfile.png) | ![*2.6.2.2 Profile Screen*](./Screenshots/Updated/admin/propioPerfil.jpg) | 
 
 ###  ✏️ Edit profile Screen
 Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
 
 | User | Admin |
 | :----: | :------: |
-| ![*2.7.1 Edit profile Screen*](./Capturas/actualizado/editarPerfil.png) | ![*2.7.2 Edit profile Screen*](./Capturas/actualizado/admin/editarPerfil.jpg) | 
+| ![*2.7.1 Edit profile Screen*](./Screenshots/Updated/editProfile.png) | ![*2.7.2 Edit profile Screen*](./Screenshots/Updated/admin/editProfile.jpg) | 
 
 
 ###  ❤️ Favorite products Screen
@@ -203,33 +203,33 @@ Registered users can add products to their favorites, which will be displayed in
 
 | No empty | Empty |
 | :----: | :------: |
-| ![*2.8.1 Edit profile Screen*](./Capturas/actualizado/favoritos.jpg) | ![*2.8.2 Edit profile Screen*](./Capturas/actualizado/favoritosVacio.jpg) | 
+| ![*2.8.1 Edit profile Screen*](./Screenshots/Updated/favorites.jpg) | ![*2.8.2 Edit profile Screen*](./Screenshots/Updated/emptyFavorites.jpg) | 
 
 ###  🛒 Sell product Screen
 If a registered user wants to sell a product, this screen will be shown. The user should fill all sections of the form.
 
 | Normal | Error (no fill) |
 | :----: | :------: |
-| ![*2.9.1 Sell product Screen*](./Capturas/actualizado/nuevoProducto.png) | ![*2.9.2 Sell product Screen*](./Capturas/actualizado/nuevoProductoError.png) |
+| ![*2.9.1 Sell product Screen*](./Screenshots/Updated/newProduct.png) | ![*2.9.2 Sell product Screen*](./Screenshots/Updated/newProductError.png) |
 
 ###  ✏️ Edit product
 Only the owners of the product can edit all the parameters.
-![*2.16 Edit product Screen*](./Capturas/actualizado/editarProducto.png)
+![*2.16 Edit product Screen*](./Screenshots/Updated/editProduct.png)
 
 ###  🔍 User Reviews Screen
 All type of users can see the reviews of other users in their profile. Only admins will be able to delete users reviews.
 
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.10.1 User Reviews Screen*](./Capturas/actualizado/admin/reseñadeOtroConUser.png) | ![*2.10.2 User Reviews Screen*](./Capturas/actualizado/admin/reseñadeOtroAdmin.png) | ![*2.10.3 User Reviews Screen*](./Capturas/actualizado/admin/reseñasSinUser.png) |
+| ![*2.10.1 User Reviews Screen*](./Screenshots/Updated/admin/reseñadeOtroConUser.png) | ![*2.10.2 User Reviews Screen*](./Screenshots/Updated/admin/reseñadeOtroAdmin.png) | ![*2.10.3 User Reviews Screen*](./Screenshots/Updated/admin/reseñasSinUser.png) |
 
 ### 📊 Sales History  Screen
 The products that were sold will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.11 Sales History Screen*](./Capturas/actualizado/historialVenta.jpg)
+![*2.11 Sales History Screen*](./Screenshots/Updated/saleHistory.jpg)
 
 ### 📜 Purchase History Screen
 The purchased products will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
-![*2.12 Purchase History Screen*](./Capturas/actualizado/historialCompra.jpg)
+![*2.12 Purchase History Screen*](./Screenshots/Updated/purchaseHistory.jpg)
 
  
 ### 📺 Screens Flowchart
@@ -241,7 +241,7 @@ All options under "View Profile," such as history, favorites, and account editin
 - 🟠 All type of Users
 - 🔵 Admin   
  
- ![*2.13 Flowchart Screen*](./Capturas/actualizado/flowchart.png)
+ ![*2.13 Flowchart Screen*](./Screenshots/Updated/flowchart.png)
 
  ***   
 # 🌀 Phase 2  - Web with Spring Boot and MySQL
@@ -296,10 +296,10 @@ All options under "View Profile," such as history, favorites, and account editin
 ## 🗃️ Diagrams
 
 ### 🏛️ Database Diagram
-![*3.1. DataBase*](./Capturas/Diagramas/BD%20Diagram.jpg) 
+![*3.1. DataBase*](./Screenshots/Diagrams/BD%20Diagram.jpg) 
 
 ### 📌 Classes and Templates Diagram
-![*3.2. JavaClass*](./Capturas/Diagramas/Class%20Diagram.jpg) 
+![*3.2. JavaClass*](./Screenshots/Diagrams/Class%20Diagram.jpg) 
 
 ## ⚙️ Members Participation
 
