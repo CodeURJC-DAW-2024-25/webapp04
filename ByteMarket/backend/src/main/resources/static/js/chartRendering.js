@@ -19,7 +19,7 @@ async function loadChart() {
     console.log(purchases);
     console.log(sales);
 
-    const ctx = document.getElementById("graficoTransacciones").getContext("2d");
+    const ctx = document.getElementById("transactionChart").getContext("2d");
     new Chart(ctx, {
         type: "line",
         data: {

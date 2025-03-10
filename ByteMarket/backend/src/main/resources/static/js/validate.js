@@ -1,16 +1,15 @@
 //VALIDATE FORM
-const formulario = document.getElementById("form");
-console.log('Formulario: ',formulario);
-formulario.addEventListener('submit', (error)=>{
-    validarFormulario();
-    if (validarFormulario() && true){
+const form = document.getElementById("form");
+form.addEventListener('submit', (error)=>{
+    validateForm();
+    if (validateForm() && true){
         return true;
     }else{
         error.preventDefault();
     }
 });
 
-function validarFormulario(){
+function validateForm(){
     const username = document.getElementById('name').value;
     const password = document.getElementById('password').value;
     const password2 = document.getElementById('confirmPassword').value;
