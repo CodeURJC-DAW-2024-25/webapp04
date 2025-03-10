@@ -1,3 +1,8 @@
+.img-fluid {
+    max-height: 500px;
+    object-fit: cover;
+}
+
 .user-img {
     border-radius: 50%;
     width: 70px;
@@ -15,6 +20,7 @@
     overflow-x: auto;
     gap: 10px;
     padding: 10px 0;
+    justify-content: center;
 }
 
 /* Customize the scrollbar */

@@ -40,6 +40,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
+
+
     @Query(value = """
         WITH SellerRatings AS (
             SELECT r.reviewed_user_id AS seller_id, COALESCE(AVG(r.rating), 0) AS avg_rating
@@ -56,6 +58,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         SELECT * FROM RankedProducts
         WHERE product_rank <= 3
         ORDER BY avg_rating DESC, publish_date DESC
+        LIMIT 9
     """, nativeQuery = true)
     List<Product> findTopRatedSellersProducts();
 
