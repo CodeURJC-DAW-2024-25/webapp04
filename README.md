@@ -134,7 +134,7 @@ This screen will be shown to anyone who accesses the webpage. This image represe
 Everybody has the same access to all products, only the header changes.
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.1.1 Home Screen*](./Screenshots/Updated/homeUser.png) | ![*2.1.2 Home Screen*](./Screenshots/Updated/admin/Inicio.jpg) | ![*2.1.3 Home Screen*](./Screenshots/Updated/homeAnonimus.png) |
+| ![*2.1.1 Home Screen*](./Screenshots/Updated/homeUser.png) | ![*2.1.2 Home Screen*](./Screenshots/Updated/admin/homeAdmin.jpg) | ![*2.1.3 Home Screen*](./Screenshots/Updated/homeAnonimus.png) |
 
 ###  🔍 Searcher Screen
 All type of users can search products, only the header will change.
@@ -144,7 +144,7 @@ All type of users can search products, only the header will change.
 
 ###  📂 Category filter Screen
 All type of users can search products, only the header will change.
-![*2.15 Category Screen*](./Screenshots/Updated/admin/categoria.png) 
+![*2.15 Category Screen*](./Screenshots/Updated/admin/category.png) 
 
 ###  🎮 Product detail Screen
 Screen showing information about the product for sale (price, description) and the user selling it. It also offers the possibility to add the product to favorites or chat with the seller. If the user has purchased from this seller before, they will have the additional options to post a review or a report the seller.
@@ -155,7 +155,7 @@ Admins can only delete the product.
 Everybody can see the seller profile throughout the profile photo.
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.2.1 Details Screen*](./Screenshots/Updated/othersProductDetail.jpg) | ![*2.2.2 Details Screen*](./Screenshots/Updated/admin/detalle.jpg) | ![*2.2.3 Details Screen*](./Screenshots/Updated/admin/detalleSinUser.png) |
+| ![*2.2.1 Details Screen*](./Screenshots/Updated/othersProductDetail.jpg) | ![*2.2.2 Details Screen*](./Screenshots/Updated/admin/detail.jpg) | ![*2.2.3 Details Screen*](./Screenshots/Updated/admin/anonimusDetail.png) |
 
 #### Product detail of bought product (user) 
 ![*2.2.3 Details Screen*](./Screenshots/Updated/boughtProductDetail.png)
@@ -175,7 +175,7 @@ If a buyer wants to ask the seller questions about the product, they can chat. T
 
 ###  🚫 Reports Screen
 Admin users can manage the reports from this screen.
-![*2.5 Reports Screen*](./Screenshots/Updated/admin/Reportes.jpg)
+![*2.5 Reports Screen*](./Screenshots/Updated/admin/reports.jpg)
 
 ###  👤 Profile Screen
 All type of users can see other profiles. But only registered users and admins will be able to see their own profiles. 
@@ -183,12 +183,12 @@ All type of users can see other profiles. But only registered users and admins w
 #### Profile of other user 
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.6.1.1 Profile Screen*](./Screenshots/Updated/othersProfile.jpg) | ![*2.6.1.2 Profile Screen*](./Screenshots/Updated/admin/perfilOtro1.jpg) | ![*2.6.1.3 Profile Screen*](./Screenshots/Updated/admin/perfilOtroSinUser1.png) |
+| ![*2.6.1.1 Profile Screen*](./Screenshots/Updated/othersProfile.jpg) | ![*2.6.1.2 Profile Screen*](./Screenshots/Updated/admin/otherProfile1.jpg) | ![*2.6.1.3 Profile Screen*](./Screenshots/Updated/admin/otherProfile1Anonimus.png) |
 
 #### Own profile 
 | User | Admin |
 | :----: | :------: |
-| ![*2.6.2.1 Profile Screen*](./Screenshots/Updated/ownProfile.png) | ![*2.6.2.2 Profile Screen*](./Screenshots/Updated/admin/propioPerfil.jpg) | 
+| ![*2.6.2.1 Profile Screen*](./Screenshots/Updated/ownProfile.png) | ![*2.6.2.2 Profile Screen*](./Screenshots/Updated/admin/ownProfile.jpg) | 
 
 ###  ✏️ Edit profile Screen
 Some user (registered) information can be modified. This screen is only shown in the own profile of each registered user (nobody else can see it).
@@ -221,7 +221,7 @@ All type of users can see the reviews of other users in their profile. Only admi
 
 | User | Admin | Anonymous |
 | :----: | :------: | :------: |
-| ![*2.10.1 User Reviews Screen*](./Screenshots/Updated/admin/reseñadeOtroConUser.png) | ![*2.10.2 User Reviews Screen*](./Screenshots/Updated/admin/reseñadeOtroAdmin.png) | ![*2.10.3 User Reviews Screen*](./Screenshots/Updated/admin/reseñasSinUser.png) |
+| ![*2.10.1 User Reviews Screen*](./Screenshots/Updated/admin/othersReviewsUser.png) | ![*2.10.2 User Reviews Screen*](./Screenshots/Updated/admin/othersReviewsAdmin.png) | ![*2.10.3 User Reviews Screen*](./Screenshots/Updated/admin/othersReviewsAnonimus.png) |
 
 ### 📊 Sales History  Screen
 The products that were sold will be shown in this screen. This screen is only shown in the own profile of each registered user (nobody else can see it).
