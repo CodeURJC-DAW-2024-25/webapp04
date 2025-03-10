@@ -34,7 +34,7 @@
       - [Sales History Screen](#-sales-history-screen)
       - [Purchase History Screen](#-purchase-history-screen)
       - [Screens Flowchart](#-screens-flowchart)
-- [Phase 2 - Web with Spring Boot and MySQL](#-phase-2---web-with-spring-boot-and-mysql)
+- [Phase 2 - Web with Spring Boot and MySQL](#-phase-2----web-with-spring-boot-and-mysql)
    - [Execution Instructions](#-execution-instructions)
    - [Requirements](#-requirements)
    - [Database Configuration](#-database-configuration)
