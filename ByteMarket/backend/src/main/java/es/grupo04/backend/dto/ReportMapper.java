@@ -11,8 +11,7 @@ import es.grupo04.backend.model.Report;
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
 
-    @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source="user", target="reportCreator")
     ReportDTO toDTO(Report report);
 
     List<ReportDTO> toDTOs(Collection<Report> reports);

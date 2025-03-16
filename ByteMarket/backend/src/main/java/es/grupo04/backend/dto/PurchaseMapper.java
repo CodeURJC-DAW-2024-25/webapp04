@@ -8,12 +8,9 @@ import org.mapstruct.Mapping;
 
 import es.grupo04.backend.model.Purchase;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ProductBasicMapper.class})
 public interface PurchaseMapper {
 
-    @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "buyer.id", target = "buyerId")
-    @Mapping(source = "seller.id", target = "sellerId")
     PurchaseDTO toDTO(Purchase purchase);
 
     List<PurchaseDTO> toDTOs(Collection<Purchase> purchases);

@@ -4,7 +4,7 @@ public record ReportDTO(
     Long id,
     String reason,
     String description,
-    Long productId,
-    Long userId
+    ProductBasicDTO product,
+    UserBasicDTO reportCreator
 ) {
 }

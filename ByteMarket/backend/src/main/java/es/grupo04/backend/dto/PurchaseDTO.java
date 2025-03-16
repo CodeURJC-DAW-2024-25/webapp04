@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public record PurchaseDTO(
     Long id, 
-    Long productId, 
-    Long buyerId, 
-    Long sellerId, 
+    ProductBasicDTO product, 
+    UserBasicDTO buyer, 
+    UserBasicDTO seller,
     LocalDate purchaseDate
     ) {
 }

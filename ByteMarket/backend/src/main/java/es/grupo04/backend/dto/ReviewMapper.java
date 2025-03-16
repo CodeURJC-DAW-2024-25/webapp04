@@ -11,8 +11,6 @@ import es.grupo04.backend.model.Review;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
 
-    @Mapping(source = "reviewOwner.id", target = "reviewOwnerId")
-    @Mapping(source = "reviewedUser.id", target = "reviewedUserId")
     ReviewDTO toDTO(Review review);
 
     List<ReviewDTO> toDTOs(Collection<Review> reviews);
