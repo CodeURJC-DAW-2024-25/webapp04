@@ -1,6 +1,6 @@
 package es.grupo04.backend.dto;
 
-public record newReviewDTO(
+public record NewReviewDTO(
     String rating,
     String description
 ) { 
