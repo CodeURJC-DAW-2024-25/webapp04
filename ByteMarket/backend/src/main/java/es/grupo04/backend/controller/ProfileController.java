@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.NewReviewDTO;
+import es.grupo04.backend.dto.ReviewDTO;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
@@ -356,13 +358,21 @@ model.addAttribute("reviewStars", reviewStars);
     }
 
     @PostMapping("/product/{id}/newReview")
-    public String addReview(@PathVariable Long id, @RequestParam("rating") int rating, @RequestParam("description") String description, HttpServletRequest request, Model model) {
+    public String addReview(@PathVariable Long id, 
+                            @RequestParam("rating") int rating, 
+                            @RequestParam("description") String description, 
+                            HttpServletRequest request) {
+        
         Principal principal = request.getUserPrincipal();
-        User reviewOwner = userService.findByMail(principal.getName()).orElse(null);
-        Optional<Product> optionalProduct = productService.findById(id);
-        User reviewedUser = optionalProduct.get().getOwner();
-        Review review = new Review(reviewOwner,reviewedUser,description,rating);
-        reviewService.saveReview(review); 
+        User reviewOwner = userService.findByMail(principal.getName()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Product product = productService.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        User reviewedUser = product.getOwner();
+
+        NewReviewDTO newReviewDTO = new NewReviewDTO(rating, description, reviewedUser.getId());
+
+        reviewService.saveReview(newReviewDTO, reviewOwner.getId()); 
+
         return "redirect:/product/" + id;
     }
 
@@ -389,7 +399,7 @@ model.addAttribute("reviewStars", reviewStars);
 
     @GetMapping("/reviews")
     public String getReviews(Model model) {
-        List<Review> reviews = reviewService.getAllReviews();
+        List<ReviewDTO> reviews = reviewService.getAllReviews();
         model.addAttribute("reviews", reviews);
         model.addAttribute("title", "Reseñas");
         return "reviews";
