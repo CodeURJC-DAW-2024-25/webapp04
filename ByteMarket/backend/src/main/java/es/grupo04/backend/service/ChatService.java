@@ -1,5 +1,7 @@
 package es.grupo04.backend.service;
 
+import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.ChatMapper;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
@@ -20,28 +22,29 @@ public class ChatService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ChatMapper chatMapper;
 
-    public Chat createChat(User buyer, User seller, Long productId) {
+    public ChatDTO createChat(User buyer, User seller, Long productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             Chat existingChat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
             if (existingChat != null) {
-                return existingChat; 
+                return chatMapper.toDTO(existingChat);
             }
             Chat chat = new Chat(buyer, seller, product);
-            return chatRepository.save(chat);
+            Chat savedChat = chatRepository.save(chat);
+            return chatMapper.toDTO(savedChat);
         }
         return null;
     }
 
-    public Chat findChat(User buyer, User seller, Long productId) {
-        return chatRepository.findByUsersAndProduct(buyer, seller, productId);
+    public ChatDTO findChat(User buyer, User seller, Long productId) {
+        Chat chat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
+        return chat != null ? chatMapper.toDTO(chat) : null;
     }
 
-    public Optional<Chat> findChatById(Long chatId) {
-        return chatRepository.findById(chatId);
+    public Optional<ChatDTO> findChatById(Long chatId) {
+        return chatRepository.findById(chatId).map(chatMapper::toDTO);
     }
-
-    
-
 }

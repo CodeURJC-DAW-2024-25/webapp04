@@ -1,12 +1,14 @@
 package es.grupo04.backend.service;
 
-
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.grupo04.backend.dto.PurchaseDTO;
+import es.grupo04.backend.dto.PurchaseMapper;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
@@ -17,6 +19,7 @@ import es.grupo04.backend.repository.UserRepository;
 
 @Service
 public class PurchaseService {
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -29,42 +32,56 @@ public class PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
 
-    public Purchase save(Purchase purchase) {
-        return purchaseRepository.save(purchase);
+    @Autowired
+    private PurchaseMapper purchaseMapper; // Inyectamos PurchaseMapper
+
+    public PurchaseDTO save(Purchase purchase) {
+        return purchaseMapper.toDTO(purchaseRepository.save(purchase));
     }
 
-    public Optional<Purchase> findById(Long id) {
-        return purchaseRepository.findById(id);
+    public Optional<PurchaseDTO> findById(Long id) {
+        return purchaseRepository.findById(id).map(purchaseMapper::toDTO);
     }
 
-    public List<Purchase> findAll() {
-        return purchaseRepository.findAll();
+    public List<PurchaseDTO> findAll() {
+        return purchaseRepository.findAll()
+                .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Purchase createPurchase(Chat chat){
+    public PurchaseDTO createPurchase(Chat chat) {
         User buyer = chat.getUserBuyer();
         User seller = chat.getUserSeller();
         Product product = chat.getProduct();
-        if(product.isSold()){
+        
+        if (product.isSold()) {
             return null;
         }
-        //Update the product state
+
+        // Actualizar el estado del producto
         product.setSold(true);
         productService.sold(product, buyer);
         productRepository.saveAndFlush(product);
-        //Purchase Creation
-        Purchase purchase = new Purchase(product,buyer,seller);        
+
+        // Creación de la compra
+        Purchase purchase = new Purchase(product, buyer, seller);        
         purchaseRepository.saveAndFlush(purchase);
-        //Users update
+
+        // Actualización de usuarios
         buyer.addPurchase(purchase);
         seller.addSale(purchase);
         userRepository.save(buyer);
         userRepository.save(seller);
-        return purchase;
+
+        return purchaseMapper.toDTO(purchase);
     }
 
-    public List<Purchase> findByBuyer(User buyer){
-        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer);
+    public List<PurchaseDTO> findByBuyer(User buyer) {
+        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer)
+                .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     public boolean hasBought(User user, User owner) {
