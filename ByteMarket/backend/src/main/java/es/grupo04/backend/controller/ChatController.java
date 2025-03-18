@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
+import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.ProductBasicDTO;
+import es.grupo04.backend.dto.ProductDTO;
+import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Message;
 import es.grupo04.backend.model.Product;
@@ -87,13 +91,13 @@ public class ChatController {
         Product product = productservice.findById(productId).orElse(null);
         User seller = product.getOwner();
         User user = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        Chat existingChat = chatservice.findChat(user, seller, productId);
+        ChatDTO existingChat = chatservice.findChat(user, seller, productId);
 
         if (existingChat != null) {
-            return "redirect:/chat/" + existingChat.getId();
+            return "redirect:/chat/" + existingChat.id();
         } else {
             existingChat = chatservice.createChat(user, seller, productId);
-            return "redirect:/chat/" + existingChat.getId();
+            return "redirect:/chat/" + existingChat.id();
         }
     }
 
@@ -109,17 +113,17 @@ public class ChatController {
             checkedChats.add(chat);
         }
         model.addAttribute("chats", checkedChats);
-        Chat existingChat = chatservice.findChatById(chatId).orElse(null);
-        Product product = existingChat.getProduct();
+        ChatDTO existingChat = chatservice.findChatById(chatId).orElse(null);
+        ProductBasicDTO product = existingChat.product();
 
         model.addAttribute("current_chat", existingChat);
-        model.addAttribute("current_chat_name", product.getName());
-        model.addAttribute("messages", existingChat != null ? existingChat.getMessages() : null);
+        model.addAttribute("current_chat_name", product.name());
+        model.addAttribute("messages", existingChat != null ? existingChat.messages() : null);
         model.addAttribute("chats", user.getAllChats());
-        model.addAttribute("messages", existingChat.getMessages());
+        model.addAttribute("messages", existingChat.messages());
         model.addAttribute("title", "Chats");
-        model.addAttribute("current_chat_name", product.getName());
-        model.addAttribute("messages", existingChat != null ? existingChat.getMessages() : null);
+        model.addAttribute("current_chat_name", product.name());
+        model.addAttribute("messages", existingChat != null ? existingChat.messages() : null);
         model.addAttribute("isSeller", user.getChatsAsSeller().contains(existingChat));
 
         return "chat_template";
@@ -131,10 +135,12 @@ public class ChatController {
             @AuthenticationPrincipal UserDetails userDetails) {
 
         User sender = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        Chat chat = chatservice.findChatById(chatId).orElse(null);
+        ChatDTO chat = chatservice.findChatById(chatId).orElse(null);
 
         if (sender != null && chat != null) {
-            Message newMessage = new Message(message, sender, chat);
+            // Convert ChatDTO to Chat
+            Chat chatAux = chatservice.convertDTOToEntity(chat);
+            Message newMessage = new Message(message, sender, chatAux);
             messageservice.save(newMessage);
         }
 
@@ -145,20 +151,20 @@ public class ChatController {
     @PostMapping("/chat/sellScreen/{chatId}")
     public String confirmSell(@PathVariable Long chatId, Model model,
             @AuthenticationPrincipal UserDetails userDetails) {
-        Chat chat = chatservice.findChatById(chatId).orElse(null);
+        ChatDTO chat = chatservice.findChatById(chatId).orElse(null);
         if (chat == null) {
             return "redirect:/chat";
         }
 
         //Get the logged user an verify its the seller
         User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        if (seller == null || !chat.getProduct().getOwner().equals(seller)) {
+        if (seller == null || !chat.userSeller().equals(seller)) {
             return "redirect:/chat";
         }
 
         model.addAttribute("chat", chat);
-        model.addAttribute("product", chat.getProduct());
-        model.addAttribute("buyer", chat.getUserBuyer());
+        model.addAttribute("product", chat.product());
+        model.addAttribute("buyer", chat.userBuyer());
         model.addAttribute("title", "Confirmar venta");
         return "sell_template";
     }
@@ -167,27 +173,29 @@ public class ChatController {
     @PostMapping("/chat/sell/{chatId}")
     public String sellProduct(@PathVariable Long chatId, Model model,
             @AuthenticationPrincipal UserDetails userDetails) {
-        Chat chat = chatservice.findChatById(chatId).orElse(null);
+        ChatDTO chat = chatservice.findChatById(chatId).orElse(null);
         if (chat == null) {
             model.addAttribute("message", "El chat no existe o no tienes acceso a este chat.");
             return "error"; 
         }
 
         //Check if the product was sold
-        if (chat.getProduct().isSold()) {
+        if (chat.product().sold()) {
             model.addAttribute("message", "El producto ya no está disponible");
             return "error"; 
         }
 
         //Get the seller and verify its the owner
         User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        if (seller == null || !chat.getProduct().getOwner().equals(seller)) {
+        if (seller == null || !chat.userSeller().equals(seller)) {
             model.addAttribute("message", "Solo el propietario del producto puede venderlo");
             return "error"; 
         }
 
         //Create Purchase
-        Purchase purchase = purchaseservice.createPurchase(chat);
+        // Convert ChatDTO to Chat
+        Chat chatAux = chatservice.convertDTOToEntity(chat);
+        PurchaseDTO purchase = purchaseservice.createPurchase(chatAux);
         if (purchase == null) {
             model.addAttribute("message", "No se ha podido realizar la venta del producto");
             return "error"; 

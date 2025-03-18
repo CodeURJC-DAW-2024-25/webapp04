@@ -47,4 +47,9 @@ public class ChatService {
     public Optional<ChatDTO> findChatById(Long chatId) {
         return chatRepository.findById(chatId).map(chatMapper::toDTO);
     }
+
+    public Chat convertDTOToEntity(ChatDTO chatDTO) {
+        return chatRepository.findById(chatDTO.id()) 
+                .orElseThrow(() -> new RuntimeException("Chat no encontrado"));
+    }
 }
