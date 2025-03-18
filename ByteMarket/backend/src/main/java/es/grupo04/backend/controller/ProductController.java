@@ -27,9 +27,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.NewReportDTO;
+import es.grupo04.backend.dto.ReportDTO;
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.Report;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
@@ -214,14 +215,12 @@ public class ProductController {
             Optional<Product> productOptional = productService.findById(id);
 
             if (userOptional.isPresent() && productOptional.isPresent()) {
-                Report report = new Report();
-                report.setUser(userOptional.get());
-                report.setProduct(productOptional.get());
-                report.setReason(reason);
-                report.setDescription(description);
-
-                reportService.saveReport(report); 
-
+                Long userId = userOptional.get().getId();
+                Long productId = productOptional.get().getId();
+    
+                NewReportDTO newReportDTO = new NewReportDTO(reason, description, productId, userId);
+                reportService.saveReport(newReportDTO);
+    
                 return "redirect:/product/" + id;
             }
         }
@@ -233,7 +232,7 @@ public class ProductController {
     // Show the reports
     @GetMapping("/reports")
     public String getReports(Model model) {
-        List<Report> reports = reportService.getAllReports();
+        List<ReportDTO> reports = reportService.getAllReports();
         model.addAttribute("reports", reports);
         model.addAttribute("title", "Reportes");
         return "reports";
@@ -241,7 +240,7 @@ public class ProductController {
 
     @PostMapping("/solve-report/{id}")
     public String solveReport(@PathVariable Long id, Model model) {
-        Optional<Report> reportOptional = reportService.findById(id);
+        Optional<ReportDTO> reportOptional = reportService.findById(id);
         if (reportOptional.isEmpty()) {
             model.addAttribute("message", "Reporte no encontrado");
             return "error";
