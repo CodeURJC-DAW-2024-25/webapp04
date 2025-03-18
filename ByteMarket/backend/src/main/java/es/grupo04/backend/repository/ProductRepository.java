@@ -29,7 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findByCategory(String category, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.sold = false ORDER BY p.publishDate DESC")
+    @Query("SELECT p FROM Product p WHERE p.sold = false")
     public Page<Product> findAllByAvailableTrue(Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.category = :category AND p.sold = false")
