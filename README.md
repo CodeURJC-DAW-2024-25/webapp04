@@ -482,3 +482,116 @@ The algorithm used to display recommended products on the main page works as fol
 
 This approach ensures that users see highly rated products from active sellers while considering the recency of the product listings.
 
+
+
+***   
+# 🌀 Phase 3 - Integration of a REST API into the web application, deployment with Docker, and remote deployment.
+***
+
+## 📄 API REST Documentation (OpenAPI)
+
+
+## 📌 Class diagram updated
+
+
+## 🐳 Docker execution instructions
+
+
+### 📦 Docker image contruction documentation
+
+
+### 🖥️ Documentation for deploying on the virtual machine
+
+### 🌐 URL App (Deployment on Virtual Machine)
+
+### 🔐 Sample Users
+#### 👑 Admin
+- **Email:** sara@gmail.com
+- **Password:** Password1234
+  
+#### 👤 User
+- **Email:** pedro@gmail.com
+- **Password:** 12341234
+
+#### 👤 User
+- **Email:** hugo@gmail.com
+- **Password:** securePass456
+
+#### 👤 User
+- **Email:** alex@gmail.com
+- **Password:** securePass1234
+
+
+## ⚙️ Members participation
+
+### 👤 Olga Chubinova Bortsova
+...
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+
+| File | Name |
+| :----: | :---------: |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+
+### 👤 Marcos García García
+...
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+
+| File | Name |
+| :----: | :---------: |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+
+### 👤 Naroa Martín Simón
+...
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+
+| File | Name |
+| :----: | :---------: |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+
+### 👤 Adrián Muñoz Serrano
+...
+| Commit | Description |
+| :----: | :---------: |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+
+| File | Name |
+| :----: | :---------: |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
