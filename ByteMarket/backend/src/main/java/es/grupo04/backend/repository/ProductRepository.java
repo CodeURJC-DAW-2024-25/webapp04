@@ -45,13 +45,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = """
         WITH SellerRatings AS (
             SELECT r.reviewed_user_id AS seller_id, COALESCE(AVG(r.rating), 0) AS avg_rating
-            FROM Review r
+            FROM review r
             GROUP BY r.reviewed_user_id
         ),
         RankedProducts AS (
             SELECT p.*, sr.avg_rating,
                    ROW_NUMBER() OVER (PARTITION BY p.owner_id ORDER BY p.publish_date DESC) AS product_rank
-            FROM Product p
+            FROM product p
             JOIN SellerRatings sr ON p.owner_id = sr.seller_id
             WHERE p.sold = false
         )

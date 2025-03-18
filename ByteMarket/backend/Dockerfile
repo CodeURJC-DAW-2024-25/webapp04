@@ -26,6 +26,7 @@ WORKDIR /ByteMarket/backend/
 
 # Copy the jar file into the container
 COPY --from=builder /ByteMarket/backend/target/*.jar ./webapp04.jar
+COPY src/main/resources/static/images/ ./src/main/resources/static/images/
 
 # Expose the port the app runs on
 EXPOSE 8443

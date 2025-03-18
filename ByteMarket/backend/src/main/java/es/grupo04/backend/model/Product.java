@@ -70,7 +70,7 @@ public class Product {
         this.price = price;
         this.category = category;
     }
-
+    
 
     public String getName() {
         return name;
