@@ -27,6 +27,7 @@ import es.grupo04.backend.dto.UserMapper;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.UserRepository;
 
 @Service
@@ -52,14 +53,17 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     public List<UserBasicDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userBasicMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserBasicDTO> findByMail(String mail) {
-        return Optional.of(userBasicMapper.toDTO(userRepository.findByMail(mail)
+    public Optional<UserDTO> findByMail(String mail) {
+        return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
@@ -106,7 +110,7 @@ public class UserService {
 
     // Add to favorites
     public boolean addToFavorite(Long productId, UserBasicDTO userDTO) {
-        Product product = productService.findById(productId)
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -131,7 +135,7 @@ public class UserService {
     }
 
     public boolean removeFromFavorite(Long productId, UserBasicDTO userDTO) {
-        Product product = productService.findById(productId)
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -209,7 +213,7 @@ public class UserService {
         Long productId = product.id();
         User userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        Product productEntity = productService.findById(productId)
+        Product productEntity = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return userEntity.getFavoriteProducts().contains(productEntity);
     }
@@ -265,7 +269,7 @@ public class UserService {
                 sale.setSeller(deleteUser);
                 Product product = sale.getProduct();
                 product.setOwner(deleteUser);
-                productService.save(product);
+                productRepository.save(product);
                 purchaseService.save(sale);
             }
         }

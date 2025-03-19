@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.ProductBasicMapper;
 import es.grupo04.backend.dto.ProductDTO;
+import es.grupo04.backend.dto.ProductMapper;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.PurchaseMapper;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
+import es.grupo04.backend.dto.UserMapper;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
@@ -43,6 +46,12 @@ public class PurchaseService {
     @Autowired
     private PurchaseMapper purchaseMapper; // Inyectamos PurchaseMapper
 
+    @Autowired
+    private ProductMapper productMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
     public PurchaseDTO save(Purchase purchase) {
         return purchaseMapper.toDTO(purchaseRepository.save(purchase));
     }
@@ -71,7 +80,7 @@ public class PurchaseService {
 
         // Actualizar el estado del producto
         product.setSold(true);
-        productService.sold(product, buyer);
+        productService.sold(productMapper.toDTO(product), userMapper.toDTO(buyer));
         productRepository.saveAndFlush(product);
 
         // Creación de la compra
