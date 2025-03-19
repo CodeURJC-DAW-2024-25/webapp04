@@ -113,7 +113,7 @@ public class PurchaseService {
         return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
     }
 
-    public boolean hasUserBoughtProduct(UserDTO userDTO, ProductDTO productDTO) {
+    public boolean hasUserBoughtProduct(UserBasicDTO userDTO, ProductDTO productDTO) {
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Product product = productRepository.findById(productDTO.id())

@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.grupo04.backend.dto.ProductDTO;
-import es.grupo04.backend.dto.UserDTO;
-import es.grupo04.backend.model.User;
+import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +34,7 @@ public class HomeController {
         Principal principal = request.getUserPrincipal();
 
         if (principal != null) {
-            UserDTO user = userService.findByMail(principal.getName()).get();
+            UserBasicDTO user = userService.findByMail(principal.getName()).get();
             model.addAttribute("logged", true);
             model.addAttribute("userName", user.name());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));

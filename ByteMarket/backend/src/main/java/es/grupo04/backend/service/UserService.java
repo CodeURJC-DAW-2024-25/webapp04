@@ -19,10 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.NewUserDTO;
-import es.grupo04.backend.dto.ProductBasicDTO;
+import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
-import es.grupo04.backend.dto.UserBasicMapper;
 import es.grupo04.backend.dto.UserDTO;
+import es.grupo04.backend.dto.UserBasicMapper;
 import es.grupo04.backend.dto.UserMapper;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
@@ -51,10 +51,10 @@ public class UserService {
     private UserBasicMapper userBasicMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private ProductRepository productRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private UserMapper userMapper;
 
     public List<UserBasicDTO> getAllUsers() {
         return userRepository.findAll().stream()
@@ -62,8 +62,8 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserDTO> findByMail(String mail) {
-        return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
+    public Optional<UserBasicDTO> findByMail(String mail) {
+        return Optional.of(userBasicMapper.toDTO(userRepository.findByMail(mail)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
@@ -203,14 +203,19 @@ public class UserService {
     }
 
     // Is Owner
-    private boolean isOwner(User user, Product product) {
+    public boolean isOwner(User user, Product product) {
+        return user.equals(product.getOwner());
+    }
+
+    public boolean isOwner(UserBasicDTO userDTO, ProductDTO productDTO) {
+        User user = userRepository.findById(userDTO.id()).get();
+        Product product = productRepository.findById(productDTO.id()).get();
         return user.equals(product.getOwner());
     }
 
     // Is Favorite
-    public boolean isFavorite(UserBasicDTO user, ProductBasicDTO product) {
+    public boolean isFavorite(UserBasicDTO user, Long productId) {
         Long userId = user.id();
-        Long productId = product.id();
         User userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Product productEntity = productRepository.findById(productId)
@@ -254,7 +259,7 @@ public class UserService {
     public void delete(UserBasicDTO userDTO) {
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        User deleteUser = userRepository.findByName("Usuario Eliminado")
+        User deleteUser = userRepository.findById(Long.valueOf(1))
                 .orElseThrow(() -> new RuntimeException("Usuario Eliminado no encontrado"));
 
         // Remove user from purchases
@@ -269,6 +274,7 @@ public class UserService {
                 sale.setSeller(deleteUser);
                 Product product = sale.getProduct();
                 product.setOwner(deleteUser);
+                productRepository.save(product);
                 productRepository.save(product);
                 purchaseService.save(sale);
             }
@@ -311,7 +317,13 @@ public class UserService {
         return stats;
     }
 
-    public boolean hasBought(UserBasicDTO user, UserBasicDTO owner) {
+    public boolean hasBought(UserBasicDTO user, Long ownerId) {
+        UserBasicDTO owner = userBasicMapper.toDTO(userRepository.findById(ownerId).get());
         return purchaseService.hasBought(user, owner);
+    }
+
+    public UserDTO getUserDTO(Long id) {
+        User user = userRepository.findById(id).get();
+        return userMapper.toDTO(user);
     }
 }

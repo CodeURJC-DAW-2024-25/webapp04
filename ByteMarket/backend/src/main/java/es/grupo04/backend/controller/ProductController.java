@@ -31,10 +31,10 @@ import es.grupo04.backend.dto.NewProductDTO;
 import es.grupo04.backend.dto.NewReportDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ReportDTO;
+import es.grupo04.backend.dto.ReviewDTO;
+import es.grupo04.backend.dto.UserBasicDTO;
+import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.model.Image;
-import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.Review;
-import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.PurchaseService;
@@ -67,10 +67,10 @@ public class ProductController {
 
         if (principal != null) {
 
-            User user = userService.findByMail(principal.getName()).get();
+            UserBasicDTO user = userService.findByMail(principal.getName()).get();
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", user.getName());    
+            model.addAttribute("userName", user.name());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
             model.addAttribute("user", user);
 
@@ -98,18 +98,19 @@ public class ProductController {
         boolean deletedUser = false;
 
         if (principal != null) {
-            Optional<User> userOptional = userService.findByMail(principal.getName());
+            Optional<UserBasicDTO> userOptional = userService.findByMail(principal.getName());
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
-                isFavorite = userService.isFavorite(userOptional.get(), product);
-                hasBought = userService.hasBought(userOptional.get(), product.getOwner());
+                isFavorite = userService.isFavorite(userOptional.get(), product.id());
+                hasBought = userService.hasBought(userOptional.get(), product.owner().id());
                 hasBoughtProduct = purchaseService.hasUserBoughtProduct(userOptional.get(), product);
-                deletedUser = (product.getOwner().getId() == 1);    //Deleted Users Info management
+                deletedUser = (product.owner().id() == 1);    //Deleted Users Info management
             }
         }
 
-        if (product.getOwner().getIframe() != null){
-            model.addAttribute("location", product.getOwner().getIframe());
+        UserDTO owner = userService.getUserDTO(product.owner().id());
+        if (owner.iframe() != null){
+            model.addAttribute("location", owner.iframe());
         }
         
         model.addAttribute("deletedUser", deletedUser);
@@ -118,10 +119,10 @@ public class ProductController {
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
-        model.addAttribute("salesNumber", productOptional.get().getOwner().getSales().size());
-        model.addAttribute("purchasesNumber", productOptional.get().getOwner().getPurchases().size());
-        model.addAttribute("reviewsNumber", productOptional.get().getOwner().getReviews().size());
-        model.addAttribute("rating", productService.calculateRating(productOptional.get().getOwner()));
+        model.addAttribute("salesNumber", owner.sales().size());
+        model.addAttribute("purchasesNumber", owner.purchases().size());
+        model.addAttribute("reviewsNumber", owner.reviews().size());
+        model.addAttribute("rating", productService.calculateRating(owner));
         
 
         // Product images
@@ -132,7 +133,7 @@ public class ProductController {
         model.addAttribute("images", imageURLs);
 
 
-        List<Review> reviews = product.getOwner().getReviews();
+        List<ReviewDTO> reviews = owner.reviews();
         if (reviews == null || reviews.isEmpty()) {
             model.addAttribute("reviewsSection", false); 
         } else {
@@ -141,8 +142,8 @@ public class ProductController {
 
         List<Map<String, Object>> reviewStars = new ArrayList<>();
 
-        for (Review review : reviews) {
-            int rating = review.getRating();
+        for (ReviewDTO review : reviews) {
+            int rating = review.rating();
             List<Boolean> stars = new ArrayList<>();
             List<Boolean> emptyStars = new ArrayList<>();
             
@@ -160,8 +161,8 @@ public class ProductController {
             reviewStarData.put("rating", rating);
             reviewStarData.put("stars", stars); // Full stars list
             reviewStarData.put("emptyStars", emptyStars); // Empty stars list
-            reviewStarData.put("owner", review.getreviewOwner().getName());
-            reviewStarData.put("description", review.getDescription());
+            reviewStarData.put("owner", review.reviewOwner().name());
+            reviewStarData.put("description", review.description());
             reviewStars.add(reviewStarData);
         }
 
@@ -189,7 +190,7 @@ public class ProductController {
         // Check if the user is logged in
         if (principal != null) {
             String username = principal.getName();
-            Optional<User> userOptional = userService.findByMail(username);
+            Optional<UserBasicDTO> userOptional = userService.findByMail(username);
             Optional<ProductDTO> productOptional = productService.findById(id);
 
             // Check if the user and the product exist
@@ -213,11 +214,11 @@ public class ProductController {
     public String addReport(@PathVariable Long id, @RequestParam("reason") String reason, @RequestParam("description") String description, HttpServletRequest request, Model model) {
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
-            Optional<User> userOptional = userService.findByMail(principal.getName());
+            Optional<UserBasicDTO> userOptional = userService.findByMail(principal.getName());
             Optional<ProductDTO> productOptional = productService.findById(id);
 
             if (userOptional.isPresent() && productOptional.isPresent()) {
-                Long userId = userOptional.get().getId();
+                Long userId = userOptional.get().id();
                 Long productId = productOptional.get().id();
     
                 NewReportDTO newReportDTO = new NewReportDTO(reason, description, productId, userId);
@@ -287,9 +288,9 @@ public class ProductController {
     
         ProductDTO product = optionalProduct.get();
         System.out.println("El producto que se pasa es:" + product.name());
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
     
-        if (!optionalUser.isPresent() || !product.getOwner().equals(optionalUser.get())) {
+        if (!optionalUser.isPresent() || !product.owner().id().equals(optionalUser.get().id())) {
             model.addAttribute("message", "No autorizado para editar este producto");
             return "error";
         }
@@ -345,7 +346,6 @@ public class ProductController {
 
     @GetMapping("/newProduct")
     public String newProduct(Model model) {
-        model.addAttribute("product", new Product());
         return "newProduct"; 
     }
 
@@ -354,25 +354,18 @@ public class ProductController {
             Model model, HttpServletRequest request) throws IOException {
 
         Principal principal = request.getUserPrincipal();
-        if (principal != null) {
-            String username = principal.getName();
-            Optional<User> user = userService.findByMail(username);
-
-            if (user.isPresent()) {
-                product.setOwner(user.get()); 
-            }
-        } else {
+        if (principal == null) {
             model.addAttribute("message", "Usuario no identificado");
             return "error";
         }
-
 
         if(product.imageUpload().length > 5){
             model.addAttribute("message", "No puedes subir más de 5 imágenes");
             return "error";
         }
 
-        ProductDTO savedProduct = productService.save(product);
+        Long ownerId = userService.findByMail(principal.getName()).get().id();
+        ProductDTO savedProduct = productService.save(product, ownerId);
 
         model.addAttribute("productId", savedProduct.id()); // add id of the product as attribute
         return "redirect:/product/" + savedProduct.id(); // redirect to the detail screen product created as new

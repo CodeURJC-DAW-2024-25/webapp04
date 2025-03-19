@@ -73,9 +73,11 @@ public class ProductService {
 	}
 
 	// Save a product
-	public ProductDTO save(NewProductDTO product) throws IOException {
+	public ProductDTO save(NewProductDTO product, Long ownerId) throws IOException {
 		Product newProduct = newProductMapper.toDomain(product);
 		addImages(newProduct, product.imageUpload());
+		User owner = userRepository.findById(ownerId).get();
+		newProduct.setOwner(owner);
 		return productMapper.toDTO(repository.save(newProduct));
 	}
 
@@ -125,6 +127,10 @@ public class ProductService {
 	public void sold(ProductDTO productDTO, UserDTO buyerDTO) {
 		Product product = repository.findById(productDTO.id()).get();
 		User buyer = userRepository.findById(buyerDTO.id()).get();
+		sold(product, buyer);
+	}
+
+	public void sold(Product product, User buyer) {
 		// Look for users with the product as a favorite
 		List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
 		// Send an email
