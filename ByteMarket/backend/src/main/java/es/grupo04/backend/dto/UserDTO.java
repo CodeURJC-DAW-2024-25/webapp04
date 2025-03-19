@@ -9,6 +9,10 @@ public record UserDTO (
     Integer creationYear,
     List<String> roles,
     List<ProductBasicDTO> products,
-    List<ReviewDTO> reviews
+    List<ReviewDTO> reviews,
+    List<ProductBasicDTO> sales,
+    List<ProductBasicDTO> purchases,
+    String iframe
+
 ){
 }
