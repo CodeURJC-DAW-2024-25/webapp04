@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.EditUserDTO;
+import es.grupo04.backend.dto.NewUserDTO;
+import es.grupo04.backend.dto.ProductBasicDTO;
+import es.grupo04.backend.dto.UserBasicDTO;
+import es.grupo04.backend.dto.UserBasicMapper;
+import es.grupo04.backend.dto.UserDTO;
+import es.grupo04.backend.dto.UserMapper;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
@@ -33,47 +43,50 @@ public class UserService {
     @Autowired
     private PurchaseService purchaseService;
 
-    @Autowired 
+    @Autowired
     private ReportService reportService;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    @Autowired
+    private UserBasicMapper userBasicMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public List<UserBasicDTO> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userBasicMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public User saveUser(User user) {
-        System.out.println("Saving user");
-        if (user.getRoles() == null) {
-            user.setRoles(List.of("USER")); 
-        }
-        String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
-        user.setEncodedPassword(encodedPassword);
-        return userRepository.save(user);
+    public Optional<UserBasicDTO> findByMail(String mail) {
+        return userRepository.findByMail(mail).map(userBasicMapper::toDTO);
     }
 
-    public Optional<User> findByMail(String mail) {
-        return userRepository.findByMail(mail);
+    public Optional<UserBasicDTO> findById(Long id) {
+        return userRepository.findById(id).map(userBasicMapper::toDTO);
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserBasicDTO> findByName(String name) {
+        return userRepository.findByName(name).map(userBasicMapper::toDTO);
     }
 
-    public Optional<User> findByName(String name) {
-        return userRepository.findByName(name);
-    }
-
-    public boolean createAccount(User user) {
-        if (userRepository.findByMail(user.getMail()).isPresent()) {
-            return true; 
+    public boolean createAccount(NewUserDTO userDTO) {
+        if (userRepository.findByMail(userDTO.mail()).isPresent()) {
+            return true;
         } else {
-            saveUser(user);
+            User user = new User(userDTO.mail(), userDTO.name(), userDTO.password());
+            user.setRoles(List.of("USER"));
+
+            String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
+            user.setEncodedPassword(encodedPassword);
+            userRepository.save(user);
             return false;
         }
     }
 
     // User Validation
-    public boolean validateUser(User user, String confirmPassword) {
-        if (!validateName(user.getName())) { // Check if name is valid
+    public boolean validateUser(NewUserDTO user) {
+        if (!validateName(user.name())) { // Check if name is valid
             return false;
         }
 
@@ -81,20 +94,21 @@ public class UserService {
             return false;
         }
 
-        if (!validatePassword(user, confirmPassword)) { // Check if password is valid
+        if (!validatePassword(user)) { // Check if password is valid
             return false;
         }
 
-        return true; // No errors
+        return true; // If all checks pass, return true
     }
 
     // Add to favorites
-    public boolean addToFavorite(Long productId, User user) {
+    public boolean addToFavorite(Long productId, UserBasicDTO userDTO) {
         Optional<Product> productOptional = productService.findById(productId);
+        Optional<User> userOptional = userRepository.findById(userDTO.id());
         // Check if the product exists
-        if (productOptional.isPresent()) {
+        if (productOptional.isPresent() && userOptional.isPresent()) {
             Product product = productOptional.get();
-
+            User user = userOptional.get();
             // Check if the user is the owner of the product
             if (isOwner(user, product)) {
                 return false;
@@ -116,10 +130,12 @@ public class UserService {
         return false;
     }
 
-    public boolean removeFromFavorite(Long productId, User user) {
+    public boolean removeFromFavorite(Long productId, UserBasicDTO userDTO) {
         Optional<Product> productOptional = productService.findById(productId);
+        Optional<User> userOptional = userRepository.findById(userDTO.id());
 
-        if (productOptional.isPresent()) {
+        if (productOptional.isPresent() && userOptional.isPresent()) {
+            User user = userOptional.get();
             Product product = productOptional.get();
 
             // Get the list of favorite products
@@ -140,39 +156,71 @@ public class UserService {
         return false;
     }
 
-    public Optional<String> editProfile(User user, User oldUser, String password, String repeatPassword,
-            String iframe) {
-        if (!user.getName().equals(oldUser.getName())) {
-            if (!validateName(user.getName())) {
+    public Optional<String> editProfile(EditUserDTO editUserDTO) {
+        // Get the user from the repository
+        Optional<User> optionalUser = userRepository.findById(editUserDTO.id());
+        if (!optionalUser.isPresent()) {
+            return Optional.of("Usuario no encontrado");
+        }
+        User user = optionalUser.get();
+
+        // Name update
+        if (editUserDTO.name() != null && !editUserDTO.name().equals(user.getName())) {
+            if (!validateName(editUserDTO.name())) {
                 return Optional.of("Nombre de usuario no válido");
             }
-            oldUser.setName(user.getName());
+            user.setName(editUserDTO.name());
         }
 
-        if (password.length() > 0 && repeatPassword.length() > 0) {
-            if (!password.equals(repeatPassword)) {
+        // Password update
+        if (editUserDTO.password() != null && !editUserDTO.password().isEmpty() &&
+                editUserDTO.repeatPassword() != null && !editUserDTO.repeatPassword().isEmpty()) {
+
+            if (!editUserDTO.password().equals(editUserDTO.repeatPassword())) {
                 return Optional.of("Las contraseñas no coinciden");
             }
-            oldUser.setEncodedPassword(passwordEncoder.encode(password));
+            user.setEncodedPassword(passwordEncoder.encode(editUserDTO.password()));
         }
 
-        if (iframe != null && !iframe.isEmpty()) {
-            oldUser.setIframe(iframe);
+        // Address update
+        if (editUserDTO.iframe() != null && !editUserDTO.iframe().isEmpty()) {
+            user.setIframe(editUserDTO.iframe());
         }
 
-        userRepository.save(oldUser);
+        // Image update
+        if (editUserDTO.imageFile() != null && editUserDTO.imageFile().length > 0) {
+            try {
+                Blob imageBlob = new SerialBlob(editUserDTO.imageFile());
+                user.setImageFile(imageBlob);
+                user.setImage(true);
+            } catch (Exception e) {
+                return Optional.of("Error al procesar la imagen");
+            }
+        } else if (editUserDTO.image()) {
+            user.setImage(false);
+            user.setImageFile(null);
+        }
+
+        userRepository.save(user);
         return Optional.empty();
-
     }
 
     // Is Owner
-    public boolean isOwner(User user, Product product) {
+    private boolean isOwner(User user, Product product) {
         return user.equals(product.getOwner());
     }
 
     // Is Favorite
-    public boolean isFavorite(User user, Product product) {
-        return user.getFavoriteProducts().contains(product);
+    public boolean isFavorite(UserBasicDTO user, ProductBasicDTO product) {
+        Long userId = user.id();
+        Long productId = product.id();
+        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<Product> productOptional = productService.findById(productId);
+        if (userOptional.isEmpty() || productOptional.isEmpty()) {
+            return false;
+        } else {
+            return userOptional.get().getFavoriteProducts().contains(productOptional.get());
+        }
     }
 
     private boolean validateName(String name) {
@@ -182,17 +230,19 @@ public class UserService {
         return true;
     }
 
-    private boolean validatePassword(User user, String password) {
-        if (user.getEncodedPassword() == null || user.getEncodedPassword().isEmpty()
-                || password == null || password.isEmpty() || !user.getEncodedPassword().equals(password)) {
+    // Form Validations
+    private boolean validatePassword(NewUserDTO user) {
+        if (user.password() == null || user.password().isEmpty()
+                || user.repeatPassword() == null || user.repeatPassword().isEmpty()
+                || !user.password().equals(user.repeatPassword())) {
             return false;
         }
         return true;
     }
 
-    private boolean validateMail(User user) {
+    private boolean validateMail(NewUserDTO user) {
         String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"; // Email regex
-        if (user.getMail() == null || user.getMail().isEmpty() || !Pattern.matches(emailRegex, user.getMail())) {
+        if (user.mail() == null || user.mail().isEmpty() || !Pattern.matches(emailRegex, user.mail())) {
             return false;
         }
         return true;
@@ -206,38 +256,48 @@ public class UserService {
         user.setImage(true);
     }
 
-    public void delete(User user) {
-        Optional<User> deleteUserOptional = userRepository.findByName("Usuario Eliminado");
-        if (deleteUserOptional.isPresent()) {
-            User deleteUser = deleteUserOptional.get();
-            // Remove user from purchases
-            if (user.getPurchases() != null) {
-                for (Purchase purchase : user.getPurchases()) {
-                    purchase.setBuyer(deleteUser);
-                    purchaseService.save(purchase);
+    public void delete(UserBasicDTO userDTO) {
+        Optional<User> userOptional = userRepository.findById(userDTO.id());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Optional<User> deleteUserOptional = userRepository.findByName("Usuario Eliminado");
+            if (deleteUserOptional.isPresent()) {
+                User deleteUser = deleteUserOptional.get();
+                // Remove user from purchases
+                if (user.getPurchases() != null) {
+                    for (Purchase purchase : user.getPurchases()) {
+                        purchase.setBuyer(deleteUser);
+                        purchaseService.save(purchase);
+                    }
                 }
-            }
-            if (user.getSales() != null) {
-                for (Purchase sale : user.getSales()) {
-                    sale.setSeller(deleteUser);
-                    Product product = sale.getProduct();
-                    product.setOwner(deleteUser);
-                    productService.save(product);
-                    purchaseService.save(sale);
+                if (user.getSales() != null) {
+                    for (Purchase sale : user.getSales()) {
+                        sale.setSeller(deleteUser);
+                        Product product = sale.getProduct();
+                        product.setOwner(deleteUser);
+                        productService.save(product);
+                        purchaseService.save(sale);
+                    }
                 }
+
+                productService.deleteFavorites(user.getProducts());
+                reportService.deleteAllReportsByUser(user);
+                userRepository.delete(user);
+                userRepository.save(deleteUser);
             }
-            
-            productService.deleteFavorites(user.getProducts());
-            reportService.deleteAllReportsByUser(user);
-            userRepository.delete(user);
-            userRepository.save(deleteUser);
         }
     }
 
-    public List<ChartData> getStats(User user) {
+    public List<ChartData> getStats(UserBasicDTO userDto) {
         List<ChartData> stats = new ArrayList<>();
         HashMap<Integer, ChartData> purchases = new HashMap<>();
         HashMap<Integer, ChartData> sales = new HashMap<>();
+
+        Optional<User> userOptional = userRepository.findById(userDto.id());
+        if (userOptional.isEmpty()) {
+            return stats;
+        }
+        User user = userOptional.get();
 
         for (Purchase purchase : user.getPurchases()) {
             int month = purchase.getPurchaseDate().getMonthValue();
@@ -262,7 +322,14 @@ public class UserService {
         return stats;
     }
 
-    public boolean hasBought(User user, User owner) {
-        return purchaseService.hasBought(user, owner);
+    public boolean hasBought(UserBasicDTO user, UserBasicDTO owner) {
+        Optional<User> userOptional = userRepository.findById(user.id());
+        Optional<User> ownerOptional = userRepository.findById(owner.id());
+        if(!userOptional.isPresent() || !ownerOptional.isPresent()) {
+            return false;
+        }else{
+            return purchaseService.hasBought(userOptional.get(), ownerOptional.get());
+        }
+
     }
 }
