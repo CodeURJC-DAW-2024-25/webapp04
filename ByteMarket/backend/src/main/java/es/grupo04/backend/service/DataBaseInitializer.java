@@ -1,6 +1,8 @@
 package es.grupo04.backend.service;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -62,7 +64,8 @@ public class DataBaseInitializer {
 
     public Image initImage(String classpathResource) throws IOException {
 		Resource image = new ClassPathResource(classpathResource);
-		Image img = new Image(BlobProxy.generateProxy(image.getInputStream(), image.contentLength()));
+        InputStream inputStream = new BufferedInputStream(image.getInputStream());
+        Image img = new Image(BlobProxy.generateProxy(inputStream, image.contentLength()));
         return img;
 	}
 

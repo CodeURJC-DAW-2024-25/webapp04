@@ -7,12 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.PurchaseMapper;
+import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
+import es.grupo04.backend.repository.ChatRepository;
 import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.PurchaseRepository;
 import es.grupo04.backend.repository.UserRepository;
@@ -33,6 +37,9 @@ public class PurchaseService {
     private PurchaseRepository purchaseRepository;
 
     @Autowired
+    private ChatRepository chatRepository;
+
+    @Autowired
     private PurchaseMapper purchaseMapper; // Inyectamos PurchaseMapper
 
     public PurchaseDTO save(Purchase purchase) {
@@ -50,7 +57,9 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
-    public PurchaseDTO createPurchase(Chat chat) {
+    public PurchaseDTO createPurchase(ChatDTO chatDTO) {
+        Chat chat = chatRepository.findById(chatDTO.id())
+                .orElseThrow(() -> new RuntimeException("Chat no encontrado"));
         User buyer = chat.getUserBuyer();
         User seller = chat.getUserSeller();
         Product product = chat.getProduct();
@@ -77,18 +86,28 @@ public class PurchaseService {
         return purchaseMapper.toDTO(purchase);
     }
 
-    public List<PurchaseDTO> findByBuyer(User buyer) {
+    public List<PurchaseDTO> findByBuyer(UserDTO buyerDTO) {
+        User buyer = userRepository.findById(buyerDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer)
                 .stream()
                 .map(purchaseMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public boolean hasBought(User user, User owner) {
+    public boolean hasBought(UserDTO userDTO, UserDTO ownerDTO) {
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        User owner = userRepository.findById(ownerDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
     }
 
-    public boolean hasUserBoughtProduct(User user, Product product) {
+    public boolean hasUserBoughtProduct(UserDTO userDTO, ProductDTO productDTO) {
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Product product = productRepository.findById(productDTO.id())
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         return purchaseRepository.hasUserBoughtProduct(user, product);
     }
 }

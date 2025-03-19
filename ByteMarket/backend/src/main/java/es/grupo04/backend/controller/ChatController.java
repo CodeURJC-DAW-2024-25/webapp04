@@ -138,10 +138,7 @@ public class ChatController {
         ChatDTO chat = chatservice.findChatById(chatId).orElse(null);
 
         if (sender != null && chat != null) {
-            // Convert ChatDTO to Chat
-            Chat chatAux = chatservice.convertDTOToEntity(chat);
-            Message newMessage = new Message(message, sender, chatAux);
-            messageservice.save(newMessage);
+            messageservice.createMessage(message, sender, chat);
         }
 
         return "redirect:/chat/" + chatId;
@@ -193,9 +190,7 @@ public class ChatController {
         }
 
         //Create Purchase
-        // Convert ChatDTO to Chat
-        Chat chatAux = chatservice.convertDTOToEntity(chat);
-        PurchaseDTO purchase = purchaseservice.createPurchase(chatAux);
+        PurchaseDTO purchase = purchaseservice.createPurchase(chat);
         if (purchase == null) {
             model.addAttribute("message", "No se ha podido realizar la venta del producto");
             return "error"; 
