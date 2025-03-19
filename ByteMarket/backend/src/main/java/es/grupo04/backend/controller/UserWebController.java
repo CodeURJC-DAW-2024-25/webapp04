@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import es.grupo04.backend.dto.NewUserDTO;
+import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,10 +32,10 @@ public class UserWebController {
 
       if (principal != null) {
 
-         User user = userService.findByMail(principal.getName()).get();
+         UserBasicDTO user = userService.findByMail(principal.getName()).get();
 
          model.addAttribute("logged", true);
-         model.addAttribute("userName", user.getName());
+         model.addAttribute("userName", user.name());
          model.addAttribute("admin", request.isUserInRole("ADMIN"));
          model.addAttribute("user", user);
 
@@ -60,8 +62,8 @@ public class UserWebController {
    }
 
    @PostMapping("/signin")
-   public String createUser(Model model, @ModelAttribute User user, String confirmPassword) {
-      if (userService.validateUser(user, confirmPassword)) {
+   public String createUser(Model model, @ModelAttribute NewUserDTO user, String confirmPassword) {
+      if (userService.validateUser(user)) {
          if (userService.createAccount(user)) { // If the user already has an account
             model.addAttribute("message", "El usuario ya tiene una cuenta");
             return "error";
@@ -76,15 +78,15 @@ public class UserWebController {
 
    @PostMapping("/deleteAccount/{userId}")
    public String deleteAccount(@PathVariable Long userId, HttpServletRequest request, Model model) {
-      Optional<User> userOptional = userService.findById(userId);
+      Optional<UserBasicDTO> userOptional = userService.findById(userId);
       System.out.println("Searching for user with ID: " + userId);  // Add logging here
       if (!userOptional.isPresent()) {
          model.addAttribute("message", "Usuario no encontrado");
          return "error";
       }
-      User userToDelete = userOptional.get();
+      UserBasicDTO userToDelete = userOptional.get();
       if (request.isUserInRole("ADMIN")) {
-         if (userToDelete != null && !userToDelete.getName().equals(request.getUserPrincipal().getName())) {
+         if (userToDelete != null && !userToDelete.name().equals(request.getUserPrincipal().getName())) {
             userService.delete(userToDelete);
             return "redirect:/";
          }else{
