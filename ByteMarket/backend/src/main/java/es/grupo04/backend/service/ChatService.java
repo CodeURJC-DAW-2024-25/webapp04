@@ -6,12 +6,15 @@ import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ChatRepository;
+import es.grupo04.backend.repository.MessageRepository;
 import es.grupo04.backend.repository.ProductRepository;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.protobuf.Message;
 
 @Service
 public class ChatService {
@@ -24,6 +27,9 @@ public class ChatService {
 
     @Autowired
     private ChatMapper chatMapper;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public ChatDTO createChat(User buyer, User seller, Long productId) {
         Product product = productRepository.findById(productId).orElse(null);
@@ -46,10 +52,5 @@ public class ChatService {
 
     public Optional<ChatDTO> findChatById(Long chatId) {
         return chatRepository.findById(chatId).map(chatMapper::toDTO);
-    }
-
-    public Chat convertDTOToEntity(ChatDTO chatDTO) {
-        return chatRepository.findById(chatDTO.id()) 
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado"));
-    }
+    }    
 }
