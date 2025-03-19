@@ -16,6 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.NewProductDTO;
+import es.grupo04.backend.dto.NewProductMapper;
+import es.grupo04.backend.dto.ProductDTO;
+import es.grupo04.backend.dto.ProductMapper;
+import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
@@ -40,30 +45,42 @@ public class ProductService {
 	@Autowired
 	private EmailService emailService;
 
-	public Optional<Product> findById(long id) {
-		return repository.findById(id);
+	@Autowired
+	private ProductMapper productMapper;
+
+	@Autowired
+	private NewProductMapper newProductMapper;
+
+	@Autowired
+	private ImageService imageService;
+
+	public Optional<ProductDTO> findById(long id) {
+		return Optional.of(productMapper.toDTO(repository.findById(id).get()));
 	}
 
-	public Page<Product> findProductsByOwner(User owner, int page, int pageSize) {
+	public Page<ProductDTO> findProductsByOwner(UserDTO ownerDTO, int page, int pageSize) {
+		User owner = userRepository.findById(ownerDTO.id()).get();
 		Pageable pageable = PageRequest.of(page, pageSize);
-    	return repository.findProductByOwner(owner, pageable);
+    	return repository.findProductByOwner(owner, pageable).map(productMapper::toDTO);
 	}
 
 	public boolean exist(long id) {
 		return repository.existsById(id);
 	}
 
-	public List<Product> findAll() {
-		return repository.findAll();
+	public List<ProductDTO> findAll() {
+		return productMapper.toDTOs(repository.findAll());
 	}
 
 	// Save a product
-	public Product save(Product product) {
-		return repository.save(product);
+	public ProductDTO save(NewProductDTO product) throws IOException {
+		Product newProduct = newProductMapper.toDomain(product);
+		addImages(newProduct, product.imageUpload());
+		return productMapper.toDTO(repository.save(newProduct));
 	}
 
 	
-	//Delete favorites
+	//Delete favorites //TODO revisar esto
 	public void deleteFavorites(List<Product> products){
 		for (Product product : products) {
 			List<User> users = repository.findUsersByFavoriteProduct(product);
@@ -105,7 +122,9 @@ public class ProductService {
 	}
 
 	// Sold a favorite product
-	public void sold(Product product, User buyer) {
+	public void sold(ProductDTO productDTO, UserDTO buyerDTO) {
+		Product product = repository.findById(productDTO.id()).get();
+		User buyer = userRepository.findById(buyerDTO.id()).get();
 		// Look for users with the product as a favorite
 		List<User> usersWithFavoriteProduct = repository.findUsersByFavoriteProduct(product);
 		// Send an email
@@ -130,28 +149,34 @@ public class ProductService {
 	}
 
 	// Get the last purchases of a users
-	public List<Product> getLastPurchases(User user) {
-		return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
-				.limit(5)
+	public List<ProductDTO> getLastPurchases(UserDTO userDTO) {
+		User user = userRepository.findById(userDTO.id()).get();
+		return productMapper.toDTOs(
+				purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user).stream()
+				.limit(8)
 				.map(Purchase::getProduct)
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()));
 	}
 
 	// Get the last sales of a user
-	public List<Product> getLastSales(User user) {
-		return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user).stream()
-				.limit(5)
+	public List<ProductDTO> getLastSales(UserDTO userDTO) {
+		User user = userRepository.findById(userDTO.id()).get();
+		return productMapper.toDTOs(
+				purchaseRepository.findBySellerOrderByPurchaseDateDesc(user).stream()
+				.limit(8)
 				.map(Purchase::getProduct)
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()));
 	}
 
 	// Get favorite products
-	public Page<Product> getFavoriteProducts(User user, int page, int size) {
+	public Page<ProductDTO> getFavoriteProducts(UserDTO userDTO, int page, int size) {
+		User user = userRepository.findById(userDTO.id()).get();
 		Pageable pageable = PageRequest.of(page, size);
-		return repository.findFavoriteProducts(user.getFavoriteProducts(), pageable);
+		return repository.findFavoriteProducts(user.getFavoriteProducts(), pageable).map(productMapper::toDTO);
 	}
 
 	// Add images to a product
+	// Uses product because this method is called from the save method
 	public void addImages(Product product, MultipartFile[] images) throws IOException {
 		ArrayList<Image> imagesToStore = new ArrayList<>();
 		for (MultipartFile image : images) {
@@ -165,30 +190,31 @@ public class ProductService {
 	}
 
 	// Pagination
+	/* 
 	public List<Product> findPaginated(int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
 		Page<Product> productPage = repository.findAll(pageable);
 		return productPage.getContent();
-	}
+	}*/
 
 	// Pagination for available products
-	public Page<Product> findPaginatedAvailable(int page, int pageSize) {
+	public Page<ProductDTO> findPaginatedAvailable(int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
-		return repository.findAllByAvailableTrue(pageable);
+		return repository.findAllByAvailableTrue(pageable).map(productMapper::toDTO);
 	}
 
 	// Pagination for available products in a specific category
-	public Page<Product> findAvailableByCategory(String category, int page, int pageSize) {
+	public Page<ProductDTO> findAvailableByCategory(String category, int page, int pageSize) {
 		Pageable pageable = PageRequest.of(page, pageSize);
-		return repository.findByCategoryAndAvailableTrue(category, pageable);
+		return repository.findByCategoryAndAvailableTrue(category, pageable).map(productMapper::toDTO);
 	}
 
 
 	// To search by name
-	public Page<Product> searchByName(String searchTerm, int page, int pageSize) {
+	public Page<ProductDTO> searchByName(String searchTerm, int page, int pageSize) {
 		String normalizedSearchTerm = normalizeText(searchTerm);
 		Pageable pageable = PageRequest.of(page, pageSize);
-		return repository.findByNameContainingIgnoreCase(normalizedSearchTerm, pageable);
+		return repository.findByNameContainingIgnoreCase(normalizedSearchTerm, pageable).map(productMapper::toDTO);
 	}
 
 	// To be able to search by names with accent ("Cámara")
@@ -207,7 +233,8 @@ public class ProductService {
 		return normalized;
 	}
 
-	public float calculateRating(User owner) {
+	public float calculateRating(UserDTO ownerDTO) {
+		User owner = userRepository.findById(ownerDTO.id()).get();
 		List<Review> reviews = owner.getReviews();
 		if (reviews == null || reviews.isEmpty()) {
 			return 0;
@@ -225,29 +252,38 @@ public class ProductService {
 		return average;
 	}
 
-	public List<Product> findTopRatedSellersProducts() {
-        return repository.findTopRatedSellersProducts();
+	public List<ProductDTO> findTopRatedSellersProducts() {
+        return productMapper.toDTOs(repository.findTopRatedSellersProducts());
     }
-	
-	
-	public Optional<User> findUserByName(String name) {
-		return userRepository.findByName(name);
-	}
 
-    public void addImageEditing(Product product, MultipartFile image) throws IOException {
-		
+    public void addImageEditing(ProductDTO productDTO, MultipartFile image) throws IOException {
+		Product product = repository.findById(productDTO.id()).get();		
+
 		Blob blob = BlobProxy.generateProxy(image.getInputStream(), image.getSize());
 		Image imgToStore = new Image(blob);
 
 		product.getImages().add(imgToStore);
+		repository.save(product);
     }
 
-    public void updateProduct(Product oldProduct, Product product) {
+    public void updateProduct(ProductDTO oldProductDTO, NewProductDTO newProductDTO) {
+		Product oldProduct = repository.findById(oldProductDTO.id()).get();
+		Product product = newProductMapper.toDomain(newProductDTO);
 		oldProduct.setName(product.getName());
 		oldProduct.setDescription(product.getDescription());
 		oldProduct.setCategory(product.getCategory());
 		oldProduct.setPrice(product.getPrice());
-    }		
+		repository.save(oldProduct);
+    }
+
+	public void removeImage(long productId, long id) {
+		Product product = repository.findById(productId).get();
+		if(product.getThumbnail().getId() == id){
+			product.setThumbnail(product.getImages().get(1));
+		}
+		product.getImages().remove(imageService.findById(id).get());
+		imageService.delete(id);
+	}		
 
 
 

@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.NewProductDTO;
 import es.grupo04.backend.dto.NewReportDTO;
+import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ReportDTO;
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
@@ -79,13 +81,13 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public String getProduct(@PathVariable Long id, Model model, HttpServletRequest request) {
-        Optional<Product> productOptional = productService.findById(id);
+        Optional<ProductDTO> productOptional = productService.findById(id);
 
         if (productOptional.isEmpty()) {
             model.addAttribute("message", "Producto no encontrado"); 
             return "error"; 
         }
-        Product product = productOptional.get();
+        ProductDTO product = productOptional.get();
         model.addAttribute("product", product);
 
         Principal principal = request.getUserPrincipal();
@@ -124,8 +126,8 @@ public class ProductController {
 
         // Product images
         ArrayList<String> imageURLs = new ArrayList<>();
-        for (Image image : productOptional.get().getImages()) {
-            imageURLs.add("/product/image/" + image.getId());
+        for (String imageURL : productOptional.get().imageUrls()) {
+            imageURLs.add(imageURL);
         }
         model.addAttribute("images", imageURLs);
 
@@ -188,7 +190,7 @@ public class ProductController {
         if (principal != null) {
             String username = principal.getName();
             Optional<User> userOptional = userService.findByMail(username);
-            Optional<Product> productOptional = productService.findById(id);
+            Optional<ProductDTO> productOptional = productService.findById(id);
 
             // Check if the user and the product exist
             if (userOptional.isPresent() && productOptional.isPresent()) {
@@ -212,11 +214,11 @@ public class ProductController {
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
             Optional<User> userOptional = userService.findByMail(principal.getName());
-            Optional<Product> productOptional = productService.findById(id);
+            Optional<ProductDTO> productOptional = productService.findById(id);
 
             if (userOptional.isPresent() && productOptional.isPresent()) {
                 Long userId = userOptional.get().getId();
-                Long productId = productOptional.get().getId();
+                Long productId = productOptional.get().id();
     
                 NewReportDTO newReportDTO = new NewReportDTO(reason, description, productId, userId);
                 reportService.saveReport(newReportDTO);
@@ -265,27 +267,26 @@ public class ProductController {
     }
 
     @PostMapping("/delete/{id}")
-    public String removeProduct(Model model, @PathVariable long id) {
+    public String removeProduct(@PathVariable long id) {
 
-        Optional<Product> productOptional = productService.findById(id);
+        Optional<ProductDTO> productOptional = productService.findById(id);
         if (productOptional.isPresent()) {
             productService.delete(id);
-            model.addAttribute("productOptional", productOptional.get());
         }
         return "redirect:/"; 
     }
     // Edit Product
     @GetMapping("/editProduct/{id}")
     public String editProduct(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        Optional<Product> optionalProduct = productService.findById(id);
+        Optional<ProductDTO> optionalProduct = productService.findById(id);
     
         if (!optionalProduct.isPresent()) {
             model.addAttribute("message", "Producto no encontrado");
             return "error";
         }
     
-        Product product = optionalProduct.get();
-        System.out.println("El producto que se pasa es:" + product.getName());
+        ProductDTO product = optionalProduct.get();
+        System.out.println("El producto que se pasa es:" + product.name());
         Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
     
         if (!optionalUser.isPresent() || !product.getOwner().equals(optionalUser.get())) {
@@ -295,53 +296,46 @@ public class ProductController {
         
         model.addAttribute("product", product);
         model.addAttribute("edit", true); 
-        model.addAttribute("images", product.getImages());
-        model.addAttribute("oneImage", product.getImages().size() == 1);
-        model.addAttribute("maxImages", product.getImages().size() == 5);
+        model.addAttribute("images", product.imageUrls());
+        model.addAttribute("oneImage", product.imageUrls().size() == 1);
+        model.addAttribute("maxImages", product.imageUrls().size() == 5);
 
         return "newProduct";
     }
 
     @PostMapping("/editProduct/{id}")
-    public String updateProduct(@PathVariable long id, @ModelAttribute Product product, Model model) {
-        Optional<Product> optionalProduct = productService.findById(id);
+    public String updateProduct(@PathVariable long id, @ModelAttribute NewProductDTO product, Model model) {
+        Optional<ProductDTO> optionalProduct = productService.findById(id);
         if (!optionalProduct.isPresent()) {
             model.addAttribute("message", "Producto no encontrado");
             return "error";
         }
-        Product oldProduct = optionalProduct.get();
+        ProductDTO oldProduct = optionalProduct.get();
         productService.updateProduct(oldProduct, product);
-        productService.save(oldProduct);
         return "redirect:/product/" + id;
     }
      
 
     @PostMapping("/delete/image/{id}")
     public String removeImage(@PathVariable long id, @RequestParam("productId") long productId, Model model) {
-        Optional<Product> productOptional = productService.findById(productId);
-        if(productOptional.get().getImages().size() == 1){
+        Optional<ProductDTO> productOptional = productService.findById(productId);
+        if(productOptional.get().imageUrls().size() == 1){
             model.addAttribute("message", "Un producto debe tener al menos una imagen");
             return "error";
         }
 
         if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            if(product.getThumbnail().getId() == id){
-                product.setThumbnail(product.getImages().get(1));
-            }
-            product.getImages().remove(imageService.findById(id).get());
-            imageService.delete(id);
+            productService.removeImage(productId, id);
         }
         return "redirect:/editProduct/" + productId;
     }
 
     @PostMapping("/add/image/{id}")
     public String addImage(@PathVariable long id, @RequestParam("imageUpload") MultipartFile image, Model model) throws IOException {
-        Optional<Product> productOptional = productService.findById(id);
+        Optional<ProductDTO> productOptional = productService.findById(id);
         if (productOptional.isPresent()) {
-            Product product = productOptional.get();
+            ProductDTO product = productOptional.get();
             productService.addImageEditing(product, image);
-            productService.save(product);
         } else {
             model.addAttribute("message", "Producto no encontrado");
             return "error";
@@ -356,7 +350,7 @@ public class ProductController {
     }
 
     @PostMapping("/newProduct")
-    public String createProduct(@ModelAttribute Product product, @RequestParam("imageUpload") MultipartFile[] images,
+    public String createProduct(@ModelAttribute NewProductDTO product,
             Model model, HttpServletRequest request) throws IOException {
 
         Principal principal = request.getUserPrincipal();
@@ -372,17 +366,16 @@ public class ProductController {
             return "error";
         }
 
-        if(images.length > 5){
+
+        if(product.imageUpload().length > 5){
             model.addAttribute("message", "No puedes subir más de 5 imágenes");
             return "error";
         }
 
-        productService.addImages(product, images); 
+        ProductDTO savedProduct = productService.save(product);
 
-        productService.save(product); 
-
-        model.addAttribute("productId", product.getId()); // add id of the product as attribute
-        return "redirect:/product/" + product.getId(); // redirect to the detail screen product created as new
+        model.addAttribute("productId", savedProduct.id()); // add id of the product as attribute
+        return "redirect:/product/" + savedProduct.id(); // redirect to the detail screen product created as new
     }
 
     // To show by category or to search in header
@@ -394,7 +387,7 @@ public class ProductController {
         Model model) {
 
         int pageSize = 8;
-        Page<Product> productPage;
+        Page<ProductDTO> productPage;
 
         if (search != null && !search.isEmpty()) {
             productPage = productService.searchByName(search, page, pageSize);

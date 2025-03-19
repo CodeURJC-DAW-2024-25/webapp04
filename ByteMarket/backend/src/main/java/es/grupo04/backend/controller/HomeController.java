@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.grupo04.backend.model.Product;
+import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
@@ -51,10 +51,10 @@ public class HomeController {
                     @AuthenticationPrincipal UserDetails userDetails) {
         int pageSize = 8;
 
-        Page<Product> productPage = productService.findPaginatedAvailable(page, pageSize);
+        Page<ProductDTO> productPage = productService.findPaginatedAvailable(page, pageSize);
         model.addAttribute("other_products", productPage.getContent());
 
-        List<Product> topRatedSellersProducts = productService.findTopRatedSellersProducts();
+        List<ProductDTO> topRatedSellersProducts = productService.findTopRatedSellersProducts();
         model.addAttribute("top_seller_products", topRatedSellersProducts);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());

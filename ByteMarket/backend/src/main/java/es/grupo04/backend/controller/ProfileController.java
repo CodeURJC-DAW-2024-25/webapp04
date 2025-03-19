@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.dto.NewReviewDTO;
+import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ReviewDTO;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Review;
@@ -259,13 +260,13 @@ public class ProfileController {
                 reviewStars.add(reviewStarData);
             }
 
-model.addAttribute("reviewStars", reviewStars);
+            model.addAttribute("reviewStars", reviewStars);
 
             model.addAttribute("reviewStars", reviewStars);
             model.addAttribute("title", "Reseñas");
         }
          else {
-            Page<Product> productPage = productService.findProductsByOwner(profileUser, page, pageSize);
+            Page<ProductDTO> productPage = productService.findProductsByOwner(profileUser, page, pageSize);
             model.addAttribute("show_products", productPage.getContent()); 
             model.addAttribute("title", "Productos");
             model.addAttribute("filter", "products");
