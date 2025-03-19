@@ -11,6 +11,7 @@ import es.grupo04.backend.dto.ChatDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.PurchaseMapper;
+import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
@@ -95,7 +96,7 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
-    public boolean hasBought(UserDTO userDTO, UserDTO ownerDTO) {
+    public boolean hasBought(UserBasicDTO userDTO, UserBasicDTO ownerDTO) {
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         User owner = userRepository.findById(ownerDTO.id())

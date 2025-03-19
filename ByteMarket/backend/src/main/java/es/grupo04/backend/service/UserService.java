@@ -59,15 +59,18 @@ public class UserService {
     }
 
     public Optional<UserBasicDTO> findByMail(String mail) {
-        return userRepository.findByMail(mail).map(userBasicMapper::toDTO);
+        return Optional.of(userBasicMapper.toDTO(userRepository.findByMail(mail)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
     public Optional<UserBasicDTO> findById(Long id) {
-        return userRepository.findById(id).map(userBasicMapper::toDTO);
+        return Optional.of(userBasicMapper.toDTO(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
     public Optional<UserBasicDTO> findByName(String name) {
-        return userRepository.findByName(name).map(userBasicMapper::toDTO);
+        return Optional.of(userBasicMapper.toDTO(userRepository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
     public boolean createAccount(NewUserDTO userDTO) {
@@ -103,66 +106,56 @@ public class UserService {
 
     // Add to favorites
     public boolean addToFavorite(Long productId, UserBasicDTO userDTO) {
-        Optional<Product> productOptional = productService.findById(productId);
-        Optional<User> userOptional = userRepository.findById(userDTO.id());
-        // Check if the product exists
-        if (productOptional.isPresent() && userOptional.isPresent()) {
-            Product product = productOptional.get();
-            User user = userOptional.get();
-            // Check if the user is the owner of the product
-            if (isOwner(user, product)) {
-                return false;
-            }
-            // Get the list of favorite products
-            List<Product> favoriteProducts = user.getFavoriteProducts();
-            // Check if the product is already in the favorites list
-            if (!favoriteProducts.contains(product)) {
-                favoriteProducts.add(product);
-                user.setFavoriteProducts(favoriteProducts);
-                userRepository.save(user);
-                System.out.println("Producto añadido a favoritos: " + product.getName());
-                return true;
-            } else {
-                System.out.println("El producto ya está en los favoritos.");
-                return false;
-            }
+        Product product = productService.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Check if the user is the owner of the product
+        if (isOwner(user, product)) {
+            return false;
         }
-        return false;
+        // Get the list of favorite products
+        List<Product> favoriteProducts = user.getFavoriteProducts();
+        // Check if the product is already in the favorites list
+        if (!favoriteProducts.contains(product)) {
+            favoriteProducts.add(product);
+            user.setFavoriteProducts(favoriteProducts);
+            userRepository.save(user);
+            System.out.println("Producto añadido a favoritos: " + product.getName());
+            return true;
+        } else {
+            System.out.println("El producto ya está en los favoritos.");
+            return false;
+        }
     }
 
     public boolean removeFromFavorite(Long productId, UserBasicDTO userDTO) {
-        Optional<Product> productOptional = productService.findById(productId);
-        Optional<User> userOptional = userRepository.findById(userDTO.id());
+        Product product = productService.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if (productOptional.isPresent() && userOptional.isPresent()) {
-            User user = userOptional.get();
-            Product product = productOptional.get();
+        // Get the list of favorite products
+        List<Product> favoriteProducts = user.getFavoriteProducts();
 
-            // Get the list of favorite products
-            List<Product> favoriteProducts = user.getFavoriteProducts();
-
-            // Check if the product is in the favorites list
-            if (favoriteProducts.contains(product)) {
-                favoriteProducts.remove(product);
-                user.setFavoriteProducts(favoriteProducts);
-                userRepository.save(user);
-                System.out.println("Producto eliminado de favoritos: " + product.getName());
-                return true;
-            } else {
-                System.out.println("El producto no está en los favoritos.");
-                return false;
-            }
+        // Check if the product is in the favorites list
+        if (favoriteProducts.contains(product)) {
+            favoriteProducts.remove(product);
+            user.setFavoriteProducts(favoriteProducts);
+            userRepository.save(user);
+            System.out.println("Producto eliminado de favoritos: " + product.getName());
+            return true;
+        } else {
+            System.out.println("El producto no está en los favoritos.");
+            return false;
         }
-        return false;
     }
 
     public Optional<String> editProfile(EditUserDTO editUserDTO) {
         // Get the user from the repository
-        Optional<User> optionalUser = userRepository.findById(editUserDTO.id());
-        if (!optionalUser.isPresent()) {
-            return Optional.of("Usuario no encontrado");
-        }
-        User user = optionalUser.get();
+        User user = userRepository.findById(editUserDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // Name update
         if (editUserDTO.name() != null && !editUserDTO.name().equals(user.getName())) {
@@ -214,13 +207,11 @@ public class UserService {
     public boolean isFavorite(UserBasicDTO user, ProductBasicDTO product) {
         Long userId = user.id();
         Long productId = product.id();
-        Optional<User> userOptional = userRepository.findById(userId);
-        Optional<Product> productOptional = productService.findById(productId);
-        if (userOptional.isEmpty() || productOptional.isEmpty()) {
-            return false;
-        } else {
-            return userOptional.get().getFavoriteProducts().contains(productOptional.get());
-        }
+        User userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        Product productEntity = productService.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        return userEntity.getFavoriteProducts().contains(productEntity);
     }
 
     private boolean validateName(String name) {
@@ -257,35 +248,32 @@ public class UserService {
     }
 
     public void delete(UserBasicDTO userDTO) {
-        Optional<User> userOptional = userRepository.findById(userDTO.id());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            Optional<User> deleteUserOptional = userRepository.findByName("Usuario Eliminado");
-            if (deleteUserOptional.isPresent()) {
-                User deleteUser = deleteUserOptional.get();
-                // Remove user from purchases
-                if (user.getPurchases() != null) {
-                    for (Purchase purchase : user.getPurchases()) {
-                        purchase.setBuyer(deleteUser);
-                        purchaseService.save(purchase);
-                    }
-                }
-                if (user.getSales() != null) {
-                    for (Purchase sale : user.getSales()) {
-                        sale.setSeller(deleteUser);
-                        Product product = sale.getProduct();
-                        product.setOwner(deleteUser);
-                        productService.save(product);
-                        purchaseService.save(sale);
-                    }
-                }
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        User deleteUser = userRepository.findByName("Usuario Eliminado")
+                .orElseThrow(() -> new RuntimeException("Usuario Eliminado no encontrado"));
 
-                productService.deleteFavorites(user.getProducts());
-                reportService.deleteAllReportsByUser(user);
-                userRepository.delete(user);
-                userRepository.save(deleteUser);
+        // Remove user from purchases
+        if (user.getPurchases() != null) {
+            for (Purchase purchase : user.getPurchases()) {
+                purchase.setBuyer(deleteUser);
+                purchaseService.save(purchase);
             }
         }
+        if (user.getSales() != null) {
+            for (Purchase sale : user.getSales()) {
+                sale.setSeller(deleteUser);
+                Product product = sale.getProduct();
+                product.setOwner(deleteUser);
+                productService.save(product);
+                purchaseService.save(sale);
+            }
+        }
+
+        productService.deleteFavorites(user.getProducts());
+        reportService.deleteAllReportsByUser(user);
+        userRepository.delete(user);
+        userRepository.save(deleteUser);
     }
 
     public List<ChartData> getStats(UserBasicDTO userDto) {
@@ -293,11 +281,8 @@ public class UserService {
         HashMap<Integer, ChartData> purchases = new HashMap<>();
         HashMap<Integer, ChartData> sales = new HashMap<>();
 
-        Optional<User> userOptional = userRepository.findById(userDto.id());
-        if (userOptional.isEmpty()) {
-            return stats;
-        }
-        User user = userOptional.get();
+        User user = userRepository.findById(userDto.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         for (Purchase purchase : user.getPurchases()) {
             int month = purchase.getPurchaseDate().getMonthValue();
@@ -323,13 +308,6 @@ public class UserService {
     }
 
     public boolean hasBought(UserBasicDTO user, UserBasicDTO owner) {
-        Optional<User> userOptional = userRepository.findById(user.id());
-        Optional<User> ownerOptional = userRepository.findById(owner.id());
-        if(!userOptional.isPresent() || !ownerOptional.isPresent()) {
-            return false;
-        }else{
-            return purchaseService.hasBought(userOptional.get(), ownerOptional.get());
-        }
-
+        return purchaseService.hasBought(user, owner);
     }
 }
