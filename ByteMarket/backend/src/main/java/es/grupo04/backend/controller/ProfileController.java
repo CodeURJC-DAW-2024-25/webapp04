@@ -282,14 +282,13 @@ public class ProfileController {
 
     @GetMapping("/editProfile")
     public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        
-        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<EditUserDTO> optionalUser = userService.findByMailEdit(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return "error";
         }
 
-        UserBasicDTO user = optionalUser.get();
+        EditUserDTO user = optionalUser.get();
         model.addAttribute("user", user);
         return "editProfile";
     }
@@ -305,12 +304,12 @@ public class ProfileController {
             model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
             return "error";
         }
-
+        
         if(!profilePic.isEmpty()){
             userService.saveProfilePic(optionalUser.get(), profilePic);
         }
 
-        Optional<String> message = userService.editProfile(user);
+        Optional<String> message = userService.editProfile(optionalUser.get(), user);
         if(message.isPresent()) {
             model.addAttribute("message", message.get());
             return "error";
