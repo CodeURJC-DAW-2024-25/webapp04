@@ -13,6 +13,7 @@ import java.util.List;
 public interface ProductMapper {
 
     @Mapping(target = "imageUrls", expression = "java(mapImages(product))")
+    @Mapping(target = "thumbnail", expression = "java(mapThumbnail(product))")
     ProductDTO toDTO(Product product);
 
     List<ProductDTO> toDTOs(List<Product> products);
@@ -28,4 +29,9 @@ public interface ProductMapper {
         }
         return imageUrls;
     }
+
+    default String mapThumbnail(Product product) {
+        return Constants.WEBAPP_BASE_URL + "/product/image/" + product.getImages().get(0).getId();
+    }
+
 }

@@ -11,6 +11,7 @@ public record ProductDTO(
     String description,
     UserBasicDTO owner, //Avoid returning the complete User object
     List<String> imageUrls,
+    String thumbnail,
     boolean sold,
     LocalDate publishDate
 ){
