@@ -1,5 +1,7 @@
 package es.grupo04.backend.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public record EditUserDTO (
     Long id,
     String name,
@@ -7,8 +9,8 @@ public record EditUserDTO (
     String password,
     String repeatPassword,
     String iframe,
-    byte[] imageFile,    //User Image as byte --> Turned to blob in the service
-    boolean image       
+    String profileImage,
+    MultipartFile image
 ){  
 }
  

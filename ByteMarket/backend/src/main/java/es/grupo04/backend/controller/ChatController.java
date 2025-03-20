@@ -1,7 +1,6 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -18,11 +17,7 @@ import es.grupo04.backend.dto.ChatDTO;
 import es.grupo04.backend.dto.ProductBasicDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.PurchaseDTO;
-import es.grupo04.backend.model.Chat;
-import es.grupo04.backend.model.Message;
-import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.Purchase;
-import es.grupo04.backend.model.User;
+import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.service.ChatService;
 import es.grupo04.backend.service.MessageService;
 import es.grupo04.backend.service.ProductService;
@@ -58,10 +53,10 @@ public class ChatController {
 
         if (principal != null) {
 
-            User user = userservice.findByMail(principal.getName()).get();
+            UserBasicDTO user = userservice.findByMail(principal.getName()).get();
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", user.getName());
+            model.addAttribute("userName", user.name());
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
             model.addAttribute("user", user);
 
@@ -72,15 +67,10 @@ public class ChatController {
 
     @GetMapping("/chat")
     public String HomeChat(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        User user = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        List<Chat> chats = user.getAllChats();
-        List<Chat> checkedChats = new ArrayList<>();
-        for (Chat chat : chats) {
-            chat.isSelling(user);
-            checkedChats.add(chat);
-        }
-        model.addAttribute("chats", checkedChats);
-        model.addAttribute("isSeller", user.getChatsAsSeller().containsAll(chats));
+        UserBasicDTO user = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        List<ChatDTO> chats = chatservice.findChatsByUserId(user.id());
+        model.addAttribute("chats", chats);
+        model.addAttribute("isSeller", chatservice.getChatsAsSeller(user, chats));
         model.addAttribute("title", "Chats");
         return "chat_template";
     }
@@ -88,9 +78,9 @@ public class ChatController {
     @PostMapping("/chat/new/{productId}")
     public String newChat(@PathVariable Long productId, @AuthenticationPrincipal UserDetails userDetails, Model model,
             RedirectAttributes redirectAttributes) {
-        Product product = productservice.findById(productId).orElse(null);
-        User seller = product.getOwner();
-        User user = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        ProductDTO product = productservice.findById(productId).orElse(null);
+        UserBasicDTO seller = product.owner();
+        UserBasicDTO user = userservice.findByMail(userDetails.getUsername()).orElse(null);
         ChatDTO existingChat = chatservice.findChat(user, seller, productId);
 
         if (existingChat != null) {
@@ -105,26 +95,21 @@ public class ChatController {
     public String privateChat(@PathVariable Long chatId, @AuthenticationPrincipal UserDetails userDetails,
             Model model) {
 
-        User user = userservice.findByMail(userDetails.getUsername()).orElse(null);
-        List<Chat> chats = user.getAllChats();
-        List<Chat> checkedChats = new ArrayList<>();
-        for (Chat chat : chats) {
-            chat.isSelling(user);
-            checkedChats.add(chat);
-        }
-        model.addAttribute("chats", checkedChats);
+        UserBasicDTO user = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        List<ChatDTO> chats = chatservice.findChatsByUserId(user.id());
+        model.addAttribute("chats", chats);
         ChatDTO existingChat = chatservice.findChatById(chatId).orElse(null);
         ProductBasicDTO product = existingChat.product();
 
         model.addAttribute("current_chat", existingChat);
         model.addAttribute("current_chat_name", product.name());
         model.addAttribute("messages", existingChat != null ? existingChat.messages() : null);
-        model.addAttribute("chats", user.getAllChats());
+        model.addAttribute("chats", chats);
         model.addAttribute("messages", existingChat.messages());
         model.addAttribute("title", "Chats");
         model.addAttribute("current_chat_name", product.name());
         model.addAttribute("messages", existingChat != null ? existingChat.messages() : null);
-        model.addAttribute("isSeller", user.getChatsAsSeller().contains(existingChat));
+        model.addAttribute("isSeller", chatservice.isUserSeller(user, existingChat));
 
         return "chat_template";
     }
@@ -134,7 +119,7 @@ public class ChatController {
             @RequestParam String message,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        User sender = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        UserBasicDTO sender = userservice.findByMail(userDetails.getUsername()).orElse(null);
         ChatDTO chat = chatservice.findChatById(chatId).orElse(null);
 
         if (sender != null && chat != null) {
@@ -154,7 +139,7 @@ public class ChatController {
         }
 
         //Get the logged user an verify its the seller
-        User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        UserBasicDTO seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
         if (seller == null || !chat.userSeller().equals(seller)) {
             return "redirect:/chat";
         }
@@ -183,7 +168,7 @@ public class ChatController {
         }
 
         //Get the seller and verify its the owner
-        User seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
+        UserBasicDTO seller = userservice.findByMail(userDetails.getUsername()).orElse(null);
         if (seller == null || !chat.userSeller().equals(seller)) {
             model.addAttribute("message", "Solo el propietario del producto puede venderlo");
             return "error"; 

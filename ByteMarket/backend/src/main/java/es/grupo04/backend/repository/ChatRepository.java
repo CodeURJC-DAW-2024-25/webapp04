@@ -21,4 +21,5 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     Chat findByUserBuyerAndUserSellerAndProduct(User userBuyer, User userSeller, Product product);
 
+    List<Chat> findByBuyerOrSeller(User buyer, User seller);
 }

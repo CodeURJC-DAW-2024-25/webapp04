@@ -2,19 +2,20 @@ package es.grupo04.backend.service;
 
 import es.grupo04.backend.dto.ChatDTO;
 import es.grupo04.backend.dto.ChatMapper;
+import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.repository.ChatRepository;
-import es.grupo04.backend.repository.MessageRepository;
 import es.grupo04.backend.repository.ProductRepository;
+import es.grupo04.backend.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.protobuf.Message;
 
 @Service
 public class ChatService {
@@ -26,12 +27,18 @@ public class ChatService {
     private ProductRepository productRepository;
 
     @Autowired
-    private ChatMapper chatMapper;
+    private UserRepository userRepository;
 
     @Autowired
-    private MessageRepository messageRepository;
+    private ChatMapper chatMapper;
 
-    public ChatDTO createChat(User buyer, User seller, Long productId) {
+    public ChatDTO createChat(UserBasicDTO buyerDTO, UserBasicDTO sellerDTO, Long productId) {
+        Optional<User> buyerOptional = userRepository.findById(buyerDTO.id());
+        User buyer = buyerOptional.orElseThrow(() -> new RuntimeException("Buyer not found"));
+
+        Optional<User> sellerOptional = userRepository.findById(sellerDTO.id());
+        User seller = sellerOptional.orElseThrow(() -> new RuntimeException("Seller not found"));
+        
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             Chat existingChat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
@@ -45,12 +52,39 @@ public class ChatService {
         return null;
     }
 
-    public ChatDTO findChat(User buyer, User seller, Long productId) {
+    public ChatDTO findChat(UserBasicDTO buyerDTO, UserBasicDTO sellerDTO, Long productId) {
+        Optional<User> buyerOptional = userRepository.findById(buyerDTO.id());
+        User buyer = buyerOptional.orElseThrow(() -> new RuntimeException("Buyer not found"));
+
+        Optional<User> sellerOptional = userRepository.findById(sellerDTO.id());
+        User seller = sellerOptional.orElseThrow(() -> new RuntimeException("Seller not found"));
+
         Chat chat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
         return chat != null ? chatMapper.toDTO(chat) : null;
     }
 
     public Optional<ChatDTO> findChatById(Long chatId) {
         return chatRepository.findById(chatId).map(chatMapper::toDTO);
-    }    
+    }   
+    
+    public List<ChatDTO> findChatsByUserId(Long userId) {
+    Optional<User> userOptional = userRepository.findById(userId);
+    User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+
+    List<Chat> chats = chatRepository.findByBuyerOrSeller(user, user);
+    return chats.stream()
+                .map(chatMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ChatDTO> getChatsAsSeller(UserBasicDTO user, List<ChatDTO> chatsDTO) {
+        return chatsDTO.stream()
+                .filter(chatDTO -> chatDTO.userSeller().equals(user))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isUserSeller(UserBasicDTO user, ChatDTO existingChat) {
+        return existingChat.userSeller().equals(user);
+    }
+    
 }
