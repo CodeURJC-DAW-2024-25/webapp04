@@ -7,7 +7,8 @@ public record ChatDTO(
     ProductBasicDTO product,
     UserBasicDTO userBuyer,
     UserBasicDTO userSeller,
-    List<MessageDTO> messages
+    List<MessageDTO> messages,
+    boolean selling
 ) {
     
 }

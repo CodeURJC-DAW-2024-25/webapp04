@@ -71,7 +71,7 @@ public class ChatService {
     Optional<User> userOptional = userRepository.findById(userId);
     User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
 
-    List<Chat> chats = chatRepository.findByBuyerOrSeller(user, user);
+    List<Chat> chats = chatRepository.findByUserBuyerOrUserSeller(user, user);
     return chats.stream()
                 .map(chatMapper::toDTO)
                 .collect(Collectors.toList());
