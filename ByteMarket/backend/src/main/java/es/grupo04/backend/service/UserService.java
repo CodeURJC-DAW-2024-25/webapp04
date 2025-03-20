@@ -67,8 +67,18 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
+    public Optional<UserDTO> findByMailExtendedInfo(String mail) {
+        return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+    }
+
     public Optional<UserBasicDTO> findById(Long id) {
         return Optional.of(userBasicMapper.toDTO(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+    }
+
+    public Optional<UserDTO> findByIdExtendedInfo(Long id) {
+        return Optional.of(userMapper.toDTO(userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
@@ -185,15 +195,15 @@ public class UserService {
         }
 
         // Image update
-        if (editUserDTO.imageFile() != null && editUserDTO.imageFile().length > 0) {
+        if (editUserDTO.profileImage() != null && editUserDTO.profileImage().length() > 0) {
             try {
-                Blob imageBlob = new SerialBlob(editUserDTO.imageFile());
-                user.setImageFile(imageBlob);
+                Blob blob = BlobProxy.generateProxy(editUserDTO.image().getInputStream(), editUserDTO.image().getSize());
+                user.setImageFile(blob);
                 user.setImage(true);
             } catch (Exception e) {
                 return Optional.of("Error al procesar la imagen");
             }
-        } else if (editUserDTO.image()) {
+        } else if (editUserDTO.profileImage() == null) {
             user.setImage(false);
             user.setImageFile(null);
         }
@@ -248,10 +258,10 @@ public class UserService {
         return true;
     }
 
-    public void saveProfilePic(User user, MultipartFile profilePic) throws IOException {
-
+    public void saveProfilePic(UserBasicDTO userDTO, MultipartFile profilePic) throws IOException {
+        User user = userRepository.findById(userDTO.id())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(), profilePic.getSize());
-
         user.setImageFile(blob);
         user.setImage(true);
     }

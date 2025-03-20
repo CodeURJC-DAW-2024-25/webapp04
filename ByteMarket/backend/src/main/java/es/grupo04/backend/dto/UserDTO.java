@@ -12,7 +12,8 @@ public record UserDTO (
     List<ReviewDTO> reviews,
     List<ProductBasicDTO> sales,
     List<ProductBasicDTO> purchases,
-    String iframe
-
+    String iframe,
+    String profileImage
+    
 ){
 }

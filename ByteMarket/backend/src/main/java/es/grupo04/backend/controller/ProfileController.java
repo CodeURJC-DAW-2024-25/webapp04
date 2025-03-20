@@ -27,9 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.NewReviewDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ReviewDTO;
+import es.grupo04.backend.dto.UserBasicDTO;
+import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Review;
 import es.grupo04.backend.model.User;
@@ -58,10 +61,10 @@ public class ProfileController {
 
         if (principal != null) {
 
-            User user = userService.findByMail(principal.getName()).get();
+            UserBasicDTO user = userService.findByMail(principal.getName()).get();
 
             model.addAttribute("logged", true);
-            model.addAttribute("userName", user.getName());    
+            model.addAttribute("userName", user.name());    
             model.addAttribute("admin", request.isUserInRole("ADMIN"));
             model.addAttribute("user", user);
 
@@ -78,27 +81,27 @@ public class ProfileController {
             Model model) {
 
         int pageSize = 8;
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserDTO> optionalUser = userService.findByMailExtendedInfo(userDetails.getUsername());
 
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
-        User user = optionalUser.get();
-        model.addAttribute("id", user.getId());
+        UserDTO user = optionalUser.get();
+        model.addAttribute("id", user.id());
 
-        if (user.getIframe() != null) {
-            model.addAttribute("location", user.getIframe());
+        if (user.iframe() != null) {
+            model.addAttribute("location", user.iframe());
         }
 
         model.addAttribute("isOwnProfile", true);
-        model.addAttribute("username", user.getName());
-        model.addAttribute("salesNumber", user.getSales().size());
-        model.addAttribute("purchasesNumber", user.getPurchases().size());
-        model.addAttribute("reviewsNumber", user.getReviews().size());
+        model.addAttribute("username", user.name());
+        model.addAttribute("salesNumber", user.sales().size());
+        model.addAttribute("purchasesNumber", user.purchases().size());
+        model.addAttribute("reviewsNumber", user.reviews().size());
         model.addAttribute("reviewsSection", false);
 
         if ("favorites".equals(filter)) {
-            Page<Product> productPage = productService.getFavoriteProducts(user, page, pageSize);
+            Page<ProductDTO> productPage = productService.getFavoriteProducts(user, page, pageSize);
             model.addAttribute("show_products", productPage.getContent());
             model.addAttribute("title", "Mis favoritos");
             model.addAttribute("filter", "favorites");
@@ -119,7 +122,7 @@ public class ProfileController {
             model.addAttribute("currentPage", 0);
             model.addAttribute("totalPages", 1);
         } else if ("reviews".equals(filter)) {
-            List<Review> reviews = user.getReviews();
+            List<ReviewDTO> reviews = user.reviews();
             model.addAttribute("reviewsSection", true);
 
             if (reviews == null || reviews.isEmpty()) {
@@ -129,8 +132,8 @@ public class ProfileController {
             }
 
             List<Map<String, Object>> reviewStars = new ArrayList<>();
-            for (Review review : reviews) {
-                int rating = review.getRating();
+            for (ReviewDTO review : reviews) {
+                int rating = review.rating();
                 List<Boolean> stars = new ArrayList<>();
                 List<Boolean> emptyStars = new ArrayList<>();
 
@@ -143,19 +146,19 @@ public class ProfileController {
                 }
 
                 Map<String, Object> reviewStarData = new HashMap<>();
-                reviewStarData.put("id", review.getId());  
+                reviewStarData.put("id", review.id());  
                 reviewStarData.put("rating", rating);
                 reviewStarData.put("stars", stars);
                 reviewStarData.put("emptyStars", emptyStars);
-                reviewStarData.put("owner", review.getreviewOwner().getName());
-                reviewStarData.put("description", review.getDescription());
+                reviewStarData.put("owner", review.reviewOwner().name());
+                reviewStarData.put("description", review.description());
                 reviewStars.add(reviewStarData);
             }
 
             model.addAttribute("reviewStars", reviewStars);
             model.addAttribute("title", "Mis Reseñas");
         } else {
-            Page<Product> productPage = productService.findProductsByOwner(user, page, pageSize);
+            Page<ProductDTO> productPage = productService.findProductsByOwner(user, page, pageSize);
             model.addAttribute("show_products", productPage.getContent()); 
             model.addAttribute("title", "Mis productos");
             model.addAttribute("filter", "products");
@@ -173,7 +176,7 @@ public class ProfileController {
             return "redirect:/login";  
         }
         
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             return "redirect:/login";  
         }
@@ -181,10 +184,10 @@ public class ProfileController {
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
         
-        User user = optionalUser.get();
-        model.addAttribute("id", user.getId());
+        UserBasicDTO user = optionalUser.get();
+        model.addAttribute("id", user.id());
         model.addAttribute("isOwnProfile", true);
-        model.addAttribute("username", user.getName());
+        model.addAttribute("username", user.name());
 
         return "adminProfile_template";
     }
@@ -193,40 +196,40 @@ public class ProfileController {
     public String userProfile(@PathVariable Long profileId, @RequestParam(value = "filter", required = false) String filter, @AuthenticationPrincipal UserDetails userDetails, @RequestParam(value = "page", defaultValue = "0") int page, Model model) {
         int pageSize = 8;
         boolean isOwnProfile = false;
-        Optional<User> profileOptional = userService.findById(profileId);
+        Optional<UserDTO> profileOptional = userService.findByIdExtendedInfo(profileId);
         if(!profileOptional.isPresent() || profileId == 1){     //profileId 1 reserved to manage deleted users
             model.addAttribute("message", "No se encuentra el perfil");
             model.addAttribute("user", null);
             return "error";
         }
-        User profileUser = profileOptional.get();
+        UserDTO profileUser = profileOptional.get();
         if (userDetails == null) {
             isOwnProfile = false;
             model.addAttribute("user", null);
         }else{
-            Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
-            User user = optionalUser.get();
+            Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
+            UserBasicDTO user = optionalUser.get();
             isOwnProfile = user.equals(profileUser);
             model.addAttribute("user", user);
         }
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
-        if (profileUser.getIframe() != null){
-            model.addAttribute("location", profileUser.getIframe());
+        if (profileUser.iframe() != null){
+            model.addAttribute("location", profileUser.iframe());
         }
         if(!isOwnProfile){
-            model.addAttribute("image", profileUser.getImageFile());
-            model.addAttribute("id", profileUser.getId());
+            model.addAttribute("image", profileUser.profileImage());
+            model.addAttribute("id", profileUser.id());
         }
         model.addAttribute("isOwnProfile", isOwnProfile);
-        model.addAttribute("username", profileUser.getName());
-        model.addAttribute("salesNumber", profileUser.getSales().size());
-        model.addAttribute("purchasesNumber", profileUser.getPurchases().size());
-        model.addAttribute("reviewsNumber", profileUser.getReviews().size());
+        model.addAttribute("username", profileUser.name());
+        model.addAttribute("salesNumber", profileUser.sales().size());
+        model.addAttribute("purchasesNumber", profileUser.purchases().size());
+        model.addAttribute("reviewsNumber", profileUser.reviews().size());
 
         if ("reviews".equals(filter)) {
-            List<Review> reviews = profileUser.getReviews();
+            List<ReviewDTO> reviews = profileUser.reviews();
             model.addAttribute("reviewsSection", true);
 
             if (reviews == null || reviews.isEmpty()) {
@@ -237,8 +240,8 @@ public class ProfileController {
 
             List<Map<String, Object>> reviewStars = new ArrayList<>();
 
-            for (Review review : reviews) {
-                int rating = review.getRating();
+            for (ReviewDTO review : reviews) {
+                int rating = review.rating();
                 List<Boolean> stars = new ArrayList<>();
                 List<Boolean> emptyStars = new ArrayList<>();
 
@@ -251,12 +254,12 @@ public class ProfileController {
                 }
 
                 Map<String, Object> reviewStarData = new HashMap<>();
-                reviewStarData.put("id", review.getId()); 
+                reviewStarData.put("id", review.id()); 
                 reviewStarData.put("rating", rating);
                 reviewStarData.put("stars", stars);
                 reviewStarData.put("emptyStars", emptyStars);
-                reviewStarData.put("owner", review.getreviewOwner().getName());
-                reviewStarData.put("description", review.getDescription());
+                reviewStarData.put("owner", review.reviewOwner().name());
+                reviewStarData.put("description", review.description());
                 reviewStars.add(reviewStarData);
             }
 
@@ -280,24 +283,24 @@ public class ProfileController {
     @GetMapping("/editProfile")
     public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return "error";
         }
 
-        User user = optionalUser.get();
+        UserBasicDTO user = optionalUser.get();
         model.addAttribute("user", user);
         return "editProfile";
     }
 
     @PostMapping("/editProfile")
-    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute User user,
+    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute EditUserDTO user,
         @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass,
         @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic, @RequestParam(name = "iframe", required = false) String iframe
         ) throws IOException {
 
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
             return "error";
@@ -307,7 +310,7 @@ public class ProfileController {
             userService.saveProfilePic(optionalUser.get(), profilePic);
         }
 
-        Optional<String> message = userService.editProfile(user, optionalUser.get(), newPass, repeatPass, iframe);
+        Optional<String> message = userService.editProfile(user);
         if(message.isPresent()) {
             model.addAttribute("message", message.get());
             return "error";
@@ -316,25 +319,28 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
+    
     @GetMapping("/user/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
-        Optional<User> userOptional = userService.findById(id);
+        Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
 
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        String imageURL = userOptional.get().profileImage();
 
-        Blob image = userOptional.get().getImageFile();
-        Resource file = new InputStreamResource(image.getBinaryStream());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                .contentLength(image.length()).body(file);
-
+        if (imageURL == null || imageURL.isEmpty()) {
+            return ResponseEntity.notFound().build();  
+        }
+        return ResponseEntity.status(302)  
+        .header(HttpHeaders.LOCATION, imageURL)  
+        .build();
     }
 
     @PostMapping("/deleteAccount")
     public String deleteAccount(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return "error";
@@ -347,7 +353,7 @@ public class ProfileController {
     @GetMapping("/stats/get")
     public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return null;
@@ -365,14 +371,14 @@ public class ProfileController {
                             HttpServletRequest request) {
         
         Principal principal = request.getUserPrincipal();
-        User reviewOwner = userService.findByMail(principal.getName()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        UserBasicDTO reviewOwner = userService.findByMail(principal.getName()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Product product = productService.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        User reviewedUser = product.getOwner();
+        ProductDTO product = productService.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        UserBasicDTO reviewedUser = product.owner();
 
-        NewReviewDTO newReviewDTO = new NewReviewDTO(rating, description, reviewedUser.getId());
+        NewReviewDTO newReviewDTO = new NewReviewDTO(rating, description, reviewedUser.id());
 
-        reviewService.saveReview(newReviewDTO, reviewOwner.getId()); 
+        reviewService.saveReview(newReviewDTO, reviewOwner.id()); 
 
         return "redirect:/product/" + id;
     }
@@ -380,7 +386,7 @@ public class ProfileController {
     @PostMapping("/review/{id}/delete")
     public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
         System.out.println("Intentando eliminar la reseña con ID: " + id);
-        Optional<User> optionalUser = userService.findByMail(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
 
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
