@@ -11,6 +11,7 @@ import es.grupo04.backend.repository.ProductRepository;
 import es.grupo04.backend.repository.UserRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -83,8 +84,20 @@ public class ChatService {
                 .collect(Collectors.toList());
     }
 
-    public boolean isUserSeller(UserBasicDTO user, ChatDTO existingChat) {
-        return existingChat.userSeller().equals(user);
+    public ChatDTO isUserSeller(UserBasicDTO userDTO, ChatDTO chatDTO) {
+        Optional<User> userOptional = userRepository.findById(userDTO.id());
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+        
+        Chat chat = chatRepository.findById(chatDTO.id())
+            .orElseThrow(() -> new NoSuchElementException("Chat not found"));
+        
+        boolean isSelling = chat.isSelling(user);
+        
+        ChatDTO updatedChatDTO = chatMapper.toDTO(chat);
+        
+        return updatedChatDTO;
     }
+    
+
     
 }

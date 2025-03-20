@@ -94,15 +94,20 @@ public class Chat {
         this.product = product;
     }
 
-    public void isSelling(User user){
+    public boolean isSelling(User user){
         if(user.equals(this.userSeller)){
             this.selling = true;
         }else{
             this.selling = false;
         }
+        return selling;
     }
 
     public boolean isSelling() {
         return selling;
+    }
+
+    public void setSelling(boolean selling) {
+        this.selling = selling;
     }
 }

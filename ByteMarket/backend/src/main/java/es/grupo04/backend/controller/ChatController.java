@@ -1,6 +1,7 @@
 package es.grupo04.backend.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,13 @@ public class ChatController {
     public String HomeChat(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         UserBasicDTO user = userservice.findByMail(userDetails.getUsername()).orElse(null);
         List<ChatDTO> chats = chatservice.findChatsByUserId(user.id());
-        model.addAttribute("chats", chats);
+        List<ChatDTO> checkedChats = new ArrayList<>();
+        for (ChatDTO chat : chats) {
+            ChatDTO chatUpdated = chatservice.isUserSeller(user, chat);
+            checkedChats.add(chatUpdated);
+        }
+
+        model.addAttribute("chats", checkedChats);
         model.addAttribute("isSeller", chatservice.getChatsAsSeller(user, chats));
         model.addAttribute("title", "Chats");
         return "chat_template";
@@ -97,14 +104,18 @@ public class ChatController {
 
         UserBasicDTO user = userservice.findByMail(userDetails.getUsername()).orElse(null);
         List<ChatDTO> chats = chatservice.findChatsByUserId(user.id());
-        model.addAttribute("chats", chats);
+        List<ChatDTO> checkedChats = new ArrayList<>();
+        for (ChatDTO chat : chats) {
+            ChatDTO chatUpdated = chatservice.isUserSeller(user, chat);
+            checkedChats.add(chatUpdated);
+        }
         ChatDTO existingChat = chatservice.findChatById(chatId).orElse(null);
         ProductBasicDTO product = existingChat.product();
 
         model.addAttribute("current_chat", existingChat);
         model.addAttribute("current_chat_name", product.name());
         model.addAttribute("messages", existingChat != null ? existingChat.messages() : null);
-        model.addAttribute("chats", chats);
+        model.addAttribute("chats", checkedChats);
         model.addAttribute("messages", existingChat.messages());
         model.addAttribute("title", "Chats");
         model.addAttribute("current_chat_name", product.name());
