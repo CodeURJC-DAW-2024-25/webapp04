@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +38,7 @@ import es.grupo04.backend.service.ImageService;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.ReportService;
+import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -59,6 +59,9 @@ public class ProductController {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -140,31 +143,7 @@ public class ProductController {
             model.addAttribute("reviewsSection", true);
         }
 
-        List<Map<String, Object>> reviewStars = new ArrayList<>();
-
-        for (ReviewDTO review : reviews) {
-            int rating = review.rating();
-            List<Boolean> stars = new ArrayList<>();
-            List<Boolean> emptyStars = new ArrayList<>();
-            
-            // Stars full
-            for (int i = 0; i < rating; i++) {
-                stars.add(true);
-            }
-
-            // Stars empty
-            for (int i = rating; i < 5; i++) {
-                emptyStars.add(false);
-            }
-
-            Map<String, Object> reviewStarData = new HashMap<>();
-            reviewStarData.put("rating", rating);
-            reviewStarData.put("stars", stars); // Full stars list
-            reviewStarData.put("emptyStars", emptyStars); // Empty stars list
-            reviewStarData.put("owner", review.reviewOwner().name());
-            reviewStarData.put("description", review.description());
-            reviewStars.add(reviewStarData);
-        }
+        List<Map<String, Object>> reviewStars = reviewService.getReviewsInfo(reviews);
 
         model.addAttribute("reviewStars", reviewStars);
 
