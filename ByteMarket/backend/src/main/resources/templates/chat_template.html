@@ -61,10 +61,20 @@
                                     <i class="text-decoration-none">{{product.name}}</i>
                                 </button>
                             </form>
+                            {{#product.sold}}
+                            <form action="/chat/sellScreen/{{id}}" method="POST" class="d-inline-block ms-2">
+                                <button type="submit" class="btn btn-secondary disabled">
+                                    Vender
+                                </button>
+                                <input type="hidden" name="_csrf" value="{{token}}" />
+                            </form>
+                            {{/product.sold}}
+                            {{^product.sold}}
                             <form action="/chat/sellScreen/{{id}}" method="POST" class="d-inline-block ms-2">
                                 <button type="submit" class="btn btn-custom">Vender</button>
                                 <input type="hidden" name="_csrf" value="{{token}}" />
                             </form>
+                            {{/product.sold}}
                         </li>
                         {{/selling}}
                         {{/chats}}
@@ -81,9 +91,10 @@
             {{#current_chat}}
             <div class="col-md-8 d-flex flex-column" style="height: 80vh;">
                 <div class="p-3 border-bottom">
-                    <a href="../product/{{current_chat.product.id}}" class="d-flex align-items-center text-decoration-none text-dark">
+                    <a href="../product/{{current_chat.product.id}}"
+                        class="d-flex align-items-center text-decoration-none text-dark">
                         <h5 class="m-0">{{current_chat_name}}</h5>
-                    </a>                                                            
+                    </a>
                 </div>
 
                 <div class="flex-grow-1 p-3 overflow-auto" style="background-color: #f8f9fa;" id="messages-container">
