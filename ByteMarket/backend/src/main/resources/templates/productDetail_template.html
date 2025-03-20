@@ -28,11 +28,11 @@
                 {{/images}}
             </div>
             <div class="col-md-6">
-                {{#product.isSold}}
+                {{#product.sold}}
                 <div class="alert alert-danger text-center fw-bold" role="alert">
                     ¡Producto Vendido!
                 </div>
-                {{/product.isSold}}
+                {{/product.sold}}
                 <h1 class="fw-bold">{{product.name}}</h1>
                 <h5 class="text">Categoría: {{product.category}}</h5>
                 <h3 class="text-success">{{product.price}}€</h3>
@@ -40,7 +40,7 @@
                 <p>{{product.description}}</p>
                 <div class="d-grid gap-2">
                     <div class="d-grid gap-2">
-                        {{^product.isSold}}
+                        {{^product.sold}}
                         {{#isOwner}}
                         <form action="/editProduct/{{product.id}}" method="get">
                             <button type="submit" class="btn btn-custom w-100">
@@ -89,7 +89,7 @@
                         {{/isFavorite}}
                         {{/isOwner}}
                         {{/admin}}
-                        {{/product.isSold}}
+                        {{/product.sold}}
                     </div>
                 </div>
             </div>
