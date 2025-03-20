@@ -56,7 +56,6 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-
     public List<UserBasicDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userBasicMapper::toDTO)
@@ -275,6 +274,7 @@ public class UserService {
                 sale.setSeller(deleteUser);
                 Product product = sale.getProduct();
                 product.setOwner(deleteUser);
+                productRepository.save(product);
                 productRepository.save(product);
                 purchaseService.save(sale);
             }
