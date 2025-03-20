@@ -115,13 +115,23 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
-                    // PRIVATE ENDPOINTS
-                    .requestMatchers(HttpMethod.POST,"/api/products/").hasRole("USER")
-                    .requestMatchers(HttpMethod.PUT,"/api/products/**").hasRole("USER")
-                    .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasRole("ADMIN")
-					// PUBLIC ENDPOINTS
+                     // PUBLIC ENDPOINTS
+					.requestMatchers(HttpMethod.GET, "/api/products").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/products/{id}").permitAll()
+
+					// PRIVATE ENDPOINTS
+					.requestMatchers(HttpMethod.POST, "/api/products").hasRole("USER")
+					.requestMatchers(HttpMethod.PUT, "/api/products/{id}").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.GET, "/api/products/favorites").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/products/purchased").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/products/sold").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/products/{id}/images").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/products/{productId}/images/{imageId}").hasRole("USER")
+		
 					.anyRequest().permitAll()
-			);
+
+					);
 		
         // Disable Form login Authentication
         http.formLogin(formLogin -> formLogin.disable());

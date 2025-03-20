@@ -255,6 +255,7 @@ public class ProductController {
         }
         return "redirect:/"; 
     }
+
     // Edit Product
     @GetMapping("/editProduct/{id}")
     public String editProduct(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
@@ -295,7 +296,6 @@ public class ProductController {
         return "redirect:/product/" + id;
     }
      
-
     @PostMapping("/delete/image/{id}")
     public String removeImage(@PathVariable long id, @RequestParam("productId") long productId, Model model) {
         Optional<ProductDTO> productOptional = productService.findById(productId);
@@ -379,7 +379,7 @@ public class ProductController {
         model.addAttribute("totalPages", productPage.getTotalPages());
 
         return "productByCategory";
-}
+    }
 
 
 }
