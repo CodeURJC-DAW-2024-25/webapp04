@@ -180,7 +180,7 @@ public class Product {
         return reports;
     }
     
-    public void setRepos(List<Report> reports) {
+    public void setReports(List<Report> reports) {
         this.reports = reports;
     }
 }

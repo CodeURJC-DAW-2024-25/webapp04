@@ -5,5 +5,5 @@ public final class Constants {
     private Constants() {
     }
 
-    public static String WEBAPP_BASE_URL = "http://localhost:8443";
+    public static String WEBAPP_BASE_URL = "https://localhost:8443";
 }
