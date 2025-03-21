@@ -23,7 +23,6 @@ import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.dto.UserBasicMapper;
 import es.grupo04.backend.dto.UserMapper;
-import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
