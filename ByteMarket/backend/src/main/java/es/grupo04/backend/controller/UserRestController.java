@@ -68,11 +68,13 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("Error en la validación de los datos");
         }
 
-        if (!userService.createAccount(user)) {
+        Optional<UserDTO> userOptional = userService.createAccount(user);
+
+        if (!userOptional.isPresent()) {
             return ResponseEntity.badRequest().body("El usuario ya tiene una cuenta");
         }
 
-        return ResponseEntity.ok("Cuenta creada exitosamente");
+        return ResponseEntity.ok(userOptional.get());
     }
 
     @DeleteMapping("/{userId}")
