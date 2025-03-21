@@ -36,22 +36,22 @@
                 <div class="profile-pic-wrapper">
                     {{^isOwnProfile}}
                     <a class="d-inline-block position-relative">
-                        {{#image}}
+                        {{#other.hasImage}}
                         <img class="profile-pic mb-3" src="/user/image/{{id}}" alt="pfp">
-                        {{/image}}
-                        {{^image}}
+                        {{/other.hasImage}}
+                        {{^other.hasImage}}
                         <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
-                        {{/image}}
+                        {{/other.hasImage}}
                     </a>
                     {{/isOwnProfile}}
                     {{#isOwnProfile}}
                     <a href="/editProfile" class="d-inline-block position-relative">
-                        {{#user.image}}
+                        {{#user.hasImage}}
                         <img class="profile-pic mb-3" src="/user/image/{{user.id}}" alt="pfp">
-                        {{/user.image}}
-                        {{^user.image}}
+                        {{/user.hasImage}}
+                        {{^user.hasImage}}
                         <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
-                        {{/user.image}}
+                        {{/user.hasImage}}
                         <span class="edit-icon">
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
                         </span>

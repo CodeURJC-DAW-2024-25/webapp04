@@ -98,12 +98,12 @@
         <h3>Información del vendedor</h3>
         <div class="d-flex align-items-center">
             <a href="../profile/{{product.owner.id}}" class="d-flex align-items-center text-decoration-none">
-                {{#product.owner.image}}
+                {{#product.owner.hasImage}}
                 <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
-                {{/product.owner.image}}
-                {{^product.owner.image}}
+                {{/product.owner.hasImage}}
+                {{^product.owner.hasImage}}
                 <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
-                {{/product.owner.image}}
+                {{/product.owner.hasImage}}
                 <input type="hidden" name="_csrf" value="{{token}}" />
             </a>
 
