@@ -1,5 +1,6 @@
 package es.grupo04.backend.service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class MessageService {
 
     public Message createMessage(String messageContent, UserBasicDTO senderDTO, ChatDTO chatDTO) {
         Chat chat = chatRepository.findById(chatDTO.id())
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         Optional<User> userOptional = userRepository.findById(senderDTO.id());
-        User sender = userOptional.orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        User sender = userOptional.orElseThrow(() -> new NoSuchElementException());
 
         Message newMessage = new Message(messageContent, sender, chat);
         return messageRepository.save(newMessage);

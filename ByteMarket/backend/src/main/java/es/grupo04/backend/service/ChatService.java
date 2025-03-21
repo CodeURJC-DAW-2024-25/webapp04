@@ -35,10 +35,10 @@ public class ChatService {
 
     public ChatDTO createChat(UserBasicDTO buyerDTO, UserBasicDTO sellerDTO, Long productId) {
         Optional<User> buyerOptional = userRepository.findById(buyerDTO.id());
-        User buyer = buyerOptional.orElseThrow(() -> new RuntimeException("Buyer not found"));
+        User buyer = buyerOptional.orElseThrow(() -> new NoSuchElementException());
 
         Optional<User> sellerOptional = userRepository.findById(sellerDTO.id());
-        User seller = sellerOptional.orElseThrow(() -> new RuntimeException("Seller not found"));
+        User seller = sellerOptional.orElseThrow(() -> new NoSuchElementException());
         
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
@@ -55,10 +55,10 @@ public class ChatService {
 
     public ChatDTO findChat(UserBasicDTO buyerDTO, UserBasicDTO sellerDTO, Long productId) {
         Optional<User> buyerOptional = userRepository.findById(buyerDTO.id());
-        User buyer = buyerOptional.orElseThrow(() -> new RuntimeException("Buyer not found"));
+        User buyer = buyerOptional.orElseThrow(() -> new NoSuchElementException());
 
         Optional<User> sellerOptional = userRepository.findById(sellerDTO.id());
-        User seller = sellerOptional.orElseThrow(() -> new RuntimeException("Seller not found"));
+        User seller = sellerOptional.orElseThrow(() -> new NoSuchElementException());
 
         Chat chat = chatRepository.findByUsersAndProduct(buyer, seller, productId);
         return chat != null ? chatMapper.toDTO(chat) : null;
@@ -70,7 +70,7 @@ public class ChatService {
     
     public List<ChatDTO> findChatsByUserId(Long userId) {
     Optional<User> userOptional = userRepository.findById(userId);
-    User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+    User user = userOptional.orElseThrow(() -> new NoSuchElementException());
 
     List<Chat> chats = chatRepository.findByUserBuyerOrUserSeller(user, user);
     return chats.stream()

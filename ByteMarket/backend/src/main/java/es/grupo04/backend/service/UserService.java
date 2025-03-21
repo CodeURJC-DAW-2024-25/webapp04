@@ -5,6 +5,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -66,32 +67,32 @@ public class UserService {
 
     public Optional<UserBasicDTO> findByMail(String mail) {
         return Optional.of(userBasicMapper.toDTO(userRepository.findByMail(mail)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<UserDTO> findByMailExtendedInfo(String mail) {
         return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<EditUserDTO> findByMailEdit(String mail) {
         return Optional.of(edit.toDTO(userRepository.findByMail(mail)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<UserBasicDTO> findById(Long id) {
         return Optional.of(userBasicMapper.toDTO(userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<UserDTO> findByIdExtendedInfo(Long id) {
         return Optional.of(userMapper.toDTO(userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<UserBasicDTO> findByName(String name) {
         return Optional.of(userBasicMapper.toDTO(userRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+                .orElseThrow(() -> new NoSuchElementException())));
     }
 
     public Optional<UserDTO> createAccount(NewUserDTO userDTO) {
@@ -128,9 +129,9 @@ public class UserService {
     // Add to favorites
     public boolean addToFavorite(Long productId, UserBasicDTO userDTO) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
 
         // Check if the user is the owner of the product
         if (isOwner(user, product)) {
@@ -153,9 +154,9 @@ public class UserService {
 
     public boolean removeFromFavorite(Long productId, UserBasicDTO userDTO) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
 
         // Get the list of favorite products
         List<Product> favoriteProducts = user.getFavoriteProducts();
@@ -178,7 +179,7 @@ public class UserService {
         System.out.println("Datos de DTO: " + editUserDTO.profilePicInput());
         // Get the user from the repository
         User user = userRepository.findById(oldUser.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
 
         // Name update
         if (editUserDTO.name() != null && !editUserDTO.name().equals(user.getName())) {
@@ -221,9 +222,9 @@ public class UserService {
     public boolean isFavorite(UserDTO user, Long productId) {
         Long userId = user.id();
         User userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         Product productEntity = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         return userEntity.getFavoriteProducts().contains(productEntity);
     }
 
@@ -256,7 +257,7 @@ public class UserService {
     public void saveProfilePic(UserBasicDTO userDTO, MultipartFile profilePic) throws IOException {
         System.out.println("Guardando imagen de perfil para el usuario: " + profilePic.getOriginalFilename());
         User user = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(), profilePic.getSize());
         user.setImageFile(blob);
         user.setImage(true);
@@ -264,7 +265,7 @@ public class UserService {
 
     public void delete(UserBasicDTO userDTO) {
         User user = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         User deleteUser = userRepository.findById(Long.valueOf(1))
                 .orElseThrow(() -> new RuntimeException("Usuario Eliminado no encontrado"));
 
@@ -298,7 +299,7 @@ public class UserService {
         HashMap<Integer, ChartData> sales = new HashMap<>();
 
         User user = userRepository.findById(userDto.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
 
         for (Purchase purchase : user.getPurchases()) {
             int month = purchase.getPurchaseDate().getMonthValue();
