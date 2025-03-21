@@ -16,12 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.dto.EditUserDTO;
+import es.grupo04.backend.dto.EditUserMapper;
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.dto.UserBasicMapper;
 import es.grupo04.backend.dto.UserMapper;
+import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
@@ -49,6 +51,9 @@ public class UserService {
     private UserBasicMapper userBasicMapper;
 
     @Autowired
+    private EditUserMapper edit;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
@@ -67,6 +72,11 @@ public class UserService {
 
     public Optional<UserDTO> findByMailExtendedInfo(String mail) {
         return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
+    }
+
+    public Optional<EditUserDTO> findByMailEdit(String mail) {
+        return Optional.of(edit.toDTO(userRepository.findByMail(mail)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
@@ -164,9 +174,11 @@ public class UserService {
         }
     }
 
-    public Optional<String> editProfile(EditUserDTO editUserDTO) {
+    public Optional<String> editProfile(UserBasicDTO oldUser, EditUserDTO editUserDTO) {
+        System.out.println("Editando usuario: " + oldUser.id() + " con los datos: " + editUserDTO.profilePicInput());
+        System.out.println("Datos de DTO: " + editUserDTO.profilePicInput());
         // Get the user from the repository
-        User user = userRepository.findById(editUserDTO.id())
+        User user = userRepository.findById(oldUser.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // Name update
@@ -178,34 +190,19 @@ public class UserService {
         }
 
         // Password update
-        if (editUserDTO.password() != null && !editUserDTO.password().isEmpty() &&
-                editUserDTO.repeatPassword() != null && !editUserDTO.repeatPassword().isEmpty()) {
+        if (editUserDTO.newPass() != null && !editUserDTO.newPass().isEmpty() &&
+                editUserDTO.repeatPass() != null && !editUserDTO.repeatPass().isEmpty()) {
 
-            if (!editUserDTO.password().equals(editUserDTO.repeatPassword())) {
+            if (!editUserDTO.newPass().equals(editUserDTO.repeatPass())) {
                 return Optional.of("Las contraseñas no coinciden");
             }
-            user.setEncodedPassword(passwordEncoder.encode(editUserDTO.password()));
+            user.setEncodedPassword(passwordEncoder.encode(editUserDTO.newPass()));
         }
 
         // Address update
         if (editUserDTO.iframe() != null && !editUserDTO.iframe().isEmpty()) {
             user.setIframe(editUserDTO.iframe());
         }
-
-        // Image update
-        if (editUserDTO.profileImage() != null && editUserDTO.profileImage().length() > 0) {
-            try {
-                Blob blob = BlobProxy.generateProxy(editUserDTO.image().getInputStream(), editUserDTO.image().getSize());
-                user.setImageFile(blob);
-                user.setImage(true);
-            } catch (Exception e) {
-                return Optional.of("Error al procesar la imagen");
-            }
-        } else if (editUserDTO.profileImage() == null) {
-            user.setImage(false);
-            user.setImageFile(null);
-        }
-
         userRepository.save(user);
         return Optional.empty();
     }
@@ -255,8 +252,9 @@ public class UserService {
         }
         return true;
     }
-
+    
     public void saveProfilePic(UserBasicDTO userDTO, MultipartFile profilePic) throws IOException {
+        System.out.println("Guardando imagen de perfil para el usuario: " + profilePic.getOriginalFilename());
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(), profilePic.getSize());
@@ -333,5 +331,17 @@ public class UserService {
     public UserDTO getUserDTO(Long id) {
         User user = userRepository.findById(id).get();
         return userMapper.toDTO(user);
+    }
+
+    public Blob getImage(UserDTO userDTO) {
+        System.out.println("Obteniendo imagen de perfil para el usuario: " + userDTO.id());
+        User user = userRepository.findById(userDTO.id()).get();
+        return user.getImageFile();
+    }
+
+    public Optional<User> findByIdPrueba(Long id) {
+       
+            return userRepository.findById(id);
+        
     }
 }

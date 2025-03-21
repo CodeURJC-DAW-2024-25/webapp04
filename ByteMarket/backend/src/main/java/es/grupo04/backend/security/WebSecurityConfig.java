@@ -118,19 +118,22 @@ public class WebSecurityConfig {
                      // PUBLIC ENDPOINTS
 					.requestMatchers(HttpMethod.GET, "/api/products").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/products/{id}").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/users/signin").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/users/{userId}").permitAll()
 
 					// PRIVATE ENDPOINTS
 					.requestMatchers(HttpMethod.POST, "/api/products").hasRole("USER")
 					.requestMatchers(HttpMethod.PUT, "/api/products/{id}").hasRole("USER")
-					.requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.GET, "/api/products/favorites").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/products/purchased").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/products/sold").hasRole("USER")
 					.requestMatchers(HttpMethod.POST, "/api/products/{id}/images").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/products/{productId}/images/{imageId}").hasRole("USER")
-		
-					.anyRequest().permitAll()
+					//.requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyRole("USER", "ADMIN") --> Don't add cause it requires full authentification				
+					.requestMatchers(HttpMethod.DELETE, "/api/users/{userId}").hasAnyRole("ADMIN","USER")
 
+					.anyRequest().permitAll()
 					);
 		
         // Disable Form login Authentication
