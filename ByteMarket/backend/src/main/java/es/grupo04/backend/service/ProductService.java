@@ -55,7 +55,11 @@ public class ProductService {
 	private ImageService imageService;
 
 	public Optional<ProductDTO> findById(long id) {
-		return Optional.of(productMapper.toDTO(repository.findById(id).get()));
+		Optional<Product> productOpt = repository.findById(id);
+		if (productOpt.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(productMapper.toDTO(productOpt.get()));
 	}
 
 	public Page<ProductDTO> findProductsByOwner(UserDTO ownerDTO, int page, int pageSize) {
@@ -74,6 +78,10 @@ public class ProductService {
 
 	// Save a product
 	public ProductDTO save(NewProductDTO product, Long ownerId) throws IOException {
+		if(!Constants.VALID_CATEGORIES.contains(product.category())) {
+			return null;
+		}
+
 		Product newProduct = newProductMapper.toDomain(product);
 		addImages(newProduct, product.imageUpload());
 		User owner = userRepository.findById(ownerId).get();
@@ -196,12 +204,11 @@ public class ProductService {
 	}
 
 	// Pagination
-	/* 
-	public List<Product> findPaginated(int page, int pageSize) {
-		Pageable pageable = PageRequest.of(page, pageSize);
+	
+	public Page<ProductDTO> findPaginated(Pageable pageable) {
 		Page<Product> productPage = repository.findAll(pageable);
-		return productPage.getContent();
-	}*/
+		return productPage.map(productMapper::toDTO);
+	}
 
 	// Pagination for available products
 	public Page<ProductDTO> findPaginatedAvailable(int page, int pageSize) {
@@ -272,7 +279,11 @@ public class ProductService {
 		repository.save(product);
     }
 
-    public void updateProduct(ProductDTO oldProductDTO, NewProductDTO newProductDTO) {
+    public Optional<ProductDTO> updateProduct(ProductDTO oldProductDTO, NewProductDTO newProductDTO) {
+		if(!Constants.VALID_CATEGORIES.contains(newProductDTO.category())) {
+			return null;
+		}
+
 		Product oldProduct = repository.findById(oldProductDTO.id()).get();
 		Product product = newProductMapper.toDomain(newProductDTO);
 		oldProduct.setName(product.getName());
@@ -280,6 +291,8 @@ public class ProductService {
 		oldProduct.setCategory(product.getCategory());
 		oldProduct.setPrice(product.getPrice());
 		repository.save(oldProduct);
+
+		return Optional.of(productMapper.toDTO(oldProduct));
     }
 
 	public void removeImage(long productId, long id) {

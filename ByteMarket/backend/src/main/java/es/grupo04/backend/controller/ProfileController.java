@@ -2,7 +2,6 @@ package es.grupo04.backend.controller;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +30,6 @@ import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ReviewDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
-import es.grupo04.backend.model.Product;
-import es.grupo04.backend.model.Review;
-import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.ChartData;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.ReviewService;

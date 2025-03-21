@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.grupo04.backend.dto.ChatDTO;
-import es.grupo04.backend.dto.ProductBasicMapper;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ProductMapper;
 import es.grupo04.backend.dto.PurchaseDTO;

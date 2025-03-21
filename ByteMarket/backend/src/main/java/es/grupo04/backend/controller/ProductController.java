@@ -88,7 +88,7 @@ public class ProductController {
 
         if (productOptional.isEmpty()) {
             model.addAttribute("message", "Producto no encontrado"); 
-            return "error"; 
+            return "error";
         }
         ProductDTO product = productOptional.get();
         model.addAttribute("product", product);
@@ -292,7 +292,11 @@ public class ProductController {
             return "error";
         }
         ProductDTO oldProduct = optionalProduct.get();
-        productService.updateProduct(oldProduct, product);
+        Optional<ProductDTO> editedProduct = productService.updateProduct(oldProduct, product);
+        if(!editedProduct.isPresent()){
+            model.addAttribute("message", "Campo del formulario no válido");
+            return "error";
+        }
         return "redirect:/product/" + id;
     }
      
@@ -345,6 +349,10 @@ public class ProductController {
 
         Long ownerId = userService.findByMail(principal.getName()).get().id();
         ProductDTO savedProduct = productService.save(product, ownerId);
+        if(savedProduct == null){
+            model.addAttribute("message", "Campo del formulario no válido");
+            return "error";
+        }
 
         model.addAttribute("productId", savedProduct.id()); // add id of the product as attribute
         return "redirect:/product/" + savedProduct.id(); // redirect to the detail screen product created as new
