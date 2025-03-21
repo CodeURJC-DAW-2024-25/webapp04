@@ -2,6 +2,7 @@ package es.grupo04.backend.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.InputStreamResource;
 
 import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.NewReviewDTO;
