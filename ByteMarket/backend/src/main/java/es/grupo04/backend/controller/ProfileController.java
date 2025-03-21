@@ -61,7 +61,7 @@ public class ProfileController {
 
         if (principal != null) {
 
-            UserBasicDTO user = userService.findByMail(principal.getName()).get();
+            UserDTO user = userService.findByMailExtendedInfo(principal.getName()).get();
 
             model.addAttribute("logged", true);
             model.addAttribute("userName", user.name());    
@@ -82,7 +82,8 @@ public class ProfileController {
 
         int pageSize = 8;
         Optional<UserDTO> optionalUser = userService.findByMailExtendedInfo(userDetails.getUsername());
-
+        
+        System.out.println("Imagen de la url: " + optionalUser.get().image());
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
@@ -207,11 +208,15 @@ public class ProfileController {
             isOwnProfile = false;
             model.addAttribute("user", null);
         }else{
-            Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
-            UserBasicDTO user = optionalUser.get();
+            Optional<UserDTO> optionalUser = userService.findByMailExtendedInfo(userDetails.getUsername());
+            UserDTO user = optionalUser.get();
             isOwnProfile = user.equals(profileUser);
             model.addAttribute("user", user);
         }
+        if(!isOwnProfile){
+            model.addAttribute("other", profileUser);
+        }
+
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
@@ -219,7 +224,7 @@ public class ProfileController {
             model.addAttribute("location", profileUser.iframe());
         }
         if(!isOwnProfile){
-            model.addAttribute("image", profileUser.profileImage());
+            model.addAttribute("image", profileUser.image());
             model.addAttribute("id", profileUser.id());
         }
         model.addAttribute("isOwnProfile", isOwnProfile);
@@ -317,7 +322,6 @@ public class ProfileController {
 
         return "redirect:/profile";
     }
-
     
     @GetMapping("/user/image/{id}")
     public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
@@ -326,14 +330,11 @@ public class ProfileController {
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        String imageURL = userOptional.get().profileImage();
 
-        if (imageURL == null || imageURL.isEmpty()) {
-            return ResponseEntity.notFound().build();  
-        }
-        return ResponseEntity.status(302)  
-        .header(HttpHeaders.LOCATION, imageURL)  
-        .build();
+        Blob image = userService.getImage(userOptional.get());
+        Resource file = new InputStreamResource(image.getBinaryStream());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .contentLength(image.length()).body(file);
     }
 
     @PostMapping("/deleteAccount")

@@ -9,7 +9,7 @@ import es.grupo04.backend.service.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserBasicMapper.class})
 public interface ProductMapper {
 
     @Mapping(target = "imageUrls", expression = "java(mapImages(product))")
@@ -33,5 +33,5 @@ public interface ProductMapper {
     default String mapThumbnail(Product product) {
         return Constants.WEBAPP_BASE_URL + "/product/image/" + product.getImages().get(0).getId();
     }
-
+    
 }

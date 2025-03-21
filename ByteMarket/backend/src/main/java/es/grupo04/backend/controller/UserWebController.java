@@ -57,7 +57,7 @@ public class UserWebController {
 
    @GetMapping("/signin")
    public String signin(Model model) {
-      model.addAttribute("user", new User());
+      model.addAttribute("user", new NewUserDTO(null, null, null, null));
       return "signin_template";
    }
 

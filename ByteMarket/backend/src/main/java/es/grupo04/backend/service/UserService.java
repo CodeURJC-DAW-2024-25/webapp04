@@ -101,10 +101,11 @@ public class UserService {
         if (userRepository.findByMail(userDTO.mail()).isPresent()) {
             return true;
         } else {
-            User user = new User(userDTO.mail(), userDTO.name(), userDTO.password());
+            User user = new User();
+            user.setMail(userDTO.mail());
+            user.setName(userDTO.name());
             user.setRoles(List.of("USER"));
-
-            String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
+            String encodedPassword = passwordEncoder.encode(userDTO.password());
             user.setEncodedPassword(encodedPassword);
             userRepository.save(user);
             return false;
@@ -116,15 +117,13 @@ public class UserService {
         if (!validateName(user.name())) { // Check if name is valid
             return false;
         }
-
         if (!validateMail(user)) { // Check if mail is valid
             return false;
         }
-
         if (!validatePassword(user)) { // Check if password is valid
             return false;
         }
-
+        System.out.println("Contraseña válida");
         return true; // If all checks pass, return true
     }
 
@@ -211,17 +210,17 @@ public class UserService {
 
     // Is Owner
     public boolean isOwner(User user, Product product) {
-        return user.equals(product.getOwner());
+            return user.equals(product.getOwner());
     }
 
-    public boolean isOwner(UserBasicDTO userDTO, ProductDTO productDTO) {
+    public boolean isOwner(UserDTO userDTO, ProductDTO productDTO) {
         User user = userRepository.findById(userDTO.id()).get();
         Product product = productRepository.findById(productDTO.id()).get();
         return user.equals(product.getOwner());
     }
 
     // Is Favorite
-    public boolean isFavorite(UserBasicDTO user, Long productId) {
+    public boolean isFavorite(UserDTO user, Long productId) {
         Long userId = user.id();
         User userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -247,6 +246,7 @@ public class UserService {
         return true;
     }
 
+    
     private boolean validateMail(NewUserDTO user) {
         String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"; // Email regex
         if (user.mail() == null || user.mail().isEmpty() || !Pattern.matches(emailRegex, user.mail())) {
@@ -325,8 +325,8 @@ public class UserService {
         return stats;
     }
 
-    public boolean hasBought(UserBasicDTO user, Long ownerId) {
-        UserBasicDTO owner = userBasicMapper.toDTO(userRepository.findById(ownerId).get());
+    public boolean hasBought(UserDTO user, Long ownerId) {
+        UserDTO owner = userMapper.toDTO(userRepository.findById(ownerId).get());
         return purchaseService.hasBought(user, owner);
     }
 

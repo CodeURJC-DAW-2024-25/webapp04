@@ -46,12 +46,12 @@
             <div class="col-3 header-profile justify-content-end" height="55">
                 <a href="/adminProfile" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        {{#user.image}}
+                        {{#user.hasImage}}
                         <img class="profilePic" src="/user/image/{{user.id}}" alt="pfp">
-                        {{/user.image}}
-                        {{^user.image}}
+                        {{/user.hasImage}}
+                        {{^user.hasImage}}
                         <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
-                        {{/user.image}}
+                        {{/user.hasImage}}
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>
@@ -97,12 +97,12 @@
             <div class="col-3 header-profile justify-content-end" height="55">
                 <a href="/profile" class="d-flex align-items-center text-decoration-none">
                     <div>
-                        {{#user.image}}
+                        {{#user.hasImage}}
                         <img class="profilePic" src="/user/image/{{user.id}}" alt="pfp">
-                        {{/user.image}}
-                        {{^user.image}}
+                        {{/user.hasImage}}
+                        {{^user.hasImage}}
                         <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
-                        {{/user.image}}
+                        {{/user.hasImage}}
                     </div>
                     <div>
                         <p class="text-white fw-bolder mb-0">{{userName}}</p>

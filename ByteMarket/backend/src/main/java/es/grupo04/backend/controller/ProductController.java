@@ -101,7 +101,7 @@ public class ProductController {
         boolean deletedUser = false;
 
         if (principal != null) {
-            Optional<UserBasicDTO> userOptional = userService.findByMail(principal.getName());
+            Optional<UserDTO> userOptional = userService.findByMailExtendedInfo(principal.getName());
             if (userOptional.isPresent()) {
                 isOwner = userService.isOwner(userOptional.get(), product);
                 isFavorite = userService.isFavorite(userOptional.get(), product.id());
