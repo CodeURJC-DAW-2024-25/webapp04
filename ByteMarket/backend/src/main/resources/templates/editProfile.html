@@ -34,12 +34,12 @@
 
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
-                    {{#user.image}}
+                    {{#user.hasImage}}
                     <img class="profile-pic mb-3" src="/user/image/{{user.id}}" id="pfp-preview" alt="pfp">
-                    {{/user.image}}
-                    {{^user.image}}
+                    {{/user.hasImage}}
+                    {{^user.hasImage}}
                     <img class="profile-pic mb-3" src="/images/default_pfp.jpg" id="pfp-preview" alt="pfp">
-                    {{/user.image}}
+                    {{/user.hasImage}}
                     <span class="edit-icon">
                         <i class="bi bi-upload"></i>
                     </span>

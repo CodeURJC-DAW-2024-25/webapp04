@@ -57,19 +57,21 @@ public class UserWebController {
 
    @GetMapping("/signin")
    public String signin(Model model) {
-      model.addAttribute("user", new User());
+      model.addAttribute("user", new NewUserDTO(null, null, null, null));
       return "signin_template";
    }
 
    @PostMapping("/signin")
    public String createUser(Model model, @ModelAttribute NewUserDTO user, String confirmPassword) {
       if (userService.validateUser(user)) {
-         if (userService.createAccount(user)) { // If the user already has an account
+
+         if (userService.createAccount(user).isEmpty()) { // If the user already has an account
             model.addAttribute("message", "El usuario ya tiene una cuenta");
             return "error";
          } else {
             return "login_template";
          }
+         
       } else {
          model.addAttribute("message", "Error en la validación de los datos");
          return "error";

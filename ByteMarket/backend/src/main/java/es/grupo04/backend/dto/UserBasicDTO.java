@@ -5,6 +5,9 @@ package es.grupo04.backend.dto;
 */ 
 public record UserBasicDTO(
     Long id,
-    String name
+    String name,
+    // image is the URL of the user's profile image so that it can be easily displayed
+    String image,       
+    Boolean hasImage
 ) {
 }

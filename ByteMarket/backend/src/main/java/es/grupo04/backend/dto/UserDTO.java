@@ -14,7 +14,8 @@ public record UserDTO (
     List<ProductBasicDTO> sales,
     List<ProductBasicDTO> purchases,
     String iframe,
-    String profileImage
+    String image,
+    Boolean hasImage
     
 ){
 }

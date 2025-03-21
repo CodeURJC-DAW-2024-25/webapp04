@@ -104,15 +104,15 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
-    public boolean hasBought(UserBasicDTO userDTO, UserBasicDTO ownerDTO) {
-        User user = userRepository.findById(userDTO.id())
+    public boolean hasBought(UserDTO user2, UserDTO owner2) {
+        User user = userRepository.findById(user2.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        User owner = userRepository.findById(ownerDTO.id())
+        User owner = userRepository.findById(owner2.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
     }
 
-    public boolean hasUserBoughtProduct(UserBasicDTO userDTO, ProductDTO productDTO) {
+    public boolean hasUserBoughtProduct(UserDTO userDTO, ProductDTO productDTO) {
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         Product product = productRepository.findById(productDTO.id())

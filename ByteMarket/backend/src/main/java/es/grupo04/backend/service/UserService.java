@@ -20,10 +20,9 @@ import es.grupo04.backend.dto.EditUserMapper;
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
-import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.dto.UserBasicMapper;
+import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.dto.UserMapper;
-import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
 import es.grupo04.backend.model.Purchase;
 import es.grupo04.backend.model.User;
@@ -95,34 +94,34 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))));
     }
 
-    public boolean createAccount(NewUserDTO userDTO) {
+    public Optional<UserDTO> createAccount(NewUserDTO userDTO) {
         if (userRepository.findByMail(userDTO.mail()).isPresent()) {
-            return true;
+            return Optional.empty();
         } else {
-            User user = new User(userDTO.mail(), userDTO.name(), userDTO.password());
+            User user = new User(userDTO.name(), userDTO.password(), userDTO.mail());
             user.setRoles(List.of("USER"));
-
-            String encodedPassword = passwordEncoder.encode(user.getEncodedPassword());
+            String encodedPassword = passwordEncoder.encode(userDTO.password());
             user.setEncodedPassword(encodedPassword);
-            userRepository.save(user);
-            return false;
+            User savedUser = userRepository.save(user);
+            return Optional.of(userMapper.toDTO(savedUser));
         }
     }
 
     // User Validation
     public boolean validateUser(NewUserDTO user) {
         if (!validateName(user.name())) { // Check if name is valid
+            System.out.println("\n\n\nHa pasado: Nombre no válido");
             return false;
         }
-
         if (!validateMail(user)) { // Check if mail is valid
+            System.out.println("\n\n\nHa pasado: Mail no válido");
             return false;
         }
-
         if (!validatePassword(user)) { // Check if password is valid
+            System.out.println("\n\n\nHa pasado: Contraseña no válido");
             return false;
         }
-
+        System.out.println("Contraseña válida");
         return true; // If all checks pass, return true
     }
 
@@ -209,17 +208,17 @@ public class UserService {
 
     // Is Owner
     public boolean isOwner(User user, Product product) {
-        return user.equals(product.getOwner());
+            return user.equals(product.getOwner());
     }
 
-    public boolean isOwner(UserBasicDTO userDTO, ProductDTO productDTO) {
+    public boolean isOwner(UserDTO userDTO, ProductDTO productDTO) {
         User user = userRepository.findById(userDTO.id()).get();
         Product product = productRepository.findById(productDTO.id()).get();
         return user.equals(product.getOwner());
     }
 
     // Is Favorite
-    public boolean isFavorite(UserBasicDTO user, Long productId) {
+    public boolean isFavorite(UserDTO user, Long productId) {
         Long userId = user.id();
         User userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -245,6 +244,7 @@ public class UserService {
         return true;
     }
 
+    
     private boolean validateMail(NewUserDTO user) {
         String emailRegex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"; // Email regex
         if (user.mail() == null || user.mail().isEmpty() || !Pattern.matches(emailRegex, user.mail())) {
@@ -323,8 +323,8 @@ public class UserService {
         return stats;
     }
 
-    public boolean hasBought(UserBasicDTO user, Long ownerId) {
-        UserBasicDTO owner = userBasicMapper.toDTO(userRepository.findById(ownerId).get());
+    public boolean hasBought(UserDTO user, Long ownerId) {
+        UserDTO owner = userMapper.toDTO(userRepository.findById(ownerId).get());
         return purchaseService.hasBought(user, owner);
     }
 
