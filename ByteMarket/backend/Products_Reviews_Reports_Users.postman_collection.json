@@ -1,0 +1,720 @@
+{
+	"info": {
+		"_postman_id": "4355ce47-b5c3-497b-bca1-3fdef5601930",
+		"name": "TestingWebapp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43303164"
+	},
+	"item": [
+		{
+			"name": "Rest Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"pedro@gmail.com\",\r\n    \"password\" : \"12341234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/login",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/refresh",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/logout",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Admin Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"sara@gmail.com\",\r\n    \"password\" : \"Password1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/login",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Sign In",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Pepe",
+							"type": "text"
+						},
+						{
+							"key": "mail",
+							"value": "pepe@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "pass1234",
+							"type": "text"
+						},
+						{
+							"key": "repeatPassword",
+							"value": "pass1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/signin",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Favorites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/favorites",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchases",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/purchases",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"purchases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/sales",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"sales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Prueba",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Esto es un producto para probar la creación de productos usando la API REST",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "100",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Otros",
+							"type": "text"
+						},
+						{
+							"key": "imageUpload",
+							"type": "file",
+							"src": [
+								"postman-cloud:///1f005e0f-4c10-48f0-9943-0d7389335e02",
+								"postman-cloud:///1f005e0f-4b48-45d0-8523-3f10ebf8c404",
+								"postman-cloud:///1f005e0f-4c50-4090-adb7-3453dc250928"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Prueba Actualizada",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Esto es un producto para probar la creación de productos usando la API REST",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "50",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Móviles",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/33",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1f005e0f-4c10-48f0-9943-0d7389335e02"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/33/images",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"33",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Image",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "postman-cloud:///1f005e0f-4c10-48f0-9943-0d7389335e02"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/33/images/49",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"33",
+						"images",
+						"49"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/33",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Own Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/me",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/2",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/2",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Reviews",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/5/reviews",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"5",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/reviews/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Review",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "rating",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Gran producto, mejor persona",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/5/reviews",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"5",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Review",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/reviews/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reviews",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reports",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/reports",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Report",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "reason",
+							"value": "Producto Dañado",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "descripcion sobre el problema ocurrido",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/reports/products/6",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reports",
+						"products",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Report",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/reports/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"reports",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

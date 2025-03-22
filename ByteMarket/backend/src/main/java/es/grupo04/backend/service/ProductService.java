@@ -302,7 +302,17 @@ public class ProductService {
 		}
 		product.getImages().remove(imageService.findById(id).get());
 		imageService.delete(id);
-	}		
+	}
+
+    public boolean imageBelongsToProduct(long productId, long imageId) {
+        Product product = repository.findById(productId).get();
+		for(Image image : product.getImages()) {
+			if(image.getId() == imageId) {
+				return true;
+			}
+		}
+		return false;
+    }		
 
 
 
