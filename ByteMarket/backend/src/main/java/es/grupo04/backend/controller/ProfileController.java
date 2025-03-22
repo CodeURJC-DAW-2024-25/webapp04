@@ -324,7 +324,7 @@ public class ProfileController {
     }
     
     @GetMapping("/user/image/{id}")
-    public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
+    public ResponseEntity<Object> getProfileImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
 
         if (userOptional.isEmpty()) {

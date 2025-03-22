@@ -53,13 +53,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ProfileRestController {
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
-    private ReviewService reviewService;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
@@ -126,7 +120,7 @@ public class ProfileRestController {
         EditUserDTO updatedUser = new EditUserDTO(currentUserOptional.get().id(), principal.getName(), name, address, newPass, repeatPass, iframe, profilePicInput, currentUserOptional.get().hasImage());
         
         if (profilePicInput != null && !profilePicInput.isEmpty()) {
-            userService.saveProfilePic(currentUserOptional.get(), profilePicInput);  // Método para guardar la imagen
+            userService.saveProfilePic(currentUserOptional.get(), profilePicInput);  
         }
 
         Optional<String> message = userService.editProfile(currentUserOptional.get(), updatedUser);

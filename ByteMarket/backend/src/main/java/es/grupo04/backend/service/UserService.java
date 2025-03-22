@@ -127,7 +127,7 @@ public class UserService {
     }
 
     // Add to favorites
-    public boolean addToFavorite(Long productId, UserBasicDTO userDTO) {
+    public boolean addToFavorite(Long productId, UserDTO userDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userDTO.id())
@@ -152,7 +152,7 @@ public class UserService {
         }
     }
 
-    public boolean removeFromFavorite(Long productId, UserBasicDTO userDTO) {
+    public boolean removeFromFavorite(Long productId, UserDTO userDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException());
         User user = userRepository.findById(userDTO.id())
