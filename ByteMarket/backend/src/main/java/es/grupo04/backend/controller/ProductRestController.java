@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -213,7 +212,7 @@ public class ProductRestController {
 
         UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
 
-        List<ProductDTO> products = productService.getLastPurchases(userDTO);
+        List<ProductDTO> products = productService.getLastSales(userDTO);
         return ResponseEntity.ok(products);
 
     }
@@ -259,6 +258,10 @@ public class ProductRestController {
         ProductDTO productDTO = optionalProduct.get();
         if (productDTO.owner().id() != userDTO.id()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        if (!productService.imageBelongsToProduct(productId, imageId)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         productService.removeImage(productId, imageId);

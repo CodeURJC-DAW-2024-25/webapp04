@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/product/image/**").permitAll()
 					.requestMatchers("/user/image/**").permitAll()
 					.requestMatchers("/profile/**").permitAll()
+					.requestMatchers("/v3/api-docs", "/v3/api-docs**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // to generate the OpenAPI documentation
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/adminProfile").hasAnyRole("ADMIN")
@@ -130,8 +131,8 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/products/favorites").hasRole("USER")
-					.requestMatchers(HttpMethod.GET, "/api/v1/products/purchased").hasRole("USER")
-					.requestMatchers(HttpMethod.GET, "/api/v1/products/sold").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/purchases").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/sales").hasRole("USER")
 					.requestMatchers(HttpMethod.POST, "/api/v1/products/{id}/images").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{productId}/images/{imageId}").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("USER", "ADMIN")	
@@ -142,6 +143,11 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.GET, "/api/v1/reports").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.POST, "/api/v1/reports/products/{productId}").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/reports/{reportId}").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.GET, "/api/v1/chats").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/chats/{id}").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{productId}").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/send").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/sell").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/profile/stats").hasRole("USER")
 
 					.anyRequest().permitAll()
