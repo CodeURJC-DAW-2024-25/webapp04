@@ -1,6 +1,7 @@
 package es.grupo04.backend.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.MessageDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
@@ -21,6 +23,7 @@ import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/v1/chats")
@@ -72,7 +75,10 @@ public class ChatRestController {
             return ResponseEntity.ok(existingChat);
         } else {
             ChatDTO newChat = chatService.createChat(userDTO, product.owner(), productId);
-            return ResponseEntity.ok(newChat);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .buildAndExpand(newChat.id())
+                .toUri();
+            return ResponseEntity.created(location).body(newChat);
         }
     }
 
@@ -97,7 +103,7 @@ public class ChatRestController {
     }
 
     @PostMapping("/{id}/send")
-    public ResponseEntity<Void> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
+    public ResponseEntity<?> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -111,13 +117,16 @@ public class ChatRestController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para ver este chat");
         }
 
-        messageService.createMessage(message, sender, chat);
-        
-        return ResponseEntity.ok().build();
+        MessageDTO messageDTO = messageService.createMessage(message, sender, chat);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/")
+                .buildAndExpand(messageDTO.id())
+                .toUri();
+        return ResponseEntity.created(location).body(messageDTO);
     }
 
     @PostMapping("/{id}/sell")
-    public ResponseEntity<Void> sellProduct(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<?> sellProduct(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -138,6 +147,11 @@ public class ChatRestController {
         if (purchase == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo completar la venta");
         }
-        return ResponseEntity.ok().build();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+        .path("/")
+        .buildAndExpand(purchase.id())
+        .toUri();
+        return ResponseEntity.created(location).body(purchase);
+
     }
 }

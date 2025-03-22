@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.grupo04.backend.dto.ChatDTO;
+import es.grupo04.backend.dto.MessageDTO;
+import es.grupo04.backend.dto.MessageMapper;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Message;
@@ -27,18 +29,21 @@ public class MessageService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MessageMapper messageMapper;
+
     public void save(Message message) {
         messageRepository.save(message);
     }
 
-    public Message createMessage(String messageContent, UserBasicDTO senderDTO, ChatDTO chatDTO) {
+    public MessageDTO createMessage(String messageContent, UserBasicDTO senderDTO, ChatDTO chatDTO) {
         Chat chat = chatRepository.findById(chatDTO.id())
                 .orElseThrow(() -> new NoSuchElementException());
         Optional<User> userOptional = userRepository.findById(senderDTO.id());
         User sender = userOptional.orElseThrow(() -> new NoSuchElementException());
 
         Message newMessage = new Message(messageContent, sender, chat);
-        return messageRepository.save(newMessage);
+        return messageMapper.toDTO(messageRepository.save(newMessage));
     }
 
 }

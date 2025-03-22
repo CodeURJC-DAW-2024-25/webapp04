@@ -1,5 +1,6 @@
 package es.grupo04.backend.controller;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
@@ -70,8 +72,9 @@ public class UserRestController {
         if (!userOptional.isPresent()) {
             return ResponseEntity.badRequest().body("User already exists");
         }
-
-        return ResponseEntity.ok(userOptional.get());
+        
+        String location = String.format("/api/v1/users/%d", userOptional.get().id());
+        return ResponseEntity.created(URI.create(location)).body(userOptional.get());
     }
 
 }

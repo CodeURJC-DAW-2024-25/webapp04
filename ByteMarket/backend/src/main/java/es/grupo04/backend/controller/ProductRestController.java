@@ -1,6 +1,7 @@
 package es.grupo04.backend.controller;
 
 import java.io.IOException;
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import es.grupo04.backend.dto.NewProductDTO;
 import es.grupo04.backend.dto.ProductDTO;
@@ -86,8 +89,9 @@ public class ProductRestController {
         if (newProduct == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.ok(newProduct);
 
+        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(newProduct.id()).toUri();
+        return ResponseEntity.created(location).body(newProduct);
     }
 
     @PutMapping("/{id}")
