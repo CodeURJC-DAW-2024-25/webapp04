@@ -141,6 +141,11 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.GET, "/api/v1/reports").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.POST, "/api/v1/reports/products/{productId}").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/reports/{reportId}").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.GET, "/api/v1/chats").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/chats/{id}").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{productId}").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/send").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/sell").hasRole("USER")
 
 					.anyRequest().permitAll()
 					);
