@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "adfb0717-c400-4d03-a81f-51346dca873e",
+		"name": "Chats",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43143959"
+	},
+	"item": [
+		{
+			"name": "Get Chats Of Logged User",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/chats",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Chat By ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/chats/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Chat",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/chats/1",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Message",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "message",
+							"value": "Hola!!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/chats/4/send",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats",
+						"4",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Purchase",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/chats/4/sell",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats",
+						"4",
+						"sell"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
