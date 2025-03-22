@@ -1,6 +1,7 @@
 package es.grupo04.backend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,6 @@ import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.ProductMapper;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.PurchaseMapper;
-import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.dto.UserMapper;
 import es.grupo04.backend.model.Chat;
@@ -68,7 +68,7 @@ public class PurchaseService {
 
     public PurchaseDTO createPurchase(ChatDTO chatDTO) {
         Chat chat = chatRepository.findById(chatDTO.id())
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         User buyer = chat.getUserBuyer();
         User seller = chat.getUserSeller();
         Product product = chat.getProduct();
@@ -97,7 +97,7 @@ public class PurchaseService {
 
     public List<PurchaseDTO> findByBuyer(UserDTO buyerDTO) {
         User buyer = userRepository.findById(buyerDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer)
                 .stream()
                 .map(purchaseMapper::toDTO)
@@ -106,17 +106,33 @@ public class PurchaseService {
 
     public boolean hasBought(UserDTO user2, UserDTO owner2) {
         User user = userRepository.findById(user2.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         User owner = userRepository.findById(owner2.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         return !purchaseRepository.findByBuyerAndSeller(user, owner).isEmpty();
+    }
+
+    public boolean hasBought(Long buyerId, Long sellerId) {
+        User buyer = userRepository.findById(buyerId)
+                .orElseThrow(() -> new NoSuchElementException());
+        User seller = userRepository.findById(sellerId)
+                .orElseThrow(() -> new NoSuchElementException());
+        return !purchaseRepository.findByBuyerAndSeller(buyer, seller).isEmpty();
     }
 
     public boolean hasUserBoughtProduct(UserDTO userDTO, ProductDTO productDTO) {
         User user = userRepository.findById(userDTO.id())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
         Product product = productRepository.findById(productDTO.id())
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException());
+        return purchaseRepository.hasUserBoughtProduct(user, product);
+    }
+
+    public boolean hasUserBoughtProduct(Long userId, Long productId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException());
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException());
         return purchaseRepository.hasUserBoughtProduct(user, product);
     }
 }

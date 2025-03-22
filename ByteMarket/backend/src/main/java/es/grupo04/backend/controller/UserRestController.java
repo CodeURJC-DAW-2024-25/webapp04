@@ -22,7 +22,7 @@ import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserRestController {
 
     @Autowired
@@ -31,12 +31,12 @@ public class UserRestController {
     @GetMapping("/me")
     public ResponseEntity<?> getAuthenticatedUser(Principal principal) {
         if (principal == null) {
-            return ResponseEntity.status(401).body("No estás autenticado");
+            return ResponseEntity.status(401).body("Not authenticated");
         }
         Optional<UserBasicDTO> userOptional = userService.findByMail(principal.getName());
         
         if (userOptional.isEmpty()) {
-            return ResponseEntity.status(404).body("Usuario no encontrado");
+            return ResponseEntity.status(404).body("User not found");
         }
         
         return ResponseEntity.ok(userOptional.get());
@@ -57,7 +57,7 @@ public class UserRestController {
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
-            return ResponseEntity.status(404).body("Usuario no encontrado");
+            return ResponseEntity.status(404).body("User not found");
         }
     }
 
@@ -65,13 +65,13 @@ public class UserRestController {
     @PostMapping("/signin")
     public ResponseEntity<?> createUser(@RequestBody NewUserDTO user) {
         if (!userService.validateUser(user)) {
-            return ResponseEntity.badRequest().body("Error en la validación de los datos");
+            return ResponseEntity.badRequest().body("Error in data validation");
         }
 
         Optional<UserDTO> userOptional = userService.createAccount(user);
 
         if (!userOptional.isPresent()) {
-            return ResponseEntity.badRequest().body("El usuario ya tiene una cuenta");
+            return ResponseEntity.badRequest().body("User already exists");
         }
 
         return ResponseEntity.ok(userOptional.get());
@@ -82,17 +82,22 @@ public class UserRestController {
         Optional<UserBasicDTO> userOptional = userService.findById(userId);
 
         if (userOptional.isEmpty()) {
-            return ResponseEntity.status(404).body("Usuario no encontrado");
+            return ResponseEntity.status(404).body("User not found");
         }
 
         UserBasicDTO userToDelete = userOptional.get();
-        String authenticatedUser = request.getUserPrincipal().getName();
+        Principal principal = request.getUserPrincipal();
+        if(principal == null) {
+            return ResponseEntity.status(401).body("Not authenticated");
+        }
 
-        if (userToDelete.name().equals(authenticatedUser)) {
-            return ResponseEntity.badRequest().body("Este usuario no puede ser borrado");
+        if (!request.isUserInRole("ADMIN")) {
+            if (!userToDelete.id().equals(userService.findByMail(principal.getName()).get().id())) {
+                return ResponseEntity.badRequest().body("You can only delete your own account");
+            }
         }
 
         userService.delete(userToDelete);
-        return ResponseEntity.ok("Usuario eliminado correctamente");
+        return ResponseEntity.ok("User deleted successfully");
     }
 }

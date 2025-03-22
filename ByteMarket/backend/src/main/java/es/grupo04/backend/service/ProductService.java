@@ -90,7 +90,7 @@ public class ProductService {
 	}
 
 	
-	//Delete favorites //TODO revisar esto
+	//Delete favorites
 	public void deleteFavorites(List<Product> products){
 		for (Product product : products) {
 			List<User> users = repository.findUsersByFavoriteProduct(product);
