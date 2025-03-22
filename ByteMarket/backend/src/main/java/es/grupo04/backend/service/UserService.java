@@ -341,8 +341,14 @@ public class UserService {
     }
 
     public Optional<User> findByIdPrueba(Long id) {
-       
+
             return userRepository.findById(id);
         
+    }
+
+    public boolean hasRole(Long userId, String role) {
+        return userRepository.findById(userId)
+            .map(user -> user.getRoles().contains(role))
+            .orElse(false);
     }
 }
