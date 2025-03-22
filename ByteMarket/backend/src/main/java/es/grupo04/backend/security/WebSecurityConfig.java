@@ -116,23 +116,31 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
-                     // PUBLIC ENDPOINTS
-					.requestMatchers(HttpMethod.GET, "/api/products").permitAll()
-					.requestMatchers(HttpMethod.GET, "/api/products/{id}").permitAll()
-					.requestMatchers(HttpMethod.POST, "/api/users/signin").permitAll()
-					.requestMatchers(HttpMethod.GET, "/api/users/{userId}").permitAll()
+					//TODO check this urls
+                    // PUBLIC ENDPOINTS
+					.requestMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/{id}").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/v1/users/signin").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}/reviews").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/reviews/{reviewId}").permitAll()
 
 					// PRIVATE ENDPOINTS
-					.requestMatchers(HttpMethod.POST, "/api/products").hasRole("USER")
-					.requestMatchers(HttpMethod.PUT, "/api/products/{id}").hasRole("USER")
-					.requestMatchers(HttpMethod.DELETE, "/api/products/{id}").hasAnyRole("ADMIN","USER")
-					.requestMatchers(HttpMethod.GET, "/api/products/favorites").hasRole("USER")
-					.requestMatchers(HttpMethod.GET, "/api/products/purchased").hasRole("USER")
-					.requestMatchers(HttpMethod.GET, "/api/products/sold").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/products/{id}/images").hasRole("USER")
-					.requestMatchers(HttpMethod.DELETE, "/api/products/{productId}/images/{imageId}").hasRole("USER")
-					//.requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyRole("USER", "ADMIN") --> Don't add cause it requires full authentification				
-					.requestMatchers(HttpMethod.DELETE, "/api/users/{userId}").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("USER")
+					.requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/favorites").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/purchased").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/sold").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/products/{id}/images").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{productId}/images/{imageId}").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("USER", "ADMIN")	
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/users/{userId}").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/users/{userId}/reviews").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/{reviewId}").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.GET, "/api/v1/reports").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.POST, "/api/v1/reports/products/{productId}").hasRole("USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/reports/{reportId}").hasRole("ADMIN")
 
 					.anyRequest().permitAll()
 					);

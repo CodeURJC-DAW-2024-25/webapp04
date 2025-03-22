@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -323,7 +324,7 @@ public class ProfileController {
     }
     
     @GetMapping("/user/image/{id}")
-    public ResponseEntity<Object> getProductImage(@PathVariable Long id, Model model) throws SQLException {
+    public ResponseEntity<Object> getProfileImage(@PathVariable Long id, Model model) throws SQLException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
 
         if (userOptional.isEmpty()) {
@@ -367,17 +368,21 @@ public class ProfileController {
     public String addReview(@PathVariable Long id, 
                             @RequestParam("rating") int rating, 
                             @RequestParam("description") String description, 
-                            HttpServletRequest request) {
+                            HttpServletRequest request, Model model) {
         
         Principal principal = request.getUserPrincipal();
-        UserBasicDTO reviewOwner = userService.findByMail(principal.getName()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        UserBasicDTO reviewOwner = userService.findByMail(principal.getName()).orElseThrow(() -> new NoSuchElementException());
 
-        ProductDTO product = productService.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        ProductDTO product = productService.findById(id).orElseThrow(() -> new NoSuchElementException());
         UserBasicDTO reviewedUser = product.owner();
 
         NewReviewDTO newReviewDTO = new NewReviewDTO(rating, description, reviewedUser.id());
 
-        reviewService.saveReview(newReviewDTO, reviewOwner.id()); 
+        Optional<ReviewDTO> review = reviewService.saveReview(newReviewDTO, reviewOwner.id()); 
+        if(review.isEmpty()) {
+            model.addAttribute("message", "No se ha podido añadir la reseña");
+            return "error";
+        }
 
         return "redirect:/product/" + id;
     }

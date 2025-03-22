@@ -16,4 +16,11 @@ public final class Constants {
         "SmartWatches",
         "Otros"
     );
+
+    public static final Set<String> VALID_REASONS = Set.of(
+        "Producto Dañado",
+        "Producto Diferente",
+        "Faltan Piezas",
+        "Otro"
+    );
 }

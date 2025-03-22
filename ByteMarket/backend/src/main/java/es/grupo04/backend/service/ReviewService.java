@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,27 +29,38 @@ public class ReviewService {
     private UserRepository userRepository;
 
     @Autowired
+    private PurchaseService purchaseService;
+
+    @Autowired
     private ReviewMapper mapper;
 
     public List<ReviewDTO> getAllReviews() {
         return mapper.toDTOs(repository.findAll());
     }
 
+    public List<ReviewDTO> getAllReviewsByUserId(Long userId) {
+        return mapper.toDTOs(repository.findByReviewedUserId(userId));
+    }
+
     public ReviewDTO getReviewById(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException("ID de la reseña no puede ser nulo");
+            throw new IllegalArgumentException("Review ID cannot be null");
         }
         Review review = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review no encontrada con ID: " + id));
+                .orElseThrow(() -> new NoSuchElementException());
         return mapper.toDTO(review);
     }
 
-    public ReviewDTO saveReview(NewReviewDTO newReviewDTO, Long reviewOwnerId) {
+    public Optional<ReviewDTO> saveReview(NewReviewDTO newReviewDTO, Long reviewOwnerId) {
     User reviewOwner = userRepository.findById(reviewOwnerId)
-                      .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                      .orElseThrow(() -> new NoSuchElementException());
 
     User reviewedUser = userRepository.findById(newReviewDTO.reviewedUserId())
-                      .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                      .orElseThrow(() -> new NoSuchElementException());
+
+    if(!purchaseService.hasBought(reviewOwnerId, newReviewDTO.reviewedUserId())) {
+        return Optional.empty();
+    }
 
     Review review = new Review(reviewOwner, reviewedUser, 
                                newReviewDTO.description(), 
@@ -55,14 +68,14 @@ public class ReviewService {
 
     repository.save(review);
     
-    return mapper.toDTO(review);
+    return Optional.of(mapper.toDTO(review));
     }
 
 
     @Transactional
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Review no encontrada con ID: " + id);
+            throw new NoSuchElementException();
         }
         repository.deleteById(id);
     }

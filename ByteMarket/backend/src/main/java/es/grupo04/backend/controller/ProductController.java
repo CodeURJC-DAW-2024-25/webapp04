@@ -169,7 +169,7 @@ public class ProductController {
         // Check if the user is logged in
         if (principal != null) {
             String username = principal.getName();
-            Optional<UserBasicDTO> userOptional = userService.findByMail(username);
+            Optional<UserDTO> userOptional = userService.findByMailExtendedInfo(username);
             Optional<ProductDTO> productOptional = productService.findById(id);
 
             // Check if the user and the product exist

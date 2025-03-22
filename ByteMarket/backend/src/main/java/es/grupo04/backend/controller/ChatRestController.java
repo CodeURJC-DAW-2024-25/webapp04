@@ -51,17 +51,24 @@ public class ChatRestController {
     }
 
 
-    @PostMapping
+    @PostMapping("/{productId}")
     public ResponseEntity<ChatDTO> createChat(@PathVariable Long productId, HttpServletRequest request) throws IOException {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        UserBasicDTO userDTO = userService.findByMail(principal.getName()).get();
+
+        UserBasicDTO userDTO = userService.findByMail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
         ProductDTO product = productService.findById(productId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
-        ChatDTO existingChat = chatService.findChat(userDTO, product.owner(), productId);
 
+        if (userDTO.id().equals(product.owner().id())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No puedes crear un chat con el propietario del producto");
+        }
+
+        ChatDTO existingChat = chatService.findChat(userDTO, product.owner(), productId);
         if (existingChat != null) {
             return ResponseEntity.ok(existingChat);
         } else {
@@ -70,28 +77,43 @@ public class ChatRestController {
         }
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<ChatDTO> getChat(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        UserBasicDTO userDTO = userService.findByMail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
         ChatDTO chat = chatService.findChatById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
+
+        if (!chat.userBuyer().equals(userDTO) && !chat.userSeller().equals(userDTO)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para ver este chat");
+        }
+
         return ResponseEntity.ok(chat);
     }
 
     @PostMapping("/{id}/send")
-    public ResponseEntity<Void> sendMessage(@PathVariable Long chatId, @RequestParam String message, HttpServletRequest request) {
+    public ResponseEntity<Void> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         UserBasicDTO sender = userService.findByMail(principal.getName()).get();
-        ChatDTO chat = chatService.findChatById(chatId)
+
+        ChatDTO chat = chatService.findChatById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
-        
+
+        if (!chat.userBuyer().equals(sender) && !chat.userSeller().equals(sender)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para ver este chat");
+        }
+
         messageService.createMessage(message, sender, chat);
+        
         return ResponseEntity.ok().build();
     }
 

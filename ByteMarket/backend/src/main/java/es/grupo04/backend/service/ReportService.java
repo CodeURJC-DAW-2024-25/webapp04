@@ -1,6 +1,7 @@
 package es.grupo04.backend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +32,27 @@ public class ReportService {
     @Autowired
     private ReportMapper reportMapper;
 
+    @Autowired
+    private PurchaseService purchaseService;
+
     public List<ReportDTO> getAllReports() {
         List<Report> reports = reportRepository.findAll();
         return reportMapper.toDTOs(reports);
     }
 
-    public ReportDTO saveReport(NewReportDTO newReportDTO) {
+    public Optional<ReportDTO> saveReport(NewReportDTO newReportDTO) {
         User reportCreator = userRepository.findById(newReportDTO.reportCreatorId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException());
         Product product = productRepository.findById(newReportDTO.productId())
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new NoSuchElementException());
+
+        if(!Constants.VALID_REASONS.contains(newReportDTO.reason())) {
+            return Optional.empty();
+        }
+
+        if(!purchaseService.hasUserBoughtProduct(newReportDTO.reportCreatorId(), newReportDTO.productId())) {
+            return Optional.empty();
+        }
         
         Report report = new Report();
         report.setReason(newReportDTO.reason());
@@ -49,7 +61,7 @@ public class ReportService {
         report.setProduct(product);
         
         report = reportRepository.save(report);
-        return reportMapper.toDTO(report);
+        return Optional.of(reportMapper.toDTO(report));
     }
 
     public Optional<ReportDTO> findById(Long id) {

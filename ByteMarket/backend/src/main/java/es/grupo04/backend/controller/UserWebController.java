@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
-import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -71,7 +70,7 @@ public class UserWebController {
          } else {
             return "login_template";
          }
-         
+
       } else {
          model.addAttribute("message", "Error en la validación de los datos");
          return "error";
