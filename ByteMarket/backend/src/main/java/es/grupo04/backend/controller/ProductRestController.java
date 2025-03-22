@@ -5,12 +5,14 @@ import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +45,24 @@ public class ProductRestController {
 
     @GetMapping
     public Page<ProductDTO> getAllProducts(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productService.findPaginated(pageable);
+            @RequestParam(defaultValue = "8") int size, @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category){
+        
+        Page<ProductDTO> productsPage;
+        if (category != null && !category.isEmpty()) {
+            productsPage = productService.findAvailableByCategory(category, page, size);
+        } else {
+            productsPage = productService.findPaginated(PageRequest.of(page, size));
+        }
+        if (name != null && !name.isEmpty()) {
+            List<ProductDTO> filteredByName = productsPage.getContent().stream()
+                .filter(product -> product.name().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+                return new PageImpl<>(filteredByName, PageRequest.of(page, size), filteredByName.size());
+        }
+            return productsPage;
     }
-
+    
     @GetMapping("/{id}")
     public Optional<ProductDTO> getProductById(@PathVariable Long id) {
         return productService.findById(id);
@@ -245,4 +260,5 @@ public class ProductRestController {
         return ResponseEntity.ok().build();
 
     }
+
 }
