@@ -4,12 +4,18 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +31,9 @@ import org.springframework.core.io.InputStreamResource;
 import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
+import es.grupo04.backend.service.ChartData;
+import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -62,7 +71,7 @@ public class ProfileRestController {
         boolean isCurrentUserAdmin = request.isUserInRole("ADMIN");
         boolean isTargetUserAdmin = userService.hasRole(userToDelete.id(), "ADMIN");
 
-        // A user that is not adin can only delete their own account
+        // A user that is not adim can only delete their own account
         if (!isCurrentUserAdmin) {
             if (!currentUser.id().equals(userToDelete.id())) {
                 return ResponseEntity.status(403).body("You can only delete your own account");
@@ -76,6 +85,7 @@ public class ProfileRestController {
         userService.delete(userToDelete);
         return ResponseEntity.ok("User deleted successfully");
     }
+
 
     @PutMapping
     public ResponseEntity<?> updateProfile(HttpServletRequest request,
@@ -128,4 +138,14 @@ public class ProfileRestController {
                 .body(file);
     }
 
+    @GetMapping("/stats")
+    public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails) {
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
+        if (!optionalUser.isPresent()) {
+            throw new NoSuchElementException("User with id not found");
+        }
+        List<ChartData> data = userService.getStats(optionalUser.get());
+
+        return ResponseEntity.ok(data);
+    }
 }
