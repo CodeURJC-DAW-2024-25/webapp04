@@ -128,7 +128,8 @@ public class ProfileRestController {
             return ResponseEntity.status(400).body(message.get());
         }
         
-        return ResponseEntity.ok("Profile updated successfully");
+        Optional<UserBasicDTO> updated = userService.findByMail(principal.getName());
+        return ResponseEntity.ok(updated.get());
     }
 
     @GetMapping("/image/{id}")
@@ -145,4 +146,5 @@ public class ProfileRestController {
                 .contentLength(image.length())
                 .body(file);
     }
+
 }

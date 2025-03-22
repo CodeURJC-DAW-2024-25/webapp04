@@ -46,21 +46,26 @@ public class ProductRestController {
     @GetMapping
     public Page<ProductDTO> getAllProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size, @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category){
+            @RequestParam(required = false) String category, @RequestParam(required = false) boolean recommended){
         
         Page<ProductDTO> productsPage;
-        if (category != null && !category.isEmpty()) {
-            productsPage = productService.findAvailableByCategory(category, page, size);
-        } else {
-            productsPage = productService.findPaginated(PageRequest.of(page, size));
+        if(recommended){
+            List<ProductDTO> topRated = productService.findTopRatedSellersProducts();
+            return new PageImpl<>(topRated, PageRequest.of(page, size), topRated.size());
+        } else{
+            if (category != null && !category.isEmpty()) {
+                productsPage = productService.findAvailableByCategory(category, page, size);
+            } else {
+                productsPage = productService.findPaginated(PageRequest.of(page, size));
+            }
+            if (name != null && !name.isEmpty()) {
+                List<ProductDTO> filteredByName = productsPage.getContent().stream()
+                    .filter(product -> product.name().toLowerCase().contains(name.toLowerCase()))
+                    .collect(Collectors.toList());
+                    return new PageImpl<>(filteredByName, PageRequest.of(page, size), filteredByName.size());
+            }
         }
-        if (name != null && !name.isEmpty()) {
-            List<ProductDTO> filteredByName = productsPage.getContent().stream()
-                .filter(product -> product.name().toLowerCase().contains(name.toLowerCase()))
-                .collect(Collectors.toList());
-                return new PageImpl<>(filteredByName, PageRequest.of(page, size), filteredByName.size());
-        }
-            return productsPage;
+        return productsPage;
     }
     
     @GetMapping("/{id}")
