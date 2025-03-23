@@ -86,14 +86,16 @@ public class ChatService {
 
     public ChatDTO isUserSeller(UserBasicDTO userDTO, ChatDTO chatDTO) {
         Optional<User> userOptional = userRepository.findById(userDTO.id());
-        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+        if(userOptional.isEmpty()) {
+            throw new NoSuchElementException("User not found");
+        }
         
-        Chat chat = chatRepository.findById(chatDTO.id())
-            .orElseThrow(() -> new NoSuchElementException("Chat not found"));
+        Optional<Chat> chat = chatRepository.findById(chatDTO.id());
+        if(chat.isEmpty()) {
+            throw new NoSuchElementException("Chat not found");
+        }
         
-        boolean isSelling = chat.isSelling(user);
-        
-        ChatDTO updatedChatDTO = chatMapper.toDTO(chat);
+        ChatDTO updatedChatDTO = chatMapper.toDTO(chat.get());
         
         return updatedChatDTO;
     }
