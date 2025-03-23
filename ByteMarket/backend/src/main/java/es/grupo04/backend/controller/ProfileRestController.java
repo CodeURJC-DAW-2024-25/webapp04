@@ -38,7 +38,7 @@ import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/v1/profile")
+@RequestMapping("/api/v1/profiles")
 
 public class ProfileRestController {
 
