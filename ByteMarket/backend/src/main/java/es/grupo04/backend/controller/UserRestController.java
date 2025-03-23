@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -29,6 +29,7 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
+    @Operation (summary= "Retrieve details of the authenticated user")
     @GetMapping("/me")
     public ResponseEntity<?> getAuthenticatedUser(Principal principal) {
         if (principal == null) {
@@ -43,6 +44,7 @@ public class UserRestController {
         return ResponseEntity.ok(userOptional.get());
     }
 
+    @Operation (summary= "Retrieve a list of all users")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers().stream()
@@ -51,6 +53,7 @@ public class UserRestController {
         return ResponseEntity.ok(users);
     }
 
+    @Operation (summary= "Retrieve user by it ID")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(userId);
@@ -60,7 +63,7 @@ public class UserRestController {
         return ResponseEntity.ok(userOptional.get());
     }
 
-
+    @Operation (summary= "Create new user")
     @PostMapping("/signin")
     public ResponseEntity<?> createUser(@ModelAttribute NewUserDTO user) {
         if (!userService.validateUser(user)) {

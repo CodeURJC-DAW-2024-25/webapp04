@@ -9,13 +9,12 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,17 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.InputStreamResource;
-
 import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.ChartData;
-import es.grupo04.backend.service.ProductService;
-import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping("/api/v1/profile")
@@ -45,6 +41,7 @@ public class ProfileRestController {
     @Autowired
     private UserService userService;
 
+    @Operation (summary= "Delete a product by its ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
         Optional<UserBasicDTO> userOptional = userService.findById(id);
@@ -86,7 +83,7 @@ public class ProfileRestController {
         return ResponseEntity.ok("User deleted successfully");
     }
 
-
+    @Operation (summary= "Update user profile information")
     @PutMapping
     public ResponseEntity<?> updateProfile(HttpServletRequest request,
             @RequestParam String name,
@@ -123,6 +120,7 @@ public class ProfileRestController {
         return ResponseEntity.ok(updated.get());
     }
 
+    @Operation (summary= "Retrieve a product by its ID")
     @GetMapping("/image/{id}")
     public ResponseEntity<Object> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
@@ -138,6 +136,7 @@ public class ProfileRestController {
                 .body(file);
     }
 
+    @Operation (summary= "Retrieve user's purchase and sales statistics")
     @GetMapping("/stats")
     public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails) {
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());

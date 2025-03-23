@@ -8,7 +8,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.grupo04.backend.dto.ChatDTO;
 import es.grupo04.backend.dto.MessageDTO;
@@ -20,10 +27,8 @@ import es.grupo04.backend.service.MessageService;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/v1/chats")
@@ -44,6 +49,7 @@ public class ChatRestController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @Operation (summary= "Retrieve a list of all chats of a user")
     @GetMapping
     public List<ChatDTO> getUserChats(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
@@ -52,7 +58,7 @@ public class ChatRestController {
         return chats;
     }
 
-
+    @Operation (summary= "Create a new chat by the product ID")
     @PostMapping("/{productId}")
     public ResponseEntity<ChatDTO> createChat(@PathVariable Long productId, HttpServletRequest request) throws IOException {
         Principal principal = request.getUserPrincipal();
@@ -82,7 +88,7 @@ public class ChatRestController {
         }
     }
 
-
+    @Operation (summary= "Retrieve a chat by ID")
     @GetMapping("/{id}")
     public ResponseEntity<ChatDTO> getChat(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
@@ -102,6 +108,7 @@ public class ChatRestController {
         return ResponseEntity.ok(chat);
     }
 
+    @Operation (summary= "Send a message in a chat by its ID")
     @PostMapping("/{id}/send")
     public ResponseEntity<?> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
@@ -125,6 +132,7 @@ public class ChatRestController {
         return ResponseEntity.created(location).body(messageDTO);
     }
 
+    @Operation (summary= "Mark a product as sold in a chat by its ID")
     @PostMapping("/{id}/sell")
     public ResponseEntity<?> sellProduct(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();

@@ -1,18 +1,5 @@
 package es.grupo04.backend.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import es.grupo04.backend.dto.NewReportDTO;
-import es.grupo04.backend.dto.NewReviewDTO;
-import es.grupo04.backend.dto.ReportDTO;
-import es.grupo04.backend.dto.ReviewDTO;
-import es.grupo04.backend.dto.UserBasicDTO;
-import es.grupo04.backend.service.ReportService;
-import es.grupo04.backend.service.ReviewService;
-import es.grupo04.backend.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,9 +12,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-
-
+import es.grupo04.backend.dto.NewReportDTO;
+import es.grupo04.backend.dto.NewReviewDTO;
+import es.grupo04.backend.dto.ReportDTO;
+import es.grupo04.backend.dto.ReviewDTO;
+import es.grupo04.backend.dto.UserBasicDTO;
+import es.grupo04.backend.service.ReportService;
+import es.grupo04.backend.service.ReviewService;
+import es.grupo04.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -45,7 +42,7 @@ public class ReviewReportRestController {
 
 
     //REVIEWS
-
+    @Operation (summary= "Retrieve reviews of a user by user's ID")
     @GetMapping("/users/{userId}/reviews")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
         Optional<UserBasicDTO> user = userService.findById(userId);
@@ -58,6 +55,7 @@ public class ReviewReportRestController {
 
     }
 
+    @Operation (summary= "Retrieve a review by its ID")
     @GetMapping("/reviews/{reviewId}")
     public ResponseEntity<ReviewDTO> getReview(@PathVariable Long reviewId) {
 
@@ -66,6 +64,7 @@ public class ReviewReportRestController {
 
     }
 
+    @Operation (summary= "Create (post) a review using user's ID")
     @PostMapping("/users/{userId}/reviews")
     public ResponseEntity<ReviewDTO> postReview(HttpServletRequest request, @ModelAttribute NewReviewDTO reviewDTO, @PathVariable Long userId) {
         Principal principal = request.getUserPrincipal();
@@ -84,6 +83,7 @@ public class ReviewReportRestController {
         return ResponseEntity.ok(review.get());
     }
     
+    @Operation (summary= "Delete review by its ID")
     @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
         reviewService.delete(reviewId);
@@ -92,13 +92,14 @@ public class ReviewReportRestController {
 
 
     //REPORTS
-
+    @Operation (summary= "Retrieve a list of all reports")
     @GetMapping("/reports")
     public ResponseEntity<List<ReportDTO>> getReports() {
         List<ReportDTO> reports = reportService.getAllReports();
         return ResponseEntity.ok(reports);
     }
 
+    @Operation (summary= "Crate (post) a report by product's ID")
     @PostMapping("/reports/products/{productId}")
     public ResponseEntity<ReportDTO> postReport(HttpServletRequest request, @ModelAttribute NewReportDTO reportDTO, @PathVariable Long productId) {
         Principal principal = request.getUserPrincipal();
@@ -113,6 +114,7 @@ public class ReviewReportRestController {
         return ResponseEntity.ok(report.get());
     }
     
+    @Operation (summary= "Delete report by it's ID")
     @DeleteMapping("/reports/{reportId}")
     public ResponseEntity<String> deleteReport(@PathVariable Long reportId) {
         reportService.delete(reportId);

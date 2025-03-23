@@ -550,7 +550,7 @@ To build and publish the Docker image for the application, follow these instruct
    ./create_image.sh
    ```
 
-To access the Docker image for Events Crafters, visit the following URL: https://hub.docker.com/?????. This image contains the latest stable version of ByteMarket application, ready for deployment in a Docker environment.
+To access the Docker image for ByteMarket, visit the following URL: https://hub.docker.com/?????. This image contains the latest stable version of ByteMarket application, ready for deployment in a Docker environment.
 
 
 ### 🖥️ Documentation for deploying on the virtual machine
@@ -559,7 +559,7 @@ To deploy the application on the virtual machine provided by the university, fol
 ### Prerequisites
 - Ensure you have access to a machine with an internet connection and SSH (Secure Shell) installed. This is standard on most Linux and MacOS systems, and available on Windows through tools like PowerShell or Git Bash.
 - You must be connected to the university's network directly or via MyApps to access the virtual machine.
-- Make sure you have the private key (`appWeb04.key`) downloaded on your local machine and have set the appropriate permissions. For Linux/MacOS users, this can be done with the command `chmod 600 prAppWeb11.key`. Windows users may need to adjust permissions by following the guides provided in these links: [Microsoft vscode-remote release issue #1619](https://github.com/microsoft/vscode-remote-release/issues/1619#issuecomment-760990038), [Anuj Varma's SSH on Windows guide](https://www.anujvarma.com/ssh-on-windows-permissions-for-private-key-too-open/).
+- Make sure you have the private key (`appWeb04.key`) downloaded on your local machine and have set the appropriate permissions. Windows users may need to adjust permissions by following the guides provided in these links: [Microsoft vscode-remote release issue #1619](https://github.com/microsoft/vscode-remote-release/issues/1619#issuecomment-760990038), [Anuj Varma's SSH on Windows guide](https://www.anujvarma.com/ssh-on-windows-permissions-for-private-key-too-open/).
 
 ### Deployment Steps
 1. Open a terminal on your system and use the following command to connect to the virtual machine.

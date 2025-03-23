@@ -12,6 +12,7 @@ import es.grupo04.backend.security.jwt.AuthResponse;
 import es.grupo04.backend.security.jwt.AuthResponse.Status;
 import es.grupo04.backend.security.jwt.LoginRequest;
 import es.grupo04.backend.security.jwt.UserLoginService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -21,6 +22,7 @@ public class RestLoginController {
 	@Autowired
 	private UserLoginService userService;
 
+	@Operation (summary= "Authenticate a user and log in")
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> login(
 			@RequestBody LoginRequest loginRequest,
@@ -29,6 +31,7 @@ public class RestLoginController {
 		return userService.login(response, loginRequest);
 	}
 
+	@Operation (summary= "Refresh an authentication token")
 	@PostMapping("/refresh")
 	public ResponseEntity<AuthResponse> refreshToken(
 			@CookieValue(name = "RefreshToken", required = false) String refreshToken, HttpServletResponse response) {
@@ -36,6 +39,7 @@ public class RestLoginController {
 		return userService.refresh(response, refreshToken);
 	}
 
+	@Operation (summary= "Log out the current user")
 	@PostMapping("/logout")
 	public ResponseEntity<AuthResponse> logOut(HttpServletResponse response) {
 		return ResponseEntity.ok(new AuthResponse(Status.SUCCESS, userService.logout(response)));

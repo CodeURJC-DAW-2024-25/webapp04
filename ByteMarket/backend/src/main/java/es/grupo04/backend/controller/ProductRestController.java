@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import es.grupo04.backend.dto.NewProductDTO;
@@ -33,6 +32,7 @@ import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -45,6 +45,7 @@ public class ProductRestController {
     @Autowired
     private UserService userService;
 
+    @Operation (summary= "Retrieve a list of products")
     @GetMapping
     public Page<ProductDTO> getAllProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size, @RequestParam(required = false) String name,
@@ -70,11 +71,13 @@ public class ProductRestController {
         return productsPage;
     }
     
+    @Operation (summary= "Retrieve a product by its ID")
     @GetMapping("/{id}")
     public Optional<ProductDTO> getProductById(@PathVariable Long id) {
         return productService.findById(id);
     }
 
+    @Operation (summary= "Create a new product")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@ModelAttribute NewProductDTO productDTO,
             HttpServletRequest request) throws IOException {
@@ -94,6 +97,7 @@ public class ProductRestController {
         return ResponseEntity.created(location).body(newProduct);
     }
 
+    @Operation (summary= "Update product by its ID")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @ModelAttribute NewProductDTO newProductDTO,
             HttpServletRequest request) {
@@ -120,6 +124,7 @@ public class ProductRestController {
         return ResponseEntity.ok(editedProduct.get());
     }
 
+    @Operation (summary= "Delete product by ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
@@ -142,6 +147,7 @@ public class ProductRestController {
         return ResponseEntity.ok(productDTO);
     }
 
+    @Operation (summary= "Retrieve a list of favorites products of a user")
     @GetMapping("/favorites")
     public ResponseEntity<Page<ProductDTO>> getFavoriteProducts(
             HttpServletRequest request,
@@ -159,7 +165,7 @@ public class ProductRestController {
         return ResponseEntity.ok(productsPage);
     }
     
-   
+    @Operation (summary= "Toggle a product as a favorite by its ID")
     @PostMapping("/{id}/favorites")
     public ResponseEntity<Page<ProductDTO>> toggleFavoriteProduct(HttpServletRequest request,
             @PathVariable Long id,
@@ -192,6 +198,7 @@ public class ProductRestController {
         return ResponseEntity.ok(productsPage);
     }
 
+    @Operation (summary= "Retrieve last purchases of the user")
     @GetMapping("/purchases")
     public ResponseEntity<List<ProductDTO>> getLastPurchases(HttpServletRequest request) {
 
@@ -206,6 +213,7 @@ public class ProductRestController {
         return ResponseEntity.ok(products);
     }
 
+    @Operation (summary= "Retrieve last sales of the user")
     @GetMapping("/sales")
     public ResponseEntity<List<ProductDTO>> getLastSales(HttpServletRequest request) {
 
@@ -221,6 +229,7 @@ public class ProductRestController {
 
     }
 
+    @Operation (summary= "Add image to the product by the ID of the products")
     @PostMapping("/{id}/images")
     public ResponseEntity<Void> addImage(@PathVariable long id, @RequestParam MultipartFile image,
             HttpServletRequest request) throws IOException {
@@ -245,6 +254,7 @@ public class ProductRestController {
 
     }
 
+    @Operation (summary= "Delete image of a product by image ID")
     @DeleteMapping("/{productId}/images/{imageId}")
     public ResponseEntity<Void> removeImage(@PathVariable long productId, @PathVariable long imageId,
             HttpServletRequest request) {
