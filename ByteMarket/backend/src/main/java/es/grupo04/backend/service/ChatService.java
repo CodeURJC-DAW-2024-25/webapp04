@@ -89,13 +89,19 @@ public class ChatService {
         if(userOptional.isEmpty()) {
             throw new NoSuchElementException("User not found");
         }
+
+        User user = userOptional.get();
         
-        Optional<Chat> chat = chatRepository.findById(chatDTO.id());
-        if(chat.isEmpty()) {
+        Optional<Chat> chatOptional = chatRepository.findById(chatDTO.id());
+        if(chatOptional.isEmpty()) {
             throw new NoSuchElementException("Chat not found");
         }
+
+        Chat chat = chatOptional.get();
         
-        ChatDTO updatedChatDTO = chatMapper.toDTO(chat.get());
+        chat.isSelling(userOptional.get());
+
+        ChatDTO updatedChatDTO = chatMapper.toDTO(chat);
         
         return updatedChatDTO;
     }
