@@ -11,8 +11,8 @@ public record UserDTO (
     List<String> roles,
     List<ProductBasicDTO> products,
     List<ReviewDTO> reviews,
-    List<ProductBasicDTO> sales,
-    List<ProductBasicDTO> purchases,
+    List<PurchaseDTO> sales,
+    List<PurchaseDTO> purchases,
     String iframe,
     String image,
     Boolean hasImage
