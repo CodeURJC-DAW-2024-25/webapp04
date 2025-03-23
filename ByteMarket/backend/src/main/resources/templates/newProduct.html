@@ -87,7 +87,7 @@
                     {{^oneImage}}
                         {{#images}}
                         <form action="/delete/image/{{id}}" class="m-2 position-relative imgForm" method="POST">
-                            <img src="/product/image/{{id}}" class="prodImg" alt="Product Image">
+                            <img src="{{imageURL}}" class="prodImg" alt="Product Image">
                             <button type="submit" class="deleteImg" title="Eliminar imagen"> <i class="bi bi-x-circle-fill"></i> </button>
                             <input type="hidden" name="_csrf" value="{{token}}"/>
                             <input type="text" name="productId" value="{{product.id}}" hidden>

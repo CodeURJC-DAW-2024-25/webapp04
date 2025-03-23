@@ -272,7 +272,7 @@ public class ProductController {
         
         model.addAttribute("product", product);
         model.addAttribute("edit", true); 
-        model.addAttribute("images", product.imageUrls());
+        model.addAttribute("images", productService.getImagesInfo(product));
         model.addAttribute("oneImage", product.imageUrls().size() == 1);
         model.addAttribute("maxImages", product.imageUrls().size() == 5);
 

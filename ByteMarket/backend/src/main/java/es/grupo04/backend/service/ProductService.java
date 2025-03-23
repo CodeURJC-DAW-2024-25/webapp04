@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import es.grupo04.backend.dto.ImageDTO;
+import es.grupo04.backend.dto.ImageMapper;
 import es.grupo04.backend.dto.NewProductDTO;
 import es.grupo04.backend.dto.NewProductMapper;
 import es.grupo04.backend.dto.ProductDTO;
@@ -53,6 +55,9 @@ public class ProductService {
 
 	@Autowired
 	private ImageService imageService;
+
+	@Autowired
+	private ImageMapper imageMapper;
 
 	public Optional<ProductDTO> findById(long id) {
 		Optional<Product> productOpt = repository.findById(id);
@@ -312,6 +317,11 @@ public class ProductService {
 			}
 		}
 		return false;
+    }
+
+    public List<ImageDTO> getImagesInfo(ProductDTO product) {
+        Product productDomain = repository.findById(product.id()).get();
+		return productDomain.getImages().stream().map(imageMapper::toDTO).collect(Collectors.toList());
     }		
 
 
