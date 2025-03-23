@@ -4,7 +4,6 @@ import org.mapstruct.*;
 
 import es.grupo04.backend.model.Image;
 import es.grupo04.backend.model.Product;
-import es.grupo04.backend.service.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +24,13 @@ public interface ProductMapper {
 
         ArrayList<String> imageUrls = new ArrayList<>();
         for (Image image : product.getImages()) {
-           imageUrls.add(Constants.WEBAPP_BASE_URL + "/product/image/" + image.getId());
+           imageUrls.add("/product/image/" + image.getId());
         }
         return imageUrls;
     }
 
     default String mapThumbnail(Product product) {
-        return Constants.WEBAPP_BASE_URL + "/product/image/" + product.getImages().get(0).getId();
+        return "/product/image/" + product.getImages().get(0).getId();
     }
     
 }

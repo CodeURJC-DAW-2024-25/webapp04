@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -129,11 +128,7 @@ public class ProductController {
         
 
         // Product images
-        ArrayList<String> imageURLs = new ArrayList<>();
-        for (String imageURL : productOptional.get().imageUrls()) {
-            imageURLs.add(imageURL);
-        }
-        model.addAttribute("images", imageURLs);
+        model.addAttribute("images", productOptional.get().imageUrls());
 
 
         List<ReviewDTO> reviews = owner.reviews();
