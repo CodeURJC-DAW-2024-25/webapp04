@@ -331,6 +331,10 @@ public class ProfileController {
             return ResponseEntity.notFound().build();
         }
 
+        if(!userService.hasImage(userOptional.get())){
+            return ResponseEntity.notFound().build();
+        }
+
         Blob image = userService.getImage(userOptional.get());
         Resource file = new InputStreamResource(image.getBinaryStream());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
