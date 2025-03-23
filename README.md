@@ -489,20 +489,111 @@ This approach ensures that users see highly rated products from active sellers w
 ***
 
 ## 📄 API REST Documentation (OpenAPI)
+REST API documentation is automatically generated and is aviable in the following documents:
 
+- **OpenAPI Specification (YAML):** [api-docs.yaml](webapp04\ByteMarket\backend\src\main\java\es\grupo04\backend\api-docs\api-docs.yaml)
+- **HTML Documentation (Viewable in browser):** [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp04/main/ByteMarket/backend/src/main/java/es/grupo04/backend/api-docs/api-docs.html)
 
 ## 📌 Class diagram updated
 
 
 ## 🐳 Docker execution instructions
+1. Install [Docker](https://docs.docker.com/engine/install/)
 
+2. Run Docker
+   
+3. Clone the Repository:
+   ```
+   git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
+   ```
+   
+4. Navigating to the Directory Containing docker-compose.yml:
+   ```
+   cd webapp04/Docker/
+   ```
+
+5. Deploying the Application with Docker Compose:
+   ```
+   docker compose up
+   ``` 
+
+6. The application will be accesible in the following URL: [https://localhost:8443/](https://localhost:8443/#)
+
+7. To stop the deployment, run the following command:
+   ```
+   docker compose down
+   ```
 
 ### 📦 Docker image contruction documentation
+To build and publish the Docker image for the application, follow these instructions:
+1. Install [Docker](https://docs.docker.com/engine/install/)
+
+2. Run Docker 
+   
+3. Clone the Repository:
+   ```
+   git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
+   ```
+   
+4. Navigating to the Directory Containing create_image.sh:
+   ```
+   cd webapp04/Docker/
+   ```
+
+5. Give execution permission to create_image.sh command file:
+   ```
+   chmod +x create_image.sh
+   ```
+   
+6. Execute the Build Script:
+   ```
+   ./create_image.sh
+   ```
+
+To access the Docker image for Events Crafters, visit the following URL: https://hub.docker.com/?????. This image contains the latest stable version of ByteMarket application, ready for deployment in a Docker environment.
 
 
 ### 🖥️ Documentation for deploying on the virtual machine
+To deploy the application on the virtual machine provided by the university, follow these steps:
+
+### Prerequisites
+- Ensure you have access to a machine with an internet connection and SSH (Secure Shell) installed. This is standard on most Linux and MacOS systems, and available on Windows through tools like PowerShell or Git Bash.
+- You must be connected to the university's network directly or via MyApps to access the virtual machine.
+- Make sure you have the private key (`appWeb04.key`) downloaded on your local machine and have set the appropriate permissions. For Linux/MacOS users, this can be done with the command `chmod 600 prAppWeb11.key`. Windows users may need to adjust permissions by following the guides provided in these links: [Microsoft vscode-remote release issue #1619](https://github.com/microsoft/vscode-remote-release/issues/1619#issuecomment-760990038), [Anuj Varma's SSH on Windows guide](https://www.anujvarma.com/ssh-on-windows-permissions-for-private-key-too-open/).
+
+### Deployment Steps
+1. Open a terminal on your system and use the following command to connect to the virtual machine.
+   ```
+   ssh -i ssh-keys/appWeb04.key vmuser@10.100.139.229
+   ```
+   Also it can be done with: 
+   ```
+   ssh -i ssh-keys/appWeb04.key vmuser@appWeb04.dawgis.etsii.urjc.es
+   ```
+
+2. Clone the repository in the virtual machine with the following command:
+   ```
+   git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
+   ```
+
+3. Navigating to the Directory Containing docker-compose.yml:
+   ```
+   cd webapp04/Docker/
+   ```
+
+4. Deploying the Application with Docker Compose:
+   ```
+   docker compose up
+   ```
+5. The application will be accesible in the following URL: [https://10.100.139.229:8443](https://10.100.139.229:8443)
+
+6. To stop the deployment, run the following command:
+   ```
+   docker compose down
+   ```
 
 ### 🌐 URL App (Deployment on Virtual Machine)
+The application is deployed and can be accessed at the following URL: https://10.100.139.229:8443
 
 ### 🔐 Sample Users
 #### 👑 Admin
