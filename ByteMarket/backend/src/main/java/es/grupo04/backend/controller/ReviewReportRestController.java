@@ -43,7 +43,7 @@ public class ReviewReportRestController {
 
 
     //REVIEWS
-    @Operation (summary= "Retrieve reviews of a user by user's ID")
+    @Operation (summary= "Retrieve reviews recieved by a user by user ID")
     @GetMapping("/users/{userId}/reviews")
     public ResponseEntity<List<ReviewDTO>> getReviews(@PathVariable Long userId) {
         Optional<UserBasicDTO> user = userService.findById(userId);
@@ -65,7 +65,7 @@ public class ReviewReportRestController {
 
     }
 
-    @Operation (summary= "Create (post) a review using user's ID")
+    @Operation (summary= "Create (post) a review for the user indicated by user ID")
     @PostMapping("/users/{userId}/reviews")
     public ResponseEntity<ReviewDTO> postReview(HttpServletRequest request, @ModelAttribute NewReviewDTO reviewDTO, @PathVariable Long userId) {
         Principal principal = request.getUserPrincipal();
@@ -102,7 +102,7 @@ public class ReviewReportRestController {
         return ResponseEntity.ok(reports);
     }
 
-    @Operation (summary= "Crate (post) a report by product's ID")
+    @Operation (summary= "Crate (post) a report to the product indicated by product ID")
     @PostMapping("/reports/products/{productId}")
     public ResponseEntity<ReportDTO> postReport(HttpServletRequest request, @ModelAttribute NewReportDTO reportDTO, @PathVariable Long productId) {
         Principal principal = request.getUserPrincipal();
@@ -117,7 +117,7 @@ public class ReviewReportRestController {
         return ResponseEntity.ok(report.get());
     }
     
-    @Operation (summary= "Delete report by it's ID")
+    @Operation (summary= "Delete report by its ID")
     @DeleteMapping("/reports/{reportId}")
     public ResponseEntity<String> deleteReport(@PathVariable Long reportId) {
         reportService.delete(reportId);

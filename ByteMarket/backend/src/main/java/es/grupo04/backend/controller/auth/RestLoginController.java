@@ -22,7 +22,7 @@ public class RestLoginController {
 	@Autowired
 	private UserLoginService userService;
 
-	@Operation (summary= "Authenticate a user and log in")
+	@Operation (summary= "Log in to an account")
 	@PostMapping("/login")
 	public ResponseEntity<AuthResponse> login(
 			@RequestBody LoginRequest loginRequest,
@@ -31,7 +31,7 @@ public class RestLoginController {
 		return userService.login(response, loginRequest);
 	}
 
-	@Operation (summary= "Refresh an authentication token")
+	@Operation (summary= "Refresh authentication token")
 	@PostMapping("/refresh")
 	public ResponseEntity<AuthResponse> refreshToken(
 			@CookieValue(name = "RefreshToken", required = false) String refreshToken, HttpServletResponse response) {
@@ -39,7 +39,7 @@ public class RestLoginController {
 		return userService.refresh(response, refreshToken);
 	}
 
-	@Operation (summary= "Log out the current user")
+	@Operation (summary= "Log out of an account")
 	@PostMapping("/logout")
 	public ResponseEntity<AuthResponse> logOut(HttpServletResponse response) {
 		return ResponseEntity.ok(new AuthResponse(Status.SUCCESS, userService.logout(response)));

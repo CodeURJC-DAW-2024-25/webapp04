@@ -49,7 +49,7 @@ public class ChatRestController {
     @Autowired
     private PurchaseService purchaseService;
 
-    @Operation (summary= "Retrieve a list of all chats of a user")
+    @Operation (summary= "Retrieve a list of all chats of the authenticated user")
     @GetMapping
     public List<ChatDTO> getUserChats(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();

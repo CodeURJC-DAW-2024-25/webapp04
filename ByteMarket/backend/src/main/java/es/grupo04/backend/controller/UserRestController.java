@@ -53,7 +53,7 @@ public class UserRestController {
         return ResponseEntity.ok(users);
     }
 
-    @Operation (summary= "Retrieve user by it ID")
+    @Operation (summary= "Retrieve user by its ID")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(userId);

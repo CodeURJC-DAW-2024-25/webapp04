@@ -62,7 +62,7 @@ public class ProductRestController {
                 productsPage = productService.findPaginated(PageRequest.of(page, size));
             }
             if (name != null && !name.isEmpty()) {
-                List<ProductDTO> filteredByName = productsPage.getContent().stream()
+                List<ProductDTO> filteredByName = productService.findAll().stream()
                     .filter(product -> product.name().toLowerCase().contains(name.toLowerCase()))
                     .collect(Collectors.toList());
                     return new PageImpl<>(filteredByName, PageRequest.of(page, size), filteredByName.size());
@@ -147,7 +147,7 @@ public class ProductRestController {
         return ResponseEntity.ok(productDTO);
     }
 
-    @Operation (summary= "Retrieve a list of favorites products of a user")
+    @Operation (summary= "Retrieve a list of favorite products of the authenticated user")
     @GetMapping("/favorites")
     public ResponseEntity<Page<ProductDTO>> getFavoriteProducts(
             HttpServletRequest request,
@@ -165,7 +165,7 @@ public class ProductRestController {
         return ResponseEntity.ok(productsPage);
     }
     
-    @Operation (summary= "Toggle a product as a favorite by its ID")
+    @Operation (summary= "Toggle a product as favorite by its ID")
     @PostMapping("/{id}/favorites")
     public ResponseEntity<Page<ProductDTO>> toggleFavoriteProduct(HttpServletRequest request,
             @PathVariable Long id,
@@ -229,7 +229,7 @@ public class ProductRestController {
 
     }
 
-    @Operation (summary= "Add image to the product by the ID of the products")
+    @Operation (summary= "Add image to a product by product ID")
     @PostMapping("/{id}/images")
     public ResponseEntity<Void> addImage(@PathVariable long id, @RequestParam MultipartFile image,
             HttpServletRequest request) throws IOException {
@@ -254,7 +254,7 @@ public class ProductRestController {
 
     }
 
-    @Operation (summary= "Delete image of a product by image ID")
+    @Operation (summary= "Delete image of a product by product ID and image ID")
     @DeleteMapping("/{productId}/images/{imageId}")
     public ResponseEntity<Void> removeImage(@PathVariable long productId, @PathVariable long imageId,
             HttpServletRequest request) {

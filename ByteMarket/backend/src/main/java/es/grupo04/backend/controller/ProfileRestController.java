@@ -41,7 +41,7 @@ public class ProfileRestController {
     @Autowired
     private UserService userService;
 
-    @Operation (summary= "Delete a product by its ID")
+    @Operation (summary= "Delete a user by its ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
         Optional<UserBasicDTO> userOptional = userService.findById(id);
@@ -120,7 +120,7 @@ public class ProfileRestController {
         return ResponseEntity.ok(updated.get());
     }
 
-    @Operation (summary= "Retrieve a product by its ID")
+    @Operation (summary= "Retrieve a user image by user ID")
     @GetMapping("/image/{id}")
     public ResponseEntity<Object> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
@@ -136,7 +136,7 @@ public class ProfileRestController {
                 .body(file);
     }
 
-    @Operation (summary= "Retrieve user's purchase and sales statistics")
+    @Operation (summary= "Retrieve user's purchases and sales statistics")
     @GetMapping("/stats")
     public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails) {
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
