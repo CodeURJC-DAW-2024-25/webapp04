@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import es.grupo04.backend.model.Review;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserBasicMapper.class})
 public interface ReviewMapper {
 
     ReviewDTO toDTO(Review review);

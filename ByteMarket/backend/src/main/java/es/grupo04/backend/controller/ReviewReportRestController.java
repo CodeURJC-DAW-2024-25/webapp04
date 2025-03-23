@@ -13,6 +13,7 @@ import es.grupo04.backend.service.ReviewService;
 import es.grupo04.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -81,7 +82,9 @@ public class ReviewReportRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(review.get());
+        String location = String.format("/api/v1/reviews/%d", review.get().id());
+
+        return ResponseEntity.created(URI.create(location)).body(review.get());
     }
     
     @DeleteMapping("/reviews/{reviewId}")
