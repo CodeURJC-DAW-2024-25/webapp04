@@ -13,8 +13,90 @@ window.onload = function() {
     }
   ],
   "paths": {
+    "/api/v1/profile": {
+      "put": {
+        "summary": "Update user profile information and optionally upload a profile picture",
+        "tags": [
+          "profile-rest-controller"
+        ],
+        "operationId": "updateProfile",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "newPass",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "repeatPass",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "iframe",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profilePicInput": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/v1/products/{id}": {
       "get": {
+        "summary": "Retrieve a product by its ID",
         "tags": [
           "product-rest-controller"
         ],
@@ -31,9 +113,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -43,10 +122,14 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
       "put": {
+        "summary": "Update an existing product by its ID",
         "tags": [
           "product-rest-controller"
         ],
@@ -71,9 +154,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -83,10 +163,14 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
       "delete": {
+        "summary": "Delete a product by its ID",
         "tags": [
           "product-rest-controller"
         ],
@@ -103,9 +187,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -115,12 +196,172 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}/reviews": {
+      "get": {
+        "summary": "Fetch all reviews for a specific user by their ID",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "getReviews",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit a new review for a user by their ID",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "postReview",
+        "parameters": [
+          {
+            "name": "reviewDTO",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/NewReviewDTO"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/signin": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": [
+          "user-rest-controller"
+        ],
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/NewUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/reports/products/{productId}": {
+      "post": {
+        "summary": "Report a product by its ID",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "postReport",
+        "parameters": [
+          {
+            "name": "reportDTO",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/NewReportDTO"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/products": {
       "get": {
+        "summary": "Retrieve a paginated list of all products with optional filters",
         "tags": [
           "product-rest-controller"
         ],
@@ -145,12 +386,33 @@ window.onload = function() {
               "format": "int32",
               "default": 8
             }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "recommended",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -160,10 +422,14 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
       "post": {
+        "summary": "Create a new product",
         "tags": [
           "product-rest-controller"
         ],
@@ -179,9 +445,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -191,12 +454,16 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/products/{id}/images": {
       "post": {
+        "summary": "Upload an image for a specific product by its ID",
         "tags": [
           "product-rest-controller"
         ],
@@ -231,52 +498,89 @@ window.onload = function() {
           }
         },
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
-    "/api/v1/chats": {
-      "get": {
+    "/api/v1/products/{id}/favorites": {
+      "post": {
+        "summary": "Toggle a product as a favorite by its ID",
         "tags": [
-          "chat-rest-controller"
+          "product-rest-controller"
         ],
-        "operationId": "getUserChats",
-        "responses": {
-          "404": {
-            "description": "Not Found"
+        "operationId": "toggleFavoriteProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 8
+            }
+          }
+        ],
+        "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ChatDTO"
-                  }
+                  "$ref": "#/components/schemas/PageProductDTO"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
-      },
+      }
+    },
+    "/api/v1/chats/{productId}": {
       "post": {
+        "summary": "Create a new chat for a product by its ID",
         "tags": [
           "chat-rest-controller"
         ],
         "operationId": "createChat",
         "parameters": [
-
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -286,17 +590,30 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/chats/{id}/send": {
       "post": {
+        "summary": "Send a message in a chat by its ID",
         "tags": [
           "chat-rest-controller"
         ],
         "operationId": "sendMessage",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
           {
             "name": "message",
             "in": "query",
@@ -307,17 +624,25 @@ window.onload = function() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found"
-          },
-          "200": {
-            "description": "OK"
           }
         }
       }
     },
     "/api/v1/chats/{id}/sell": {
       "post": {
+        "summary": "Mark a product as sold in a chat by its ID",
         "tags": [
           "chat-rest-controller"
         ],
@@ -334,17 +659,25 @@ window.onload = function() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found"
-          },
-          "200": {
-            "description": "OK"
           }
         }
       }
     },
     "/api/v1/auth/refresh": {
       "post": {
+        "summary": "Refresh an authentication token",
         "tags": [
           "rest-login-controller"
         ],
@@ -360,9 +693,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -372,20 +702,21 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/auth/logout": {
       "post": {
+        "summary": "Log out the current user",
         "tags": [
           "rest-login-controller"
         ],
         "operationId": "logOut",
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -395,12 +726,16 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/auth/login": {
       "post": {
+        "summary": "Authenticate a user and log in",
         "tags": [
           "rest-login-controller"
         ],
@@ -416,9 +751,6 @@ window.onload = function() {
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -428,30 +760,59 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
-    "/api/users/signin": {
-      "post": {
+    "/api/v1/users": {
+      "get": {
+        "summary": "Retrieve a list of all users",
         "tags": [
           "user-rest-controller"
         ],
-        "operationId": "createUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewUserDTO"
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserDTO"
+                  }
+                }
               }
             }
           },
-          "required": true
-        },
-        "responses": {
           "404": {
             "description": "Not Found"
-          },
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userId}": {
+      "get": {
+        "summary": "Fetch a user’s details by their ID",
+        "tags": [
+          "user-rest-controller"
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
           "200": {
             "description": "OK",
             "content": {
@@ -461,20 +822,199 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "get": {
+        "summary": "Retrieve details of the authenticated user",
+        "tags": [
+          "user-rest-controller"
+        ],
+        "operationId": "getAuthenticatedUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/reviews/{reviewId}": {
+      "get": {
+        "summary": "Retrieve a review by its ID",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "getReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a review by its ID",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "deleteReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/reports": {
+      "get": {
+        "summary": "Fetch a list of all reports",
+        "tags": [
+          "review-report-rest-controller"
+        ],
+        "operationId": "getReports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/profile/stats": {
+      "get": {
+        "summary": "Retrieve statistics for the user’s profile",
+        "tags": [
+          "profile-rest-controller"
+        ],
+        "operationId": "stats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/profile/image/{id}": {
+      "get": {
+        "summary": "Fetch the profile image of a user by their ID",
+        "tags": [
+          "profile-rest-controller"
+        ],
+        "operationId": "getProfileImage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/products/sales": {
       "get": {
+        "summary": "Retrieve a list of the user’s recent sales",
         "tags": [
           "product-rest-controller"
         ],
         "operationId": "getLastSales",
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -487,20 +1027,21 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/products/purchases": {
       "get": {
+        "summary": "Retrieve a list of the user’s recent purchases",
         "tags": [
           "product-rest-controller"
         ],
         "operationId": "getLastPurchases",
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -513,12 +1054,16 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/products/favorites": {
       "get": {
+        "summary": "Fetch a paginated list of the user’s favorite products",
         "tags": [
           "product-rest-controller"
         ],
@@ -546,9 +1091,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -558,12 +1100,43 @@ window.onload = function() {
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/chats": {
+      "get": {
+        "summary": "Retrieve a list of all chats for the authenticated user",
+        "tags": [
+          "chat-rest-controller"
+        ],
+        "operationId": "getUserChats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
     },
     "/api/v1/chats/{id}": {
       "get": {
+        "summary": "Fetch a specific chat by its ID",
         "tags": [
           "chat-rest-controller"
         ],
@@ -580,9 +1153,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -592,45 +1162,23 @@ window.onload = function() {
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/users": {
-      "get": {
-        "tags": [
-          "user-rest-controller"
-        ],
-        "operationId": "getAllUsers",
-        "responses": {
+          },
           "404": {
             "description": "Not Found"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserDTO"
-                  }
-                }
-              }
-            }
           }
         }
       }
     },
-    "/api/users/{userId}": {
-      "get": {
+    "/api/v1/reports/{reportId}": {
+      "delete": {
+        "summary": "Delete a report by its ID",
         "tags": [
-          "user-rest-controller"
+          "review-report-rest-controller"
         ],
-        "operationId": "getUserById",
+        "operationId": "deleteReport",
         "parameters": [
           {
-            "name": "userId",
+            "name": "reportId",
             "in": "path",
             "required": true,
             "schema": {
@@ -640,29 +1188,32 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object"
+                  "type": "string"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
-      },
+      }
+    },
+    "/api/v1/profile/{id}": {
       "delete": {
+        "summary": "Delete a user account by its ID",
         "tags": [
-          "user-rest-controller"
+          "profile-rest-controller"
         ],
         "operationId": "deleteAccount",
         "parameters": [
           {
-            "name": "userId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -672,9 +1223,6 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK",
             "content": {
@@ -684,35 +1232,16 @@ window.onload = function() {
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/users/me": {
-      "get": {
-        "tags": [
-          "user-rest-controller"
-        ],
-        "operationId": "getAuthenticatedUser",
-        "responses": {
+          },
           "404": {
             "description": "Not Found"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
           }
         }
       }
     },
     "/api/v1/products/{productId}/images/{imageId}": {
       "delete": {
+        "summary": "Remove an image from a product by product and image IDs",
         "tags": [
           "product-rest-controller"
         ],
@@ -738,11 +1267,11 @@ window.onload = function() {
           }
         ],
         "responses": {
-          "404": {
-            "description": "Not Found"
-          },
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -834,48 +1363,77 @@ window.onload = function() {
           }
         }
       },
-      "ChatDTO": {
+      "NewReviewDTO": {
         "type": "object",
         "properties": {
-          "id": {
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": {
+            "type": "string"
+          },
+          "reviewedUserId": {
             "type": "integer",
             "format": "int64"
-          },
-          "product": {
-            "$ref": "#/components/schemas/ProductBasicDTO"
-          },
-          "userBuyer": {
-            "$ref": "#/components/schemas/UserBasicDTO"
-          },
-          "userSeller": {
-            "$ref": "#/components/schemas/UserBasicDTO"
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MessageDTO"
-            }
-          },
-          "selling": {
-            "type": "boolean"
           }
         }
       },
-      "MessageDTO": {
+      "ReviewDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "sender": {
+          "description": {
+            "type": "string"
+          },
+          "reviewOwner": {
             "$ref": "#/components/schemas/UserBasicDTO"
           },
-          "message": {
+          "reviewedUser": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NewUserDTO": {
+        "type": "object",
+        "properties": {
+          "mail": {
             "type": "string"
           },
-          "sentAt": {
+          "name": {
             "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "repeatPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "NewReportDTO": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reportCreatorId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -905,49 +1463,24 @@ window.onload = function() {
           }
         }
       },
-      "AuthResponse": {
+      "ReportDTO": {
         "type": "object",
         "properties": {
-          "status": {
-            "type": "string",
-            "enum": [
-              "SUCCESS",
-              "FAILURE"
-            ]
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "message": {
+          "reason": {
             "type": "string"
           },
-          "error": {
-            "type": "string"
-          }
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "username": {
+          "description": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          }
-        }
-      },
-      "NewUserDTO": {
-        "type": "object",
-        "properties": {
-          "mail": {
-            "type": "string"
+          "product": {
+            "$ref": "#/components/schemas/ProductBasicDTO"
           },
-          "name": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "repeatPassword": {
-            "type": "string"
+          "reportCreator": {
+            "$ref": "#/components/schemas/UserBasicDTO"
           }
         }
       },
@@ -1007,10 +1540,6 @@ window.onload = function() {
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
           "unpaged": {
             "type": "boolean"
           },
@@ -1018,6 +1547,10 @@ window.onload = function() {
             "type": "boolean"
           },
           "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
             "type": "integer",
             "format": "int32"
           }
@@ -1037,25 +1570,77 @@ window.onload = function() {
           }
         }
       },
-      "ReviewDTO": {
+      "ChatDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "description": {
+          "product": {
+            "$ref": "#/components/schemas/ProductBasicDTO"
+          },
+          "userBuyer": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "userSeller": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDTO"
+            }
+          },
+          "selling": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MessageDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "message": {
             "type": "string"
           },
-          "reviewOwner": {
-            "$ref": "#/components/schemas/UserBasicDTO"
+          "sentAt": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "FAILURE"
+            ]
           },
-          "reviewedUser": {
-            "$ref": "#/components/schemas/UserBasicDTO"
+          "message": {
+            "type": "string"
           },
-          "rating": {
-            "type": "integer",
-            "format": "int32"
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         }
       },
