@@ -99,7 +99,7 @@ public class ChatService {
 
         Chat chat = chatOptional.get();
         
-        chat.isSelling(userOptional.get());
+        chat.isSelling(user);
 
         ChatDTO updatedChatDTO = chatMapper.toDTO(chat);
         

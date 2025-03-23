@@ -110,6 +110,15 @@ public class ChatController {
             checkedChats.add(chatUpdated);
         }
         ChatDTO existingChat = chatservice.findChatById(chatId).orElse(null);
+        if (existingChat == null) {
+            model.addAttribute("message", "El chat no existe");
+            return "error";
+        }
+        if (existingChat.userBuyer().id() != user.id() && existingChat.userSeller().id() != user.id()) {
+            model.addAttribute("message", "No tienes acceso a este chat");
+            return "error";
+        }
+
         ProductBasicDTO product = existingChat.product();
 
         model.addAttribute("current_chat", existingChat);
