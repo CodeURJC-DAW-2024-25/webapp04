@@ -86,8 +86,11 @@ public class UserService {
     }
 
     public Optional<UserDTO> findByIdExtendedInfo(Long id) {
-        return Optional.of(userMapper.toDTO(userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException())));
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty() || id == 1) {
+            return Optional.empty();
+        }
+        return Optional.of(userMapper.toDTO(user.get()));
     }
 
     public Optional<UserBasicDTO> findByName(String name) {
@@ -350,5 +353,10 @@ public class UserService {
         return userRepository.findById(userId)
             .map(user -> user.getRoles().contains(role))
             .orElse(false);
+    }
+
+    public boolean hasImage(UserDTO userDTO) {
+        User user = userRepository.findById(userDTO.id()).get();
+        return user.hasImage();
     }
 }
