@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import es.grupo04.backend.model.Report;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserBasicMapper.class})
 public interface ReportMapper {
 
     @Mapping(source="user", target="reportCreator")

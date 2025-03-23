@@ -124,7 +124,7 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}/reviews").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/reviews/{reviewId}").permitAll()
-					.requestMatchers(HttpMethod.GET, "/api/v1/profile/image/{id}").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/profiles/image/{id}").permitAll()
 
 					// PRIVATE ENDPOINTS
 					.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("USER")
@@ -136,7 +136,7 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.POST, "/api/v1/products/{id}/images").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/products/{productId}/images/{imageId}").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAnyRole("USER", "ADMIN")	
-					.requestMatchers(HttpMethod.DELETE, "/api/v1/profile/{userId}").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/profiles/{userId}").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.PUT, "/api/v1/users/{userId}").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.POST, "/api/v1/users/{userId}/reviews").hasRole("USER")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/reviews/{reviewId}").hasRole("ADMIN")
@@ -148,7 +148,7 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{productId}").hasRole("USER")
 					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/send").hasRole("USER")
 					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/sell").hasRole("USER")
-					.requestMatchers(HttpMethod.GET, "/api/v1/profile/stats").hasRole("USER")
+					.requestMatchers(HttpMethod.GET, "/api/v1/profiles/stats").hasRole("USER")
 
 					.anyRequest().permitAll()
 					);

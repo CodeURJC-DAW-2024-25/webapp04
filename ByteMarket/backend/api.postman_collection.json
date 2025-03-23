@@ -1,109 +1,11 @@
 {
 	"info": {
-		"_postman_id": "4355ce47-b5c3-497b-bca1-3fdef5601930",
-		"name": "TestingWebapp",
+		"_postman_id": "d5c811ba-4f5c-4675-8df2-34b19b427004",
+		"name": "api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43303164"
+		"_exporter_id": "43143959"
 	},
 	"item": [
-		{
-			"name": "Rest Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"pedro@gmail.com\",\r\n    \"password\" : \"12341234\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{ByteMarket}}/api/v1/auth/login",
-					"host": [
-						"{{ByteMarket}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Rest Refresh",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{ByteMarket}}/api/v1/auth/refresh",
-					"host": [
-						"{{ByteMarket}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"refresh"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Rest Logout",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{ByteMarket}}/api/v1/auth/logout",
-					"host": [
-						"{{ByteMarket}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"logout"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Rest Admin Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\" : \"sara@gmail.com\",\r\n    \"password\" : \"Password1234\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{ByteMarket}}/api/v1/auth/login",
-					"host": [
-						"{{ByteMarket}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
 		{
 			"name": "Rest Sign In",
 			"request": {
@@ -153,6 +55,314 @@
 			"response": []
 		},
 		{
+			"name": "Rest Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"pedro@gmail.com\",\r\n    \"password\" : \"12341234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/login",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/logout",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/refresh",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rest Admin Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"sara@gmail.com\",\r\n    \"password\" : \"Password1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/auth/login",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Own Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/me",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Users",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/users/2",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/profiles/2",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"profiles",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users image from profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/profiles/image/2",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"profiles",
+						"image",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "mail",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "name\n",
+							"value": "Pedro01",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "newPass",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "repeatPass",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "iframe",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "profilePicInput",
+							"type": "file",
+							"src": "postman-cloud:///1f00755e-2c82-4ef0-b194-f07e5975394c"
+						},
+						{
+							"key": "hasImage",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/profiles",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sales/Purchaes Stats",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/profiles/stats",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"profiles",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "All Products",
 			"request": {
 				"method": "GET",
@@ -192,6 +402,122 @@
 			"response": []
 		},
 		{
+			"name": "Filter By Category",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products?category=Otros",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "Otros"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter By Name",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products?name=Samsung",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Samsung"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter By Name and Category",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products?category=Otros&name=HP",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "Otros"
+						},
+						{
+							"key": "name",
+							"value": "HP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Top Rated Products",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products?recommended=true",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					],
+					"query": [
+						{
+							"key": "recommended",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Favorites",
 			"request": {
 				"method": "GET",
@@ -205,6 +531,30 @@
 						"api",
 						"v1",
 						"products",
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Toggle Favorites",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/api/v1/products/11/favorites",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"11",
 						"favorites"
 					]
 				}
@@ -350,7 +700,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Image",
+			"name": "Add Image (Product)",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -381,7 +731,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Image",
+			"name": "Delete Image (Product)",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -433,7 +783,7 @@
 			"response": []
 		},
 		{
-			"name": "Own Profile",
+			"name": "Get Chats Of Logged User",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -441,22 +791,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{ByteMarket}}/api/v1/users/me",
+					"raw": "{{ByteMarket}}/chats",
 					"host": [
 						"{{ByteMarket}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"users",
-						"me"
+						"chats"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "All Users",
+			"name": "Get Chat By ID",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -464,60 +811,88 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{ByteMarket}}/api/v1/users",
+					"raw": "{{ByteMarket}}/chats/1",
 					"host": [
 						"{{ByteMarket}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"users"
+						"chats",
+						"1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "User by id",
+			"name": "Create Chat",
 			"request": {
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{ByteMarket}}/api/v1/users/2",
+					"raw": "{{ByteMarket}}/chats/1",
 					"host": [
 						"{{ByteMarket}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"users",
-						"2"
+						"chats",
+						"1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete User",
+			"name": "Send Message",
 			"request": {
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "DELETE",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "message",
+							"value": "Hola!!",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "{{ByteMarket}}/api/v1/users/2",
+					"raw": "{{ByteMarket}}/chats/4/send",
 					"host": [
 						"{{ByteMarket}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"users",
-						"2"
+						"chats",
+						"4",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Purchase",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{ByteMarket}}/chats/4/sell",
+					"host": [
+						"{{ByteMarket}}"
+					],
+					"path": [
+						"chats",
+						"4",
+						"sell"
 					]
 				}
 			},
