@@ -1057,7 +1057,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/sell",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/productSale",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1066,7 +1066,7 @@
 								"v1",
 								"chats",
 								"4",
-								"sell"
+								"productSale"
 							]
 						}
 					},
@@ -1114,7 +1114,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/send",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/messageDelivery",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1123,7 +1123,7 @@
 								"v1",
 								"chats",
 								"4",
-								"send"
+								"messageDelivery"
 							]
 						}
 					},

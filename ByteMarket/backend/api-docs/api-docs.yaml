@@ -375,7 +375,29 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/ChatDTO"
-  /api/v1/chats/{id}/send:
+  /api/v1/chats/{id}/productSale:
+    post:
+      tags:
+      - chat-rest-controller
+      summary: Mark a product as sold in a chat by its ID
+      operationId: sellProduct
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/chats/{id}/messageDelivery:
     post:
       tags:
       - chat-rest-controller
@@ -393,28 +415,6 @@ paths:
         required: true
         schema:
           type: string
-      responses:
-        "404":
-          description: Not Found
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: object
-  /api/v1/chats/{id}/sell:
-    post:
-      tags:
-      - chat-rest-controller
-      summary: Mark a product as sold in a chat by its ID
-      operationId: sellProduct
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int64
       responses:
         "404":
           description: Not Found
@@ -947,12 +947,12 @@ components:
     PageProductDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -965,13 +965,13 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: "#/components/schemas/PageableObject"
         empty:
@@ -984,24 +984,24 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
-        unpaged:
+        paged:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
         pageSize:
           type: integer
           format: int32
-        paged:
+        pageNumber:
+          type: integer
+          format: int32
+        unpaged:
           type: boolean
     SortObject:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
     ChatDTO:
       type: object

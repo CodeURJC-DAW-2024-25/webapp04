@@ -111,7 +111,7 @@ public class ChatRestController {
     }
 
     @Operation (summary= "Send a message in a chat by its ID")
-    @PostMapping("/{id}/send")
+    @PostMapping("/{id}/messageDelivery")
     public ResponseEntity<?> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
@@ -131,7 +131,7 @@ public class ChatRestController {
     }
 
     @Operation (summary= "Mark a product as sold in a chat by its ID")
-    @PostMapping("/{id}/sell")
+    @PostMapping("/{id}/productSale")
     public ResponseEntity<?> sellProduct(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {

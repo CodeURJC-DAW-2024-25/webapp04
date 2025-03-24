@@ -597,7 +597,42 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/chats/{id}/send": {
+    "/api/v1/chats/{id}/productSale": {
+      "post": {
+        "tags": [
+          "chat-rest-controller"
+        ],
+        "summary": "Mark a product as sold in a chat by its ID",
+        "operationId": "sellProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/chats/{id}/messageDelivery": {
       "post": {
         "tags": [
           "chat-rest-controller"
@@ -620,41 +655,6 @@ window.onload = function() {
             "required": true,
             "schema": {
               "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/chats/{id}/sell": {
-      "post": {
-        "tags": [
-          "chat-rest-controller"
-        ],
-        "summary": "Mark a product as sold in a chat by its ID",
-        "operationId": "sellProduct",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
             }
           }
         ],
@@ -1487,13 +1487,13 @@ window.onload = function() {
       "PageProductDTO": {
         "type": "object",
         "properties": {
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
           "totalElements": {
             "type": "integer",
             "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
           },
           "size": {
             "type": "integer",
@@ -1512,15 +1512,15 @@ window.onload = function() {
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
           },
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
@@ -1540,18 +1540,18 @@ window.onload = function() {
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "unpaged": {
+          "paged": {
             "type": "boolean"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
           },
           "pageSize": {
             "type": "integer",
             "format": "int32"
           },
-          "paged": {
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
             "type": "boolean"
           }
         }
@@ -1562,10 +1562,10 @@ window.onload = function() {
           "empty": {
             "type": "boolean"
           },
-          "unsorted": {
+          "sorted": {
             "type": "boolean"
           },
-          "sorted": {
+          "unsorted": {
             "type": "boolean"
           }
         }

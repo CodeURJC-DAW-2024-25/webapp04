@@ -146,8 +146,8 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.GET, "/api/v1/chats").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/chats/{id}").hasRole("USER")
 					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{productId}").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/send").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/sell").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/messageDelivery").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/productSale").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/profiles/stats").hasRole("USER")
 
 					.anyRequest().permitAll()
