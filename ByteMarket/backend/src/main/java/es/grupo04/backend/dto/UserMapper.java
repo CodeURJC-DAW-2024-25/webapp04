@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import es.grupo04.backend.model.User;
 import es.grupo04.backend.service.Constants;
 
-@Mapper(componentModel = "spring", uses = {ProductBasicMapper.class, ReviewMapper.class})
+@Mapper(componentModel = "spring", uses = {ProductBasicMapper.class, ReviewMapper.class, UserBasicMapper.class})
 public interface UserMapper {
     @Mapping(target = "image", expression = "java(mapProfileImage(user))")
     @Mapping(target = "hasImage", expression = "java(mapHasImage(user))")
