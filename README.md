@@ -492,9 +492,10 @@ This approach ensures that users see highly rated products from active sellers w
 REST API documentation is automatically generated and is aviable in the following documents:
 
 - **OpenAPI Specification (YAML):** [api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.yaml)
-- **HTML Documentation (Viewable in browser):** [api-docs.html](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.html)
+- **HTML Documentation (Viewable in browser):** [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp04/main/ByteMarket/backend/api-docs/api-docs.html)
 
-## 📌 Class diagram updated
+## 📌 Class diagram updated 
+![JavaClass](./Screenshots/Diagrams/Class%20Diagram%20Updated.jpg)
 
 
 ## 🐳 Docker execution instructions
