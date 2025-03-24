@@ -575,8 +575,8 @@ To facilitate testing and validation, I have created an initial Postman collecti
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) | UserRestController and ProductRestController implemented |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) | Review, Reports and Purchase to DTOs and Mappers implemented |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/31bc7ae240244cf734fdf4151b6c0ba8793ccad5) | UserRestController and ProductRestController implemented |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/a351c7b4b53748dacd2dad2c5260be0e0e685369) | Review, Reports and Purchase to DTOs and Mappers implemented |
 | [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f78b9f3142ef83e202907c4b6afca845fa3782da) | API DOCS |
 | [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/3b137b4c1cd20c5cebe0959063223d4719082348) | Security |
 | [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/dd067b40f6ee29feb660406a0466e12d056d3326) | Initial Postman collection of user and product |
