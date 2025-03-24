@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
@@ -76,8 +77,12 @@ public class UserRestController {
             return ResponseEntity.badRequest().body("User already exists");
         }
         
-        String location = String.format("/api/v1/users/%d", userOptional.get().id());
-        return ResponseEntity.created(URI.create(location)).body(userOptional.get());
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequestUri()
+            .replacePath(String.format("/api/v1/users/%d", userOptional.get().id()))
+            .build()
+            .toUri();
+        return ResponseEntity.created(location).body(userOptional.get());
     }
 
 }

@@ -494,7 +494,8 @@ REST API documentation is automatically generated and is aviable in the followin
 - **OpenAPI Specification (YAML):** [api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.yaml)
 - **HTML Documentation (Viewable in browser):** [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp04/main/ByteMarket/backend/api-docs/api-docs.html)
 
-## 📌 Class diagram updated
+## 📌 Class diagram updated 
+![JavaClass](./Screenshots/Diagrams/Class%20Diagram%20Updated.jpg)
 
 
 ## 🐳 Docker execution instructions
@@ -636,7 +637,10 @@ To facilitate testing and validation, I have created an initial Postman collecti
 | [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserRestController.java) | UserRestController |
 
 ### 👤 Marcos García García
-...
+During this phase I was responsible for creating the Dockerfile, docker-compose file and the scripts used to create the Docker image and pusblishing it at Docker Hub. I also set up the deployment of the application on the virtual machine provided by the university, installing the required programs on this machine, clonning this repository there and finally executing it using docker compose up.
+I was also responsible for creating much of the DTOs needed for the API REST as well as the mappers needed to change from a Domain object to a DTO and vice versa. After this, I also refactored some of the alredy existing services and controllers to make then able to work correctly using the new DTOs, specially the ones related to Products and Images.
+Finally, I implemented some of the rest controllers needed to make the API REST work correctly, I specially focused on the ones related to Products and Images making and refacotring part of them, as well as the ones related to Reviews and Reports which I completely implemented. I also added the login rest controller needed to authenticate users in the API REST as well as all the security configuration needed to make it work correctly.
+
 | Commit | Description |
 | :----: | :---------: |
 | [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
