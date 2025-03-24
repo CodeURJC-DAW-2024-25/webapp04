@@ -495,7 +495,8 @@ REST API documentation is automatically generated and is aviable in the followin
 - **HTML Documentation (Viewable in browser):** [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp04/main/ByteMarket/backend/api-docs/api-docs.html)
 
 ## 📌 Class diagram updated 
-(./Screenshots/Diagrams/Class%20Diagram%20Updated.jpg) 
+![JavaClass](./Screenshots/Diagrams/Class%20Diagram%20Updated.jpg)
+
 
 ## 🐳 Docker execution instructions
 1. Install [Docker](https://docs.docker.com/engine/install/)
