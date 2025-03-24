@@ -583,11 +583,11 @@ To facilitate testing and validation, I have created an initial Postman collecti
 
 | File | Name |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductRestController.java) | Product Rest Controller |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/service/ReviewService.java) | Review Service |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/security/WebSecurityConfig.java) | Security |
-| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.yaml) | API DOCS |
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserRestController.java) | UserRestController |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductRestController.java) | Product Rest Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ReviewService.java) | Review Service |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/security/WebSecurityConfig.java) | Security |
+| [4º](ByteMarket/backend/api-docs/api-docs.yaml) | API DOCS |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserRestController.java) | UserRestController |
 
 ### 👤 Marcos García García
 During this phase I was responsible for creating the Dockerfile, docker-compose file and the scripts used to create the Docker image and pusblishing it at Docker Hub. I also set up the deployment of the application on the virtual machine provided by the university, installing the required programs on this machine, clonning this repository there and finally executing it using docker compose up.
@@ -611,22 +611,24 @@ Finally, I implemented some of the rest controllers needed to make the API REST 
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
 
 ### 👤 Naroa Martín Simón
-...
+I have worked on updating the UserService, ProfileController and UserController, ensuring that all interactions within the presentation layer are done through DTOs instead of entities. I have also managed the users' profile images and improved the various user-related DTOs and mappers.
+I have focused on the implementation of the ProfileRestController, which allows to perform operations to edit and delete users from the REST API, among other functionalities. In addition, I have worked on the ProductRestController, specially on the managment of favorite products and allowing to filter products through the request based on parameters such as name, category or if they are featured products.
+Finally, I made sure that all the resources that can be obtained through the REST API return their corresponding Location header when created. In addition, I made specific fixes and improvements to the code to optimize its operation and ensure proper handling of API responses.
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/dd847e85d4cd34e704955af31c06ba7f20aa8ffa) | ProfileRestController |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/aef685d144e3be55a13577785538a922f7a885bf) | Toggle Favorite Products from API |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/61d2f86fe7c3bc84e9fcdcd311f1ea245adb2bb1) | Filter Products |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/04f5f5699cd1b3243313d66499e09ab0c771240d) | Profile Controller and Profile picture visibility |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/cfa06782f0a21d065b7237532456738c23867331) | User Sevice update and ProfileController |
 
 | File | Name |
 | :----: | :---------: |
-| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileRestController.java) | Profile Rest Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductRestController.java) | Product Rest Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/UserService.java) | User Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProfileController.java) | Profile Controller |
+| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserWebController.java) | User Web Controller |
 
 ### 👤 Adrián Muñoz Serrano
 ...
