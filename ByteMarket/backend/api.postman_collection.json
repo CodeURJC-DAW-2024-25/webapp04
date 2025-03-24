@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "98d3a93d-ca15-423f-a4f4-960404b7c9e4",
+		"_postman_id": "ec7d947c-e910-4a4d-8a81-c25830ba0686",
 		"name": "api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43168241",
-		"_collection_link": "https://lunar-flare-4884.postman.co/workspace/My-Workspace~f1a28fb8-7ec4-4f8b-8116-6ede0d38bb65/collection/43168241-98d3a93d-ca15-423f-a4f4-960404b7c9e4?action=share&source=collection_link&creator=43168241"
+		"_exporter_id": "43058239"
 	},
 	"item": [
 		{
@@ -1013,11 +1012,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/chats/1",
+							"raw": "{{ByteMarket}}/api/v1/chats/1",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
+								"api",
+								"v1",
 								"chats",
 								"1"
 							]
@@ -1034,11 +1035,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/chats",
+							"raw": "{{ByteMarket}}/api/v1/chats",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
+								"api",
+								"v1",
 								"chats"
 							]
 						}
@@ -1054,11 +1057,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/chats/4/sell",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/sell",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
+								"api",
+								"v1",
 								"chats",
 								"4",
 								"sell"
@@ -1076,11 +1081,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/chats/1",
+							"raw": "{{ByteMarket}}/api/v1/chats/1",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
+								"api",
+								"v1",
 								"chats",
 								"1"
 							]
@@ -1107,11 +1114,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{ByteMarket}}/chats/4/send",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/send",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
+								"api",
+								"v1",
 								"chats",
 								"4",
 								"send"
