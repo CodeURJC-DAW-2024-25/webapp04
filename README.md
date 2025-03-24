@@ -550,7 +550,7 @@ To build and publish the Docker image for the application, follow these instruct
    ./create_image.sh
    ```
 
-To access the Docker image for ByteMarket, visit the following URL: https://hub.docker.com/?????. This image contains the latest stable version of ByteMarket application, ready for deployment in a Docker environment.
+To access the Docker image for ByteMarket, visit the following URL: https://hub.docker.com/repository/docker/marcosgrc/webapp04/general. This image contains the latest stable version of ByteMarket application, ready for deployment in a Docker environment.
 
 
 ### 🖥️ Documentation for deploying on the virtual machine
