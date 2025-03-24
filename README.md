@@ -491,8 +491,8 @@ This approach ensures that users see highly rated products from active sellers w
 ## 📄 API REST Documentation (OpenAPI)
 REST API documentation is automatically generated and is aviable in the following documents:
 
-- **OpenAPI Specification (YAML):** [api-docs.yaml](webapp04\ByteMarket\backend\src\main\java\es\grupo04\backend\api-docs\api-docs.yaml)
-- **HTML Documentation (Viewable in browser):** [api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp04/main/ByteMarket/backend/src/main/java/es/grupo04/backend/api-docs/api-docs.html)
+- **OpenAPI Specification (YAML):** [api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.yaml)
+- **HTML Documentation (Viewable in browser):** [api-docs.html](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.html)
 
 ## 📌 Class diagram updated
 
@@ -517,7 +517,7 @@ REST API documentation is automatically generated and is aviable in the followin
    docker compose up
    ``` 
 
-6. The application will be accesible in the following URL: [https://localhost:8443/](https://localhost:8443/#)
+6. The application will be accesible in the following URL: [https://localhost:8443](https://localhost:8443#)
 
 7. To stop the deployment, run the following command:
    ```
@@ -583,9 +583,9 @@ To deploy the application on the virtual machine provided by the university, fol
 
 4. Deploying the Application with Docker Compose:
    ```
-   docker compose up
+   docker compose up -d
    ```
-5. The application will be accesible in the following URL: [https://10.100.139.229:8443](https://10.100.139.229:8443)
+5. The application will be accesible in the following URL: [https://appweb04.dawgis.etsii.urjc.es:443](https://appweb04.dawgis.etsii.urjc.es:443)
 
 6. To stop the deployment, run the following command:
    ```
@@ -593,7 +593,7 @@ To deploy the application on the virtual machine provided by the university, fol
    ```
 
 ### 🌐 URL App (Deployment on Virtual Machine)
-The application is deployed and can be accessed at the following URL: https://10.100.139.229:8443
+The application is deployed and can be accessed at the following URL: https://appweb04.dawgis.etsii.urjc.es:443
 
 ### 🔐 Sample Users
 #### 👑 Admin
