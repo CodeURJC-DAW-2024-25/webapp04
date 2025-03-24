@@ -590,25 +590,25 @@ To facilitate testing and validation, I have created an initial Postman collecti
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserRestController.java) | UserRestController |
 
 ### 👤 Marcos García García
-During this phase I was responsible for creating the Dockerfile, docker-compose file and the scripts used to create the Docker image and pusblishing it at Docker Hub. I also set up the deployment of the application on the virtual machine provided by the university, installing the required programs on this machine, clonning this repository there and finally executing it using docker compose up.
+During this phase I was responsible for creating the Dockerfile, docker-compose file and the scripts used to create the Docker image and publishing it at Docker Hub. I also set up the deployment of the application on the virtual machine provided by the university, installing the required programs on this machine, clonning this repository there and finally executing it using docker compose up.
 I was also responsible for creating much of the DTOs needed for the API REST as well as the mappers needed to change from a Domain object to a DTO and vice versa. After this, I also refactored some of the alredy existing services and controllers to make then able to work correctly using the new DTOs, specially the ones related to Products and Images.
 Finally, I implemented some of the rest controllers needed to make the API REST work correctly, I specially focused on the ones related to Products and Images making and refacotring part of them, as well as the ones related to Reviews and Reports which I completely implemented. I also added the login rest controller needed to authenticate users in the API REST as well as all the security configuration needed to make it work correctly.
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/48b9cf159c083bb39c56bc3f55d7b3233eaac929) | All ProductRestController fixed and RestLoginController added |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/9e143dafcd2640ec20feab7693f9a7fdf5f78c13) | Finished Report and Review Rest Controller, changes and fixes in UserRestController and other refactoring changes |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/1e775d50362d138a3254a019c38df321ddcc4b63) | Product service and controller refactoring |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/1534603fc1183b86a2e10fc6d1a1fd54e3712bfd) | All working dockerfile and docker-compose, refactoring DataBaseInitializer to load images correctly, fixing native query |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/72715279ba574bff1d6c1bff0a8ed4fb64927dba) | Finished all DTOs and adjusted existing ones |
 
 | File | Name |
 | :----: | :---------: |
-| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductRestController.java) | Product Rest Controller |
+| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ReviewReportRestController.java) | Review and Report Rest Controller |
+| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ProductService.java) | Product Service |
+| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductController.java) | Product Controller |
+| [5º](Docker/Dockerfile) | Dockerfile |
 
 ### 👤 Naroa Martín Simón
 I have worked on updating the UserService, ProfileController and UserController, ensuring that all interactions within the presentation layer are done through DTOs instead of entities. I have also managed the users' profile images and improved the various user-related DTOs and mappers.
