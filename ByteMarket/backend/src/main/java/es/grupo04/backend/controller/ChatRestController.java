@@ -81,9 +81,11 @@ public class ChatRestController {
             return ResponseEntity.ok(existingChat);
         } else {
             ChatDTO newChat = chatService.createChat(userDTO, product.owner(), productId);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .buildAndExpand(newChat.id())
-                .toUri();
+            URI location = ServletUriComponentsBuilder
+            .fromCurrentRequestUri()
+            .replacePath(String.format("/api/v1/chats/%d", newChat.id()))
+            .build()
+            .toUri();
             return ResponseEntity.created(location).body(newChat);
         }
     }
@@ -125,11 +127,7 @@ public class ChatRestController {
         }
 
         MessageDTO messageDTO = messageService.createMessage(message, sender, chat);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/")
-                .buildAndExpand(messageDTO.id())
-                .toUri();
-        return ResponseEntity.created(location).body(messageDTO);
+        return ResponseEntity.ok(messageDTO);
     }
 
     @Operation (summary= "Mark a product as sold in a chat by its ID")
@@ -155,11 +153,6 @@ public class ChatRestController {
         if (purchase == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo completar la venta");
         }
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-        .path("/")
-        .buildAndExpand(purchase.id())
-        .toUri();
-        return ResponseEntity.created(location).body(purchase);
-
+        return ResponseEntity.ok(purchase);
     }
 }
