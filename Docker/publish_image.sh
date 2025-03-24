@@ -6,11 +6,11 @@ IMAGE_TAG="latest"
 
 read -p "Docker Hub username: " DOCKER_USER
 
-# Iniciar sesión en Docker Hub
+# Login in Docker Hub
 docker login -u $DOCKER_USER
 
-# Etiquetar la imagen
+# Tag the image
 docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG
 
-# Subir la imagen
+# Upload the image
 docker push $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG
