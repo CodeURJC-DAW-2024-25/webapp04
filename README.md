@@ -616,22 +616,24 @@ The application is deployed and can be accessed at the following URL: https://ap
 ## ⚙️ Members participation
 
 ### 👤 Olga Chubinova Bortsova
-...
+During the development of the web application, I have worked on Review Service, ensuring its integration with the rest of the system, and implemented rest security configuration to strengthen access control and data protection adding. Additionally, I have documented the API using OpenAPI with SpringDoc, making it easier to understand and use the available endpoints.
+To facilitate testing and validation, I have created an initial Postman collection for the user and product endpoints. I have also refactored the Review, Reports, and Purchase modules to use DTOs and mappers, ensuring a clear separation between entities and the presentation layer. Furthermore, I have initiated the implementation of the ProductRestController, laying its foundation, and have worked on the UserRestController, structuring its initial endpoints. I have also made minor adjustments to the ProfileController.
+
 | Commit | Description |
 | :----: | :---------: |
-| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
-| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) |  |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) | UserRestController and ProductRestController implemented |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/) | Review, Reports and Purchase to DTOs and Mappers implemented |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/f78b9f3142ef83e202907c4b6afca845fa3782da) | API DOCS |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/3b137b4c1cd20c5cebe0959063223d4719082348) | Security |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/dd067b40f6ee29feb660406a0466e12d056d3326) | Initial Postman collection of user and product |
 
 | File | Name |
 | :----: | :---------: |
-| [1º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [2º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
-| [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/) |  |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/controller/ProductRestController.java) | Product Rest Controller |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/service/ReviewService.java) | Review Service |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/security/WebSecurityConfig.java) | Security |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/api-docs/api-docs.yaml) | API DOCS |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/ByteMarket/backend/src/main/java/es/grupo04/backend/controller/UserRestController.java) | UserRestController |
 
 ### 👤 Marcos García García
 ...
