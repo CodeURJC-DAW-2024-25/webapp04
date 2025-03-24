@@ -2,7 +2,7 @@ services:
   web:
     image: marcosgrc/webapp04:latest
     ports:
-      - 8443:8443
+      - 443:8443
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db/bytemarket
       - SPRING_DATASOURCE_USERNAME=root
