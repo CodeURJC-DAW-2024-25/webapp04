@@ -1,6 +1,8 @@
 package es.grupo04.backend.service;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.stream.Collectors;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -88,7 +92,16 @@ public class ProductService {
 		}
 
 		Product newProduct = newProductMapper.toDomain(product);
-		addImages(newProduct, product.imageUpload());
+		if(product.imageUpload() != null){
+			addImages(newProduct, product.imageUpload());
+			newProduct.setHasImage(true);
+		} else {
+			Resource image = new ClassPathResource("/static/images/No-Image-Placeholder.png");
+			InputStream inputStream = new BufferedInputStream(image.getInputStream());
+			Image defaultImage = new Image(BlobProxy.generateProxy(inputStream, image.contentLength()));
+			newProduct.setThumbnail(defaultImage);
+			newProduct.setImages(List.of(defaultImage));
+		}
 		User owner = userRepository.findById(ownerId).get();
 		newProduct.setOwner(owner);
 		return productMapper.toDTO(repository.save(newProduct));
@@ -279,6 +292,12 @@ public class ProductService {
 
 		Blob blob = BlobProxy.generateProxy(image.getInputStream(), image.getSize());
 		Image imgToStore = new Image(blob);
+
+		if(!product.hasImage()){ 
+			product.setHasImage(true);
+			product.getImages().remove(0);
+			product.setThumbnail(imgToStore);
+		}
 
 		product.getImages().add(imgToStore);
 		repository.save(product);
