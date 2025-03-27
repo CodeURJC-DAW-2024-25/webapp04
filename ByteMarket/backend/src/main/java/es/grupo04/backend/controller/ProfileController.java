@@ -82,8 +82,7 @@ public class ProfileController {
 
         int pageSize = 8;
         Optional<UserDTO> optionalUser = userService.findByMailExtendedInfo(userDetails.getUsername());
-        
-        System.out.println("Imagen de la url: " + optionalUser.get().image());
+    
         boolean showProfileSection = filter == null;
         model.addAttribute("showProfileSection", showProfileSection);
 
@@ -287,31 +286,39 @@ public class ProfileController {
 
     @GetMapping("/editProfile")
     public String editProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        Optional<EditUserDTO> optionalUser = userService.findByMailEdit(userDetails.getUsername());
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado");
             return "error";
         }
 
-        EditUserDTO user = optionalUser.get();
+        UserBasicDTO user = optionalUser.get();
         model.addAttribute("user", user);
+        model.addAttribute("mail", userDetails.getUsername());
+        return "editProfile";
+    }
+
+    @PostMapping("/editImage")
+    public String uploadProfilePic(@AuthenticationPrincipal UserDetails userDetails,@RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic, Model model)throws IOException{
+        Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());    
+        if (!optionalUser.isPresent()) {
+            model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
+            return "error";
+        }
+        userService.saveProfilePic(optionalUser.get(), profilePic);
+        Optional<UserBasicDTO> updated = userService.findByMail(userDetails.getUsername());
+        model.addAttribute("mail", userDetails.getUsername());
+        model.addAttribute("user", updated.get());
         return "editProfile";
     }
 
     @PostMapping("/editProfile")
-    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute EditUserDTO user,
-        @RequestParam(name = "newPass", required = false) String newPass, @RequestParam(name = "repeatPass", required = false) String repeatPass,
-        @RequestParam(name = "profilePicInput", required = false) MultipartFile profilePic, @RequestParam(name = "iframe", required = false) String iframe
-        ) throws IOException {
+    public String postEditProfile(@AuthenticationPrincipal UserDetails userDetails, Model model, @ModelAttribute EditUserDTO user) throws IOException {
 
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
         if (!optionalUser.isPresent()) {
             model.addAttribute("message", "Usuario no encontrado: " + userDetails.getUsername());
             return "error";
-        }
-        
-        if(!profilePic.isEmpty()){
-            userService.saveProfilePic(optionalUser.get(), profilePic);
         }
 
         Optional<String> message = userService.editProfile(optionalUser.get(), user);
@@ -319,8 +326,11 @@ public class ProfileController {
             model.addAttribute("message", message.get());
             return "error";
         }
-
-        return "redirect:/profile";
+        if (userService.isAdmin(optionalUser.get())){
+            return "redirect:/adminProfile";
+        }else{
+            return "redirect:/profile";
+        }
     }
     
     @GetMapping("/user/image/{id}")
@@ -393,7 +403,6 @@ public class ProfileController {
 
     @PostMapping("/review/{id}/delete")
     public String deleteReview(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        System.out.println("Intentando eliminar la reseña con ID: " + id);
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
 
         if (!optionalUser.isPresent()) {

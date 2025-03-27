@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.grupo04.backend.dto.EditUserDTO;
-import es.grupo04.backend.dto.EditUserMapper;
 import es.grupo04.backend.dto.NewUserDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
@@ -51,9 +50,6 @@ public class UserService {
     private UserBasicMapper userBasicMapper;
 
     @Autowired
-    private EditUserMapper edit;
-
-    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
@@ -72,11 +68,6 @@ public class UserService {
 
     public Optional<UserDTO> findByMailExtendedInfo(String mail) {
         return Optional.of(userMapper.toDTO(userRepository.findByMail(mail)
-                .orElseThrow(() -> new NoSuchElementException())));
-    }
-
-    public Optional<EditUserDTO> findByMailEdit(String mail) {
-        return Optional.of(edit.toDTO(userRepository.findByMail(mail)
                 .orElseThrow(() -> new NoSuchElementException())));
     }
 
@@ -114,18 +105,14 @@ public class UserService {
     // User Validation
     public boolean validateUser(NewUserDTO user) {
         if (!validateName(user.name())) { // Check if name is valid
-            System.out.println("\n\n\nHa pasado: Nombre no válido");
             return false;
         }
         if (!validateMail(user)) { // Check if mail is valid
-            System.out.println("\n\n\nHa pasado: Mail no válido");
             return false;
         }
         if (!validatePassword(user)) { // Check if password is valid
-            System.out.println("\n\n\nHa pasado: Contraseña no válido");
             return false;
         }
-        System.out.println("Contraseña válida");
         return true; // If all checks pass, return true
     }
 
@@ -147,10 +134,8 @@ public class UserService {
             favoriteProducts.add(product);
             user.setFavoriteProducts(favoriteProducts);
             userRepository.save(user);
-            System.out.println("Producto añadido a favoritos: " + product.getName());
             return true;
         } else {
-            System.out.println("El producto ya está en los favoritos.");
             return false;
         }
     }
@@ -169,17 +154,13 @@ public class UserService {
             favoriteProducts.remove(product);
             user.setFavoriteProducts(favoriteProducts);
             userRepository.save(user);
-            System.out.println("Producto eliminado de favoritos: " + product.getName());
             return true;
         } else {
-            System.out.println("El producto no está en los favoritos.");
             return false;
         }
     }
 
-    public Optional<String> editProfile(UserBasicDTO oldUser, EditUserDTO editUserDTO) {
-        System.out.println("Editando usuario: " + oldUser.id() + " con los datos: " + editUserDTO.profilePicInput());
-        System.out.println("Datos de DTO: " + editUserDTO.profilePicInput());
+    public Optional<String> editProfile(UserBasicDTO oldUser, EditUserDTO editUserDTO){
         // Get the user from the repository
         User user = userRepository.findById(oldUser.id())
                 .orElseThrow(() -> new NoSuchElementException());
@@ -258,12 +239,12 @@ public class UserService {
     }
     
     public void saveProfilePic(UserBasicDTO userDTO, MultipartFile profilePic) throws IOException {
-        System.out.println("Guardando imagen de perfil para el usuario: " + profilePic.getOriginalFilename());
         User user = userRepository.findById(userDTO.id())
                 .orElseThrow(() -> new NoSuchElementException());
         Blob blob = BlobProxy.generateProxy(profilePic.getInputStream(), profilePic.getSize());
         user.setImageFile(blob);
         user.setImage(true);
+        userRepository.save(user);
     }
 
     public void delete(UserBasicDTO userDTO) {
@@ -338,7 +319,6 @@ public class UserService {
     }
 
     public Blob getImage(UserDTO userDTO) {
-        System.out.println("Obteniendo imagen de perfil para el usuario: " + userDTO.id());
         User user = userRepository.findById(userDTO.id()).get();
         return user.getImageFile();
     }
@@ -358,5 +338,13 @@ public class UserService {
     public boolean hasImage(UserDTO userDTO) {
         User user = userRepository.findById(userDTO.id()).get();
         return user.hasImage();
+    }
+
+    public boolean isAdmin(UserBasicDTO userDTO){
+        User user = userRepository.findById(userDTO.id()).get();
+        if(user.getRoles().contains("ADMIN")){
+            return true;
+        }
+        return false;
     }
 }

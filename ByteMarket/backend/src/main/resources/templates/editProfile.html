@@ -30,7 +30,54 @@
         <h2 class="mb-4">Editar Perfil</h2>
 
 
-        <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
+        <form class="form" method="POST" action="/editImage" enctype="multipart/form-data" id="profilePicForm">
+            <div class="profile-pic-wrapper">
+                <label for="profilePicInput">
+                    {{#user.hasImage}}
+                    <img class="profile-pic mb-3" src="/user/image/{{user.id}}" id="pfp-preview" alt="pfp">
+                    {{/user.hasImage}}
+                    {{^user.hasImage}}
+                    <img class="profile-pic mb-3" src="/images/default_pfp.jpg" id="pfp-preview" alt="pfp">
+                    {{/user.hasImage}}
+                    <span class="edit-icon">
+                        <i class="bi bi-upload"></i>
+                    </span>
+                </label>
+                <input type="file" id="profilePicInput" class="file-input" name="profilePicInput" accept="image/jpeg, image/png, image/jpg" onchange="this.form.submit()">
+            </div>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+        </form>
+        
+
+        <form class="form" method="POST" action="/editProfile" enctype="application/x-www-form-urlencoded">
+            <div class="mb-3 text-start">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" value="{{user.name}}" title="Usuario" name="name">
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control" value="{{mail}}" title="Correo" name="mail" disabled>
+            </div>
+            {{^admin}} <!-- Not for admin -->
+            <div class="mb-3 text-start">
+                <h2>Selecciona una ubicación</h2>
+                <div id="map" style="z-index: 0;"></div>
+                <input type="hidden" name="iframe" id="iframeCode">
+            </div>
+            {{/admin}}
+            <div class="mb-3 text-start">
+                <label class="form-label">Nueva Contraseña</label>
+                <input type="password" class="form-control" title="Contraseña" name="newPass">
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" title="Contraseña" name="repeatPass">
+            </div>
+            <button type="submit" class="btn btn-custom w-100 mb-2">Guardar Cambios</button>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+        </form>
+        
+        <!-- <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
 
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
@@ -54,9 +101,9 @@
             </div>
             <div class="mb-3 text-start">
                 <label class="form-label">Correo</label>
-                <input type="email" class="form-control" value="{{user.mail}}" title="Correo" name="mail" disabled>
+                <input type="email" class="form-control" value="{{mail}}" title="Correo" name="mail" disabled>
             </div>
-            {{^admin}} <!--Not for admin-->
+            {{^admin}} 
             <div class="mb-3 text-start">
                 <h2>Selecciona una ubicación</h2>
                 <div id="map" style="z-index: 0;"></div>
@@ -78,7 +125,7 @@
         <form class="form" method="POST" action="/deleteAccount">
             <button type="submit" class="btn btn-custom w-100 mb-2">Eliminar Cuenta</button>
             <input type="hidden" name="_csrf" value="{{token}}"/>
-        </form>
+        </form> -->
     </div>
 </div>
 

@@ -59,7 +59,7 @@ public class ChatRestController {
     }
 
     @Operation (summary= "Create a new chat by the product ID")
-    @PostMapping("/{productId}")
+    @PostMapping("/products/{productId}")
     public ResponseEntity<ChatDTO> createChat(@PathVariable Long productId, HttpServletRequest request) throws IOException {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
@@ -83,7 +83,7 @@ public class ChatRestController {
             ChatDTO newChat = chatService.createChat(userDTO, product.owner(), productId);
             URI location = ServletUriComponentsBuilder
             .fromCurrentRequestUri()
-            .replacePath(String.format("/api/v1/chats/%d", newChat.id()))
+            .replacePath(String.format("/api/v1/users/me/chats/%d", newChat.id()))
             .build()
             .toUri();
             return ResponseEntity.created(location).body(newChat);
@@ -111,7 +111,7 @@ public class ChatRestController {
     }
 
     @Operation (summary= "Send a message in a chat by its ID")
-    @PostMapping("/{id}/messageDelivery")
+    @PostMapping("/{id}/messages")
     public ResponseEntity<?> sendMessage(@PathVariable Long id, @RequestParam String message, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
@@ -131,7 +131,7 @@ public class ChatRestController {
     }
 
     @Operation (summary= "Mark a product as sold in a chat by its ID")
-    @PostMapping("/{id}/productSale")
+    @PostMapping("/{id}/purchases")
     public ResponseEntity<?> sellProduct(@PathVariable Long id, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {

@@ -80,7 +80,6 @@ public class UserWebController {
    @PostMapping("/deleteAccount/{userId}")
    public String deleteAccount(@PathVariable Long userId, HttpServletRequest request, Model model) {
       Optional<UserBasicDTO> userOptional = userService.findById(userId);
-      System.out.println("Searching for user with ID: " + userId);  // Add logging here
       if (!userOptional.isPresent()) {
          model.addAttribute("message", "Usuario no encontrado");
          return "error";

@@ -262,7 +262,6 @@ public class ProductController {
         }
     
         ProductDTO product = optionalProduct.get();
-        System.out.println("El producto que se pasa es:" + product.name());
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
     
         if (!optionalUser.isPresent() || !product.owner().id().equals(optionalUser.get().id())) {
