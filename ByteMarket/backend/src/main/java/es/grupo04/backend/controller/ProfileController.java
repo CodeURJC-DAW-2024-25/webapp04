@@ -96,8 +96,8 @@ public class ProfileController {
 
         model.addAttribute("isOwnProfile", true);
         model.addAttribute("username", user.name());
-        model.addAttribute("salesNumber", user.sales().size());
-        model.addAttribute("purchasesNumber", user.purchases().size());
+        model.addAttribute("salesNumber", user.salesNumber());
+        model.addAttribute("purchasesNumber", user.purchasesNumber());
         model.addAttribute("reviewsNumber", user.reviews().size());
         model.addAttribute("reviewsSection", false);
 
@@ -229,8 +229,8 @@ public class ProfileController {
         }
         model.addAttribute("isOwnProfile", isOwnProfile);
         model.addAttribute("username", profileUser.name());
-        model.addAttribute("salesNumber", profileUser.sales().size());
-        model.addAttribute("purchasesNumber", profileUser.purchases().size());
+        model.addAttribute("salesNumber", profileUser.salesNumber());
+        model.addAttribute("purchasesNumber", profileUser.purchasesNumber());
         model.addAttribute("reviewsNumber", profileUser.reviews().size());
 
         if ("reviews".equals(filter)) {

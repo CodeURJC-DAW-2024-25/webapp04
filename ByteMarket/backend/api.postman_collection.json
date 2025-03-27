@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ec7d947c-e910-4a4d-8a81-c25830ba0686",
+		"_postman_id": "58be772b-9f13-4088-8c2e-2b74df76ee55",
 		"name": "api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43058239"
+		"_exporter_id": "43303164",
+		"_collection_link": "https://lively-water-631423.postman.co/workspace/My-Workspace~e75887a0-1b18-4cce-8f3f-9579fcfe99c1/collection/43303164-58be772b-9f13-4088-8c2e-2b74df76ee55?action=share&source=collection_link&creator=43303164"
 	},
 	"item": [
 		{
@@ -210,38 +211,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Prueba",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Esto es un producto para probar la creación de productos usando la API REST",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "100",
-									"type": "text"
-								},
-								{
-									"key": "category",
-									"value": "Otros",
-									"type": "text"
-								},
-								{
-									"key": "imageUpload",
-									"type": "file",
-									"src": [
-										"postman-cloud:///1f005e0f-4c10-48f0-9943-0d7389335e02",
-										"postman-cloud:///1f005e0f-4b48-45d0-8523-3f10ebf8c404",
-										"postman-cloud:///1f005e0f-4c50-4090-adb7-3453dc250928"
-									]
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"description\": \"Esto es un producto para probar la creación de productos usando la API REST\",\r\n    \"price\": \"100\",\r\n    \"category\": \"Otros\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/products",
@@ -290,26 +266,6 @@
 					"response": []
 				},
 				{
-					"name": "Sales",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/products/sales",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"products",
-								"sales"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Filter By Name",
 					"request": {
 						"auth": {
@@ -332,26 +288,6 @@
 									"key": "name",
 									"value": "Samsung"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Purchases",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/products/purchases",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"products",
-								"purchases"
 							]
 						}
 					},
@@ -386,30 +322,6 @@
 					"response": []
 				},
 				{
-					"name": "Toggle Favorites",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/products/11/favorites",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"products",
-								"11",
-								"favorites"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Delete Image (Product)",
 					"request": {
 						"method": "DELETE",
@@ -425,7 +337,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/products/33/images/49",
+							"raw": "{{ByteMarket}}/api/v1/products/33/images/47",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -435,7 +347,7 @@
 								"products",
 								"33",
 								"images",
-								"49"
+								"47"
 							]
 						}
 					},
@@ -447,29 +359,13 @@
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Prueba Actualizada",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Esto es un producto para probar la creación de productos usando la API REST",
-									"type": "text"
-								},
-								{
-									"key": "price",
-									"value": "50",
-									"type": "text"
-								},
-								{
-									"key": "category",
-									"value": "Móviles",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prueba Actualizada\",\r\n    \"description\": \"Esto es un producto para probar la creación de productos usando la API REST\",\r\n    \"price\": \"50\",\r\n    \"category\": \"Móviles\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/products/33",
@@ -590,29 +486,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Pepe",
-									"type": "text"
-								},
-								{
-									"key": "mail",
-									"value": "pepe@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "pass1234",
-									"type": "text"
-								},
-								{
-									"key": "repeatPassword",
-									"value": "pass1234",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"pepe@gmail.com\",\r\n    \"name\": \"Pepe\",\r\n    \"password\": \"12341234\",\r\n    \"repeatPassword\": \"12341234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/users/signin",
@@ -692,6 +572,79 @@
 								"v1",
 								"users",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/favorites",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark as Favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\" : 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/favorites",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete from Favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/favorites/10",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"favorites",
+								"10"
 							]
 						}
 					},
@@ -861,19 +814,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "rating",
-									"value": "5",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Gran producto, mejor persona",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": \"5\",\r\n    \"description\": \"Gran pruducto, mejor persona\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/users/5/reviews",
@@ -946,19 +893,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "reason",
-									"value": "Producto Dañado",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "descripcion sobre el problema ocurrido",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"reason\": \"Producto Dañado\",\r\n    \"description\": \"Descripcion sobre el problema ocurrido\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/reports/products/6",

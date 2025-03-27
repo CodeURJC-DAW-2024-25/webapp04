@@ -8,28 +8,44 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import es.grupo04.backend.dto.NewFavoriteDTO;
 import es.grupo04.backend.dto.NewUserDTO;
+import es.grupo04.backend.dto.ProductDTO;
+import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
+import es.grupo04.backend.service.ProductService;
+import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserRestController {
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private PurchaseService purchaseService;
+
 
     @Operation (summary= "Retrieve details of the authenticated user")
     @GetMapping("/me")
@@ -84,6 +100,150 @@ public class UserRestController {
             .build()
             .toUri();
         return ResponseEntity.created(location).body(userOptional.get());
+    }
+
+    @Operation (summary= "Retrieve a list of favorite products of the user")
+    @GetMapping("{userId}/favorites")
+    public ResponseEntity<Page<ProductDTO>> getFavoriteProducts(
+            HttpServletRequest request,
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
+
+        if(userId != userDTO.id()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
+        return ResponseEntity.ok(productsPage);
+    }
+    
+    @Operation (summary= "Mark a product as favorite by its ID")
+    @PostMapping("/{userId}/favorites")
+    public ResponseEntity<Page<ProductDTO>> addToFavorites(HttpServletRequest request,
+            @PathVariable Long userId,
+            @RequestBody NewFavoriteDTO favoriteDTO,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
+        if(userId != userDTO.id()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Long productId = favoriteDTO.productId();
+        Optional<ProductDTO> productOpt = productService.findById(productId);
+        if (productOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    
+        ProductDTO productDTO = productOpt.get();
+    
+        if (productDTO.owner().id() == userDTO.id()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        
+        boolean isFavorite = userService.isFavorite(userDTO, productId);
+        if(!isFavorite){
+            userService.addToFavorite(productId, userDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        //returns the updated list of favorite products
+        Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
+        return ResponseEntity.ok(productsPage);
+    }
+
+    @Operation (summary= "Delete a product from favorites by its ID")
+    @DeleteMapping("/{userId}/favorites/{productId}")
+    public ResponseEntity<Page<ProductDTO>> deleteFromFavorites(HttpServletRequest request,
+            @PathVariable Long userId,
+            @PathVariable Long productId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size) {
+        
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
+        if(userId != userDTO.id()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Optional<ProductDTO> productOpt = productService.findById(productId);
+        if (productOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    
+        ProductDTO productDTO = productOpt.get();
+    
+        if (productDTO.owner().id() == userDTO.id()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        
+        boolean isFavorite = userService.isFavorite(userDTO, productId);
+        if(isFavorite){
+            userService.removeFromFavorite(productId, userDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        //returns the updated list of favorite products
+        Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
+        return ResponseEntity.ok(productsPage);
+    }
+
+    @Operation (summary= "Retrieve last purchases or sales of the user")
+    @GetMapping("/{userId}/purchases")
+    public ResponseEntity<List<PurchaseDTO>> getPurchasesByBuyer(
+        @RequestParam(required = false) Long buyerId, @RequestParam(required = false) Long sellerId, 
+        @PathVariable Long userId, HttpServletRequest request) {
+
+        if (buyerId == null && sellerId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (buyerId != null && sellerId != null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        if(userService.findByMail(principal.getName()).get().id() != userId){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        if(sellerId != null) {
+            if(sellerId != userId){
+                return ResponseEntity.badRequest().build();
+            }
+            List<PurchaseDTO> purchases = purchaseService.getLastSales(sellerId);
+            return ResponseEntity.ok(purchases);
+        } else {
+            if(buyerId != userId){
+                return ResponseEntity.badRequest().build();
+            }
+            List<PurchaseDTO> purchases = purchaseService.getLastPurchases(buyerId);
+            return ResponseEntity.ok(purchases);
+        }
+
     }
 
 }

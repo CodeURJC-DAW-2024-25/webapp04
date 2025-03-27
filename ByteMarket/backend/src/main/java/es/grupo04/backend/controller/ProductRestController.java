@@ -29,7 +29,6 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 import es.grupo04.backend.dto.NewProductDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
-import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -145,88 +144,6 @@ public class ProductRestController {
 
         productService.delete(id);
         return ResponseEntity.ok(productDTO);
-    }
-
-    @Operation (summary= "Retrieve a list of favorite products of the authenticated user")
-    @GetMapping("/favorites")
-    public ResponseEntity<Page<ProductDTO>> getFavoriteProducts(
-            HttpServletRequest request,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
-
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-
-        Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
-        return ResponseEntity.ok(productsPage);
-    }
-    
-    @Operation (summary= "Toggle a product as favorite by its ID")
-    @PostMapping("/{id}/favorites")
-    public ResponseEntity<Page<ProductDTO>> toggleFavoriteProduct(HttpServletRequest request,
-            @PathVariable Long id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
-        
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        if (productService.findById(id).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    
-        ProductDTO productDTO = productService.findById(id).get();
-        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-    
-        if (productDTO.owner().id() == userDTO.id()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        
-        boolean isFavorite = userService.isFavorite(userDTO, id);
-        if(isFavorite){
-            userService.removeFromFavorite(id, userDTO);
-        }else{
-            userService.addToFavorite(id, userDTO);
-        }
-
-        Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
-        return ResponseEntity.ok(productsPage);
-    }
-
-    @Operation (summary= "Retrieve last purchases of the user")
-    @GetMapping("/purchases")
-    public ResponseEntity<List<ProductDTO>> getLastPurchases(HttpServletRequest request) {
-
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-
-        List<ProductDTO> products = productService.getLastPurchases(userDTO);
-        return ResponseEntity.ok(products);
-    }
-
-    @Operation (summary= "Retrieve last sales of the user")
-    @GetMapping("/sales")
-    public ResponseEntity<List<ProductDTO>> getLastSales(HttpServletRequest request) {
-
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-
-        List<ProductDTO> products = productService.getLastSales(userDTO);
-        return ResponseEntity.ok(products);
-
     }
 
     @Operation (summary= "Add image to a product by product ID")
