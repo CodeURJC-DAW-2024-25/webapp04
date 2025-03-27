@@ -62,7 +62,7 @@ public class DataBaseInitializer {
     public DataBaseInitializer() {
     }
 
-    public Image initImage(String classpathResource) throws IOException {
+    public static Image initImage(String classpathResource) throws IOException {
 		Resource image = new ClassPathResource(classpathResource);
         InputStream inputStream = new BufferedInputStream(image.getInputStream());
         Image img = new Image(BlobProxy.generateProxy(inputStream, image.contentLength()));
@@ -84,6 +84,7 @@ public class DataBaseInitializer {
         userRepository.save(user2);
         userRepository.save(user3);
         userRepository.save(user4);
+
 
         // AIR PODS
         // Create a Blob from the image data

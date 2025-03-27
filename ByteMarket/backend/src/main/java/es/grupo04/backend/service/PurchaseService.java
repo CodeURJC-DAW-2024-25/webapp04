@@ -43,7 +43,7 @@ public class PurchaseService {
     private ChatRepository chatRepository;
 
     @Autowired
-    private PurchaseMapper purchaseMapper; // Inyectamos PurchaseMapper
+    private PurchaseMapper purchaseMapper;
 
     @Autowired
     private ProductMapper productMapper;
@@ -100,6 +100,24 @@ public class PurchaseService {
                 .orElseThrow(() -> new NoSuchElementException());
         return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(buyer)
                 .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PurchaseDTO> getLastSales(Long sellerId) {
+        User user = userRepository.findById(sellerId).get();
+        return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user)
+                .stream()
+                .limit(8)
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PurchaseDTO> getLastPurchases(Long buyerId) {
+        User user = userRepository.findById(buyerId).get();
+        return purchaseRepository.findByBuyerOrderByPurchaseDateDesc(user)
+                .stream()
+                .limit(8)
                 .map(purchaseMapper::toDTO)
                 .collect(Collectors.toList());
     }
