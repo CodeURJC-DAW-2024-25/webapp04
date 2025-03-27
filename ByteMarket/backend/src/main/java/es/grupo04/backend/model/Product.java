@@ -34,6 +34,7 @@ public class Product {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
+    private boolean hasImage = false;
     
     @OneToOne
     private Image thumbnail;
@@ -182,5 +183,13 @@ public class Product {
     
     public void setReports(List<Report> reports) {
         this.reports = reports;
+    }
+
+    public boolean hasImage() {
+        return hasImage;
+    }
+
+    public void setHasImage(boolean hasImage) {
+        this.hasImage = hasImage;
     }
 }
