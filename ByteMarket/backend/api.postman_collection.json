@@ -8,153 +8,6 @@
 	},
 	"item": [
 		{
-			"name": "profile-rest-controller",
-			"item": [
-				{
-					"name": "Delete User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/profiles/2",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"profiles",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "id",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "mail",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "name\n",
-									"value": "Pedro01",
-									"type": "text"
-								},
-								{
-									"key": "address",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "newPass",
-									"value": "123",
-									"type": "text"
-								},
-								{
-									"key": "repeatPass",
-									"value": "123",
-									"type": "text"
-								},
-								{
-									"key": "iframe",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "profilePicInput",
-									"type": "file",
-									"src": "postman-cloud:///1f00755e-2c82-4ef0-b194-f07e5975394c"
-								},
-								{
-									"key": "hasImage",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/profiles",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"profiles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Sales/Purchaes Stats",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/profiles/stats",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"profiles",
-								"stats"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Users image from profile",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/profiles/image/2",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"profiles",
-								"image",
-								"2"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "product-rest-controller",
 			"item": [
 				{
@@ -506,7 +359,7 @@
 								"signin"
 							]
 						}
-						},
+					},
 					"response" : []
 				},
 				{
@@ -648,8 +501,148 @@
 							]
 						}
 					},
+					
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nuevo Nombre\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sales/Purchaes Stats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/stats",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users image from profile",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/image",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/PC/Pictures/Fondos/aesthetic-jojo-poses-wq91d7mkmj0qcp34.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/image",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"image"
+							]
+						}
+					},
 					"response": []
 				}
+
+
 			]
 		},
 		{
