@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,11 +33,12 @@ import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.ChartData;
 import es.grupo04.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
-@RequestMapping("/api/v1/profiles")
+@RequestMapping("/api/v1/users/{id}")
 
 public class ProfileRestController {
 
@@ -42,7 +46,7 @@ public class ProfileRestController {
     private UserService userService;
 
     @Operation (summary= "Delete a user by its ID")
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
         Optional<UserBasicDTO> userOptional = userService.findById(id);
 
@@ -85,32 +89,19 @@ public class ProfileRestController {
 
     @Operation (summary= "Update user profile information")
     @PutMapping
-    public ResponseEntity<?> updateProfile(HttpServletRequest request,
-            @RequestParam String name,
-            @RequestParam String address,
-            @RequestParam String newPass,
-            @RequestParam String repeatPass,
-            @RequestParam(required = false) MultipartFile profilePicInput,  
-            @RequestParam(required = false) String iframe) throws IOException {
-
+    public ResponseEntity<?> updateProfile(HttpServletRequest request, @RequestBody EditUserDTO updatedUser) throws IOException {
         Principal principal = request.getUserPrincipal();
-
         if (principal == null) {
             return ResponseEntity.status(401).body("Not authenticated");
         }
 
         Optional<UserBasicDTO> currentUserOptional = userService.findByMail(principal.getName());
-
         if (currentUserOptional.isEmpty()) {
             return ResponseEntity.status(403).body("Unauthorized");
         }
         
-        EditUserDTO updatedUser = new EditUserDTO(currentUserOptional.get().id(), principal.getName(), name, address, newPass, repeatPass, iframe, profilePicInput, currentUserOptional.get().hasImage());
-        
-        if (profilePicInput != null && !profilePicInput.isEmpty()) {
-            userService.saveProfilePic(currentUserOptional.get(), profilePicInput);  
-        }
-
+        System.out.println("Mi usuario a editar es:" + currentUserOptional.get());
+        System.out.println("Mi usuario editado sería:" + updatedUser);
         Optional<String> message = userService.editProfile(currentUserOptional.get(), updatedUser);
         if (message.isPresent()) {
             return ResponseEntity.status(400).body(message.get());
@@ -120,8 +111,23 @@ public class ProfileRestController {
         return ResponseEntity.ok(updated.get());
     }
 
+
+    @PostMapping("/image")
+    public ResponseEntity<Void> addImage(@RequestParam MultipartFile image,
+            HttpServletRequest request) throws IOException {
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserBasicDTO userDTO = userService.findByMail(principal.getName()).get();
+        userService.saveProfilePic(userDTO, image);
+        return ResponseEntity.ok().build();
+
+    }
+
     @Operation (summary= "Retrieve a user image by user ID")
-    @GetMapping("/image/{id}")
+    @GetMapping("/image")
     public ResponseEntity<Object> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
         if (userOptional.isEmpty()) {

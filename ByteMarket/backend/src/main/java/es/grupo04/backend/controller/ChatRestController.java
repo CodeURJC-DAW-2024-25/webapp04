@@ -95,7 +95,7 @@ public class ChatRestController {
             ChatDTO newChat = chatService.createChat(userDTO, product.owner(), newchatDTO.productID());
             URI location = ServletUriComponentsBuilder
             .fromCurrentRequestUri()
-            .replacePath(String.format("/api/v1/chats/%d", newChat.id()))
+            .replacePath(String.format("/api/v1/users/me/chats/%d", newChat.id()))
             .build()
             .toUri();
             return ResponseEntity.created(location).body(newChat);

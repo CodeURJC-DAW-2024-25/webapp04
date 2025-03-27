@@ -19,7 +19,7 @@ public interface UserMapper {
     List<UserDTO> toDTOs(List<User> users);
 
     default String mapProfileImage(User user) {
-        return Constants.WEBAPP_BASE_URL + "/user/image/" + user.getId();
+        return Constants.WEBAPP_BASE_URL + "/user/"+ user.getId()+"/image";
     }
     default Boolean mapHasImage(User user) {
         return user.hasImage();
