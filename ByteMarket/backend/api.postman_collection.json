@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ec7d947c-e910-4a4d-8a81-c25830ba0686",
+		"_postman_id": "60d1ce5b-341d-4947-a387-11b3fd1fa589",
 		"name": "api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43058239"
+		"_exporter_id": "43143959"
 	},
 	"item": [
 		{
@@ -590,29 +590,13 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Pepe",
-									"type": "text"
-								},
-								{
-									"key": "mail",
-									"value": "pepe@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "pass1234",
-									"type": "text"
-								},
-								{
-									"key": "repeatPassword",
-									"value": "pass1234",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"pepe@gmail.com\",\r\n    \"name\": \"Pepe\",\r\n    \"password\": \"Pass1234\",\r\n    \"repeatPassword\": \"Pass1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/users/signin",
@@ -1011,23 +995,31 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productID\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/1",
+							"raw": "{{ByteMarket}}/api/v1/chats",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"chats",
-								"1"
+								"chats"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Chats Of Logged User",
+					"name": "Get Chats",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1049,6 +1041,62 @@
 					"response": []
 				},
 				{
+					"name": "Get Buying Chats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/chats?role=buyer",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chats"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "buyer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Selling Chats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/chats?role=seller",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chats"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "seller"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Purchase",
 					"request": {
 						"auth": {
@@ -1057,7 +1105,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/productSale",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/purchases",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1066,7 +1114,7 @@
 								"v1",
 								"chats",
 								"4",
-								"productSale"
+								"purchases"
 							]
 						}
 					},
@@ -1104,17 +1152,16 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "message",
-									"value": "Hola!!",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"Hola!!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/messageDelivery",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/messages",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1123,7 +1170,7 @@
 								"v1",
 								"chats",
 								"4",
-								"messageDelivery"
+								"messages"
 							]
 						}
 					},
