@@ -493,7 +493,6 @@
 									"language": "json"
 								}
 							}
-							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/users/signin",
@@ -507,8 +506,8 @@
 								"signin"
 							]
 						}
-					},
-					"response": []
+						},
+					"response" : []
 				},
 				{
 					"name": "Own Profile",
