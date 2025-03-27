@@ -493,6 +493,7 @@
 									"language": "json"
 								}
 							}
+							}
 						},
 						"url": {
 							"raw": "{{ByteMarket}}/api/v1/users/signin",
@@ -952,23 +953,31 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productID\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/1",
+							"raw": "{{ByteMarket}}/api/v1/chats",
 							"host": [
 								"{{ByteMarket}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"chats",
-								"1"
+								"chats"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get Chats Of Logged User",
+					"name": "Get Chats",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -990,6 +999,62 @@
 					"response": []
 				},
 				{
+					"name": "Get Buying Chats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/chats?role=buyer",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chats"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "buyer"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Selling Chats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/chats?role=seller",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"chats"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "seller"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Purchase",
 					"request": {
 						"auth": {
@@ -998,7 +1063,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/productSale",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/purchases",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1007,7 +1072,7 @@
 								"v1",
 								"chats",
 								"4",
-								"productSale"
+								"purchases"
 							]
 						}
 					},
@@ -1045,17 +1110,16 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "message",
-									"value": "Hola!!",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"Hola!!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{ByteMarket}}/api/v1/chats/4/messageDelivery",
+							"raw": "{{ByteMarket}}/api/v1/chats/4/messages",
 							"host": [
 								"{{ByteMarket}}"
 							],
@@ -1064,7 +1128,7 @@
 								"v1",
 								"chats",
 								"4",
-								"messageDelivery"
+								"messages"
 							]
 						}
 					},
