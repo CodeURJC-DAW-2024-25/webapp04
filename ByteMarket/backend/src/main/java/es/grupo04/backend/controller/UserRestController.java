@@ -29,16 +29,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import es.grupo04.backend.dto.ChatDTO;
 import es.grupo04.backend.dto.EditUserDTO;
 import es.grupo04.backend.dto.NewFavoriteDTO;
 import es.grupo04.backend.dto.NewUserDTO;
+import es.grupo04.backend.dto.NewPurchaseDTO;
 import es.grupo04.backend.dto.ProductDTO;
 import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.dto.UserDTO;
 import es.grupo04.backend.service.ChartData;
+import es.grupo04.backend.service.ChatService;
 import es.grupo04.backend.service.ProductService;
 import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.UserService;
@@ -57,6 +61,9 @@ public class UserRestController {
 
     @Autowired
     private PurchaseService purchaseService;
+
+    @Autowired
+    private ChatService chatService;
 
 
     @Operation (summary= "Retrieve details of the authenticated user")
@@ -220,43 +227,6 @@ public class UserRestController {
         return ResponseEntity.ok(productsPage);
     }
 
-    @Operation (summary= "Retrieve last purchases or sales of the user")
-    @GetMapping("/{userId}/purchases")
-    public ResponseEntity<List<PurchaseDTO>> getPurchasesByBuyer(
-        @RequestParam(required = false) Long buyerId, @RequestParam(required = false) Long sellerId, 
-        @PathVariable Long userId, HttpServletRequest request) {
-
-        if (buyerId == null && sellerId == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        if (buyerId != null && sellerId != null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        
-        if(userService.findByMail(principal.getName()).get().id() != userId){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        if(sellerId != null) {
-            if(sellerId != userId){
-                return ResponseEntity.badRequest().build();
-            }
-            List<PurchaseDTO> purchases = purchaseService.getLastSales(sellerId);
-            return ResponseEntity.ok(purchases);
-        } else {
-            if(buyerId != userId){
-                return ResponseEntity.badRequest().build();
-            }
-            List<PurchaseDTO> purchases = purchaseService.getLastPurchases(buyerId);
-            return ResponseEntity.ok(purchases);
-        }
-
-    }
     @Operation (summary= "Delete a user by its ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
@@ -364,4 +334,62 @@ public class UserRestController {
 
         return ResponseEntity.ok(data);
     }
+    
+    @Operation(summary = "Mark a product as sold in a chat by its ID")
+    @PostMapping("/{userID}/purchases")
+    public ResponseEntity<?> sellProduct(@PathVariable Long userID, @RequestBody NewPurchaseDTO purchaseDTO, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        UserBasicDTO seller = userService.findByMail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        
+        ChatDTO chat = chatService.findChatById(purchaseDTO.chatID())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
+        
+        if (!chat.userSeller().equals(seller)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para vender este producto");
+        }
+
+        if (chat.product().sold()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El producto ya está vendido");
+        }
+        
+        PurchaseDTO purchase = purchaseService.createPurchase(chat);
+        if (purchase == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo completar la venta");
+        }
+        
+        return ResponseEntity.ok(purchase);
+    }
+
+    @Operation(summary = "Get purchases filtered by user role")
+    @GetMapping("/{userID}/purchases")
+    public ResponseEntity<List<PurchaseDTO>> getPurchases(@PathVariable Long userID, @RequestParam(required = false) String role, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
+        UserBasicDTO loggedInUser = userService.findByMail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        
+        if (!userID.equals(loggedInUser.id())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        List<PurchaseDTO> purchases;
+        if ("seller".equalsIgnoreCase(role)) {
+            purchases = purchaseService.getLastSales(userID);
+        } else if ("buyer".equalsIgnoreCase(role)) {
+            purchases = purchaseService.getLastPurchases(userID);
+        } else {
+            purchases = purchaseService.findAllUserPurchases(userID);
+        }
+        
+        return ResponseEntity.ok(purchases);
+    }
+
 }

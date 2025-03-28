@@ -66,6 +66,16 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
+    public List<PurchaseDTO> findAllUserPurchases(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+    
+        return purchaseRepository.findByBuyerOrSellerOrderByPurchaseDateDesc(user, user)
+                .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public PurchaseDTO createPurchase(ChatDTO chatDTO) {
         Chat chat = chatRepository.findById(chatDTO.id())
                 .orElseThrow(() -> new NoSuchElementException());

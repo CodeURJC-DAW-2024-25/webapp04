@@ -141,30 +141,4 @@ public class ChatRestController {
         MessageDTO messageDTO = messageService.createMessage(message.text(), sender, chat);
         return ResponseEntity.ok(messageDTO);
     }
-
-    @Operation (summary= "Mark a product as sold in a chat by its ID")
-    @PostMapping("/{id}/purchases")
-    public ResponseEntity<?> sellProduct(@PathVariable Long id, HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        UserBasicDTO seller = userService.findByMail(principal.getName()).get();
-        ChatDTO chat = chatService.findChatById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
-
-        if (chat.product().sold()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El producto ya está vendido");
-        }
-
-        if (!chat.userSeller().equals(seller)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para vender este producto");
-        }
-
-        PurchaseDTO purchase = purchaseService.createPurchase(chat);
-        if (purchase == null) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo completar la venta");
-        }
-        return ResponseEntity.ok(purchase);
-    }
 }
