@@ -346,6 +346,10 @@ public class UserRestController {
         UserBasicDTO seller = userService.findByMail(principal.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
         
+        if (!userID.equals(seller.id())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        
         ChatDTO chat = chatService.findChatById(purchaseDTO.chatID())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
         
