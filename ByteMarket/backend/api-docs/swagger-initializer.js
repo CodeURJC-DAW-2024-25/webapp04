@@ -13,70 +13,56 @@ window.onload = function() {
     }
   ],
   "paths": {
-    "/api/v1/profiles": {
+    "/api/v1/users/{id}": {
       "put": {
         "tags": [
-          "profile-rest-controller"
+          "user-rest-controller"
         ],
         "summary": "Update user profile information",
         "operationId": "updateProfile",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "address",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "newPass",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "repeatPass",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "iframe",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "profilePicInput": {
-                    "type": "string",
-                    "format": "binary"
-                  }
+                "$ref": "#/components/schemas/EditUserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
-        },
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Delete a user by its ID",
+        "operationId": "deleteAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -143,16 +129,18 @@ window.onload = function() {
               "type": "integer",
               "format": "int64"
             }
-          },
-          {
-            "name": "newProductDTO",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NewProductDTO"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewProductDTO"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -248,14 +236,6 @@ window.onload = function() {
         "operationId": "postReview",
         "parameters": [
           {
-            "name": "reviewDTO",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NewReviewDTO"
-            }
-          },
-          {
             "name": "userId",
             "in": "path",
             "required": true,
@@ -265,6 +245,16 @@ window.onload = function() {
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewReviewDTO"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -282,6 +272,280 @@ window.onload = function() {
         }
       }
     },
+    "/api/v1/users/{userId}/favorites": {
+      "get": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Retrieve a list of favorite products of the user",
+        "operationId": "getFavoriteProducts",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 8
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProductDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Mark a product as favorite by its ID",
+        "operationId": "addToFavorites",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 8
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewFavoriteDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProductDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{userID}/purchases": {
+      "get": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Get purchases filtered by user role",
+        "operationId": "getPurchases",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PurchaseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Mark a product as sold in a chat by its ID",
+        "operationId": "sellProduct",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPurchaseDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}/image": {
+      "get": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Retrieve a user image by user ID",
+        "operationId": "getProfileImage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "operationId": "addImage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "image"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/v1/users/signin": {
       "post": {
         "tags": [
@@ -289,16 +553,16 @@ window.onload = function() {
         ],
         "summary": "Create new user",
         "operationId": "createUser",
-        "parameters": [
-          {
-            "name": "user",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NewUserDTO"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUserDTO"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -325,14 +589,6 @@ window.onload = function() {
         "operationId": "postReport",
         "parameters": [
           {
-            "name": "reportDTO",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NewReportDTO"
-            }
-          },
-          {
             "name": "productId",
             "in": "path",
             "required": true,
@@ -342,6 +598,16 @@ window.onload = function() {
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewReportDTO"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -434,16 +700,16 @@ window.onload = function() {
         ],
         "summary": "Create a new product",
         "operationId": "createProduct",
-        "parameters": [
-          {
-            "name": "productDTO",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NewProductDTO"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewProductDTO"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -467,7 +733,7 @@ window.onload = function() {
           "product-rest-controller"
         ],
         "summary": "Add image to a product by product ID",
-        "operationId": "addImage",
+        "operationId": "addImage_1",
         "parameters": [
           {
             "name": "id",
@@ -507,41 +773,20 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/products/{id}/favorites": {
-      "post": {
+    "/api/v1/chats": {
+      "get": {
         "tags": [
-          "product-rest-controller"
+          "chat-rest-controller"
         ],
-        "summary": "Toggle a product as favorite by its ID",
-        "operationId": "toggleFavoriteProduct",
+        "summary": "Retrieve a list of all chats of the authenticated user",
+        "operationId": "getUserChats",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page",
+            "name": "role",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 8
+              "type": "string"
             }
           }
         ],
@@ -551,7 +796,10 @@ window.onload = function() {
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageProductDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatDTO"
+                  }
                 }
               }
             }
@@ -560,26 +808,23 @@ window.onload = function() {
             "description": "Not Found"
           }
         }
-      }
-    },
-    "/api/v1/chats/{productId}": {
+      },
       "post": {
         "tags": [
           "chat-rest-controller"
         ],
         "summary": "Create a new chat by the product ID",
         "operationId": "createChat",
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewChatDTO"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -597,42 +842,7 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/chats/{id}/productSale": {
-      "post": {
-        "tags": [
-          "chat-rest-controller"
-        ],
-        "summary": "Mark a product as sold in a chat by its ID",
-        "operationId": "sellProduct",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/chats/{id}/messageDelivery": {
+    "/api/v1/chats/{id}/messages": {
       "post": {
         "tags": [
           "chat-rest-controller"
@@ -648,16 +858,18 @@ window.onload = function() {
               "type": "integer",
               "format": "int64"
             }
-          },
-          {
-            "name": "message",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewMessageDTO"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -829,6 +1041,30 @@ window.onload = function() {
         }
       }
     },
+    "/api/v1/users/{id}/stats": {
+      "get": {
+        "tags": [
+          "user-rest-controller"
+        ],
+        "summary": "Retrieve user's purchases and sales statistics",
+        "operationId": "stats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/v1/users/me": {
       "get": {
         "tags": [
@@ -948,37 +1184,13 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/profiles/stats": {
+    "/api/v1/chats/{id}": {
       "get": {
         "tags": [
-          "profile-rest-controller"
+          "chat-rest-controller"
         ],
-        "summary": "Retrieve user's purchases and sales statistics",
-        "operationId": "stats",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/profiles/image/{id}": {
-      "get": {
-        "tags": [
-          "profile-rest-controller"
-        ],
-        "summary": "Retrieve a user image by user ID",
-        "operationId": "getProfileImage",
+        "summary": "Retrieve a chat by ID",
+        "operationId": "getChat",
         "parameters": [
           {
             "name": "id",
@@ -996,7 +1208,7 @@ window.onload = function() {
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ChatDTO"
                 }
               }
             }
@@ -1007,68 +1219,32 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/products/sales": {
-      "get": {
+    "/api/v1/users/{userId}/favorites/{productId}": {
+      "delete": {
         "tags": [
-          "product-rest-controller"
+          "user-rest-controller"
         ],
-        "summary": "Retrieve last sales of the user",
-        "operationId": "getLastSales",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductDTO"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/products/purchases": {
-      "get": {
-        "tags": [
-          "product-rest-controller"
-        ],
-        "summary": "Retrieve last purchases of the user",
-        "operationId": "getLastPurchases",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductDTO"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/products/favorites": {
-      "get": {
-        "tags": [
-          "product-rest-controller"
-        ],
-        "summary": "Retrieve a list of favorite products of the authenticated user",
-        "operationId": "getFavoriteProducts",
+        "summary": "Delete a product from favorites by its ID",
+        "operationId": "deleteFromFavorites",
         "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
           {
             "name": "page",
             "in": "query",
@@ -1107,68 +1283,6 @@ window.onload = function() {
         }
       }
     },
-    "/api/v1/chats": {
-      "get": {
-        "tags": [
-          "chat-rest-controller"
-        ],
-        "summary": "Retrieve a list of all chats of the authenticated user",
-        "operationId": "getUserChats",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ChatDTO"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/chats/{id}": {
-      "get": {
-        "tags": [
-          "chat-rest-controller"
-        ],
-        "summary": "Retrieve a chat by ID",
-        "operationId": "getChat",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChatDTO"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
     "/api/v1/reports/{reportId}": {
       "delete": {
         "tags": [
@@ -1194,41 +1308,6 @@ window.onload = function() {
               "*/*": {
                 "schema": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/profiles/{id}": {
-      "delete": {
-        "tags": [
-          "profile-rest-controller"
-        ],
-        "summary": "Delete a user by its ID",
-        "operationId": "deleteAccount",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object"
                 }
               }
             }
@@ -1279,6 +1358,26 @@ window.onload = function() {
   },
   "components": {
     "schemas": {
+      "EditUserDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "newPass": {
+            "type": "string"
+          },
+          "repeatPass": {
+            "type": "string"
+          },
+          "iframe": {
+            "type": "string"
+          }
+        }
+      },
       "NewProductDTO": {
         "type": "object",
         "properties": {
@@ -1401,6 +1500,110 @@ window.onload = function() {
           }
         }
       },
+      "NewFavoriteDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PageProductDTO": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDTO"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NewPurchaseDTO": {
+        "type": "object",
+        "properties": {
+          "chatID": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "NewUserDTO": {
         "type": "object",
         "properties": {
@@ -1484,89 +1687,12 @@ window.onload = function() {
           }
         }
       },
-      "PageProductDTO": {
+      "NewChatDTO": {
         "type": "object",
         "properties": {
-          "totalElements": {
+          "productID": {
             "type": "integer",
             "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "size": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "content": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductDTO"
-            }
-          },
-          "number": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sort": {
-            "$ref": "#/components/schemas/SortObject"
-          },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
-          },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
-          },
-          "empty": {
-            "type": "boolean"
-          }
-        }
-      },
-      "PageableObject": {
-        "type": "object",
-        "properties": {
-          "offset": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "sort": {
-            "$ref": "#/components/schemas/SortObject"
-          },
-          "paged": {
-            "type": "boolean"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unpaged": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SortObject": {
-        "type": "object",
-        "properties": {
-          "empty": {
-            "type": "boolean"
-          },
-          "sorted": {
-            "type": "boolean"
-          },
-          "unsorted": {
-            "type": "boolean"
           }
         }
       },
@@ -1615,6 +1741,14 @@ window.onload = function() {
           }
         }
       },
+      "NewMessageDTO": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        }
+      },
       "AuthResponse": {
         "type": "object",
         "properties": {
@@ -1641,28 +1775,6 @@ window.onload = function() {
           },
           "password": {
             "type": "string"
-          }
-        }
-      },
-      "PurchaseDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "product": {
-            "$ref": "#/components/schemas/ProductBasicDTO"
-          },
-          "buyer": {
-            "$ref": "#/components/schemas/UserBasicDTO"
-          },
-          "seller": {
-            "$ref": "#/components/schemas/UserBasicDTO"
-          },
-          "purchaseDate": {
-            "type": "string",
-            "format": "date"
           }
         }
       },
@@ -1698,17 +1810,13 @@ window.onload = function() {
               "$ref": "#/components/schemas/ReviewDTO"
             }
           },
-          "sales": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseDTO"
-            }
+          "salesNumber": {
+            "type": "integer",
+            "format": "int32"
           },
-          "purchases": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PurchaseDTO"
-            }
+          "purchasesNumber": {
+            "type": "integer",
+            "format": "int32"
           },
           "iframe": {
             "type": "string"
@@ -1718,6 +1826,28 @@ window.onload = function() {
           },
           "hasImage": {
             "type": "boolean"
+          }
+        }
+      },
+      "PurchaseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductBasicDTO"
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/UserBasicDTO"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "format": "date"
           }
         }
       }

@@ -426,6 +426,39 @@
 					"response": []
 				},
 				{
+					"name": "Create Purchase",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chatID\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ByteMarket}}/api/v1/users/2/purchases",
+							"host": [
+								"{{ByteMarket}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2",
+								"purchases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete from Favorites",
 					"request": {
 						"method": "DELETE",
@@ -634,39 +667,6 @@
 								"users",
 								"2",
 								"image"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Purchase",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"chatID\": 4\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{ByteMarket}}/api/v1/users/2/purchases",
-							"host": [
-								"{{ByteMarket}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"2",
-								"purchases"
 							]
 						}
 					},
