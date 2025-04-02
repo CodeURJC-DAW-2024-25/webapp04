@@ -309,13 +309,17 @@ public class UserRestController {
 
     @Operation (summary= "Retrieve a user image by user ID")
     @GetMapping("/{id}/image")
-    public ResponseEntity<Object> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
+    public ResponseEntity<?> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
         if (userOptional.isEmpty()) {
             throw new NoSuchElementException("User with id " + id + " not found");
         }
-        Blob image = userService.getImage(userOptional.get());
+        
+        if (!userOptional.get().hasImage()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + id + " has no image");
+        }
 
+        Blob image = userService.getImage(userOptional.get());
         Resource file = new InputStreamResource(image.getBinaryStream());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
