@@ -303,8 +303,12 @@ public class UserRestController {
 
         UserBasicDTO userDTO = userService.findByMail(principal.getName()).get();
         userService.saveProfilePic(userDTO, image);
-        return ResponseEntity.ok().build();
-
+        
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequestUri()
+            .build()
+            .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @Operation (summary= "Retrieve a user image by user ID")
