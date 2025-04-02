@@ -70,6 +70,9 @@ public class ReportService {
     }
 
     public void delete(Long id) {
+        if (!reportRepository.existsById(id)) {
+            throw new NoSuchElementException();
+        }
         reportRepository.deleteById(id);
     }
 
