@@ -96,7 +96,7 @@ public class PurchaseService {
         Purchase purchase = new Purchase(product, buyer, seller);        
         purchaseRepository.saveAndFlush(purchase);
 
-        // Actualización de usuarios
+        // Update User
         buyer.addPurchase(purchase);
         seller.addSale(purchase);
         userRepository.save(buyer);

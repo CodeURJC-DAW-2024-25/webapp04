@@ -190,7 +190,7 @@ public class User {
     }
 
     public void addPurchase(Purchase purchase) {
-        this.purchases.add( purchase);
+        this.purchases.add(purchase);
     }
 
     public void addSale(Purchase purchase) {

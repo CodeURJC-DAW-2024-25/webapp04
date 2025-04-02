@@ -121,8 +121,8 @@ public class ProductController {
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("isFavorite", isFavorite);
         model.addAttribute("product", productOptional.get());
-        model.addAttribute("salesNumber", owner.salesNumber());
-        model.addAttribute("purchasesNumber", owner.purchasesNumber());
+        model.addAttribute("salesNumber", owner.sales().size());
+        model.addAttribute("purchasesNumber", owner.purchases().size());
         model.addAttribute("reviewsNumber", owner.reviews().size());
         model.addAttribute("rating", productService.calculateRating(owner));
         

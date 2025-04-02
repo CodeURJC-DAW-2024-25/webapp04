@@ -12,8 +12,8 @@ import es.grupo04.backend.service.Constants;
 public interface UserMapper {
     @Mapping(target = "image", expression = "java(mapProfileImage(user))")
     @Mapping(target = "hasImage", expression = "java(mapHasImage(user))")
-    @Mapping(target = "salesNumber", expression = "java(user.getSales().size())")
-    @Mapping(target = "purchasesNumber", expression = "java(user.getPurchases().size())")
+    // @Mapping(target = "salesNumber", expression = "java(user.getSales().size())")
+    // @Mapping(target = "purchasesNumber", expression = "java(user.getPurchases().size())")
     UserDTO toDTO(User user);
 
     List<UserDTO> toDTOs(List<User> users);
