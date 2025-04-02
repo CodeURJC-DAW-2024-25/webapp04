@@ -637,7 +637,7 @@ During this phase, my main focus was on everything related to the chat, in addit
 | :----: | :---------: |
 | [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/af1f946e3ce7bfb7850f0c39b95c23f06f61d56c) | ChatService and PurchaseService with DTOs |
 | [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/65b78eff4e7b73f08165f45d8b74760ffda7bbae) | Adapt ChatController to the DTO |
-| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/5369b33a0a988610c442dee33c296bd23bba615d) | Creation of ChatRestController |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/50fbe50016c390df11f42705a9ef4c143620054d) | Creation of ChatRestController |
 | [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/5369b33a0a988610c442dee33c296bd23bba615d) | Fixed ChatRestController with JSON |
 | [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/956d32cb88e8a31a8fac4b9d496c33915f97d1a0) | Requests of purchases in UserRestController |
 
