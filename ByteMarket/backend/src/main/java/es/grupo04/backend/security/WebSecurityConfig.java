@@ -68,7 +68,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/signin").permitAll()
 					.requestMatchers("/error").permitAll()
 					.requestMatchers("/product/image/**").permitAll()
-					.requestMatchers("/user/image/**").permitAll()
+					.requestMatchers("/user/*/image").permitAll()
 					.requestMatchers("/profile/**").permitAll()
 					.requestMatchers("/v3/api-docs", "/v3/api-docs**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // to generate the OpenAPI documentation
 					// PRIVATE PAGES
