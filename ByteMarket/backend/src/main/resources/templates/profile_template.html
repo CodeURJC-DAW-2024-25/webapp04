@@ -37,7 +37,7 @@
                     {{^isOwnProfile}}
                     <a class="d-inline-block position-relative">
                         {{#other.hasImage}}
-                        <img class="profile-pic mb-3" src="/user/image/{{id}}" alt="pfp">
+                        <img class="profile-pic mb-3" src="/user/{{user.id}}/image" alt="pfp">
                         {{/other.hasImage}}
                         {{^other.hasImage}}
                         <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">
@@ -47,7 +47,7 @@
                     {{#isOwnProfile}}
                     <a href="/editProfile" class="d-inline-block position-relative">
                         {{#user.hasImage}}
-                        <img class="profile-pic mb-3" src="/user/image/{{user.id}}" alt="pfp">
+                        <img class="profile-pic mb-3" src="/user/{{user.id}}/image" alt="pfp">
                         {{/user.hasImage}}
                         {{^user.hasImage}}
                         <img class="profile-pic mb-3" src="/images/default_pfp.jpg" alt="pfp">

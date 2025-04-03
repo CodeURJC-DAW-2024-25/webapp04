@@ -47,7 +47,7 @@
                 <a href="/adminProfile" class="d-flex align-items-center text-decoration-none">
                     <div>
                         {{#user.hasImage}}
-                        <img class="profilePic" src="/user/image/{{user.id}}" alt="pfp">
+                        <img class="profilePic" src="/user/{{user.id}}/image" alt="pfp">
                         {{/user.hasImage}}
                         {{^user.hasImage}}
                         <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">
@@ -98,7 +98,7 @@
                 <a href="/profile" class="d-flex align-items-center text-decoration-none">
                     <div>
                         {{#user.hasImage}}
-                        <img class="profilePic" src="/user/image/{{user.id}}" alt="pfp">
+                        <img class="profilePic" src="/user/{{user.id}}/image" alt="pfp">
                         {{/user.hasImage}}
                         {{^user.hasImage}}
                         <img class="profilePic" src="/images/default_pfp.jpg" alt="pfp">

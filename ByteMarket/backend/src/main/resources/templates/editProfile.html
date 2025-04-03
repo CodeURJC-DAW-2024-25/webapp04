@@ -34,7 +34,7 @@
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
                     {{#user.hasImage}}
-                    <img class="profile-pic mb-3" src="/user/image/{{user.id}}" id="pfp-preview" alt="pfp">
+                    <img class="profile-pic mb-3" src="/user/{{user.id}}/image" id="pfp-preview" alt="pfp">
                     {{/user.hasImage}}
                     {{^user.hasImage}}
                     <img class="profile-pic mb-3" src="/images/default_pfp.jpg" id="pfp-preview" alt="pfp">

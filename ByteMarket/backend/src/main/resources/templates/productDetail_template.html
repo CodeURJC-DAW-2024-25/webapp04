@@ -99,7 +99,7 @@
         <div class="d-flex align-items-center">
             <a href="../profile/{{product.owner.id}}" class="d-flex align-items-center text-decoration-none">
                 {{#product.owner.hasImage}}
-                <img src="/user/image/{{product.owner.id}}" class="rounded-circle me-3 user-img" alt="Vendedor">
+                <img src="/user/{{product.owner.id}}/image" class="rounded-circle me-3 user-img" alt="Vendedor">
                 {{/product.owner.hasImage}}
                 {{^product.owner.hasImage}}
                 <img src="/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
