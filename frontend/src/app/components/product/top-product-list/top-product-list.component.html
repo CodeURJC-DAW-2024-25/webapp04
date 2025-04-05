@@ -1,1 +1,21 @@
-<p>top-product-list works!</p>
+<section class="py-2 bg-dark">
+    <div class="container topProdContainer">
+        <div class="text-white">
+            <h2 class="fw-bolder">Productos Destacados</h2>
+        </div>
+        <div class="topProducts gx-4 gx-lg-5">
+            <div *ngFor="let product of products" class="product-item">
+                <a [routerLink]="['/product', product.id]" style="text-decoration: none;">
+                    <div class="productCard card h-100">
+                        <img class="card-img-top" src="{{product.thumbnail}}" alt="{{product.name}}" />
+                        <div class="card-body p-4 text-center">
+                            <h5 class="fw-bolder">{{product.name}}</h5>
+                            <p>{{product.price}}€</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>

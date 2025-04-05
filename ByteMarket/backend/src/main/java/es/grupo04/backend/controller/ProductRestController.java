@@ -48,17 +48,23 @@ public class ProductRestController {
     @GetMapping
     public Page<ProductDTO> getAllProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size, @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category, @RequestParam(required = false) boolean recommended){
+            @RequestParam(required = false) String category, @RequestParam(required = false) boolean recommended,
+            @RequestParam(required = false) boolean available) {
         
         Page<ProductDTO> productsPage;
         if(recommended){
             List<ProductDTO> topRated = productService.findTopRatedSellersProducts();
+            size = 9;
             return new PageImpl<>(topRated, PageRequest.of(page, size), topRated.size());
         } else{
             if (category != null && !category.isEmpty()) {
                 productsPage = productService.findAvailableByCategory(category, page, size);
             } else {
-                productsPage = productService.findPaginated(PageRequest.of(page, size));
+                if (available) {
+                    productsPage = productService.findPaginatedAvailable(page, size);
+                } else {
+                    productsPage = productService.findPaginated(PageRequest.of(page, size));
+                }
             }
             if (name != null && !name.isEmpty()) {
                 List<ProductDTO> filteredByName = productService.findAll().stream()

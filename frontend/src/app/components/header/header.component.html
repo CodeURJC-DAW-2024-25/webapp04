@@ -1,1 +1,115 @@
-<p>header works!</p>
+<header class="bg-dark py-2">
+    <div class="container-fluid px-0">
+        <div class="row align-items-center headerContainer">
+
+            <div class="col-2 d-flex align-items-center text-white header-logo">
+                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                    <img src="favicon.ico" alt="Logo" width="40" height="40" class="me-2">
+                    <h5 class="fw-bolder mb-0">ByteMarket</h5>
+                </a>
+            </div>
+
+            <ng-template [ngIf]="!isLogged">  <!-- Anonymous user -->
+                <div class="col-5 searchContainer">
+                    <form class="d-flex" role="search" action="/products" method="GET">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                        <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                            <i class="bi bi-search" style="color: white;"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-3 loginButtons">
+                    <a href="../login" style="text-decoration: none;">
+                        <button class="btn btn-outline-dark btn-custom" type="submit">
+                            <i class="bi-person-fill me-1"></i> Iniciar sesión o registrarse
+                        </button>
+                    </a>
+                </div>
+            </ng-template>
+
+            <ng-template [ngIf]="isAdmin && isLogged"> <!-- Header for administrator -->
+                <div class="col-5 searchContainer">
+                    <form class="d-flex" role="search" action="/products" method="GET">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                        <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                            <i class="bi bi-search" style="color: white;"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-2 loginButtons justify-content-end">
+                    <a href="../reports" style="text-decoration: none;">
+                        <button class="btn btn-outline-dark btn-custom" type="submit">
+                            <i class="bi bi-flag-fill"></i> Reportes
+                        </button>
+                    </a>
+                </div>
+                <div class="col-3 header-profile justify-content-end" height="55">
+                    <a href="/adminProfile" class="d-flex align-items-center text-decoration-none">
+                        <div>
+                            <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
+                                <img class="profilePic" src="/user/{{user?.id}}/image" alt="pfp">
+                            </ng-template>
+                            <ng-template #noImage>
+                                <img class="profilePic" src="assets/images/default_pfp.jpg" alt="pfp">
+                            </ng-template>
+                        </div>
+                        <div>
+                            <p class="text-white fw-bolder mb-0">{{user?.name}}</p>
+                        </div>
+                    </a>
+                </div>
+            </ng-template>
+
+            <ng-template [ngIf]="isLogged && !isAdmin">
+                <div class="col-5 searchContainer">
+                    <form class="d-flex" role="search" action="/products" method="GET">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                        <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
+                            <i class="bi bi-search" style="color: white;"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-3 m-0 justify-content-center headerButtons">
+                    <div>
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button"
+                            onclick="window.location.href='/profile?filter=favorites'">
+                            <i class="bi bi-heart-fill" style="color: white;"></i>
+                            <span class="fav-sellText"> Favoritos</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button"
+                            onclick="window.location.href='/newProduct'">
+                            <i class="bi bi-plus-lg"></i>
+                            <span class="fav-sellText"> Vender</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button"
+                            onclick="window.location.href='/chat'">
+                            <i class="bi bi-chat-fill"></i>
+                            <span class="fav-sellText"> Chats</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-3 header-profile justify-content-end" height="55">
+                    <a href="/profile" class="d-flex align-items-center text-decoration-none">
+                        <div>
+                            <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
+                                <img class="profilePic" src="/user/{{user?.id}}/image" alt="pfp">
+                            </ng-template>
+                            <ng-template #noImage>
+                                <img class="profilePic" src="assets/images/default_pfp.jpg" alt="pfp">
+                            </ng-template>
+                        </div>
+                        <div>
+                            <p class="text-white fw-bolder mb-0">{{user?.name}}</p>
+                        </div>
+                    </a>
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+</header>

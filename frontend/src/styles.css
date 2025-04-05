@@ -1,1 +1,217 @@
 /* You can add global styles to this file, and also import other style files */
+
+.headerContainer{
+    margin-right: 0px;
+}
+
+.loginButtons{
+    display: flex;
+    justify-content: center;
+}
+
+.topProdContainer{
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 100%;
+}
+
+.topProducts{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    overflow: scroll;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+/* Customize the scrollbar */
+.topProducts::-webkit-scrollbar {
+    height: 10px;
+}
+
+.topProducts::-webkit-scrollbar-button{
+    background: transparent;
+}
+
+.topProducts::-webkit-scrollbar-corner{
+    background: transparent;
+}
+
+.topProducts::-webkit-scrollbar-track {
+    background: transparent; /* Background color of the scrollbar */
+}
+
+.topProducts::-webkit-scrollbar-thumb {
+    background: #777; /* Color of the scrollbar */
+    border-radius: 10px;
+}
+
+.topProducts::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar on hover */
+}
+
+.productCard{
+    width: 100%;
+    border:none; /* Remove the border */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.topProduct{ 
+    margin: 10px;
+    max-width: 20%;
+    min-width: 200px;
+}
+
+.btn-custom {
+    background-color: #d35400; 
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn-custom:hover {
+    background-color: #823400;
+    color: white;
+}
+
+.btn-custom-register {
+    margin-left: 50px;
+}
+
+.otherProdContainer{
+    padding-left: 50px;
+    padding-right: 50px;
+    max-width: 100%;
+}
+
+.otherProducts{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.otherProduct{ 
+    margin-bottom: 20px;
+    max-width: 25%;
+    min-width: 175px;
+}
+
+.profilePic{
+    border-radius: 50%;
+    width: 50px;
+    margin: 3px;
+}
+
+.headerButtons{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+}
+
+.headerButton {
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
+
+.d-flex.justify-content-center {
+    margin-bottom: 30px;
+}
+
+.carousel-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+    padding-bottom: 10px;
+}
+
+.carousel-scroll {
+    display: flex;
+    gap: 16px;
+}
+
+.product-item {
+    flex: 0 0 auto;
+    width: 250px; 
+}
+
+.carousel-container {
+    background-color: #333;
+    padding: 20px 50px 40px 50px; 
+}
+
+.carousel-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carousel-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/*RESPONSIVE*/
+@media (max-width: 1250px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+        padding-left: 0px;
+    }
+
+    .searchContainer{
+        width: 65%;
+        margin-left: 5%;
+    }
+
+    .loginButtons{
+        width: 30%;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+    
+}
+
+@media (max-width: 800px){   
+    .header-logo{
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .searchContainer{
+        width: 80%;
+        margin-bottom: 15px;
+        margin-left: 0px;
+        justify-content: center;
+    }
+
+    .loginButtons{
+        width: 100%;
+        justify-content: center;
+    }
+
+    .headerContainer{
+        justify-content: center;
+    }
+    
+}
+.productCard .card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
