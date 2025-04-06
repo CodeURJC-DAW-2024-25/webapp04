@@ -3,7 +3,7 @@
         <div class="row align-items-center headerContainer">
 
             <div class="col-2 d-flex align-items-center text-white header-logo">
-                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                <a [routerLink]="'/'" class="d-flex align-items-center text-white text-decoration-none">
                     <img src="favicon.ico" alt="Logo" width="40" height="40" class="me-2">
                     <h5 class="fw-bolder mb-0">ByteMarket</h5>
                 </a>
@@ -19,7 +19,7 @@
                     </form>
                 </div>
                 <div class="col-3 loginButtons">
-                    <a href="../login" style="text-decoration: none;">
+                    <a [routerLink]="'/login'" style="text-decoration: none;">
                         <button class="btn btn-outline-dark btn-custom" type="submit">
                             <i class="bi-person-fill me-1"></i> Iniciar sesión o registrarse
                         </button>

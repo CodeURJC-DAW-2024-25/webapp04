@@ -10,6 +10,8 @@ import { ProfilePreviewComponent } from './components/user/profile-preview/profi
 import { ProductDetailComponent } from './components/product/product-detail/product-detail.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { LoginSigninComponent } from './components/user/login-signin/login-signin.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     ProfilePreviewComponent,
     ProductDetailComponent,
     HeaderComponent,
-    HomePageComponent
+    HomePageComponent,
+    LoginSigninComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
