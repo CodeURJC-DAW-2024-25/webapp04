@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container px-4 px-lg-5 navbarContent">
+    <!-- Este es el botón para seleccionar "Inicio" -->
     <a class="navbar-brand" href="/" (click)="selectCategory('')">Inicio</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,19 +9,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul ngbNav #nav="ngbNav" class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
         <li ngbNavItem>
-          <a ngbNavLink (click)="selectCategory('Móviles')">Móviles</a>
+          <a ngbNavLink (click)="selectCategory('Móviles')" [class.active]="selectedCategory === 'Móviles'">Móviles</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink (click)="selectCategory('Ordenadores')">Ordenadores</a>
+          <a ngbNavLink (click)="selectCategory('Ordenadores')" [class.active]="selectedCategory === 'Ordenadores'">Ordenadores</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink (click)="selectCategory('Auriculares')">Auriculares</a>
+          <a ngbNavLink (click)="selectCategory('Auriculares')" [class.active]="selectedCategory === 'Auriculares'">Auriculares</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink (click)="selectCategory('SmartWatches')">SmartWatches</a>
+          <a ngbNavLink (click)="selectCategory('SmartWatches')" [class.active]="selectedCategory === 'SmartWatches'">SmartWatches</a>
         </li>
         <li ngbNavItem>
-          <a ngbNavLink (click)="selectCategory('Otros')">Otros</a>
+          <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'">Otros</a>
         </li>
       </ul>
     </div>

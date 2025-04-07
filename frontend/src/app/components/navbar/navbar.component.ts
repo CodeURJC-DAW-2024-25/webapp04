@@ -7,9 +7,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 
 export class NavbarComponent {
+  selectedCategory: string = '';
+
   @Output() categorySelected = new EventEmitter<string>();
 
-  selectCategory(category: string) {
+  selectCategory(category: string): void {
+    this.selectedCategory = category;
     this.categorySelected.emit(category);
   }
 }
