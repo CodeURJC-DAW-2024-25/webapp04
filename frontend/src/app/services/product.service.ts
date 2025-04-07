@@ -30,4 +30,10 @@ export class ProductService {
         let url = `/api/v1/products/${productId}`;
         return this.http.get<ProductDTO>(url);
     }
+
+    getProductsByCategory(category: string, pageNumber: number = 0): Observable<{ content: ProductDTO[], last: boolean }> {
+        const url = `/api/v1/products?available=true&category=${encodeURIComponent(category)}&page=${pageNumber}`;
+        return this.http.get<{ content: ProductDTO[], last: boolean }>(url);
+      }
+      
 }
