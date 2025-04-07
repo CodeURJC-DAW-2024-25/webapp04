@@ -107,7 +107,6 @@ public class ProductService {
 		return productMapper.toDTO(repository.save(newProduct));
 	}
 
-	
 	//Delete favorites
 	public void deleteFavorites(List<Product> products){
 		for (Product product : products) {
