@@ -33,5 +33,10 @@ export class ChatService {
     getChatById(chatId: number): Observable<ChatDTO> {
         const url = `/api/v1/chats/${chatId}`;
         return this.http.get<ChatDTO>(url);
-    }         
+    }       
+    
+    sendChatMessage(chatId: number, message: { text: string }): Observable<ChatDTO> {
+      const url = `/api/v1/chats/${chatId}/messages`;
+      return this.http.post<ChatDTO>(url, message);
+    }
 }

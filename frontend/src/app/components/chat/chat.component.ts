@@ -36,9 +36,38 @@ export class ChatComponent {
     });
   }
 
-  sendMessage(): void {
+  sendMessage() {
+    if (this.currentChat && this.newMessage.trim()) {
+      const chatId = this.currentChat.id;
+      const message = { text: this.newMessage };
+      const formattedDate = new Intl.DateTimeFormat('es-ES', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false, // 24-hour clock
+      }).format(new Date()).replace(',', '');
+  
+      const newMessage = {
+        id: 0, 
+        sender: {
+          id: 2,
+          name: 'Pedro',
+          image: 'https://localhost:8443/user/2/image',
+          hasImage: false,
+          roles: ['USER'],
+        },
+        message: this.newMessage,
+        sentAt: formattedDate,
+      };
+  
+      this.currentChat.messages.push(newMessage);
+      this.chatService.sendChatMessage(chatId, message).subscribe();
+      this.newMessage = '';
+    }
   }
-
+  
   sellProduct(chatId: number): void {
   }
 }
