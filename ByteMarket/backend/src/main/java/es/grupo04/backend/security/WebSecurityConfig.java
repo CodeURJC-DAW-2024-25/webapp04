@@ -126,6 +126,7 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}/reviews").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/reviews/{reviewId}").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/profiles/image/{id}").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/products/{productId}/images/{imageId}").permitAll()
 
 					// PRIVATE ENDPOINTS
 					.requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("USER")
