@@ -312,7 +312,7 @@ public class UserRestController {
     }
 
     @Operation (summary= "Retrieve a user image by user ID")
-    @GetMapping("/{id}/image")
+    @GetMapping("/{id}/images")
     public ResponseEntity<?> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
         if (userOptional.isEmpty()) {

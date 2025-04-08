@@ -24,13 +24,13 @@ public interface ProductMapper {
 
         ArrayList<String> imageUrls = new ArrayList<>();
         for (Image image : product.getImages()) {
-           imageUrls.add("/product/image/" + image.getId());
+           imageUrls.add("/api/v1/products/" + product.getId() + "/images/" + image.getId());
         }
         return imageUrls;
     }
 
     default String mapThumbnail(Product product) {
-        return "/product/image/" + product.getImages().get(0).getId();
+        return "/api/v1/products/" + product.getId() + "/images/" + product.getImages().get(0).getId();
     }
     
 }

@@ -50,6 +50,7 @@ export class LoginSigninComponent {
               },
               error: (error) => {
                 this.loginError = true;
+                console.error('Login error:', error);
               }
           });
       } else {
@@ -65,6 +66,7 @@ export class LoginSigninComponent {
                   },
                   error: (error) => {
                     this.signinError = true;
+                    console.error('Registration error:', error);
                   }
               });
           }
