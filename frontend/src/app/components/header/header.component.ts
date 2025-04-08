@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserBasicDTO } from '../../dtos/user.basic.dto';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ export class HeaderComponent {
   isLogged: boolean = false;
   user?: UserBasicDTO;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     this.userService.getUser().subscribe({
       next: (user: UserBasicDTO) => {
         console.log(user);
@@ -26,7 +27,7 @@ export class HeaderComponent {
         this.user = undefined;
       }
     })
-  }
-  
+  }  
 
+  
 }

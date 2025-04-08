@@ -16,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FavoriteProductListComponent } from './components/user/favorite-product
     HomePageComponent,
     LoginSigninComponent,
     NavbarComponent,
-    ProductListComponent
+    ProductListComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
