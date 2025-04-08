@@ -13,6 +13,9 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginSigninComponent } from './components/user/login-signin/login-signin.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProductListComponent } from './components/product/product-list/product-list.component';
+import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +24,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OtherProductListComponent,
     ProfilePreviewComponent,
     ProductDetailComponent,
+    FavoriteProductListComponent,
     HeaderComponent,
     HomePageComponent,
-    LoginSigninComponent
+    LoginSigninComponent,
+    NavbarComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,

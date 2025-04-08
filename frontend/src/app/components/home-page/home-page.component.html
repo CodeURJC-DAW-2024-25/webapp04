@@ -1,2 +1,12 @@
-<app-top-product-list></app-top-product-list>
-<app-other-product-list></app-other-product-list>
+<app-navbar (categorySelected)="onCategorySelected($event)"></app-navbar>
+
+<ng-container *ngIf="!selectedCategory">
+  <app-top-product-list></app-top-product-list>
+  <app-other-product-list></app-other-product-list>
+</ng-container>
+
+<app-product-list
+  *ngIf="selectedCategory"
+  [title]="selectedCategory"
+  [selectedCategory]="selectedCategory"
+></app-product-list>
