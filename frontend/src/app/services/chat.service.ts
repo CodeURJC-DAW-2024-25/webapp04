@@ -39,4 +39,10 @@ export class ChatService {
       const url = `/api/v1/chats/${chatId}/messages`;
       return this.http.post<ChatDTO>(url, message);
     }
+
+    sellProduct(chatId: number, userId: number): Observable<any> {
+      const url = `/api/v1/users/${userId}/purchases`;
+      const body = { chatID: chatId };
+      return this.http.post(url, body);
+    }
 }

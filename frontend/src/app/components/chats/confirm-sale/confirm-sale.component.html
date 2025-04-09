@@ -1,0 +1,16 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Confirmar Venta</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ product?.name }}</h5>
+      <p class="card-text">Precio: {{ product?.price }}€</p>
+      <p class="card-text">Comprador: {{ buyer?.name }}</p>
+      <div class="d-flex gap-2 mt-3">
+        <form (ngSubmit)="confirmSale()">
+          <button type="submit" class="btn btn-custom">Confirmar Venta</button>
+        </form>
+        <button (click)="cancelSale()" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
