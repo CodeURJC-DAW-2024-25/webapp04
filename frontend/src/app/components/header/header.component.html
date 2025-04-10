@@ -11,10 +11,10 @@
 
             <ng-template [ngIf]="!isLogged">  <!-- Anonymous user -->
                 <div class="col-5 searchContainer">
-                    <form class="d-flex" role="search" action="/products" method="GET">
-                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                    <form class="d-flex" role="search" (submit)="onSearch($event)">
+                        <input class="form-control me-2" type="search" [(ngModel)]="searchQuery" name="search" placeholder="Buscar..." aria-label="Buscar">
                         <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
-                            <i class="bi bi-search" style="color: white;"></i>
+                          <i class="bi bi-search" style="color: white;"></i>
                         </button>
                     </form>
                 </div>
@@ -29,10 +29,10 @@
 
             <ng-template [ngIf]="isAdmin && isLogged"> <!-- Header for administrator -->
                 <div class="col-5 searchContainer">
-                    <form class="d-flex" role="search" action="/products" method="GET">
-                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                    <form class="d-flex" role="search" (submit)="onSearch($event)">
+                        <input class="form-control me-2" type="search" [(ngModel)]="searchQuery" name="search" placeholder="Buscar..." aria-label="Buscar">
                         <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
-                            <i class="bi bi-search" style="color: white;"></i>
+                          <i class="bi bi-search" style="color: white;"></i>
                         </button>
                     </form>
                 </div>
@@ -62,10 +62,10 @@
 
             <ng-template [ngIf]="isLogged && !isAdmin">
                 <div class="col-5 searchContainer">
-                    <form class="d-flex" role="search" action="/products" method="GET">
-                        <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
+                    <form class="d-flex" role="search" (submit)="onSearch($event)">
+                        <input class="form-control me-2" type="search" [(ngModel)]="searchQuery" name="search" placeholder="Buscar..." aria-label="Buscar">
                         <button class="btn btn-outline-dark btn-custom" type="submit" title="Buscar">
-                            <i class="bi bi-search" style="color: white;"></i>
+                          <i class="bi bi-search" style="color: white;"></i>
                         </button>
                     </form>
                 </div>

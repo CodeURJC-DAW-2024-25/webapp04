@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { ProductDTO } from '../../../dtos/product.dto';
 
@@ -17,12 +18,18 @@ export class ProductListComponent implements OnInit, OnChanges {
   currentPage: number = 0;
   isLoading: boolean = false;
 
-  constructor(private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private productService: ProductService) { }
 
   ngOnInit() {
-    if (this.selectedCategory) {
-      this.loadProductsByCategory();
-    }
+    this.route.queryParams.subscribe(params => {
+      const name = params['name'];
+      if (name) {
+        this.title = `Resultados para "${name}"`;
+        this.loadProductsByName(name);
+      } else if (this.selectedCategory) {
+        this.loadProductsByCategory();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -41,6 +48,15 @@ export class ProductListComponent implements OnInit, OnChanges {
         this.isLast = data.last;
         this.isLoading = false;
       });
+  }
+
+  loadProductsByName(name: string) {
+      this.isLoading = true;
+      this.productService.getProductsByName(name, this.currentPage).subscribe((data: { content: ProductDTO[], last: boolean }) => {
+      this.products = data.content;
+      this.isLast = data.last;
+      this.isLoading = false;
+    });
   }
 
   loadMore() {
