@@ -4,11 +4,5 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
-    },
-    "/product": {
-        "target": "https://localhost:8443/",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true
     }
 }

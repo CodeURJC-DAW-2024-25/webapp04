@@ -18,6 +18,7 @@ public interface NewProductMapper {
     @Mapping(target = "sold", ignore = true)
     @Mapping(target = "thumbnail", ignore = true)
     @Mapping(target = "users", ignore = true)
+    @Mapping(target = "hasImage", ignore = true)
     Product toDomain(NewProductDTO newProductDTO);
 
 }

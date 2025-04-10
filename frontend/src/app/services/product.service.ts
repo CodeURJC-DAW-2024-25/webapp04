@@ -9,9 +9,7 @@ import { ProductDTO } from '../dtos/product.dto';
 })
 export class ProductService {
     constructor(private http: HttpClient) { }
-    
-    //TODO: Puede ser que haya que poner un endpoint para las imagenes en la API para que
-    //todas las peticiones vayan a /api/v1 y no haya que poner la config extra que hay en el proxy
+
     getTopProducts(): Observable<{content: ProductDTO[]}> {
         let url = '/api/v1/products?recommended=true';
         return this.http.get<{content: ProductDTO[]}>(url);
@@ -26,7 +24,7 @@ export class ProductService {
         return this.http.get<{content: ProductDTO[], last: boolean}>(url);
     }
     
-    getProductDetail(productId: string): Observable<ProductDTO> {
+    getProductDetail(productId: number): Observable<ProductDTO> {
         let url = `/api/v1/products/${productId}`;
         return this.http.get<ProductDTO>(url);
     }
@@ -34,6 +32,6 @@ export class ProductService {
     getProductsByCategory(category: string, pageNumber: number = 0): Observable<{ content: ProductDTO[], last: boolean }> {
         const url = `/api/v1/products?available=true&category=${encodeURIComponent(category)}&page=${pageNumber}`;
         return this.http.get<{ content: ProductDTO[], last: boolean }>(url);
-      }
+    }
       
 }

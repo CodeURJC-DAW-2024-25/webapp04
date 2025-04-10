@@ -23,12 +23,10 @@ import es.grupo04.backend.dto.MessageDTO;
 import es.grupo04.backend.dto.NewChatDTO;
 import es.grupo04.backend.dto.NewMessageDTO;
 import es.grupo04.backend.dto.ProductDTO;
-import es.grupo04.backend.dto.PurchaseDTO;
 import es.grupo04.backend.dto.UserBasicDTO;
 import es.grupo04.backend.service.ChatService;
 import es.grupo04.backend.service.MessageService;
 import es.grupo04.backend.service.ProductService;
-import es.grupo04.backend.service.PurchaseService;
 import es.grupo04.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,8 +47,6 @@ public class ChatRestController {
     @Autowired
     private MessageService messageService;
 
-    @Autowired
-    private PurchaseService purchaseService;
 
     @Operation (summary= "Retrieve a list of all chats of the authenticated user")
     @GetMapping
