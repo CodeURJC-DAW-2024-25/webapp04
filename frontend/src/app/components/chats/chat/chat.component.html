@@ -1,56 +1,22 @@
 <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-4 border-end" style="height: 80vh;">
-        <h5 class="p-3 border-bottom">Chats de Compra</h5>
-        <div style="height: 25vh; overflow-y: auto;">
-          <ul class="list-group">
-            <ng-container *ngIf="buyChats?.length; else noChatsBuy">
-              <li class="list-group-item" *ngFor="let chat of buyChats">
-                <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
-                  <i class="bi bi-person-fill me-1"></i> {{ chat.userSeller.name }} - {{ chat.product.name }}
-                </button>
-              </li>
-            </ng-container>
-            <ng-template #noChatsBuy>
-              <div class="text-center">
-                <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
-              </div>
-            </ng-template>
-          </ul>
-        </div>
-  
-        <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
-        <div style="height: 25vh; overflow-y: auto;">
-          <ul class="list-group">
-            <ng-container *ngIf="sellChats?.length; else noChatsSell">
-              <li class="list-group-item" *ngFor="let chat of sellChats">
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
-                    <i class="bi bi-person-fill me-1"></i> {{ chat.userBuyer.name }} - {{ chat.product.name }}
-                  </button>
-                  <button
-                    *ngIf="!chat.product.sold"
-                    class="btn btn-custom ms-2"
-                    (click)="goToConfirmSale(chat.id)">
-                    Vender
-                  </button>
-                  <button
-                    *ngIf="chat.product.sold"
-                    class="btn btn-secondary ms-2"
-                    disabled>
-                    Vender
-                  </button>
-                </div>
-              </li>
-            </ng-container>
-            <ng-template #noChatsSell>
-              <div class="text-center">
-                <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
-              </div>
-            </ng-template>
-          </ul>
-        </div>
-
+  <div class="row">
+    <div class="col-md-4 border-end" style="height: 80vh;">
+      <h5 class="p-3 border-bottom">Chats de Compra</h5>
+      <div style="height: 25vh; overflow-y: auto;">
+        <ul class="list-group">
+          <ng-container *ngIf="buyChats?.length; else noChatsBuy">
+            <li class="list-group-item" *ngFor="let chat of buyChats">
+              <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
+                <i class="bi bi-person-fill me-1"></i> {{ chat.userSeller.name }} - {{ chat.product.name }}
+              </button>
+            </li>
+          </ng-container>
+          <ng-template #noChatsBuy>
+            <div class="text-center">
+              <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
+            </div>
+          </ng-template>
+        </ul>
       </div>
 
       <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
@@ -62,7 +28,7 @@
                 <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
                   <i class="bi bi-person-fill me-1"></i> {{ chat.userBuyer.name }} - {{ chat.product.name }}
                 </button>
-                <button *ngIf="!chat.product.sold" class="btn btn-custom ms-2" (click)="sellProduct(chat.id)">
+                <button *ngIf="!chat.product.sold" class="btn btn-custom ms-2" (click)="goToConfirmSale(chat.id)">
                   Vender
                 </button>
                 <button *ngIf="chat.product.sold" class="btn btn-secondary ms-2" disabled>
@@ -121,4 +87,5 @@
         </form>
       </div>
     </div>
+  </div>
 </div>
