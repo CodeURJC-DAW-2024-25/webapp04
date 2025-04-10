@@ -23,7 +23,7 @@ export class ChatService {
         );
       }
 
-      getSellerChats(): Observable<{ content: ChatDTO[] }> {
+    getSellerChats(): Observable<{ content: ChatDTO[] }> {
         const url = '/api/v1/chats?role=seller';
         return this.http.get<ChatDTO[]>(url).pipe(
           map((data) => ({ content: data }))
@@ -38,5 +38,11 @@ export class ChatService {
     sendChatMessage(chatId: number, message: { text: string }): Observable<ChatDTO> {
       const url = `/api/v1/chats/${chatId}/messages`;
       return this.http.post<ChatDTO>(url, message);
+    }
+
+    sellProduct(chatId: number, userId: number): Observable<any> {
+      const url = `/api/v1/users/${userId}/purchases`;
+      const body = { chatID: chatId };
+      return this.http.post(url, body);
     }
 }

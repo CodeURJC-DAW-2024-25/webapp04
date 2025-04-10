@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
-import { ChatDTO } from '../../dtos/chat.dto';
-import { ChatService } from '../../services/chat.service';
+import { ChatDTO } from '../../../dtos/chat.dto';
+import { ChatService } from '../../../services/chat.service';
+import { UserService } from '../../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +16,7 @@ export class ChatComponent {
   currentChatName: string = '';
   newMessage: string = '';
 
-  constructor(private chatService: ChatService) { }
+  constructor(private router: Router,  private chatService: ChatService,  private userService: UserService) { }
 
   ngOnInit(): void {
     // Get chats of buyer
@@ -46,7 +48,7 @@ export class ChatComponent {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        hour12: false, // 24-hour clock
+        hour12: false,
       }).format(new Date()).replace(',', '');
   
       const newMessage = {
@@ -67,7 +69,9 @@ export class ChatComponent {
       this.newMessage = '';
     }
   }
-  
-  sellProduct(chatId: number): void {
+
+  goToConfirmSale(chatId: number): void {
+    this.router.navigate(['/confirm-sale', chatId]);
   }
+  
 }

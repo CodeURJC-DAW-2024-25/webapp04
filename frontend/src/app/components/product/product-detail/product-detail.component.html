@@ -1,2 +1,70 @@
-<p>product-detail works!</p>
-<!--WE CAN ADD A NG-BOOTSTRAP CARROUSEL FOR THE IMAGES-->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <ngb-carousel class="mx-auto" style="max-width: 500px;">
+                <ng-template ngbSlide *ngFor="let image of product?.imageUrls">
+                <img [src]="image" class="rounded w-100" alt="{{product?.name}}">
+                </ng-template>
+            </ngb-carousel>
+        </div>
+        <div class="col-md-6">
+            <div *ngIf="product?.sold" class="alert alert-danger text-center fw-bold" role="alert">
+                ¡Producto Vendido!
+            </div>
+            <h1 class="fw-bold">{{product?.name}}</h1>
+            <h5 class="text">Categoría: {{product?.category}}</h5>
+            <h3 class="text-success">{{product?.price}}€</h3>
+            <p class="text-muted">Publicado el {{product?.publishDate}}</p>
+            <p>{{product?.description}}</p>
+            <div class="d-grid gap-2">
+                <div class="d-grid gap-2">
+                    <ng-template [ngIf]="!product?.sold">
+                        <ng-template [ngIf]="isOwner">
+                            <button [routerLink]="'/editProduct/' + product?.id" type="submit" class="btn btn-custom w-100">
+                                <i class="bi bi-pencil-fill m-2" style="color: white;"></i>Editar Producto
+                            </button>
+                            <button type="submit" class="btn btn-custom w-100">
+                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
+                            </button>
+                        </ng-template>
+                        
+                        <ng-template [ngIf]="isAdmin">
+                            <form action="/delete/{{product?.id}}" method="post">
+                                <button type="submit" class="btn btn-custom w-100">
+                                    <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
+                                </button>
+                            </form>
+                        </ng-template>
+
+                        <ng-template [ngIf]="!isAdmin && !isOwner">
+                            <form action="/chat/new/{{product?.id}}" method="POST">
+                                <button type="submit" class="btn btn-custom w-100">
+                                    <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
+                                </button>
+                            </form>
+                            <ng-template [ngIf]="!isFavorite">
+                                <form action="/product/{{product?.id}}/addFavorite" method="post">
+                                    <button type="submit" class="btn btn-custom w-100">
+                                        <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
+                                    </button>
+                                </form>
+                            </ng-template>
+                            <ng-template [ngIf]="isFavorite">
+                                <form action="/product/{{product?.id}}/eliminateFavorite" method="post">
+                                    <button type="submit" class="btn btn-custom w-100">
+                                        <i class="bi bi-heart-fill m-2" style="color: white;"></i>Eliminar de favoritos
+                                    </button>
+                                </form>
+                            </ng-template>
+                        </ng-template>
+
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+    <app-profile-preview></app-profile-preview>
+    <hr>
+</div>

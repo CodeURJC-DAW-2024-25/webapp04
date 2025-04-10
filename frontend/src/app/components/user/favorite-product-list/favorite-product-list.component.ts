@@ -9,6 +9,8 @@ import { UserService } from '../../../services/user.service';
 })
 export class FavoriteProductListComponent {
 
+    //TODO: Revisar esto y unificiarlo con la product-list
+
     favoriteProducts: ProductDTO[] = [];
     isLast: boolean = false;
     currentPage: number = 0;
@@ -38,12 +40,12 @@ export class FavoriteProductListComponent {
     loadFavorites(): void {
         this.userService.getFavorites(this.userId, this.currentPage).subscribe({
             next: (response) => {
-                // Filtrar los productos que no están ya en favoriteProducts
+                // Filter products that are not already in favoriteProducts
                 const newProducts = response.content.filter(product => 
                     !this.favoriteProducts.some(existingProduct => existingProduct.id === product.id)
                 );
     
-                // Añadir los productos nuevos (sin duplicados) a la lista de favoritos
+                // Add the new products (without duplicates) to the favorite products list
                 this.favoriteProducts = [...this.favoriteProducts, ...newProducts];
                 this.isLast = response.last;
                 this.isLoading = false;

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { ProductDTO } from '../../../dtos/product.dto';
 import { ProductBasicDTO } from '../../../dtos/product.basic.dto';
@@ -20,15 +21,21 @@ export class ProductListComponent implements OnInit, OnChanges {
   isLoading: boolean = false;
   fromParent: boolean = false;
 
-  constructor(private productService: ProductService) { }
+  constructor(private route: ActivatedRoute, private productService: ProductService) { }
 
   ngOnInit() {
-    if (this.productsFromParent.length > 0) {
-      this.fromParent = true;
-      this.loadMoreFromParent();
-    } else if (this.selectedCategory) {
-      this.loadProductsByCategory();
-    }
+    this.route.queryParams.subscribe(params => {
+      const name = params['name'];
+      if (name) {
+        this.title = `Resultados para "${name}"`;
+        this.loadProductsByName(name);
+      } else if (this.selectedCategory) {
+        this.loadProductsByCategory();
+      } else if(this.productsFromParent.length > 0){
+        this.fromParent = true;
+        this.loadMoreFromParent();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -47,6 +54,15 @@ export class ProductListComponent implements OnInit, OnChanges {
         this.isLast = data.last;
         this.isLoading = false;
       });
+  }
+
+  loadProductsByName(name: string) {
+      this.isLoading = true;
+      this.productService.getProductsByName(name, this.currentPage).subscribe((data: { content: ProductDTO[], last: boolean }) => {
+      this.products = data.content;
+      this.isLast = data.last;
+      this.isLoading = false;
+    });
   }
     
   loadMore() {

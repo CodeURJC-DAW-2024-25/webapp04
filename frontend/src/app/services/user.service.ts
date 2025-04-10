@@ -13,7 +13,6 @@ import { map } from 'rxjs/operators';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    //TODO: Poner un endpoint para las imagenes en la API
     getUser(): Observable<UserBasicDTO> {
         let url = '/api/v1/users/me';
         return this.http.get<UserBasicDTO>(url);
@@ -51,6 +50,33 @@ export class UserService {
         return this.http.delete<void>(
             `/api/v1/users/${userId}/favorites/${productId}`
         );
+    }
+
+    isFavorite(userId: number, productId: number): Observable<boolean> {
+        let totalElements = 0;
+        this.http.get<{totalElements: number}>(
+            `/api/v1/users/${userId}/favorites`
+        ).subscribe({
+            next: (response) => {
+                totalElements = response.totalElements;
+            }
+        });
+
+        if (totalElements > 0) {
+            let ids: number[] = [];
+            return this.http.get<{ content: ProductDTO[], last: boolean }>(
+                `/api/v1/users/${userId}/favorites?size=${totalElements}`
+            ).pipe(
+                map(response => ids.push(...response.content.map(product => product.id))),
+                map(() => ids.includes(productId)),
+            );
+        } else {
+            return new Observable<boolean>(observer => {
+                observer.next(false);
+                observer.complete();
+            });
+        }
+            
     }
 
 }
