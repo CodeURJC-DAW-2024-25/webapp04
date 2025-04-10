@@ -47,7 +47,7 @@
                     <a href="/adminProfile" class="d-flex align-items-center text-decoration-none">
                         <div>
                             <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
-                                <img class="profilePic" src="/user/{{user?.id}}/image" alt="pfp">
+                                <img class="profilePic" [src]="user?.image" alt="pfp">
                             </ng-template>
                             <ng-template #noImage>
                                 <img class="profilePic" src="assets/images/default_pfp.jpg" alt="pfp">
@@ -60,7 +60,7 @@
                 </div>
             </ng-template>
 
-            <ng-template [ngIf]="isLogged && !isAdmin">
+            <ng-template [ngIf]="isLogged && !isAdmin"> 
                 <div class="col-5 searchContainer">
                     <form class="d-flex" role="search" action="/products" method="GET">
                         <input class="form-control me-2" type="search" name="search" placeholder="Buscar..." aria-label="Buscar">
@@ -92,10 +92,10 @@
                 </div>
                 
                 <div class="col-3 header-profile justify-content-end" height="55">
-                    <a href="/profile" class="d-flex align-items-center text-decoration-none">
+                    <a href="/profile/me" class="d-flex align-items-center text-decoration-none">
                         <div>
                             <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
-                                <img class="profilePic" src="/user/{{user?.id}}/image" alt="pfp">
+                                <img class="profilePic" [src]="user?.image" alt="pfp">
                             </ng-template>
                             <ng-template #noImage>
                                 <img class="profilePic" src="assets/images/default_pfp.jpg" alt="pfp">

@@ -1,103 +1,91 @@
 <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-4 border-end" style="height: 80vh;">
-        <h5 class="p-3 border-bottom">Chats de Compra</h5>
-        <div style="height: 25vh; overflow-y: auto;">
-          <ul class="list-group">
-            <ng-container *ngIf="buyChats?.length; else noChatsBuy">
-              <li class="list-group-item" *ngFor="let chat of buyChats">
-                <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
-                  <i class="bi bi-person-fill me-1"></i> {{ chat.userSeller.name }} - {{ chat.product.name }}
-                </button>
-              </li>
-            </ng-container>
-            <ng-template #noChatsBuy>
-              <div class="text-center">
-                <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
-              </div>
-            </ng-template>
-          </ul>
-        </div>
-  
-        <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
-        <div style="height: 25vh; overflow-y: auto;">
-          <ul class="list-group">
-            <ng-container *ngIf="sellChats?.length; else noChatsSell">
-              <li class="list-group-item" *ngFor="let chat of sellChats">
-                <div class="d-flex justify-content-between align-items-center">
-                  <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
-                    <i class="bi bi-person-fill me-1"></i> {{ chat.userBuyer.name }} - {{ chat.product.name }}
-                  </button>
-                  <button
-                    *ngIf="!chat.product.sold"
-                    class="btn btn-custom ms-2"
-                    (click)="sellProduct(chat.id)">
-                    Vender
-                  </button>
-                  <button
-                    *ngIf="chat.product.sold"
-                    class="btn btn-secondary ms-2"
-                    disabled>
-                    Vender
-                  </button>
-                </div>
-              </li>
-            </ng-container>
-            <ng-template #noChatsSell>
-              <div class="text-center">
-                <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
-              </div>
-            </ng-template>
-          </ul>
-        </div>
+  <div class="row">
+    <div class="col-md-4 border-end" style="height: 80vh;">
+      <h5 class="p-3 border-bottom">Chats de Compra</h5>
+      <div style="height: 25vh; overflow-y: auto;">
+        <ul class="list-group">
+          <ng-container *ngIf="buyChats?.length; else noChatsBuy">
+            <li class="list-group-item" *ngFor="let chat of buyChats">
+              <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
+                <i class="bi bi-person-fill me-1"></i> {{ chat.userSeller.name }} - {{ chat.product.name }}
+              </button>
+            </li>
+          </ng-container>
+          <ng-template #noChatsBuy>
+            <div class="text-center">
+              <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
+            </div>
+          </ng-template>
+        </ul>
       </div>
-  
-      <div class="col-md-8 d-flex flex-column" style="height: 80vh;" *ngIf="currentChat">
-        <div class="p-3 border-bottom">
-          <a [routerLink]="['/product', currentChat.product.id]" class="text-decoration-none text-dark">
-            <h5 class="m-0">{{ currentChat.product.name }}</h5>
-          </a>
-        </div>
-  
-        <div class="flex-grow-1 p-3 overflow-auto bg-light" id="messages-container">
-          <div
-            class="d-flex mb-4 justify-content-start align-items-center"
-            *ngFor="let msg of currentChat.messages">
-            <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
-              <a [routerLink]="['/profile', msg.sender.id]" class="d-flex align-items-center text-decoration-none">
-                <img
-                  class="profile-pic mb-3 rounded-circle"
-                  [src]="msg.sender.hasImage ? '/user/' + msg.sender.id + '/image' : '/images/default_pfp.jpg'"
-                  width="60"
-                  height="60"
-                  alt="pfp" />
-              </a>
-              <div class="ms-3">
-                <p class="mb-1">
-                  <strong>{{ msg.sender.name }}</strong>
-                  <span class="text-muted small">| {{ msg.sentAt }}</span>
-                </p>
-                <p class="mb-0">{{ msg.message }}</p>
+
+      <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
+      <div style="height: 25vh; overflow-y: auto;">
+        <ul class="list-group">
+          <ng-container *ngIf="sellChats?.length; else noChatsSell">
+            <li class="list-group-item" *ngFor="let chat of sellChats">
+              <div class="d-flex justify-content-between align-items-center">
+                <button class="btn w-100 text-start" (click)="goToChat(chat.id)">
+                  <i class="bi bi-person-fill me-1"></i> {{ chat.userBuyer.name }} - {{ chat.product.name }}
+                </button>
+                <button *ngIf="!chat.product.sold" class="btn btn-custom ms-2" (click)="sellProduct(chat.id)">
+                  Vender
+                </button>
+                <button *ngIf="chat.product.sold" class="btn btn-secondary ms-2" disabled>
+                  Vender
+                </button>
               </div>
+            </li>
+          </ng-container>
+          <ng-template #noChatsSell>
+            <div class="text-center">
+              <h3 class="py-4 mb-4 defaultChatText">Todavía no hay chats</h3>
+            </div>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-8 d-flex flex-column" style="height: 80vh;" *ngIf="currentChat">
+      <div class="p-3 border-bottom">
+        <a [routerLink]="['/product', currentChat.product.id]" class="text-decoration-none text-dark">
+          <h5 class="m-0">{{ currentChat.product.name }}</h5>
+        </a>
+      </div>
+
+      <div class="flex-grow-1 p-3 overflow-auto bg-light" id="messages-container">
+        <div class="d-flex mb-4 justify-content-start align-items-center" *ngFor="let msg of currentChat.messages">
+          <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
+            <a [routerLink]="['/profile', msg.sender.id]" class="d-flex align-items-center text-decoration-none">
+              <ng-container *ngIf="msg.sender?.hasImage; else noImage">
+                <img class="profile-pic mb-3 rounded-circle" [src]="msg.sender.image" id="pfp-preview" alt="pfp"
+                  width="60" height="60" />
+              </ng-container>
+              <ng-template #noImage>
+                <img class="profile-pic mb-3 rounded-circle" src="assets/images/default_pfp.jpg" id="pfp-preview"
+                  alt="pfp" width="60" height="60" />
+              </ng-template>
+            </a>
+            <div class="ms-3">
+              <p class="mb-1">
+                <strong>{{ msg.sender.name }}</strong>
+                <span class="text-muted small">| {{ msg.sentAt }}</span>
+              </p>
+              <p class="mb-0">{{ msg.message }}</p>
             </div>
           </div>
         </div>
-  
-        <div class="p-3 border-top">
-          <form (ngSubmit)="sendMessage()" #messageForm="ngForm" class="input-group">
-            <input
-              type="text"
-              name="message"
-              class="form-control"
-              [(ngModel)]="newMessage"
-              placeholder="Escribe tu respuesta..."
-              required />
-            <button type="submit" class="btn btn-outline-dark btn-custom headerButton">
-              <span class="fav-sellText">Responder</span>
-            </button>
-          </form>
-        </div>
+      </div>
+
+      <div class="p-3 border-top">
+        <form (ngSubmit)="sendMessage()" #messageForm="ngForm" class="input-group">
+          <input type="text" name="message" class="form-control" [(ngModel)]="newMessage"
+            placeholder="Escribe tu respuesta..." required />
+          <button type="submit" class="btn btn-outline-dark btn-custom headerButton">
+            <span class="fav-sellText">Responder</span>
+          </button>
+        </form>
       </div>
     </div>
   </div>
-  
+</div>

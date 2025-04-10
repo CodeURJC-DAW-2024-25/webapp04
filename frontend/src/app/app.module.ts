@@ -17,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ChatComponent } from './components/chat/chat.component';
     LoginSigninComponent,
     NavbarComponent,
     ProductListComponent,
-    ChatComponent
+    ChatComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
