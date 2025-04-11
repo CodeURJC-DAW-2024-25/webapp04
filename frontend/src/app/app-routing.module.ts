@@ -6,11 +6,16 @@ import { ProductDetailComponent } from './components/product/product-detail/prod
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
+import { ProfilePreviewComponent } from './components/user/profile-preview/profile-preview.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginSigninComponent},
   {path: 'profile', component: ProductListComponent},
+  {path: 'profile/me', component: ProfileComponent},
+  {path: 'profile/:id', component: ProfileComponent},
+  {path: 'adminProfile', component: ProfileComponent},
   {path: 'product/:id', component: ProductDetailComponent},
   {path: 'chats', component: ChatComponent},
   {path: 'confirm-sale/:chatId', component: ConfirmSaleComponent},

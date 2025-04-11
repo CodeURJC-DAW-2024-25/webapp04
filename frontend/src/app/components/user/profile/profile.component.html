@@ -1,0 +1,46 @@
+<section class="py-4">
+    <div class="container-fluid py-5">
+        <div class="profile-container text-center col-5">
+            <h2 class="mb-4">{{user?.name}}</h2>
+            <div class="profile-pic-wrapper">
+                <a class="d-inline-block position-relative">
+                    <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
+                        <img class="profile-pic mb-3" [src]="user?.image" alt="pfp">
+                    </ng-template>
+                    <ng-template #noImage>
+                        <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
+                    </ng-template>
+                </a>
+            </div>
+            <form>
+                <div class="mb-3 text-start">
+                    <h5 class="fw-bolder">Ventas: <span class="fw-normal">{{user?.sales?.length || 0}}</span>
+                    </h5>
+                </div>
+                <div class="mb-3 text-start">
+                    <h5 class="fw-bolder">Compras: <span class="fw-normal">{{user?.purchases?.length || 0}}</span>
+                    </h5>
+                </div>
+                <div class="mb-3 text-start">
+                    <h5 class="fw-bolder">Reseñas: <span class="fw-normal">{{user?.reviews?.length || 0}}</span>
+                    </h5>
+                </div>
+            </form>
+            <div *ngIf="user?.iframe" class="mb-3 text-start">
+                <h5 class="fw-bolder">Ubicación:</h5>
+                <div class="map-container" [innerHTML]="getSafeIframe(user?.iframe || '')"></div>
+            </div>
+
+            <div>
+                <form action="/logout" method="POST">
+                    <button class="btn btn-custom" type="submit">
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="user?.products?.length">
+                <app-product-list [title]="'Productos'" [productsFromParent]="user?.products || []"></app-product-list>
+            </div>
+    </div>
+</section>
