@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserBasicDTO } from '../dtos/user.basic.dto';
+import { UserDTO } from '../dtos/user.dto';
 import { ProductDTO } from '../dtos/product.dto';
 import { map } from 'rxjs/operators';
 
@@ -15,6 +16,12 @@ export class UserService {
     getUser(): Observable<UserBasicDTO> {
         let url = '/api/v1/users/me';
         return this.http.get<UserBasicDTO>(url);
+    }
+
+    getUserById(userId: number): Observable<UserDTO> {
+        userId = userId || 0;  
+        let url = `/api/v1/users/${userId}`;
+        return this.http.get<UserDTO>(url);
     }
 
     loginUser(username: string, password: string): Observable<{ status: string }> {

@@ -16,6 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
 import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
+
+import { ProfileComponent } from './components/user/profile/profile.component';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
 
@@ -33,7 +35,8 @@ import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sa
     NavbarComponent,
     ProductListComponent,
     ChatComponent,
-    ConfirmSaleComponent
+    ConfirmSaleComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

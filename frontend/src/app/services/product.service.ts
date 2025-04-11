@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductDTO } from '../dtos/product.dto';
+import { ProductBasicDTO } from '../dtos/product.basic.dto';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
+
     constructor(private http: HttpClient) { }
 
     getTopProducts(): Observable<{content: ProductDTO[]}> {

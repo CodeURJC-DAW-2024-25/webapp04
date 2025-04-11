@@ -25,11 +25,12 @@
         </ng-template>
       </div>
     </div>
+
     <div *ngIf="!isLast && products.length > 0" class="d-flex justify-content-center">
-      <button class="btn btn-custom" id="load-more" type="button" (click)="loadMore()">
-        <span>Cargar más</span>
-        <span *ngIf="isLoading" id="spinner" class="spinner-border spinner-border-sm text-light ms-2" role="status"></span>
-      </button>
+        <button class="btn btn-custom" id="load-more" type="button" (click)="fromParent ? loadMoreFromParent() : loadMore()">
+            <span>Cargar más</span>
+            <span *ngIf="isLoading" id="spinner" class="spinner-border spinner-border-sm text-light ms-2" role="status"></span>
+        </button>
     </div>
   </section>
   

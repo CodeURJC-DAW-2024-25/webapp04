@@ -23,7 +23,7 @@ export class ChatService {
         );
       }
 
-      getSellerChats(): Observable<{ content: ChatDTO[] }> {
+    getSellerChats(): Observable<{ content: ChatDTO[] }> {
         const url = '/api/v1/chats?role=seller';
         return this.http.get<ChatDTO[]>(url).pipe(
           map((data) => ({ content: data }))
