@@ -18,7 +18,7 @@
           </ng-template>
         </ul>
       </div>
-
+      
       <h5 class="p-3 border-bottom mt-4">Chats de Venta</h5>
       <div style="height: 25vh; overflow-y: auto;">
         <ul class="list-group">
@@ -53,7 +53,7 @@
         </a>
       </div>
 
-      <div class="flex-grow-1 p-3 overflow-auto bg-light" id="messages-container">
+      <div class="flex-grow-1 p-3 overflow-auto bg-light" #messagesContainer>
         <div class="d-flex mb-4 justify-content-start align-items-center" *ngFor="let msg of currentChat.messages">
           <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
             <a [routerLink]="['/profile', msg.sender.id]" class="d-flex align-items-center text-decoration-none">
