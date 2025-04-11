@@ -47,4 +47,10 @@
                 <app-product-list [title]="'Productos'" [productsFromParent]="user?.products || []"></app-product-list>
         </div>
     </div>
+    <div *ngIf="category && category == 'Reseñas'">
+        <!-- <app-product-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list> -->
+    </div>
+    <div *ngIf="category && category !== 'Reseñas'">
+        <app-product-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list>
+    </div>
 </section>

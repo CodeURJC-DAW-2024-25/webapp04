@@ -53,5 +53,4 @@ export class ProfileComponent {
     this.category = category;
   }
 
-  
 }
