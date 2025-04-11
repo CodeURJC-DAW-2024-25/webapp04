@@ -1,36 +1,43 @@
 <section class="py-4">
-    <div class="container otherProdContainer">
-        <div class="">
-        <h2 class="fw-bolder mb-3">{{ title }}</h2>
-      </div>
-      <div *ngIf="!isLoading && products.length === 0" class="text-center text-muted my-5">
-        <i class="bi bi-search" style="font-size: 3rem;"></i>
-        <p class="mt-3 fs-5">No se han encontrado resultados.</p>
-      </div>
-      <div class="row otherProducts" id="products-list">
-        <ng-template ngFor let-product [ngForOf]="products">
-          <div class="otherProduct col-3" *ngIf="!product.sold || fromParent">
-            <a [routerLink]="'/product/' + product.id" style="text-decoration: none;">
-              <div class="productCard card h-100">
-                <img class="card-img-top" [src]="product.thumbnail" [alt]="product.name" />
-                <div class="card-body p-4">
-                  <div class="text-center">
-                    <h5 class="fw-bolder">{{ product.name }}</h5>
-                    {{ product.price }}€
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </ng-template>
-      </div>
+  <div class="container otherProdContainer">
+
+    <div>
+      <h2 class="fw-bolder mb-3">
+        {{ isFavorites ? 'Productos favoritos' : title }}
+      </h2>
     </div>
 
-    <div *ngIf="!isLast && products.length > 0" class="d-flex justify-content-center">
-        <button class="btn btn-custom" id="load-more" type="button" (click)="fromParent ? loadMoreFromParent() : loadMore()">
-            <span>Cargar más</span>
-            <span *ngIf="isLoading" id="spinner" class="spinner-border spinner-border-sm text-light ms-2" role="status"></span>
-        </button>
+    <div *ngIf="!isLoading && products.length === 0" class="text-center text-muted my-5">
+      <i class="bi" [ngClass]="isFavorites ? 'bi-heartbreak' : 'bi-search'" style="font-size: 3rem;"></i>
+      <p class="mt-3 fs-5">
+        {{ isFavorites ? 'No hay productos favoritos' : 'No se han encontrado resultados.' }}
+      </p>
     </div>
-  </section>
-  
+
+    <div class="row otherProducts" id="products-list">
+      <ng-template ngFor let-product [ngForOf]="products">
+        <div *ngIf="!product.sold" class="otherProduct col-3">
+          <a [routerLink]="'/product/' + product.id" style="text-decoration: none;">
+            <div class="productCard card h-100">
+              <img class="card-img-top" [src]="product.thumbnail" [alt]="product.name" />
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <h5 class="fw-bolder">{{ product.name }}</h5>
+                  {{ product.price }}€
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <div *ngIf="!isLast && products.length > 0" class="d-flex justify-content-center">
+    <button class="btn btn-custom" id="load-more" type="button" (click)="loadMore()">
+      <span>Cargar más</span>
+      <span *ngIf="isLoading" id="spinner" class="spinner-border spinner-border-sm text-light ms-2" role="status"></span>
+    </button>
+  </div>
+</section>

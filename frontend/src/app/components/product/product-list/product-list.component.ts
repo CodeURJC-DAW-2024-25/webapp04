@@ -96,3 +96,35 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.isLoading = false;
   }
 }
+
+
+// loadFavorites() {
+//   this.isLoading = true;
+//   this.userService.getFavorites(this.userId, this.currentPage).subscribe({
+//     next: (response) => {
+//       const newProducts = response.content.filter(product =>
+//         !this.products.some(existingProduct => existingProduct.id === product.id)
+//       );
+//       this.products = [...this.products, ...newProducts];
+//       this.isLast = response.last;
+//       this.isLoading = false;
+//     },
+//     error: (error) => {
+//       console.error(error);
+//       this.isLoading = false;
+//     }
+//   });
+// }
+
+// loadMore() {
+//   if (this.isLast) return;
+
+//   this.isLoading = true;
+//   this.currentPage++;
+
+//   if (this.isFavorites) {
+//     this.loadFavorites();
+//   } else {
+//     this.loadProductsByCategory();
+//   }
+
