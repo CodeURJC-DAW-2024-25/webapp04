@@ -12,7 +12,7 @@ import { ProfileComponent } from './components/user/profile/profile.component';
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginSigninComponent},
-  {path: 'profile', component: ProductListComponent},
+  {path: 'profileFavorites', component: ProductListComponent},
   {path: 'profile/me', component: ProfileComponent},
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'adminProfile', component: ProfileComponent},
