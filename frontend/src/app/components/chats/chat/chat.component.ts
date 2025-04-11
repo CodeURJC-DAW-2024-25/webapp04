@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ChatDTO } from '../../../dtos/chat.dto';
 import { ChatService } from '../../../services/chat.service';
 import { UserService } from '../../../services/user.service';
@@ -15,6 +15,7 @@ export class ChatComponent {
   currentChat: ChatDTO | null = null;
   currentChatName: string = '';
   newMessage: string = '';
+  @ViewChild('messagesContainer') messagesContainerRef!: ElementRef;
 
   constructor(private router: Router,  private chatService: ChatService,  private userService: UserService) { }
 
@@ -22,8 +23,7 @@ export class ChatComponent {
     // Get chats of buyer
     this.chatService.getBuyerChats().subscribe((response) => {
         this.buyChats = response.content
-    }
-    );
+    });
 
     // Get chats of seller
     this.chatService.getSellerChats().subscribe((data: { content: ChatDTO[] }) => {
@@ -31,10 +31,24 @@ export class ChatComponent {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+  setTimeout(() => {
+    const messagesContainer = this.messagesContainerRef.nativeElement;
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  }, 0); 
+}
+
   goToChat(chatId: number): void {
     this.chatService.getChatById(chatId).subscribe(chat => {
       this.currentChat = chat;
       this.currentChatName = `${chat.userBuyer.name} - ${chat.product.name}`;
+      this.scrollToBottom();
     });
   }
 
@@ -50,9 +64,9 @@ export class ChatComponent {
         minute: '2-digit',
         hour12: false,
       }).format(new Date()).replace(',', '');
-  
+
       const newMessage = {
-        id: 0, 
+        id: 0,
         sender: {
           id: 2,
           name: 'Pedro',
@@ -63,15 +77,17 @@ export class ChatComponent {
         message: this.newMessage,
         sentAt: formattedDate,
       };
-  
+
       this.currentChat.messages.push(newMessage);
-      this.chatService.sendChatMessage(chatId, message).subscribe();
-      this.newMessage = '';
+      this.chatService.sendChatMessage(chatId, message).subscribe(() => {
+        this.newMessage = '';
+        this.scrollToBottom();
+      });
     }
   }
 
   goToConfirmSale(chatId: number): void {
     this.router.navigate(['/confirm-sale', chatId]);
   }
-  
+
 }

@@ -58,19 +58,12 @@
             <h5 class="m-0">{{ currentChat.product.name }}</h5>
           </a>
         </div>
-  
-        <div class="flex-grow-1 p-3 overflow-auto bg-light" id="messages-container">
-          <div
-            class="d-flex mb-4 justify-content-start align-items-center"
-            *ngFor="let msg of currentChat.messages">
+      
+        <div class="flex-grow-1 p-3 overflow-auto bg-light" #messagesContainer>
+          <div class="d-flex mb-4 justify-content-start align-items-center" *ngFor="let msg of currentChat.messages">
             <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
               <a [routerLink]="['/profile', msg.sender.id]" class="d-flex align-items-center text-decoration-none">
-                <img
-                  class="profile-pic mb-3 rounded-circle"
-                  [src]="msg.sender.hasImage ? '/user/' + msg.sender.id + '/image' : '/images/default_pfp.jpg'"
-                  width="60"
-                  height="60"
-                  alt="pfp" />
+                <img class="profile-pic mb-3 rounded-circle" [src]="msg.sender.hasImage ? '/user/' + msg.sender.id + '/image' : '/images/default_pfp.jpg'" width="60" height="60" alt="pfp" />
               </a>
               <div class="ms-3">
                 <p class="mb-1">
@@ -82,22 +75,16 @@
             </div>
           </div>
         </div>
-  
+      
         <div class="p-3 border-top">
           <form (ngSubmit)="sendMessage()" #messageForm="ngForm" class="input-group">
-            <input
-              type="text"
-              name="message"
-              class="form-control"
-              [(ngModel)]="newMessage"
-              placeholder="Escribe tu respuesta..."
-              required />
+            <input type="text" name="message" class="form-control" [(ngModel)]="newMessage" placeholder="Escribe tu respuesta..." required />
             <button type="submit" class="btn btn-outline-dark btn-custom headerButton">
               <span class="fav-sellText">Responder</span>
             </button>
           </form>
         </div>
-      </div>
+      </div>      
     </div>
   </div>
   
