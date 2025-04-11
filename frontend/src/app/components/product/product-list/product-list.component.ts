@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
@@ -80,6 +81,8 @@ export class ProductListComponent implements OnInit, OnChanges {
   }  
   
   loadMoreFromParent() {
+    console.log("Cargando más productos desde el padre");
+    console.log(this.productsFromParent);
     this.isLast = (this.currentPage + 1) * 8 >= this.productsFromParent.length;
     const startIdx = this.currentPage * 8;
     const endIdx = Math.min(startIdx + 8, this.productsFromParent.length);
@@ -92,6 +95,4 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.currentPage++;  
     this.isLoading = false;
   }
-
-
 }

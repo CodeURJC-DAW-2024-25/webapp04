@@ -9,7 +9,7 @@
       </div>
       <div class="row otherProducts" id="products-list">
         <ng-template ngFor let-product [ngForOf]="products">
-          <div *ngIf="!product.sold" class="otherProduct col-3">
+          <div class="otherProduct col-3" *ngIf="!product.sold || fromParent">
             <a [routerLink]="'/product/' + product.id" style="text-decoration: none;">
               <div class="productCard card h-100">
                 <img class="card-img-top" [src]="product.thumbnail" [alt]="product.name" />

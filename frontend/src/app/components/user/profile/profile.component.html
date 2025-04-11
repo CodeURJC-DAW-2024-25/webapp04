@@ -1,5 +1,6 @@
+<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" (categorySelected)="onCategorySelected($event)"></app-navbar>
 <section class="py-4">
-    <div class="container-fluid py-5">
+    <div *ngIf="!category" class="container-fluid py-5">
         <div class="profile-container text-center col-5">
             <h2 class="mb-4">{{user?.name}}</h2>
             <div class="profile-pic-wrapper">
@@ -10,6 +11,9 @@
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
                     </ng-template>
+                    <span *ngIf ="isOwnProfile" class="edit-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
+                    </span>
                 </a>
             </div>
             <form>
@@ -31,7 +35,7 @@
                 <div class="map-container" [innerHTML]="getSafeIframe(user?.iframe || '')"></div>
             </div>
 
-            <div>
+            <div *ngIf ="isOwnProfile">
                 <form action="/logout" method="POST">
                     <button class="btn btn-custom" type="submit">
                         <span>Cerrar Sesión</span>
@@ -41,6 +45,6 @@
         </div>
         <div *ngIf="user?.products?.length">
                 <app-product-list [title]="'Productos'" [productsFromParent]="user?.products || []"></app-product-list>
-            </div>
+        </div>
     </div>
 </section>
