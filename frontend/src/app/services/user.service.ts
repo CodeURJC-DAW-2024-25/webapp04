@@ -39,6 +39,15 @@ export class UserService {
         );
     }
 
+    getAllFavorites(userId: number): Observable<ProductDTO[]> {
+        const pageSize = 1000; 
+        return this.http.get<{ content: ProductDTO[] }>(
+            `/api/v1/users/${userId}/favorites?size=${pageSize}`
+        ).pipe(
+            map(response => response.content)
+        );
+    }
+
     deleteFavorite(userId: number, productId: number): Observable<void> {
         return this.http.delete<void>(
             `/api/v1/users/${userId}/favorites/${productId}`
