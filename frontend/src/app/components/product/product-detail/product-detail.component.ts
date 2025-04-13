@@ -18,7 +18,8 @@ export class ProductDetailComponent {
   isOwner: boolean = false;
   isAdmin: boolean = false;
   isFavorite: boolean = false;
-  favorites: ProductDTO[] = [];
+  hasBoughtProduct: boolean = false; // has bought this exact product
+  hasBoughtUser: boolean = false; // has bought any product from this user
 
   constructor(private productService: ProductService, private userService: UserService, route: ActivatedRoute, private router: Router) {
     this.id = route.snapshot.params['id'];
@@ -34,19 +35,29 @@ export class ProductDetailComponent {
             this.user = user;
             
             if (this.product && this.user) {
-              this.userService.getAllFavorites(this.user.id).subscribe({
-                next: (favorites: ProductDTO[]) => {
-                  this.favorites = favorites;
-                  this.isFavorite = this.favorites.some(fav => fav.id === this.product?.id);
+              this.userService.isFavorite(this.user.id, this.product.id).subscribe({
+                next: (isFavorite: boolean) => {
+                  this.isFavorite = isFavorite;
                   console.log('isFavorite:', this.isFavorite);
-                },
-                error: (error) => {
-                  console.error('Error fetching favorites:', error);
                 }
               });
-  
-              this.isOwner = this.product.owner?.id === this.user.id;
+
+              this.isOwner = this.product.owner.id === this.user.id;
+
               this.isAdmin = this.user.roles.includes('ADMIN');
+
+              this.userService.checkHasBoughtUser(this.user.id, this.product.owner.id).subscribe({
+                next: (hasBoughtUser: boolean) => {
+                  this.hasBoughtUser = hasBoughtUser;
+                }
+              });
+
+              this.userService.checkHasBoughtProduct(this.user.id, this.product.id).subscribe({
+                next: (hasBoughtProduct: boolean) => {
+                  this.hasBoughtProduct = hasBoughtProduct;
+                }
+              });
+    
             }
           },
           error: (error) => {

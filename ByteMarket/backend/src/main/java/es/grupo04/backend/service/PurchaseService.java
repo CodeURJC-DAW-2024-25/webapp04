@@ -114,6 +114,17 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
+    public List<PurchaseDTO> findByBuyerSeller(Long buyerId, Long sellerId) {
+        User buyer = userRepository.findById(buyerId)
+                .orElseThrow(() -> new NoSuchElementException());
+        User seller = userRepository.findById(sellerId)
+                .orElseThrow(() -> new NoSuchElementException());
+        return purchaseRepository.findByBuyerAndSeller(buyer, seller)
+                .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<PurchaseDTO> getLastSales(Long sellerId) {
         User user = userRepository.findById(sellerId).get();
         return purchaseRepository.findBySellerOrderByPurchaseDateDesc(user)
@@ -162,5 +173,16 @@ public class PurchaseService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NoSuchElementException());
         return purchaseRepository.hasUserBoughtProduct(user, product);
+    }
+
+    public List<PurchaseDTO> findByBuyerProduct(Long buyerId, Long productId) {
+        User buyer = userRepository.findById(buyerId)
+                .orElseThrow(() -> new NoSuchElementException());
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException());
+        return purchaseRepository.findByBuyerAndProduct(buyer, product)
+                .stream()
+                .map(purchaseMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

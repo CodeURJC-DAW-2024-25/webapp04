@@ -1,17 +1,17 @@
-import { ProductBasicDTO } from './product.basic.dto';
-import { PurchaseDTO } from './purchase.dto';
-import { ReviewDTO } from './review.dto';
+import { ProductDTO } from "./product.dto";
+import { ReviewDTO } from "./review.dto";
+import { PurchaseDTO } from "./purchase.dto";
 
 export interface UserDTO {
     id: number;
     name: string;
     creationYear: number;
-    image: string;
-    hasImage: boolean;
     roles: string[];
-    products: ProductBasicDTO[];
+    products: ProductDTO[];
     reviews: ReviewDTO[];
     sales: PurchaseDTO[];
     purchases: PurchaseDTO[];
     iframe: string;
+    image: string;
+    hasImage: boolean;
 }

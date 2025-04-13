@@ -1,10 +1,10 @@
 import { ProductDTO } from './product.dto';
 import { UserBasicDTO } from './user.basic.dto';
 
-export interface PurchaseDTO {
+export interface ReportDTO {
     id: number;
+    reason: number;
+    description: string;
     product: ProductDTO;
-    buyer: UserBasicDTO;
-    seller: UserBasicDTO;
-    purchaseDate: Date;
+    reportCreator: UserBasicDTO;
 }

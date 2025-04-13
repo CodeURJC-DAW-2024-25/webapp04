@@ -36,6 +36,20 @@ export class UserService {
         );
     }
 
+    checkHasBoughtUser(buyerId: number, sellerId: number): Observable<boolean> {
+        let url = `/api/v1/users/${buyerId}/purchases?sellerId=${sellerId}`;
+        return this.http.get<ProductDTO[]>(url).pipe(
+            map(response => {return response.length > 0})
+        );
+    }
+
+    checkHasBoughtProduct(buyerId: number, productId: number): Observable<boolean> {
+        let url = `/api/v1/users/${buyerId}/purchases?productId=${productId}`;
+        return this.http.get<ProductDTO[]>(url).pipe(
+            map(response => {return response.length > 0})
+        );
+    }
+
     addFavorite(userId: number, productId: number): Observable<void> {
         return this.http.post<void>(`/api/v1/users/${userId}/favorites`, { productId: productId });
     }

@@ -1,1 +1,25 @@
-<p>profile-preview works!</p>
+<h3>Información del vendedor</h3>
+<div class="d-flex align-items-center">
+    <a href="../profile/{{userId}}" class="d-flex align-items-center text-decoration-none">
+        <ng-component *ngIf="user?.hasImage; else noImage">
+        <img src="{{user?.image}}" class="rounded-circle me-3 user-img" alt="Vendedor">
+        </ng-component>
+        <ng-template #noImage>
+            <img src="assets/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
+        </ng-template>
+    </a>
+
+    <div>
+        <h5 class="mb-0">{{user?.name}}</h5>
+        <ng-template [ngIf]="user?.id!==1">
+            <div>
+                <span>Ventas: {{user?.sales?.length}}<br></span>
+                <span>Compras: {{user?.purchases?.length}}<br></span>
+                <span class="text-muted">
+                    {{rating}}/5 <i class="bi bi-star-fill"></i> - {{user?.reviews?.length}} reseñas
+                </span>
+            </div>
+        </ng-template>
+    </div>
+
+</div>

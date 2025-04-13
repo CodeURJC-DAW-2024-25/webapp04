@@ -14,7 +14,7 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   @Input() title: string = '';
   @Input() selectedCategory: string = '';
-  @Input() productsFromParent: ProductBasicDTO[] = [];
+  @Input() productsFromParent: ProductDTO[] = [];
 
   products: (ProductDTO)[] = [];
   isLast: boolean = false;
