@@ -12,6 +12,7 @@ import { ProfileComponent } from './components/user/profile/profile.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
+  {path: '**', redirectTo: '/'},
   {path: 'login', component: LoginSigninComponent},
   {path: 'profileFavorites', component: ProductListComponent},
   {path: 'profile/me', component: ProfileComponent},
