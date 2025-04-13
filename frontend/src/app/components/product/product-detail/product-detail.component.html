@@ -1,9 +1,9 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-6">
-            <ngb-carousel class="mx-auto" style="max-width: 500px;">
+            <ngb-carousel class="mx-auto" style="max-width: 400px;">
                 <ng-template ngbSlide *ngFor="let image of product?.imageUrls">
-                <img [src]="image" class="rounded w-100" alt="{{product?.name}}">
+                <img [src]="image" class="w-100 img-fluid" alt="{{product?.name}}">
                 </ng-template>
             </ngb-carousel>
         </div>
