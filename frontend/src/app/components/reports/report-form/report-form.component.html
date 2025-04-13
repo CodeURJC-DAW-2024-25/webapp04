@@ -1,0 +1,32 @@
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mt-4">
+        <h3>Reportar un Problema</h3>
+        <button class="btn btn-custom" id="btn-report-issue" (click)="toggleVisibility()">Añadir</button>
+    </div>
+    <div *ngIf="infoMissing" class="alert alert-danger fw-bolder m-3" role="alert">
+        <i class="bi bi-exclamation-circle"></i> Completa todos los campos.
+    </div>
+    <div id="report-form-container" class="mt-3" *ngIf="isVisible">
+        <div id="report-form">
+            <h4>Detalles del Reporte</h4>
+            <form (submit)="sendReport()" method="POST">
+                <div class="mb-3">
+                    <label for="report-issue" class="form-label">Seleccionar Problema:</label>
+                    <select required class="form-select" id="report-issue" name="reason" required [(ngModel)]="selectedIssue">
+                        <option value="Producto Dañado" selected>Producto Dañado</option>
+                        <option value="Producto Diferente">Producto Diferente</option>
+                        <option value="Faltan Piezas">Faltan Piezas</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="report-description" class="form-label">Descripción del Problema:</label>
+                    <textarea class="form-control" id="report-description" name="description" rows="3"
+                        placeholder="Describe el problema aquí..." [(ngModel)]="description" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-custom">Enviar Reporte</button>
+            </form>
+        </div>
+    </div>
+    <hr>
+</div>

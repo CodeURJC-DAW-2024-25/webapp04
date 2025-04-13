@@ -65,6 +65,15 @@
     </div>
     <hr>
     
-    <app-profile-preview></app-profile-preview>
+    <app-profile-preview *ngIf="product?.owner?.id" [userId]="product?.owner?.id"></app-profile-preview>
     <hr>
+
+    <app-report-form *ngIf="product?.id && (product?.owner?.id!==1) && !isAdmin && !isOwner && hasBoughtProduct" [productId]="product?.id"></app-report-form>
+
+    <app-review-form *ngIf="product?.owner?.id && (product?.owner?.id!==1) && !isAdmin && !isOwner && hasBoughtUser" [reviewedUserId]="product?.owner?.id"></app-review-form>
+    
+    <app-review-list *ngIf="product?.owner?.id" [userId]="product?.owner?.id"></app-review-list>
+    <br>
+    <br>
+
 </div>

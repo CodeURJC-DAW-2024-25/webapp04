@@ -22,6 +22,8 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
     List<Purchase> findByBuyerOrSellerOrderByPurchaseDateDesc(User buyer, User seller);
 
+    List<Purchase> findByBuyerAndProduct(User buyer, Product product);
+
     @Query("SELECT COUNT(p) > 0 FROM Purchase p WHERE p.buyer = :user AND p.product = :product")
     boolean hasUserBoughtProduct(@Param("user") User user, @Param("product") Product product);
 }

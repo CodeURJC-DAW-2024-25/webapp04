@@ -95,7 +95,7 @@ public class UserRestController {
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(userId);
         if (userOptional.isEmpty() || userId == 1) {
-            throw new NoSuchElementException("User with not found");
+            throw new NoSuchElementException("User not found");
         }
         return ResponseEntity.ok(userOptional.get());
     }
@@ -293,7 +293,7 @@ public class UserRestController {
         return ResponseEntity.ok(updated.get());
     }
 
-    @PostMapping("/{id}/image")
+    @PostMapping("/{id}/images")
     public ResponseEntity<Void> addImage(@RequestParam MultipartFile image,
             HttpServletRequest request) throws IOException {
         Principal principal = request.getUserPrincipal();
@@ -345,8 +345,10 @@ public class UserRestController {
     
     @Operation(summary = "Mark a product as sold in a chat by its ID")
     @PostMapping("/{userID}/purchases")
-    public ResponseEntity<?> sellProduct(@PathVariable Long userID, @RequestBody NewPurchaseDTO purchaseDTO, HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
+    public ResponseEntity<?> sellProduct(@PathVariable Long userID, @RequestBody NewPurchaseDTO purchaseDTO,
+        HttpServletRequest request) {
+        
+            Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -379,8 +381,10 @@ public class UserRestController {
 
     @Operation(summary = "Get purchases filtered by user role")
     @GetMapping("/{userID}/purchases")
-    public ResponseEntity<List<PurchaseDTO>> getPurchases(@PathVariable Long userID, @RequestParam(required = false) String role, HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
+    public ResponseEntity<List<PurchaseDTO>> getPurchases(@PathVariable Long userID, @RequestParam(required = false) String role, 
+        HttpServletRequest request, @RequestParam(required = false) Long sellerId, @RequestParam(required = false) Long productId) {
+        
+            Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -397,6 +401,10 @@ public class UserRestController {
             purchases = purchaseService.getLastSales(userID);
         } else if ("buyer".equalsIgnoreCase(role)) {
             purchases = purchaseService.getLastPurchases(userID);
+        } else if (sellerId != null) {
+            purchases = purchaseService.findByBuyerSeller(userID, sellerId);
+        } else if (productId != null) {
+            purchases = purchaseService.findByBuyerProduct(userID, productId);
         } else {
             purchases = purchaseService.findAllUserPurchases(userID);
         }

@@ -1,0 +1,21 @@
+<div *ngIf="reviews.length>0" class="container mt-4">
+    <h3>Reseñas</h3>
+    <div class="scrolling-wrapper">
+        <div *ngFor="let review of reviews" class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{review.reviewOwner.name}}</h5>
+                <p class="card-text">{{review.description}}</p>
+                <p>
+                    <span class="text-warning">
+                        <i *ngFor="let star of stars; let i = index" 
+                        [class.bi-star-fill]="i < review.rating" 
+                        [class.bi-star]="i >= review.rating" 
+                        class="bi"></i>
+                    </span>
+                    - {{review.rating}}/5
+                </p>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { UserBasicDTO } from '../dtos/user.basic.dto';
 import { ProductDTO } from '../dtos/product.dto';
 import { map } from 'rxjs/operators';
+import { UserDTO } from '../dtos/user.dto';
 
 
 @Injectable({
@@ -17,6 +18,11 @@ export class UserService {
         return this.http.get<UserBasicDTO>(url);
     }
 
+    getUserById(userId: number): Observable<UserDTO> {
+        let url = `/api/v1/users/${userId}`;
+        return this.http.get<UserDTO>(url);
+    }
+
     loginUser(username: string, password: string): Observable<{ status: string }> {
         let url = '/api/v1/auth/login';
         return this.http.post<{ status: string }>(url, { username, password });
@@ -26,6 +32,20 @@ export class UserService {
         let url = '/api/v1/users/signin';
         return this.http.post<{ id: number }>(url, { name, mail, password, repeatPassword }).pipe(
             map(response => { return response.id !== undefined })
+        );
+    }
+
+    checkHasBoughtUser(buyerId: number, sellerId: number): Observable<boolean> {
+        let url = `/api/v1/users/${buyerId}/purchases?sellerId=${sellerId}`;
+        return this.http.get<ProductDTO[]>(url).pipe(
+            map(response => {return response.length > 0})
+        );
+    }
+
+    checkHasBoughtProduct(buyerId: number, productId: number): Observable<boolean> {
+        let url = `/api/v1/users/${buyerId}/purchases?productId=${productId}`;
+        return this.http.get<ProductDTO[]>(url).pipe(
+            map(response => {return response.length > 0})
         );
     }
 

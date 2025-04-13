@@ -69,14 +69,18 @@ public class ReviewReportRestController {
     @PostMapping("/users/{userId}/reviews")
     public ResponseEntity<ReviewDTO> postReview(HttpServletRequest request, @RequestBody NewReviewDTO reviewDTO, @PathVariable Long userId) {
         Principal principal = request.getUserPrincipal();
-        UserBasicDTO user = userService.findByMail(principal.getName()).get();
+        Optional<UserBasicDTO> user = userService.findByMail(principal.getName());
+
+        if (user.isEmpty()) {
+            return ResponseEntity.status(403).build();
+        }
 
         if(reviewDTO.rating() < 1 || reviewDTO.rating() > 5) {
             return ResponseEntity.badRequest().build();
         }
 
         NewReviewDTO fullReview = new NewReviewDTO(reviewDTO.rating(), reviewDTO.description(), userId);
-        Optional<ReviewDTO> review = reviewService.saveReview(fullReview, user.id());
+        Optional<ReviewDTO> review = reviewService.saveReview(fullReview, user.get().id());
         if(review.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -103,12 +107,12 @@ public class ReviewReportRestController {
     }
 
     @Operation (summary= "Crate (post) a report to the product indicated by product ID")
-    @PostMapping("/reports/products/{productId}")
-    public ResponseEntity<ReportDTO> postReport(HttpServletRequest request, @RequestBody NewReportDTO reportDTO, @PathVariable Long productId) {
+    @PostMapping("/reports")
+    public ResponseEntity<ReportDTO> postReport(HttpServletRequest request, @RequestBody NewReportDTO reportDTO) {
         Principal principal = request.getUserPrincipal();
         UserBasicDTO user = userService.findByMail(principal.getName()).get();
 
-        NewReportDTO fullReport = new NewReportDTO(reportDTO.reason(), reportDTO.description(), productId, user.id());
+        NewReportDTO fullReport = new NewReportDTO(reportDTO.reason(), reportDTO.description(), reportDTO.productId(), user.id());
         Optional<ReportDTO> report = reportService.saveReport(fullReport);
         if(report.isEmpty()) {
             return ResponseEntity.badRequest().build();

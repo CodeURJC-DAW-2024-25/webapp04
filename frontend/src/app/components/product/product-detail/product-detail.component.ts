@@ -17,6 +17,8 @@ export class ProductDetailComponent {
   isOwner: boolean = false;
   isAdmin: boolean = false;
   isFavorite: boolean = false;
+  hasBoughtProduct: boolean = false; // has bought this exact product
+  hasBoughtUser: boolean = false; // has bought any product from this user
 
   constructor(private productService: ProductService, private userService: UserService, route: ActivatedRoute) {
     this.id = route.snapshot.params['id'];
@@ -39,14 +41,22 @@ export class ProductDetailComponent {
                   console.log('isFavorite:', this.isFavorite);
                 }
               });
-    
-              if(this.product !== undefined && this.user !== undefined) {
-                this.isOwner = this.product.owner.id === this.user.id;
-              }
-          
-              if(this.user !== undefined) {
-                this.isAdmin = this.user.roles.includes('ADMIN');
-              }
+
+              this.isOwner = this.product.owner.id === this.user.id;
+
+              this.isAdmin = this.user.roles.includes('ADMIN');
+
+              this.userService.checkHasBoughtUser(this.user.id, this.product.owner.id).subscribe({
+                next: (hasBoughtUser: boolean) => {
+                  this.hasBoughtUser = hasBoughtUser;
+                }
+              });
+
+              this.userService.checkHasBoughtProduct(this.user.id, this.product.id).subscribe({
+                next: (hasBoughtProduct: boolean) => {
+                  this.hasBoughtProduct = hasBoughtProduct;
+                }
+              });
     
             }
           },

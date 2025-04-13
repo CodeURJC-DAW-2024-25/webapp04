@@ -18,6 +18,9 @@ import { ProductListComponent } from './components/product/product-list/product-
 import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
+import { ReportFormComponent } from './components/reports/report-form/report-form.component';
+import { ReviewFormComponent } from './components/reviews/review-form/review-form.component';
+import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sa
     NavbarComponent,
     ProductListComponent,
     ChatComponent,
-    ConfirmSaleComponent
+    ConfirmSaleComponent,
+    ReportFormComponent,
+    ReviewFormComponent,
+    ReviewListComponent
   ],
   imports: [
     BrowserModule,
