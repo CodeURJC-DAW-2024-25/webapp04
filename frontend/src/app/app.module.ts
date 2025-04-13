@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,10 +15,10 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
-
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
+import { NewProductComponent } from './components/product/new-product/new-product.component';
 
 @NgModule({
   declarations: [
@@ -34,14 +34,16 @@ import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sa
     ProductListComponent,
     ChatComponent,
     ConfirmSaleComponent,
-    ProfileComponent
+    ProfileComponent,
+    NewProductComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

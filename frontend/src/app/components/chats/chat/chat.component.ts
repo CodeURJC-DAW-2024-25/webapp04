@@ -20,6 +20,16 @@ export class ChatComponent {
   constructor(private router: Router,  private chatService: ChatService,  private userService: UserService) { }
 
   ngOnInit(): void {
+    // Check if user is logged in
+    this.userService.getUser().subscribe({
+      next: (user) => {
+        console.log('User is logged in', user);
+      },
+      error: () => {
+        this.router.navigate(['/login']);
+      }
+    });
+
     // Get chats of buyer
     this.chatService.getBuyerChats().subscribe((response) => {
         this.buyChats = response.content
