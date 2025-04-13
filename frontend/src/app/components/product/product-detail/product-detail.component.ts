@@ -4,6 +4,7 @@ import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,21 +21,20 @@ export class ProductDetailComponent {
   hasBoughtProduct: boolean = false; // has bought this exact product
   hasBoughtUser: boolean = false; // has bought any product from this user
 
-  constructor(private productService: ProductService, private userService: UserService, route: ActivatedRoute) {
+  constructor(private productService: ProductService, private userService: UserService, route: ActivatedRoute, private router: Router) {
     this.id = route.snapshot.params['id'];
   }
 
   ngOnInit() {
-
     this.productService.getProductDetail(this.id).subscribe({
       next: (product: ProductDTO) => {
         this.product = product;
-
+  
         this.userService.getUser().subscribe({
           next: (user: UserBasicDTO) => {
             this.user = user;
             
-            if(this.product !== undefined && this.user !== undefined) {
+            if (this.product && this.user) {
               this.userService.isFavorite(this.user.id, this.product.id).subscribe({
                 next: (isFavorite: boolean) => {
                   this.isFavorite = isFavorite;
@@ -63,15 +63,46 @@ export class ProductDetailComponent {
           error: (error) => {
             console.error('Error fetching user:', error);
           }
-
         });
       },
       error: (error) => {
         console.error('Error fetching product details:', error);
       }
-    });    
-
+    });
   }
+  
 
+  addToFavorites() {
+    if (!this.user) {
+      this.router.navigate(['login'], { queryParams: { returnUrl: this.router.url } });
+      return;
+    }
+  
+    if (this.product) {
+      this.userService.addFavorite(this.user.id, this.product.id).subscribe({
+        next: () => {
+          this.isFavorite = true;
+          console.log(`Producto ${this.product?.id} añadido a favoritos.`);
+        },
+        error: (err) => {
+          console.error('Error al añadir a favoritos:', err);
+        }
+      });
+    }
+  }
+  
+  removeFromFavorites(): void {
+    if (this.user && this.product) {
+      this.userService.deleteFavorite(this.user.id, this.product.id).subscribe({
+        next: () => {
+          this.isFavorite = false;
+          console.log(`Producto ${this.product?.id} eliminado de favoritos.`);
+        },
+        error: (err) => {
+          console.error('Error al eliminar de favoritos:', err);
+        }
+      });
+    }
+  }
 
 }

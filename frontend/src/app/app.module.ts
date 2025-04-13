@@ -15,7 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product/product-list/product-list.component';
-import { FavoriteProductListComponent } from './components/user/favorite-product-list/favorite-product-list.component';
+
+import { ProfileComponent } from './components/user/profile/profile.component';
 import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
 import { ReportFormComponent } from './components/reports/report-form/report-form.component';
@@ -29,7 +30,6 @@ import { ReviewListComponent } from './components/reviews/review-list/review-lis
     OtherProductListComponent,
     ProfilePreviewComponent,
     ProductDetailComponent,
-    FavoriteProductListComponent,
     HeaderComponent,
     HomePageComponent,
     LoginSigninComponent,
@@ -37,6 +37,7 @@ import { ReviewListComponent } from './components/reviews/review-list/review-lis
     ProductListComponent,
     ChatComponent,
     ConfirmSaleComponent,
+    ProfileComponent,
     ReportFormComponent,
     ReviewFormComponent,
     ReviewListComponent

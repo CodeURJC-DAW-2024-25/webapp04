@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserBasicDTO } from '../dtos/user.basic.dto';
+import { UserDTO } from '../dtos/user.dto';
 import { ProductDTO } from '../dtos/product.dto';
 import { map } from 'rxjs/operators';
-import { UserDTO } from '../dtos/user.dto';
 
 
 @Injectable({
@@ -19,6 +19,7 @@ export class UserService {
     }
 
     getUserById(userId: number): Observable<UserDTO> {
+        userId = userId || 0;  
         let url = `/api/v1/users/${userId}`;
         return this.http.get<UserDTO>(url);
     }
@@ -56,6 +57,15 @@ export class UserService {
     getFavorites(userId: number, page: number): Observable<{ content: ProductDTO[], last: boolean }> {
         return this.http.get<{ content: ProductDTO[], last: boolean }>(
             `/api/v1/users/${userId}/favorites?page=${page}`
+        );
+    }
+
+    getAllFavorites(userId: number): Observable<ProductDTO[]> {
+        const pageSize = 1000; 
+        return this.http.get<{ content: ProductDTO[] }>(
+            `/api/v1/users/${userId}/favorites?size=${pageSize}`
+        ).pipe(
+            map(response => response.content)
         );
     }
 

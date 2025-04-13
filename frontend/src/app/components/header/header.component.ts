@@ -12,6 +12,7 @@ export class HeaderComponent {
   isAdmin: boolean = false;
   isLogged: boolean = false;
   user?: UserBasicDTO;
+  searchQuery: string = '';
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getUser().subscribe({
@@ -29,5 +30,17 @@ export class HeaderComponent {
     })
   }  
 
+  onSearch(event: Event): void {
+
+    const trimmed = this.searchQuery.trim();
+    
+    if (trimmed) {
+      this.router.navigate(['/products'], { queryParams: { name: trimmed } });
+    } else {
+      this.router.navigate(['']);
+    }
+
+    this.searchQuery = '';
+  }
   
 }

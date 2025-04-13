@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductDTO } from '../dtos/product.dto';
+import { ProductBasicDTO } from '../dtos/product.basic.dto';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
+
     constructor(private http: HttpClient) { }
 
     getTopProducts(): Observable<{content: ProductDTO[]}> {
@@ -31,6 +33,11 @@ export class ProductService {
 
     getProductsByCategory(category: string, pageNumber: number = 0): Observable<{ content: ProductDTO[], last: boolean }> {
         const url = `/api/v1/products?available=true&category=${encodeURIComponent(category)}&page=${pageNumber}`;
+        return this.http.get<{ content: ProductDTO[], last: boolean }>(url);
+    }
+
+    getProductsByName(searchTerm: string, pageNumber: number = 0): Observable<{ content: ProductDTO[], last: boolean }> {
+        const url = `/api/v1/products?name=${encodeURIComponent(searchTerm)}&page=${pageNumber}`;
         return this.http.get<{ content: ProductDTO[], last: boolean }>(url);
     }
       
