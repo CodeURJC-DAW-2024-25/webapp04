@@ -44,7 +44,7 @@ export class NewProductComponent {
   onFileSelected(event: any): void {
     const files = Array.from(event.target.files);
     if (files.length > 5) {
-      this.imageError = 'You cannot upload more than 5 images.';
+      this.imageError = 'No puedes subir más de 5 imágenes.';
       return;
     }
     this.imageError = '';
@@ -59,10 +59,10 @@ export class NewProductComponent {
     }
 
     if (this.selectedFiles.length === 0) {
-      this.imageError = 'You must upload at least one product image.';
+      this.imageError = 'Debes subir al menos una imagen del producto.';
       return;
     } else if (this.selectedFiles.length > 5) {
-      this.imageError = 'You cannot upload more than 5 images.';
+      this.imageError = 'No puedes subir más de 5 imágenes.';
       return;
     } else {
       this.imageError = '';
@@ -81,7 +81,7 @@ export class NewProductComponent {
         this.uploadImages(productId);
       },
       error: (err) => {
-        console.error('Error creating product', err);
+        console.error('Error al crear el producto', err);
       }
     });
   }
@@ -103,7 +103,7 @@ export class NewProductComponent {
       }
       uploadImage(this.selectedFiles[i]).subscribe({
         next: () => uploadNext(i + 1),
-        error: (err) => console.error('Error uploading image', err)
+        error: (err) => console.error('Error al subir la imagen', err)
       });
     };
 
