@@ -23,13 +23,15 @@
                             <button [routerLink]="'/editProduct/' + product?.id" type="submit" class="btn btn-custom w-100">
                                 <i class="bi bi-pencil-fill m-2" style="color: white;"></i>Editar Producto
                             </button>
-                            <button type="submit" class="btn btn-custom w-100">
-                                <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
-                            </button>
+                            <form (ngSubmit)="deleteProduct()" method="post">
+                                <button type="submit" class="btn btn-custom w-100">
+                                    <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
+                                </button>
+                            </form>
                         </ng-template>
                         
                         <ng-template [ngIf]="isAdmin">
-                            <form action="/delete/{{product?.id}}" method="post">
+                            <form (ngSubmit)="deleteProduct()" method="post">
                                 <button type="submit" class="btn btn-custom w-100">
                                     <i class="bi bi-x-lg m-2" style="color: white;"></i>Borrar Producto
                                 </button>

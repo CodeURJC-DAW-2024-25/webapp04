@@ -155,7 +155,7 @@ public class ProductRestController {
 
         ProductDTO productDTO = productOpt.get();
         UserBasicDTO userDTO = userService.findByMail(principal.getName()).get();
-        if (productDTO.owner().id() != userDTO.id()) {
+        if (productDTO.owner().id() != userDTO.id() && !userDTO.roles().contains("ADMIN")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 

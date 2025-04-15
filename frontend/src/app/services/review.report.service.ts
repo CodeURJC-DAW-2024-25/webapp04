@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ReportDTO } from '../dtos/report.dto';
 import { ReviewDTO } from '../dtos/review.dto';
 
@@ -39,6 +39,16 @@ export class ReviewReportService {
         }
         let url = `/api/v1/users/${userId}/reviews`;
         return this.http.post<ReviewDTO>(url, { rating, description, userId });
+    }
+
+
+    //For refreshing the reviews list when a new review is added
+    private reviewAddedSource = new Subject<void>();
+
+    reviewAdded$ = this.reviewAddedSource.asObservable();
+    
+    notifyReviewAdded(): void {
+        this.reviewAddedSource.next();
     }
 
 }

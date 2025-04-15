@@ -40,5 +40,27 @@ export class ProductService {
         const url = `/api/v1/products?name=${encodeURIComponent(searchTerm)}&page=${pageNumber}`;
         return this.http.get<{ content: ProductDTO[], last: boolean }>(url);
     }
+
+    createProduct(productData: any): Observable<{id: number}> {
+        return this.http.post<any>(`/api/v1/products`, productData);
+    }
+
+    updateProduct(productData: any, productId: number | undefined): Observable<{id: number}> {
+        return this.http.put<any>(`/api/v1/products/${productId}`, productData);
+    }
+
+    deleteProduct(productId: number): Observable<any> {
+        return this.http.delete(`/api/v1/products/${productId}`);
+    }
+
+    addImage(productId: number, formData: FormData): Observable<any> {
+        return this.http.post(`/api/v1/products/${productId}/images`, formData);
+    }
+
+    deleteImage(productId: number, imageId: number): Observable<any> {
+        return this.http.delete(`/api/v1/products/${productId}/images/${imageId}`);
+    }
+
+
       
 }

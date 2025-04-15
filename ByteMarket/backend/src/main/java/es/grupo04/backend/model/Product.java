@@ -60,6 +60,7 @@ public class Product {
         this.price = price;
         this.category = category;
         this.images = images;
+        this.hasImage = true;
         if(!images.isEmpty()){
             this.thumbnail = images.get(0);
         }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class ProductService {
 	public Optional<ProductDTO> findById(long id) {
 		Optional<Product> productOpt = repository.findById(id);
 		if (productOpt.isEmpty()) {
-			return Optional.empty();
+			throw new NoSuchElementException("Product not found with id: " + id);
 		}
 		return Optional.of(productMapper.toDTO(productOpt.get()));
 	}

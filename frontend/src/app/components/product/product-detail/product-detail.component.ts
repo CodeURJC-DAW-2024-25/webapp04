@@ -67,6 +67,7 @@ export class ProductDetailComponent {
       },
       error: (error) => {
         console.error('Error fetching product details:', error);
+        this.router.navigate(['/']);
       }
     });
   }
@@ -82,10 +83,10 @@ export class ProductDetailComponent {
       this.userService.addFavorite(this.user.id, this.product.id).subscribe({
         next: () => {
           this.isFavorite = true;
-          console.log(`Producto ${this.product?.id} añadido a favoritos.`);
+            console.log(`Product ${this.product?.id} added to favorites.`);
         },
         error: (err) => {
-          console.error('Error al añadir a favoritos:', err);
+          console.error('Error adding to favorites:', err);
         }
       });
     }
@@ -96,13 +97,25 @@ export class ProductDetailComponent {
       this.userService.deleteFavorite(this.user.id, this.product.id).subscribe({
         next: () => {
           this.isFavorite = false;
-          console.log(`Producto ${this.product?.id} eliminado de favoritos.`);
+            console.log(`Product ${this.product?.id} removed from favorites.`);
         },
         error: (err) => {
-          console.error('Error al eliminar de favoritos:', err);
+          console.error('Error deleting from favorites:', err);
         }
       });
     }
+  }
+
+  deleteProduct(): void {
+    this.productService.deleteProduct(this.id).subscribe({
+      next: () => {
+        console.log('Product deleted successfully');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error('Error deleting the product:', err);
+      }
+    });
   }
 
 }

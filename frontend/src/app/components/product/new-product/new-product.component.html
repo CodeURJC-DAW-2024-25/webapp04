@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>{{ productForm.value?.id ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
+  <h2>{{ productId ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
 
   <div class="form">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="mb-3">
+      <div *ngIf="!(productId)" class="mb-3">
         <label for="imageUpload" class="form-label">Subir Imágenes (máx. 5)</label>
         <input type="file" class="form-control" id="imageUpload" (change)="onFileSelected($event)" multiple accept="image/*" />
         <div *ngIf="imageError" class="text-danger mt-1">
@@ -55,7 +55,7 @@
       <div class="row d-flex justify-content-between buttons">
         <div class="col-md-6">
           <button type="submit" class="btn btn-outline-dark btn-custom w-100 me-2">
-            <i class="bi bi-upload"></i> {{ productForm.value?.id ? 'Actualizar Producto' : 'Crear Producto' }}
+            <i class="bi bi-upload"></i> {{ productId ? 'Actualizar Producto' : 'Crear Producto' }}
           </button>
         </div>
         <div class="col-md-6">
@@ -67,4 +67,43 @@
 
     </form>
   </div>
+
+  <ng-template [ngIf]="productId">
+    <h2>Gestionar imágenes</h2>
+    <div class="form">
+        <div class="form-label">Imágenes del producto</div>
+        <div class="image-container">
+            <ng-template [ngIf]="images.length === 1">
+                    <div *ngFor="let image of images" class="m-2 position-relative">
+                        <img src="{{image}}" class="prodImg" alt="Product Image">
+                    </div>
+            </ng-template>
+            <ng-template [ngIf]="images.length > 1">
+                <form *ngFor="let image of images" (ngSubmit)="deleteImage(image.split('/')[6])" class="m-2 position-relative imgForm" method="POST">
+                    <img src="{{image}}" class="prodImg" alt="Product Image">
+                    <button type="submit" class="deleteImg" title="Eliminar imagen"> <i class="bi bi-x-circle-fill"></i> </button>
+                </form>
+            </ng-template>
+        </div>
+        <div>
+            <ng-template [ngIf]="images.length >= 5">
+                <div class="info">
+                    <i class="bi bi-info-circle-fill"></i> No puedes añadir más imágenes a este producto
+                </div>
+            </ng-template>
+            <ng-template [ngIf]="images.length < 5">
+                <form (ngSubmit)="addImageEditing()" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="imageUpload" class="form-label">Añadir Imagen</label>
+                        <input #imageInput type="file" class="form-control" id="imageUpload" (change)="onFileSelected($event)" name="imageUpload" accept="image/jpeg, image/png, image/jpg" required>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark btn-custom w-100">
+                        <i class="bi bi-upload"></i> Añadir Imagen
+                    </button>
+                </form>
+            </ng-template>	
+        </div>
+    </div>
+</ng-template>
+
 </div>

@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { UserDTO } from '../../../dtos/user.dto';
+import { Subscription } from 'rxjs';
+import { ReviewReportService } from '../../../services/review.report.service';
+import { ReviewDTO } from '../../../dtos/review.dto';
 
 @Component({
   selector: 'app-profile-preview',
@@ -12,22 +15,28 @@ export class ProfilePreviewComponent {
   @Input() 
   userId?: number;
 
+  private reviewAddedSubscription!: Subscription;
+
   user?: UserDTO;
   rating: number = 0;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private reviewService: ReviewReportService) { 
+    this.reviewAddedSubscription = this.reviewService.reviewAdded$.subscribe(() => {
+      this.ngOnInit();
+    });
   }
 
   ngOnInit() {
-    console.log('User ID:', this.userId);
     if (this.userId) {
       this.userService.getUserById(this.userId).subscribe({
         next: (user) => {
           this.user = user;
-          for (let review in user.reviews) {
-            this.rating += user.reviews[review].rating;
+          this.rating = 0;
+          for (let i=0; i < user.reviews.length; i++) {
+            this.rating += user.reviews[i].rating;
           }
           if (user.reviews.length > 0) {
+            console.log('Rating:', this.rating, 'Reviews:', user.reviews.length);
             this.rating = parseFloat((this.rating / user.reviews.length).toFixed(2));
           }
         },

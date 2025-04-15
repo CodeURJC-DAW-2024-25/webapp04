@@ -34,6 +34,7 @@ export class ReviewFormComponent {
         this.isVisible = false;
         this.rating = '';
         this.description = '';
+        this.reviewService.notifyReviewAdded();
       },
       error: (error) => {
         console.error('Error sending review:', error);
