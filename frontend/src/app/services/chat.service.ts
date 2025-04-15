@@ -36,13 +36,19 @@ export class ChatService {
     }       
     
     sendChatMessage(chatId: number, message: { text: string }): Observable<ChatDTO> {
-      const url = `/api/v1/chats/${chatId}/messages`;
-      return this.http.post<ChatDTO>(url, message);
+        const url = `/api/v1/chats/${chatId}/messages`;
+        return this.http.post<ChatDTO>(url, message);
     }
 
     sellProduct(chatId: number, userId: number): Observable<any> {
-      const url = `/api/v1/users/${userId}/purchases`;
-      const body = { chatID: chatId };
-      return this.http.post(url, body);
+        const url = `/api/v1/users/${userId}/purchases`;
+        const body = { chatID: chatId };
+        return this.http.post(url, body);
+    }
+
+    createChat(productID: number): Observable<any> {
+        const url = `/api/v1/chats`;
+        const body = { productID };
+        return this.http.post(url, body);
     }
 }

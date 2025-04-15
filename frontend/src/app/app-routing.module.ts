@@ -22,7 +22,8 @@ const routes: Routes = [
   {path: 'confirm-sale/:chatId', component: ConfirmSaleComponent},
   {path: 'products', component: ProductListComponent},
   {path: 'newProduct', component: NewProductComponent},
-  {path: 'editProduct/:id', component: NewProductComponent}
+  {path: 'editProduct/:id', component: NewProductComponent},
+  {path: 'chats/:id', component: ChatComponent}
 ];
 
 @NgModule({
