@@ -16,3 +16,10 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=bytemarket
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: webapp04/Docker/Dockerfile 
+    ports:
+      - 4200:80
+    container_name: bytemarket-frontend

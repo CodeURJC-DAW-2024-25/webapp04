@@ -1,34 +1,29 @@
-# Imagen base para el contenedor de compilación
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# Use a base image with Node.js for the frontend
+FROM node:18 AS build
 
-# Define el directorio de trabajo donde ejecutar comandos
-WORKDIR /ByteMarket/backend/
+# Set the working directory inside the container
+WORKDIR /frontend
 
-# Copia las dependencias del proyecto
-COPY pom.xml .
+# Copy the project's configuration files (package.json, package-lock.json)
+COPY package*.json ./
 
-# Descarga las dependencias del proyecto
-RUN mvn clean verify
+# Install the dependencies
+RUN npm install
 
-# Copia el código del proyecto
-COPY src/ ./src
+# Copy the source code (ensure it's in the context of the build)
+COPY . .
 
-# Compila proyecto
-RUN mvn package -DskipTests
+# Build the application for production
+RUN npm run build --prod
 
+# Use a lightweight image to serve the application (nginx)
+FROM nginx:alpine
 
+# Copy the built frontend files from the previous container to nginx's default directory
+COPY --from=build /frontend/dist/ /usr/share/nginx/html
 
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:21-jdk-slim
+# Expose the port the app is served on
+EXPOSE 80
 
-# Set the working directory
-WORKDIR /ByteMarket/backend/
-
-# Copy the jar file into the container
-COPY --from=builder /ByteMarket/backend/target/*.jar ./webapp04.jar
-
-# Expose the port the app runs on
-EXPOSE 8443
-
-# Define the command to run the app
-ENTRYPOINT ["java", "-jar", "webapp04.jar"]
+# Start nginx to serve the app
+CMD ["nginx", "-g", "daemon off;"]
