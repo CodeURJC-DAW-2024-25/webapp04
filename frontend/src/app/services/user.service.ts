@@ -5,6 +5,9 @@ import { UserBasicDTO } from '../dtos/user.basic.dto';
 import { UserDTO } from '../dtos/user.dto';
 import { ProductDTO } from '../dtos/product.dto';
 import { map } from 'rxjs/operators';
+import { PurchaseDTO } from '../dtos/purchase.dto';
+import { ReviewDTO } from '../dtos/review.dto';
+import { EditUserDTO } from '../dtos/edit.user.dto';
 
 
 @Injectable({
@@ -15,6 +18,12 @@ export class UserService {
 
     getUser(): Observable<UserBasicDTO> {
         let url = '/api/v1/users/me';
+        return this.http.get<UserBasicDTO>(url);
+    }
+
+    getBasicUserById(userId: number): Observable<UserBasicDTO> {
+        userId = userId || 0;  
+        let url = `/api/v1/users/${userId}/basic`;
         return this.http.get<UserBasicDTO>(url);
     }
 
@@ -98,8 +107,18 @@ export class UserService {
                 observer.next(false);
                 observer.complete();
             });
-        }
-            
+        }       
     }
+
+    logout(): Observable<{ status: string }> {
+        let url = '/api/v1/auth/logout';
+        return this.http.post<{ status: string }>(url, {});
+    }
+
+    updateUser(user: EditUserDTO, userId: number): Observable<any> {
+        let url = `/api/v1/users/${userId}`;
+        return this.http.put<any>(url, user);
+      }
+   
 
 }

@@ -22,6 +22,8 @@ import { NewProductComponent } from './components/product/new-product/new-produc
 import { ReportFormComponent } from './components/reports/report-form/report-form.component';
 import { ReviewFormComponent } from './components/reviews/review-form/review-form.component';
 import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
+import { ProfileListComponent } from './components/user/profile-list/profile-list.component';
+import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ReviewListComponent } from './components/reviews/review-list/review-lis
     NewProductComponent,
     ReportFormComponent,
     ReviewFormComponent,
-    ReviewListComponent
+    ReviewListComponent,
+    ProfileListComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

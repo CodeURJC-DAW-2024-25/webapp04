@@ -1,6 +1,7 @@
-<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" (categorySelected)="onCategorySelected($event)"></app-navbar>
+<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile"
+    (categorySelected)="onCategorySelected($event)"></app-navbar>
 <section class="py-4">
-    <div *ngIf="!category" class="container-fluid py-5">
+    <div *ngIf="!filter" class="container-fluid py-5">
         <div class="profile-container text-center col-5">
             <h2 class="mb-4">{{user?.name}}</h2>
             <div class="profile-pic-wrapper">
@@ -11,9 +12,11 @@
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
                     </ng-template>
-                    <span *ngIf ="isOwnProfile" class="edit-icon">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
-                    </span>
+                    <a *ngIf="isOwnProfile" [routerLink]="['/editProfile']">
+                        <span class="edit-icon">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
+                        </span>
+                    </a>
                 </a>
             </div>
             <form>
@@ -35,22 +38,25 @@
                 <div class="map-container" [innerHTML]="getSafeIframe(user?.iframe || '')"></div>
             </div>
 
-            <div *ngIf ="isOwnProfile">
+            <div *ngIf="isOwnProfile">
                 <form action="/logout" method="POST">
-                    <button class="btn btn-custom" type="submit">
+                    <button class="btn btn-custom" type="submit" (click)="logout()">
                         <span>Cerrar Sesión</span>
                     </button>
                 </form>
             </div>
         </div>
-        <div *ngIf="user?.products?.length">
-                <app-product-list [title]="'Productos'" [productsFromParent]="user?.products || []"></app-product-list>
+        <div *ngIf="user">
+            <app-product-list [title]="'Productos'" [productsFromParent]="user.products || []"
+                [fromProfile]="true"></app-product-list>
         </div>
     </div>
-    <div *ngIf="category && category == 'Reseñas'">
-        <!-- <app-product-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list> -->
+    <div *ngIf="filter && filter == 'reviews'">
+        <p>{{filter}}</p>
+        <!-- <app-profile-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list> -->
     </div>
-    <div *ngIf="category && category !== 'Reseñas'">
-        <app-product-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list>
+    <div *ngIf="filter && filter == 'favorites' && loaded && isOwnProfile">
+        <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
+            [fromProfile]="true"></app-product-list>
     </div>
 </section>

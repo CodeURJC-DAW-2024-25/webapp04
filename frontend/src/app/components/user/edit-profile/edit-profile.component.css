@@ -1,0 +1,79 @@
+.profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.profile-pic-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #d35400;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #d35400;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.edit-icon img {
+    width: 15px;
+    height: 15px;
+    filter: invert(1);
+}
+
+.file-input {
+    display: none;
+}
+
+.btn-delete {
+    color: #a94442;
+    font-size: 0.9em;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.7;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+    .profile-container {
+        width: 90%;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+}

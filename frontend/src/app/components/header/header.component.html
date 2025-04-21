@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-3 m-0 justify-content-center headerButtons">
                     <div>
-                        <button class="btn btn-outline-dark btn-custom headerButton" type="button" [routerLink]="['/profileFavorites']" [queryParams]="{filter: 'favorites'}">
+                        <button class="btn btn-outline-dark btn-custom headerButton" type="button" [routerLink]="['/profile']" [queryParams]="{filter: 'favorites'}">
                             <i class="bi bi-heart-fill" style="color: white;"></i>
                             <span class="fav-sellText"> Favoritos</span>
                         </button>
@@ -91,7 +91,7 @@
                 </div>
                 
                 <div class="col-3 header-profile justify-content-end" height="55">
-                    <a href="/profile/me" class="d-flex align-items-center text-decoration-none">
+                    <a href="/profile" class="d-flex align-items-center text-decoration-none">
                         <div>
                             <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
                                 <img class="profilePic" [src]="user?.image" alt="pfp">

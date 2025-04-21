@@ -9,12 +9,14 @@ import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
 import { ProfilePreviewComponent } from './components/user/profile-preview/profile-preview.component';
 import { ProfileComponent } from './components/user/profile/profile.component';
+import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginSigninComponent},
   {path: 'profileFavorites', component: ProductListComponent},
-  {path: 'profile/me', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent},
+  {path: 'editProfile', component: EditProfileComponent},
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'adminProfile', component: ProfileComponent},
   {path: 'product/:id', component: ProductDetailComponent},

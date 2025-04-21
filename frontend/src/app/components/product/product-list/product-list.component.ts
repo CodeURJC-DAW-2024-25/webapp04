@@ -15,6 +15,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   @Input() title: string = '';
   @Input() selectedCategory: string = '';
   @Input() productsFromParent: ProductDTO[] = [];
+  @Input() fromProfile: boolean = false;
 
   products: (ProductDTO)[] = [];
   isLast: boolean = false;
@@ -81,11 +82,10 @@ export class ProductListComponent implements OnInit, OnChanges {
   }  
   
   loadMoreFromParent() {
-    console.log("Cargando más productos desde el padre");
-    console.log(this.productsFromParent);
     this.isLast = (this.currentPage + 1) * 8 >= this.productsFromParent.length;
     const startIdx = this.currentPage * 8;
     const endIdx = Math.min(startIdx + 8, this.productsFromParent.length);
+    
 
     for (let i = startIdx; i < endIdx; i++) {
       this.productService.getProductDetail(this.productsFromParent[i].id).subscribe((detailedProduct: ProductDTO) => {
@@ -95,36 +95,6 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.currentPage++;  
     this.isLoading = false;
   }
+  
 }
-
-
-// loadFavorites() {
-//   this.isLoading = true;
-//   this.userService.getFavorites(this.userId, this.currentPage).subscribe({
-//     next: (response) => {
-//       const newProducts = response.content.filter(product =>
-//         !this.products.some(existingProduct => existingProduct.id === product.id)
-//       );
-//       this.products = [...this.products, ...newProducts];
-//       this.isLast = response.last;
-//       this.isLoading = false;
-//     },
-//     error: (error) => {
-//       console.error(error);
-//       this.isLoading = false;
-//     }
-//   });
-// }
-
-// loadMore() {
-//   if (this.isLast) return;
-
-//   this.isLoading = true;
-//   this.currentPage++;
-
-//   if (this.isFavorites) {
-//     this.loadFavorites();
-//   } else {
-//     this.loadProductsByCategory();
-//   }
 
