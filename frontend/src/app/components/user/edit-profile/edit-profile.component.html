@@ -6,21 +6,21 @@
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
                     <ng-container *ngIf="editUser?.hasImage; else noImage">
-                        <img class="profile-pic mb-3" [src]="editUser?.image" alt="pfp" />
+                        <img class="profile-pic mb-3" [src]="editUser.image" alt="pfp" />
                     </ng-container>
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp" />
-                    </ng-template>
+                    </ng-template>                    
                     <span class="edit-icon">
                         <i class="bi bi-upload"></i>
                     </span>
                 </label>
                 <input type="file" id="profilePicInput" class="file-input" name="profilePicInput"
-                    accept="image/jpeg, image/png, image/jpg" onchange="this.form.submit()" />
+                    accept="image/jpeg, image/png, image/jpg" (change)="onFileSelected($event)" />
             </div>
         </form>
 
-        <!-- FORMULARIO DE EDICIÓN -->
+        <!-- User Data Form -->
         <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="mb-3 text-start">
                 <label class="form-label">Nombre</label>

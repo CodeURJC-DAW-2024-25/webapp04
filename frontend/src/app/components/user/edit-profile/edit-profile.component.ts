@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { UserDTO } from '../../../dtos/user.dto';
 import { UserService } from '../../../services/user.service';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
@@ -15,12 +15,14 @@ export class EditProfileComponent {
   editUser!: UserDTO;
   userEmail: string | null = sessionStorage.getItem('userEmail'); // User email from session storage
   form: FormGroup;
+  selectedFile!: File;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
-  ){
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
     this.form = this.fb.group({
       name: [this.editUser?.name || '', Validators.required],
       newPass: [''],
@@ -29,7 +31,7 @@ export class EditProfileComponent {
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     if (!this.userEmail) {
       this.router.navigate(['/login']);
       return;
@@ -58,31 +60,49 @@ export class EditProfileComponent {
 
   onSubmit() {
     if (this.form.invalid) return;
-  
+
     const { name, newPass, repeatPass, iframe } = this.form.value;
-  
+
     if (newPass !== repeatPass) {
       alert("Las contraseñas no coinciden");
       return;
     }
-  
+
     const editUserDTO = {
       name,
-      address: '', 
+      address: '',
       newPass,
       repeatPass,
       iframe
     };
-  
+
     this.userService.updateUser(editUserDTO, this.currentUser.id).subscribe({
       next: () => this.router.navigate(['/profile']),
       error: err => console.error('Error al editar usuario', err)
     });
   }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      const imageUrl = URL.createObjectURL(this.selectedFile);  // Create a URL for the selected file to preview it withoiut reloading the page
+      this.editUser.image = imageUrl;
+      this.uploadProfileImage();
+    }
+  }
   
+  private uploadProfileImage(): void {
+    const formData = new FormData();
+    formData.append('image', this.selectedFile, this.selectedFile.name);
+    this.userService.updateProfileImage(formData, this.currentUser.id).subscribe({
+      next: () => {
+        console.log('Imagen subida correctamente');
+      },
+      error: err => {
+        console.error('Error al subir la imagen de perfil', err);
+      }
+    });
+  }
   
 }
-
-
-
-
