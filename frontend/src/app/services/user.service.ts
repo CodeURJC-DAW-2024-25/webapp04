@@ -22,13 +22,13 @@ export class UserService {
     }
 
     getBasicUserById(userId: number): Observable<UserBasicDTO> {
-        userId = userId || 0;  
+        userId = userId || 0;
         let url = `/api/v1/users/${userId}/basic`;
         return this.http.get<UserBasicDTO>(url);
     }
 
     getUserById(userId: number): Observable<UserDTO> {
-        userId = userId || 0;  
+        userId = userId || 0;
         let url = `/api/v1/users/${userId}`;
         return this.http.get<UserDTO>(url);
     }
@@ -48,14 +48,14 @@ export class UserService {
     checkHasBoughtUser(buyerId: number, sellerId: number): Observable<boolean> {
         let url = `/api/v1/users/${buyerId}/purchases?sellerId=${sellerId}`;
         return this.http.get<ProductDTO[]>(url).pipe(
-            map(response => {return response.length > 0})
+            map(response => { return response.length > 0 })
         );
     }
 
     checkHasBoughtProduct(buyerId: number, productId: number): Observable<boolean> {
         let url = `/api/v1/users/${buyerId}/purchases?productId=${productId}`;
         return this.http.get<ProductDTO[]>(url).pipe(
-            map(response => {return response.length > 0})
+            map(response => { return response.length > 0 })
         );
     }
 
@@ -70,7 +70,7 @@ export class UserService {
     }
 
     getAllFavorites(userId: number): Observable<ProductDTO[]> {
-        const pageSize = 1000; 
+        const pageSize = 1000;
         return this.http.get<{ content: ProductDTO[] }>(
             `/api/v1/users/${userId}/favorites?size=${pageSize}`
         ).pipe(
@@ -86,7 +86,7 @@ export class UserService {
 
     isFavorite(userId: number, productId: number): Observable<boolean> {
         let totalElements = 0;
-        this.http.get<{totalElements: number}>(
+        this.http.get<{ totalElements: number }>(
             `/api/v1/users/${userId}/favorites`
         ).subscribe({
             next: (response) => {
@@ -107,7 +107,7 @@ export class UserService {
                 observer.next(false);
                 observer.complete();
             });
-        }       
+        }
     }
 
     logout(): Observable<{ status: string }> {
@@ -118,7 +118,17 @@ export class UserService {
     updateUser(user: EditUserDTO, userId: number): Observable<any> {
         let url = `/api/v1/users/${userId}`;
         return this.http.put<any>(url, user);
-      }
-   
+    }
+
+    updateProfileImage(image: FormData, userId: number): Observable<any> {
+        console.log(image);
+        let url = `/api/v1/users/${userId}/images`;
+        return this.http.post(url, image);
+    }
+
+    getImage(userId: number): Observable<string> {
+        let url = `/api/v1/users/${userId}/images`;
+        return this.http.get(url, { responseType: 'text' });
+    }
 
 }
