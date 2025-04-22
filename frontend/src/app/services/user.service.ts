@@ -85,30 +85,34 @@ export class UserService {
     }
 
     isFavorite(userId: number, productId: number): Observable<boolean> {
-        let totalElements = 0;
-        this.http.get<{ totalElements: number }>(
-            `/api/v1/users/${userId}/favorites`
-        ).subscribe({
-            next: (response) => {
-                totalElements = response.totalElements;
-            }
-        });
-
-        if (totalElements > 0) {
-            let ids: number[] = [];
-            return this.http.get<{ content: ProductDTO[], last: boolean }>(
-                `/api/v1/users/${userId}/favorites?size=${totalElements}`
-            ).pipe(
-                map(response => ids.push(...response.content.map(product => product.id))),
-                map(() => ids.includes(productId)),
-            );
-        } else {
-            return new Observable<boolean>(observer => {
-                observer.next(false);
-                observer.complete();
+        return new Observable<boolean>((observer) => {
+            this.http.get<{ totalElements: number }>(
+                `/api/v1/users/${userId}/favorites`
+            ).subscribe({
+                next: (response) => {
+                    const total = response.totalElements;
+    
+                    if (total === 0) {
+                        observer.next(false);
+                        observer.complete();
+                        return;
+                    }
+    
+                    this.http.get<{ content: ProductDTO[] }>(
+                        `/api/v1/users/${userId}/favorites?size=${total}`
+                    ).subscribe({
+                        next: (res) => {
+                            const isFav = res.content.some(p => p.id === productId);
+                            observer.next(isFav);
+                            observer.complete();
+                        },
+                        error: (err) => observer.error(err)
+                    });
+                },
+                error: (err) => observer.error(err)
             });
-        }
-    }
+        });
+    }    
 
     logout(): Observable<{ status: string }> {
         let url = '/api/v1/auth/logout';
