@@ -1,12 +1,11 @@
 <h3>Información del vendedor</h3>
 <div class="d-flex align-items-center">
-    <a href="../profile/{{userId}}" class="d-flex align-items-center text-decoration-none">
-        <ng-component *ngIf="user?.hasImage; else noImage">
-            <img [src]="user?.image" class="rounded-circle me-3 user-img" alt="Vendedor">
-        </ng-component>
-        <ng-template #noImage>
-            <img src="assets/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
-        </ng-template>
+    <a [routerLink]="'/profile/'+ user?.id" class="d-flex align-items-center text-decoration-none">
+
+        <img *ngIf="user?.hasImage" src="{{user?.image}}" class="rounded-circle me-3 user-img" alt="Vendedor">
+
+        <img *ngIf="!user?.hasImage" src="assets/images/default_pfp.jpg" class="rounded-circle me-3 user-img" alt="Vendedor">
+
     </a>
 
     <div>

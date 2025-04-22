@@ -31,6 +31,7 @@ export class ProfilePreviewComponent {
       this.userService.getUserById(this.userId).subscribe({
         next: (user) => {
           this.user = user;
+          console.log('User:', user);
           this.rating = 0;
           for (let i=0; i < user.reviews.length; i++) {
             this.rating += user.reviews[i].rating;

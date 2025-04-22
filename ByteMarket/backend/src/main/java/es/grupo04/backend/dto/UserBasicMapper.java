@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import es.grupo04.backend.model.User;
-import es.grupo04.backend.service.Constants;
 
 @Mapper(componentModel = "spring")
 public interface UserBasicMapper {

@@ -2,11 +2,14 @@ package es.grupo04.backend.controller;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -123,9 +126,18 @@ public class ReviewReportRestController {
     
     @Operation (summary= "Delete report by its ID")
     @DeleteMapping("/reports/{reportId}")
-    public ResponseEntity<String> deleteReport(@PathVariable Long reportId) {
-        reportService.delete(reportId);
-        return ResponseEntity.ok("Report deleted successfully");
+    public ResponseEntity<Map<String, String>> deleteReport(@PathVariable Long reportId) {
+        try {
+            reportService.delete(reportId);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Report deleted successfully");
+            return ResponseEntity.ok(response);  // Devuelve un objeto JSON
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error deleting report: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
+
 
 }
