@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import es.grupo04.backend.model.User;
-import es.grupo04.backend.service.Constants;
 
 @Mapper(componentModel = "spring")
 public interface UserBasicMapper {
@@ -13,7 +12,7 @@ public interface UserBasicMapper {
     public UserBasicDTO toDTO(User user);
     
     default String mapProfileImage(User user) {
-        return Constants.WEBAPP_BASE_URL + "/api/v1/users/"+ user.getId()+"/images";
+        return "/api/v1/users/"+ user.getId()+"/images";
     }
     
     default Boolean mapHasImage(User user) {
