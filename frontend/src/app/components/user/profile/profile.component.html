@@ -5,14 +5,14 @@
         <div class="profile-container text-center col-5">
             <h2 class="mb-4">{{user?.name}}</h2>
             <div class="profile-pic-wrapper">
-                <a class="d-inline-block position-relative">
+                <a class="d-inline-block position-relative" *ngIf="isOwnProfile" [routerLink]="['/editProfile']">
                     <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
                         <img class="profile-pic mb-3" [src]="user?.image" alt="pfp">
                     </ng-template>
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
                     </ng-template>
-                    <a *ngIf="isOwnProfile" [routerLink]="['/editProfile']">
+                    <a>
                         <span class="edit-icon">
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
                         </span>
@@ -55,7 +55,7 @@
         <p>{{filter}}</p>
         <!-- <app-profile-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list> -->
     </div>
-    <div *ngIf="filter && filter == 'favorites' && loaded && isOwnProfile">
+    <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile">
         <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
             [fromProfile]="true"></app-product-list>
     </div>

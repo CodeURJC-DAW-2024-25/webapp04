@@ -24,7 +24,6 @@ export class ReviewListComponent {
     this.reviewAddedSubscription = this.reviewService.reviewAdded$.subscribe(() => {
       this.refreshReviews();
     });
-
     this.refreshReviews();
   }
 

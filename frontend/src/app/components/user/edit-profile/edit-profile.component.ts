@@ -86,8 +86,6 @@ export class EditProfileComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      const imageUrl = URL.createObjectURL(this.selectedFile);  // Create a URL for the selected file to preview it withoiut reloading the page
-      this.editUser.image = imageUrl;
       this.uploadProfileImage();
     }
   }
@@ -95,14 +93,21 @@ export class EditProfileComponent {
   private uploadProfileImage(): void {
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
+  
     this.userService.updateProfileImage(formData, this.currentUser.id).subscribe({
       next: () => {
-        console.log('Imagen subida correctamente');
+        // Update the image URL to force refresh since the url is cached
+        const timestamp = new Date().getTime();
+        this.editUser.image = this.userService.getProfileImageUrl(this.currentUser.id);
+        this.editUser.hasImage = true; 
+        this.cdr.detectChanges(); 
+        this.userService.getUser().subscribe();
       },
       error: err => {
         console.error('Error al subir la imagen de perfil', err);
       }
     });
   }
+  
   
 }

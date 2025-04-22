@@ -13,7 +13,7 @@ public interface UserBasicMapper {
     public UserBasicDTO toDTO(User user);
     
     default String mapProfileImage(User user) {
-        return Constants.WEBAPP_BASE_URL + "/api/v1/users/"+ user.getId()+"/images";
+        return "/api/v1/users/"+ user.getId()+"/images";
     }
     
     default Boolean mapHasImage(User user) {

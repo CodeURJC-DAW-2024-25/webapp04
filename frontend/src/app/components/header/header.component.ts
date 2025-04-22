@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserBasicDTO } from '../../dtos/user.basic.dto';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent {
   isLogged: boolean = false;
   user?: UserBasicDTO;
   searchQuery: string = '';
+  private userSubscription?: Subscription;
 
   constructor(private userService: UserService, private router: Router) {
     this.userService.getUser().subscribe({
@@ -27,8 +29,18 @@ export class HeaderComponent {
         this.isLogged = false;
         this.user = undefined;
       }
-    })
+    });
+    this.userSubscription = this.userService.userChanges$.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        this.isAdmin = user.roles.includes('ADMIN');
+        this.isLogged = true;
+        this.user.image = this.userService.getProfileImageUrl(user.id);
+      }
+    });
   }  
+
+  
 
   onSearch(event: Event): void {
 

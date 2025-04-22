@@ -10,7 +10,7 @@ import { ProductDTO } from '../../../dtos/product.dto';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'] 
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
   currentUser: UserBasicDTO | undefined;  // Current user
@@ -19,7 +19,7 @@ export class ProfileComponent {
   profileId: number | undefined;          // Profile id
   favorites: ProductDTO[] = [];           // User favorites
   filter: string = '';                    // Category selected from profile navbar
-  loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
+  filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
@@ -55,8 +55,9 @@ export class ProfileComponent {
   }
 
   //Loads the profile of another user
-  private loadOtherProfile(profileId:number) {
+  private loadOtherProfile(profileId: number) {
     this.isOwnProfile = false;
+    if (profileId !== 1) {
       this.userService.getUserById(profileId).subscribe({
         next: (user: UserDTO) => {
           this.user = user;
@@ -68,15 +69,17 @@ export class ProfileComponent {
                 this.isOwnProfile = true;
               }
             }
-          });          
+          });
         },
         error: () => {
-          //cambiar a página de error de que no se encontró el usuario
           console.log("Error: No se encuentra el perfil");
           this.router.navigate(['']);
         }
       });
     }
+    this.router.navigate(['']);
+
+  }
 
 
   //Detects if the filter has changed in the URL and updates the filter variable accordingly
@@ -96,7 +99,7 @@ export class ProfileComponent {
       next: () => {
         sessionStorage.removeItem('userEmail'); //Delete the email from session storage
         this.router.navigateByUrl('/').then(() => {
-          window.location.reload(); 
+          window.location.reload();
         });
       },
       error: (err) => {
@@ -104,7 +107,7 @@ export class ProfileComponent {
       }
     });
   }
-  
+
   //Function to get the iframe from the backend and sanitize it
   getSafeIframe(iframe: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(iframe);
@@ -115,22 +118,22 @@ export class ProfileComponent {
     this.filter = filter;
     console.log("Filter seleccionado:", this.filter);
     if (filter === 'favorites' && this.user?.id !== undefined) {
-      this.loaded = false; 
+      this.filterLoaded = false;
       console.log(this.user);
       console.log(this.user.id);
       this.userService.getAllFavorites(this.user.id).subscribe({
         next: (response) => {
           this.favorites = response;
-          this.loaded = true; 
+          this.filterLoaded = true;
           console.log("Favoritos cargados:", this.favorites);
         },
         error: (err) => {
           console.error("Error al obtener favoritos", err);
-          this.loaded = true; 
+          this.filterLoaded = true;
         }
       });
     }
   }
-  
-  
+
+
 }

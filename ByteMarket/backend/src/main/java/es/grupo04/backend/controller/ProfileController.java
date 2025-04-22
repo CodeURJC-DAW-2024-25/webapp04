@@ -280,7 +280,6 @@ public class ProfileController {
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", productPage.getTotalPages());
         }
-
         return "profile_template";
     }
 
