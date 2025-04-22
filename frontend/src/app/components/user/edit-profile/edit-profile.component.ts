@@ -1,30 +1,30 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { UserDTO } from '../../../dtos/user.dto';
-import { UserService } from '../../../services/user.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MapService } from '../../../services/map.service'; // Import MapService
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit {
   currentUser!: UserBasicDTO;
-  editUser!: UserDTO;
-  userEmail: string | null = sessionStorage.getItem('userEmail'); // User email from session storage
+  userEmail: string | null = sessionStorage.getItem('userEmail');
   form: FormGroup;
   selectedFile!: File;
-
+  
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private mapService: MapService // Inject MapService
   ) {
     this.form = this.fb.group({
-      name: [this.editUser?.name || '', Validators.required],
+      name: ['', Validators.required],
       newPass: [''],
       repeatPass: [''],
       iframe: ['']
@@ -36,19 +36,20 @@ export class EditProfileComponent {
       this.router.navigate(['/login']);
       return;
     }
+
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
-        this.userService.getUserById(currentUser.id).subscribe({
-          next: (user: UserDTO) => {
-            this.editUser = user;
+        this.mapService.getIframe(currentUser.id).subscribe({
+          next: (iframeUrl: string) => {
             this.form.patchValue({
-              name: user.name,
-              iframe: user.iframe
+              name: currentUser.name,
+              iframe: iframeUrl
             });
+            this.mapService.initializeMapFromIframe(iframeUrl, this.form);
           },
-          error: () => {
-            this.router.navigate(['/login']);
+          error: err => {
+            console.error('Error al obtener el iframe', err);
           }
         });
       },
@@ -58,19 +59,20 @@ export class EditProfileComponent {
     });
   }
 
+  // Submit form to update user details
   onSubmit() {
     if (this.form.invalid) return;
 
     const { name, newPass, repeatPass, iframe } = this.form.value;
 
     if (newPass !== repeatPass) {
-      alert("Las contraseñas no coinciden");
+      alert("Passwords do not match");
       return;
     }
 
     const editUserDTO = {
       name,
-      address: '',
+      address: '',  
       newPass,
       repeatPass,
       iframe
@@ -78,7 +80,7 @@ export class EditProfileComponent {
 
     this.userService.updateUser(editUserDTO, this.currentUser.id).subscribe({
       next: () => this.router.navigate(['/profile']),
-      error: err => console.error('Error al editar usuario', err)
+      error: err => console.error('Error editando el usuario', err)
     });
   }
 
@@ -89,25 +91,21 @@ export class EditProfileComponent {
       this.uploadProfileImage();
     }
   }
-  
+
   private uploadProfileImage(): void {
     const formData = new FormData();
     formData.append('image', this.selectedFile, this.selectedFile.name);
-  
+
     this.userService.updateProfileImage(formData, this.currentUser.id).subscribe({
       next: () => {
-        // Update the image URL to force refresh since the url is cached
         const timestamp = new Date().getTime();
-        this.editUser.image = this.userService.getProfileImageUrl(this.currentUser.id);
-        this.editUser.hasImage = true; 
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
         this.userService.getUser().subscribe();
       },
       error: err => {
-        console.error('Error al subir la imagen de perfil', err);
+        console.error('Error al editar la imagen del perfil', err);
       }
     });
   }
-  
-  
+
 }
