@@ -20,6 +20,7 @@ import { ChatComponent } from './components/chats/chat/chat.component';
 import { ConfirmSaleComponent } from './components/chats/confirm-sale/confirm-sale.component';
 import { NewProductComponent } from './components/product/new-product/new-product.component';
 import { ReportFormComponent } from './components/reports/report-form/report-form.component';
+import { ReportListComponent } from './components/reports/report-list/report-list.component';
 import { ReviewFormComponent } from './components/reviews/review-form/review-form.component';
 import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
 import { ProfileListComponent } from './components/user/profile-list/profile-list.component';
@@ -42,6 +43,7 @@ import { EditProfileComponent } from './components/user/edit-profile/edit-profil
     ProfileComponent,
     NewProductComponent,
     ReportFormComponent,
+    ReportListComponent,
     ReviewFormComponent,
     ReviewListComponent,
     ProfileListComponent,
