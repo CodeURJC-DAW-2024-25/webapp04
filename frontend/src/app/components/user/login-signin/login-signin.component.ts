@@ -43,12 +43,24 @@ export class LoginSigninComponent {
           this.userService.loginUser(this.email, this.password).subscribe({
               next: (response) => {
                 if (response.status === 'SUCCESS') {
-                  window.location.href = '/';  // Redirecting with refresh after login
+                  this.userService.getUser().subscribe({
+                    next: (user) => {
+                      sessionStorage.setItem('userEmail', this.email);  // Save the email in session storage
+                      window.location.href = '/';  // Redirecting with refresh after login
+                    },
+                    error: (err) => {
+                      sessionStorage.removeItem('userEmail');  // Remove the email from session storage if there's an error
+                      console.error('Error obteniendo el usuario tras login:', err);
+                      this.loginError = true;
+                    }
+                  });
                 } else {
+                  sessionStorage.removeItem('userEmail');
                   this.loginError = true;
                 }
               },
               error: (error) => {
+                sessionStorage.removeItem('userEmail');
                 this.loginError = true;
                 console.error('Login error:', error);
               }

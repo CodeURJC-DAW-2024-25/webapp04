@@ -12,7 +12,7 @@
             <form (submit)="sendReport()" method="POST">
                 <div class="mb-3">
                     <label for="report-issue" class="form-label">Seleccionar Problema:</label>
-                    <select required class="form-select" id="report-issue" name="reason" required [(ngModel)]="selectedIssue">
+                    <select required class="form-select" id="report-issue" name="reason" [(ngModel)]="selectedIssue">
                         <option value="Producto Dañado" selected>Producto Dañado</option>
                         <option value="Producto Diferente">Producto Diferente</option>
                         <option value="Faltan Piezas">Faltan Piezas</option>

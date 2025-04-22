@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container px-4 px-lg-5 navbarContent">
     <!-- Button to go back to the home page without reload -->
-    <a class="navbar-brand" role="button" (click)="selectCategory('')">{{ profileScreen ? 'Perfil' : 'Inicio' }}</a>
+    <a class="navbar-brand" role="button" (click)="selectCategory('')" [routerLink]="[profileScreen ? '/profile' : '/']">{{ profileScreen ? 'Perfil' : 'Inicio' }}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -24,16 +24,16 @@
           <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'">Otros</a>
         </li>
         <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('Favoritos')" [class.active]="selectedCategory === 'Favoritos'">Favoritos</a>
+          <a ngbNavLink (click)="selectCategory('favorites')" [class.active]="selectedCategory === 'favorites'" [routerLink]="['/profile']" [queryParams]="{filter: 'favorites'}">Favoritos</a>
         </li>
         <li ngbNavItem *ngIf="profileScreen">
-          <a ngbNavLink (click)="selectCategory('Reseñas')" [class.active]="selectedCategory === 'Reseñas'">Reseñas</a>
+          <a ngbNavLink (click)="selectCategory('reviews')" [class.active]="selectedCategory === 'reviews'" [routerLink]="['/profile']" [queryParams]="{filter: 'reviews'}">Reseñas</a>
         </li>
         <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('Últimas compras')" [class.active]="selectedCategory === 'Últimas compras'">Últimas compras</a>
+          <a ngbNavLink (click)="selectCategory('historyPurchase')" [class.active]="selectedCategory === 'historyPurchase'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchase'}">Últimas compras</a>
         </li>
         <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('Últimas ventas')" [class.active]="selectedCategory === 'Últimas ventas'">Últimas ventas</a>
+          <a ngbNavLink (click)="selectCategory('historySales')" [class.active]="selectedCategory === 'historySales'"  [routerLink]="['/profile']" [queryParams]="{filter: 'historySales'}">Últimas ventas</a>
         </li>
       </ul>
     </div>

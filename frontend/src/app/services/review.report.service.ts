@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { ReportDTO } from '../dtos/report.dto';
 import { ReviewDTO } from '../dtos/review.dto';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class ReviewReportService {
+
+    private reportCreatedSource = new Subject<void>();
+    reportCreated$ = this.reportCreatedSource.asObservable();
 
     constructor(private http: HttpClient) { }
 
@@ -28,7 +32,9 @@ export class ReviewReportService {
             return undefined as any;
         }
         let url = '/api/v1/reports';
-        return this.http.post<ReportDTO>(url, { reason, description, productId });
+        return this.http.post<ReportDTO>(url, { reason, description, productId }).pipe(
+            tap(() => this.reportCreatedSource.next())
+          );
 
     }
 
@@ -51,4 +57,13 @@ export class ReviewReportService {
         this.reviewAddedSource.next();
     }
 
+    getReports(): Observable<ReportDTO[]> {
+        let url = '/api/v1/reports'; 
+        return this.http.get<ReportDTO[]>(url);
+    }
+
+    deleteReport(reportId: number): Observable<string> {
+        let url = `/api/v1/reports/${reportId}`;
+        return this.http.delete<string>(url);
+    }
 }

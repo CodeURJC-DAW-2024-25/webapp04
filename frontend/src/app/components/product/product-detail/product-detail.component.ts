@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { Router } from '@angular/router';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -21,7 +22,7 @@ export class ProductDetailComponent {
   hasBoughtProduct: boolean = false; // has bought this exact product
   hasBoughtUser: boolean = false; // has bought any product from this user
 
-  constructor(private productService: ProductService, private userService: UserService, route: ActivatedRoute, private router: Router) {
+  constructor(private productService: ProductService, private userService: UserService, private chatService: ChatService, route: ActivatedRoute, private router: Router) {
     this.id = route.snapshot.params['id'];
   }
 
@@ -114,6 +115,19 @@ export class ProductDetailComponent {
       },
       error: (err) => {
         console.error('Error deleting the product:', err);
+      }
+    });
+  }
+
+  contactSeller(): void {
+    if (!this.product?.id) return;
+  
+    this.chatService.createChat(this.product.id).subscribe({
+      next: (chat) => {
+        this.router.navigate(['/chats', chat.id]);
+      },
+      error: (err) => {
+        console.error('Error al crear el chat', err);
       }
     });
   }

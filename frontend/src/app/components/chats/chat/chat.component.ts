@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ChatDTO } from '../../../dtos/chat.dto';
 import { ChatService } from '../../../services/chat.service';
 import { UserService } from '../../../services/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -17,7 +17,7 @@ export class ChatComponent {
   newMessage: string = '';
   @ViewChild('messagesContainer') messagesContainerRef!: ElementRef;
 
-  constructor(private router: Router,  private chatService: ChatService,  private userService: UserService) { }
+  constructor(private router: Router, private route: ActivatedRoute,  private chatService: ChatService,  private userService: UserService) { }
 
   ngOnInit(): void {
     // Check if user is logged in
@@ -29,39 +29,59 @@ export class ChatComponent {
         this.router.navigate(['/login']);
       }
     });
-
+  
     // Get chats of buyer
     this.chatService.getBuyerChats().subscribe((response) => {
-        this.buyChats = response.content
+      this.buyChats = response.content.reverse();
     });
-
+  
     // Get chats of seller
     this.chatService.getSellerChats().subscribe((data: { content: ChatDTO[] }) => {
-      this.sellChats = data.content;
+      this.sellChats = data.content.reverse();
     });
-  }
+  
+    // Navigate to the selected chat (or null if '')
+    this.route.params.subscribe(params => {
+      const chatId = +params['id'];
+      if (chatId) {
+          this.goToChat(chatId);
+      } else {
+        this.currentChat = null;
+      }
+    });
+  } 
 
   ngAfterViewInit(): void {
     this.scrollToBottom();
   }
-
+  
   scrollToBottom(): void {
-  setTimeout(() => {
-    const messagesContainer = this.messagesContainerRef.nativeElement;
-    if (messagesContainer) {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
-  }, 0); 
-}
-
-  goToChat(chatId: number): void {
-    this.chatService.getChatById(chatId).subscribe(chat => {
-      this.currentChat = chat;
-      this.currentChatName = `${chat.userBuyer.name} - ${chat.product.name}`;
-      this.scrollToBottom();
-    });
+    setTimeout(() => {
+      const messagesContainer = this.messagesContainerRef?.nativeElement;
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }, 0); 
   }
 
+  goToChat(chatId: number): void {
+    // Navigate to the chat page only if it's not already the active chat
+    if (this.currentChat?.id !== chatId) {
+      this.chatService.getChatById(chatId).subscribe({
+        next: (chat) => {
+          this.router.navigate(['/chats', chatId]);
+          this.currentChat = chat;
+          this.currentChatName = `${chat.userBuyer.name} - ${chat.product.name}`;
+          this.scrollToBottom();
+        },
+        error: (err) => {
+          console.error('Error fetching chat:', err);
+        }
+      });
+    }
+  }
+
+  // Send a message in the current chat
   sendMessage() {
     if (this.currentChat && this.newMessage.trim()) {
       const chatId = this.currentChat.id;
@@ -96,6 +116,7 @@ export class ChatComponent {
     }
   }
 
+  // Go to the confirm sale page with the chat ID
   goToConfirmSale(chatId: number): void {
     this.router.navigate(['/confirm-sale', chatId]);
   }

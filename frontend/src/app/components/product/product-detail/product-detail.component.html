@@ -3,7 +3,7 @@
         <div class="col-md-6">
             <ngb-carousel class="mx-auto" style="max-width: 400px;">
                 <ng-template ngbSlide *ngFor="let image of product?.imageUrls">
-                <img [src]="image" class="w-100 img-fluid" alt="{{product?.name}}">
+                    <img [src]="image" class="w-100 img-fluid" alt="{{product?.name}}">
                 </ng-template>
             </ngb-carousel>
         </div>
@@ -29,7 +29,7 @@
                                 </button>
                             </form>
                         </ng-template>
-                        
+
                         <ng-template [ngIf]="isAdmin">
                             <form (ngSubmit)="deleteProduct()" method="post">
                                 <button type="submit" class="btn btn-custom w-100">
@@ -39,11 +39,9 @@
                         </ng-template>
 
                         <ng-template [ngIf]="!isAdmin && !isOwner">
-                            <form action="/chat/new/{{product?.id}}" method="POST">
-                                <button type="submit" class="btn btn-custom w-100">
-                                    <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
-                                </button>
-                            </form>
+                            <button (click)="contactSeller()" class="btn btn-custom w-100">
+                                <i class="bi bi-chat-fill m-2"></i>Contactar con el vendedor
+                            </button>
                             <ng-container *ngIf="!isFavorite">
                                 <button (click)="addToFavorites()" class="btn btn-custom w-100">
                                     <i class="bi bi-heart m-2" style="color: white;"></i>Añadir a favoritos
@@ -62,14 +60,14 @@
         </div>
     </div>
     <hr>
-    
+
     <app-profile-preview *ngIf="product?.owner?.id" [userId]="product?.owner?.id"></app-profile-preview>
     <hr>
 
     <app-report-form *ngIf="product?.id && (product?.owner?.id!==1) && !isAdmin && !isOwner && hasBoughtProduct" [productId]="product?.id"></app-report-form>
 
     <app-review-form *ngIf="product?.owner?.id && (product?.owner?.id!==1) && !isAdmin && !isOwner && hasBoughtUser" [reviewedUserId]="product?.owner?.id"></app-review-form>
-    
+
     <app-review-list *ngIf="product?.owner?.id" [userId]="product?.owner?.id"></app-review-list>
     <br>
     <br>

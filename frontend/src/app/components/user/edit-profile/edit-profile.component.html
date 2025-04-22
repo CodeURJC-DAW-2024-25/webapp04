@@ -1,0 +1,57 @@
+<div class="container py-5">
+    <div class="profile-container text-center">
+        <h2 class="mb-4">Editar Perfil</h2>
+
+        <form class="form" enctype="multipart/form-data" #profilePicForm="ngForm">
+            <div class="profile-pic-wrapper">
+                <label for="profilePicInput">
+                    <ng-container *ngIf="editUser?.hasImage; else noImage">
+                        <img class="profile-pic mb-3" [src]="editUser.image" alt="pfp" />
+                    </ng-container>
+                    <ng-template #noImage>
+                        <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp" />
+                    </ng-template>                    
+                    <span class="edit-icon">
+                        <i class="bi bi-upload"></i>
+                    </span>
+                </label>
+                <input type="file" id="profilePicInput" class="file-input" name="profilePicInput"
+                    accept="image/jpeg, image/png, image/jpg" (change)="onFileSelected($event)" />
+            </div>
+        </form>
+
+        <!-- User Data Form -->
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-3 text-start">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" formControlName="name" title="Usuario" />
+            </div>
+
+            <div class="mb-3 text-start">
+                <label class="form-label">Correo</label>
+                <input type="email" class="form-control" [value]="userEmail" title="Correo" name="mail" disabled />
+            </div>
+
+            <!-- Div para los no administradores -->
+            <div class="mb-3 text-start">
+                <h2>Selecciona una ubicación</h2>
+                <div id="map" style="z-index: 0;"></div>
+                <input type="hidden" formControlName="iframe" id="iframeCode" />
+            </div>
+
+            <div class="mb-3 text-start">
+                <label class="form-label">Nueva Contraseña</label>
+                <input type="password" class="form-control" formControlName="newPass" title="Contraseña" />
+            </div>
+
+            <div class="mb-3 text-start">
+                <label class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" formControlName="repeatPass" title="Contraseña" />
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100 mb-2" [disabled]="form.invalid">
+                Guardar Cambios
+            </button>
+        </form>
+    </div>
+</div>

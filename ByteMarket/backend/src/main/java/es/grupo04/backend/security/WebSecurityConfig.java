@@ -117,7 +117,6 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
-					//TODO check this urls
                     // PUBLIC ENDPOINTS
 					.requestMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/products/{id}").permitAll()
@@ -147,9 +146,9 @@ public class WebSecurityConfig {
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/reports/{reportId}").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.GET, "/api/v1/chats").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/chats/{id}").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{productId}").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/messageDelivery").hasRole("USER")
-					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/productSale").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/chats/{id}/messages").hasRole("USER")
+					.requestMatchers(HttpMethod.POST, "/api/v1/users/{id}/purchases").hasRole("USER")
 					.requestMatchers(HttpMethod.GET, "/api/v1/profiles/stats").hasRole("USER")
 
 					.anyRequest().permitAll()
