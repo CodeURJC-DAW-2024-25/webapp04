@@ -118,6 +118,11 @@ export class ProductDetailComponent {
   }
 
   contactSeller(): void {
+    if (!this.user) {
+      this.router.navigate(['login'], { queryParams: { returnUrl: this.router.url } });
+      return;
+    }
+  
     if (!this.product?.id) return;
     this.chatService.createChat(this.product.id).subscribe({
       next: (chat) => {
@@ -128,5 +133,6 @@ export class ProductDetailComponent {
       }
     });
   }
+  
 
 }

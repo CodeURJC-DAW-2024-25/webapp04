@@ -6,6 +6,9 @@ import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SafeHtml } from '@angular/platform-browser';
 import { ProductDTO } from '../../../dtos/product.dto';
+import { ReviewDTO } from '../../../dtos/review.dto';
+import { ReviewReportService } from '../../../services/review.report.service';
+import { MapService } from '../../../services/map.service'; // Import MapService
 
 @Component({
   selector: 'app-profile',
@@ -19,9 +22,20 @@ export class ProfileComponent {
   profileId: number | undefined;          // Profile id
   favorites: ProductDTO[] = [];           // User favorites
   filter: string = '';                    // Category selected from profile navbar
+  loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
+  reviews: ReviewDTO[] = [];              // Reviews of other users
   filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
+  iframeSafe: SafeHtml | undefined;       // Safe iframe for displaying
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
+         
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private reviewService: ReviewReportService,
+    private mapService: MapService // Inject MapService
+  ) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
   // Verify if the user is logged in or anonymous
@@ -136,5 +150,21 @@ export class ProfileComponent {
         }
       });
     }
+    // else if (filter === 'reviews' && this.user?.id !== undefined) {
+    //   console.log("Cargar reseñas para el usuario", this.user.id);
+    //   this.loaded = false;
+  
+    //   this.reviewService.getReviews(this.user.id).subscribe({
+    //     next: (response) => {
+    //       this.reviews = response;
+    //       this.loaded = true;
+    //       console.log("Reseñas cargadas:", this.reviews);
+    //     },
+    //     error: (err) => {
+    //       console.error("Error al obtener reseñas", err);
+    //       this.loaded = true;
+    //     }
+    //   });
+    // }
   }
 }
