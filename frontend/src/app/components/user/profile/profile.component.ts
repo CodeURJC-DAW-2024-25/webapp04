@@ -24,15 +24,28 @@ export class ProfileComponent {
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
-
+  // Verify if the user is logged in or anonymous
   ngOnInit() {
-    if (this.profileId === undefined) {
-      this.loadOwnProfile();
-    } else {
-      this.loadOtherProfile(this.profileId);
-    }
+    this.userService.getUser().subscribe({
+      next: (currentUser: UserBasicDTO) => {
+        this.currentUser = currentUser;
+        if (this.profileId === undefined) {
+          this.loadOwnProfile();
+        } else {
+          this.loadOtherProfile(this.profileId);
+        }
+      },
+      error: () => {
+        if (this.profileId !== undefined) {
+          this.loadOtherProfile(this.profileId); //Load other profile
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
-  //Loads the profile of the current user
+
+  //Load own profile
   private loadOwnProfile() {
     this.isOwnProfile = true;
     this.userService.getUser().subscribe({
@@ -54,31 +67,21 @@ export class ProfileComponent {
     });
   }
 
-  //Loads the profile of another user
+  //Load other user profile
   private loadOtherProfile(profileId: number) {
     this.isOwnProfile = false;
-    if (profileId !== 1) {
-      this.userService.getUserById(profileId).subscribe({
-        next: (user: UserDTO) => {
-          this.user = user;
-          this.userService.getUser().subscribe({
-            next: (currentUser: UserBasicDTO) => {
-              this.currentUser = currentUser;
-              this.setFilterFromQueryParams();
-              if (this.user && this.user.id === this.currentUser?.id) {
-                this.isOwnProfile = true;
-              }
-            }
-          });
-        },
-        error: () => {
-          console.log("Error: No se encuentra el perfil");
-          this.router.navigate(['']);
+    this.userService.getUserById(profileId).subscribe({
+      next: (user: UserDTO) => {
+        this.user = user;
+        if (this.currentUser && this.user.id === this.currentUser.id) {
+          this.isOwnProfile = true;
         }
-      });
-    }
-    this.router.navigate(['']);
-
+      },
+      error: () => {
+        console.log("Error: No se encuentra el perfil");
+        this.router.navigate(['']);
+      }
+    });
   }
 
 
