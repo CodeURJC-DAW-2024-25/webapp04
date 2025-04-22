@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { UserDTO } from '../../../dtos/user.dto';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SafeHtml } from '@angular/platform-browser';
 import { ProductDTO } from '../../../dtos/product.dto';
-import { MapService } from '../../../services/map.service'; // Import MapService
 
 @Component({
   selector: 'app-profile',
@@ -20,17 +20,11 @@ export class ProfileComponent {
   favorites: ProductDTO[] = [];           // User favorites
   filter: string = '';                    // Category selected from profile navbar
   filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
-  iframeSafe: SafeHtml | undefined;       // Safe iframe for displaying
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private mapService: MapService // Inject MapService
-  ) {
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
-
+  // Verify if the user is logged in or anonymous
   ngOnInit() {
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
@@ -43,7 +37,7 @@ export class ProfileComponent {
       },
       error: () => {
         if (this.profileId !== undefined) {
-          this.loadOtherProfile(this.profileId); // Load other profile
+          this.loadOtherProfile(this.profileId); //Load other profile
         } else {
           this.router.navigate(['/login']);
         }
@@ -51,6 +45,7 @@ export class ProfileComponent {
     });
   }
 
+  //Load own profile
   private loadOwnProfile() {
     this.isOwnProfile = true;
     this.userService.getUser().subscribe({
@@ -59,11 +54,7 @@ export class ProfileComponent {
         this.userService.getUserById(currentUser.id).subscribe({
           next: (user: UserDTO) => {
             this.user = user;
-            this.mapService.getIframe(currentUser.id).subscribe({
-              next: (iframeUrl: string) => {
-                this.iframeSafe = this.mapService.getSafeIframe(iframeUrl); // Get sanitized iframe
-              }
-            });
+            this.setFilterFromQueryParams();
           },
           error: () => {
             this.router.navigate(['/login']);
@@ -76,6 +67,7 @@ export class ProfileComponent {
     });
   }
 
+  //Load other user profile
   private loadOtherProfile(profileId: number) {
     this.isOwnProfile = false;
     this.userService.getUserById(profileId).subscribe({
@@ -92,10 +84,23 @@ export class ProfileComponent {
     });
   }
 
+
+  //Detects if the filter has changed in the URL and updates the filter variable accordingly
+  setFilterFromQueryParams() {
+    this.route.queryParams.subscribe(params => {
+      const filterFromUrl = params['filter'];
+      if (filterFromUrl && filterFromUrl !== this.filter) {
+        this.filter = filterFromUrl;
+        this.onCategorySelected(this.filter);
+      }
+    });
+  }
+
+  //Logout function
   logout(): void {
     this.userService.logout().subscribe({
       next: () => {
-        sessionStorage.removeItem('userEmail');
+        sessionStorage.removeItem('userEmail'); //Delete the email from session storage
         this.router.navigateByUrl('/').then(() => {
           window.location.reload();
         });
@@ -104,5 +109,32 @@ export class ProfileComponent {
         console.error('Error al cerrar sesión', err);
       }
     });
+  }
+
+  //Function to get the iframe from the backend and sanitize it
+  getSafeIframe(iframe: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(iframe);
+  }
+
+  //Loads the correct list of favorites/reviews/sales/purchases depending on the selected filter
+  onCategorySelected(filter: string) {
+    this.filter = filter;
+    console.log("Filter seleccionado:", this.filter);
+    if (filter === 'favorites' && this.user?.id !== undefined) {
+      this.filterLoaded = false;
+      console.log(this.user);
+      console.log(this.user.id);
+      this.userService.getAllFavorites(this.user.id).subscribe({
+        next: (response) => {
+          this.favorites = response;
+          this.filterLoaded = true;
+          console.log("Favoritos cargados:", this.favorites);
+        },
+        error: (err) => {
+          console.error("Error al obtener favoritos", err);
+          this.filterLoaded = true;
+        }
+      });
+    }
   }
 }

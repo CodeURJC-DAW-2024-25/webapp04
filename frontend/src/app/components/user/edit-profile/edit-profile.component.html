@@ -5,8 +5,8 @@
         <form class="form" enctype="multipart/form-data" #profilePicForm="ngForm">
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
-                    <ng-container *ngIf="currentUser?.hasImage; else noImage">
-                        <img class="profile-pic mb-3" [src]="currentUser.image" alt="pfp" />
+                    <ng-container *ngIf="editUser?.hasImage; else noImage">
+                        <img class="profile-pic mb-3" [src]="editUser.image" alt="pfp" />
                     </ng-container>
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp" />

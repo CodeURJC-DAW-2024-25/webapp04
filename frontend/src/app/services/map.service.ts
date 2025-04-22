@@ -1,86 +1,80 @@
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class MapService {
-    private map!: L.Map;
-    private marker!: L.Marker;
+  private map!: L.Map;
+  private marker!: L.Marker;
 
-    constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
+  // Initialize map from iframe URL or with default coordinates (Madrid)
+  initializeMapFromIframe(
+    iframeUrl: string | null,
+    onLocationChange: (lat: string, lng: string) => void
+  ): void {
+    let centerLat = 40.4168; // Default Madrid
+    let centerLng = -3.7038;
+    let zoomLevel = 10;
 
-    // Fetch iframe from backend and sanitize it
-    getSafeIframe(iframeUrl: string): SafeHtml {
-        return this.sanitizer.bypassSecurityTrustHtml(iframeUrl);
+    // Check if iframe URL contains bounding box coordinates
+    const matches = iframeUrl?.match(/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
+    if (matches) {
+      const minLng = parseFloat(matches[1]);
+      const minLat = parseFloat(matches[2]);
+      const maxLng = parseFloat(matches[3]);
+      const maxLat = parseFloat(matches[4]);
+
+      // Calculate the center of the bounding box
+      centerLat = (minLat + maxLat) / 2;
+      centerLng = (minLng + maxLng) / 2;
+      zoomLevel = 12; // Increased zoom level
     }
 
-    // Initialize map from iframe data
-    initializeMapFromIframe(iframeUrl: string, form: FormGroup): void {
-        const matches = iframeUrl.match(/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
-        let centerLat = 40.4168; // Default latitude (Madrid)
-        let centerLng = -3.7038; // Default longitude (Madrid)
+    // Initialize the map with calculated or default coordinates
+    this.map = L.map('map').setView([centerLat, centerLng], zoomLevel);
 
-        if (matches) {
-            const minLng = parseFloat(matches[1]);
-            const minLat = parseFloat(matches[2]);
-            const maxLng = parseFloat(matches[3]);
-            const maxLat = parseFloat(matches[4]);
+    // Add OpenStreetMap layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
 
-            centerLat = (minLat + maxLat) / 2;
-            centerLng = (minLng + maxLng) / 2;
-        }
+    // Event: Click on the map to add or move the marker
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      this.addOrMoveMarker(e.latlng, onLocationChange);
+    });
+  }
 
-        this.initializeMap(centerLat, centerLng, 12, form);
+  // Add or move the marker on the map and update iframe
+  private addOrMoveMarker(
+    latlng: L.LatLng,
+    onLocationChange: (lat: string, lng: string) => void
+  ): void {
+    // Remove existing marker if it exists
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
     }
 
-    // Initialize the map and setup click handler
-    private initializeMap(centerLat: number, centerLng: number, zoomLevel: number, form: FormGroup): void {
-        this.map = L.map('map').setView([centerLat, centerLng], zoomLevel);
+    // Create a custom Bootstrap icon for the marker
+    const bootstrapIcon = L.divIcon({
+      className: 'leaflet-bootstrap-icon',
+      html: `<i class="bi bi-geo-fill" style="font-size: 24px; color: #007bff;"></i>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
 
-        // OpenStreetMap layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(this.map);
+    // Marker management
+    this.marker = L.marker(latlng, { icon: bootstrapIcon, draggable: true }).addTo(this.map);
+    onLocationChange(latlng.lat.toFixed(6), latlng.lng.toFixed(6));    
+    this.marker.on('dragend', () => {
+      const position = this.marker.getLatLng();
+      onLocationChange(position.lat.toFixed(6), position.lng.toFixed(6));
+    });
+  }
 
-        // Event: Click on the map to add or move the marker
-        this.map.on('click', (e) => {
-            if (this.marker) {
-                this.map.removeLayer(this.marker);
-            }
-            const bootstrapIcon = L.divIcon({
-                className: 'leaflet-bootstrap-icon',
-                html: `<i class="bi bi-geo-fill" style="font-size: 24px; color: #007bff;"></i>`,
-                iconSize: [30, 30],
-                iconAnchor: [15, 30],
-                popupAnchor: [0, -30],
-            });
-            this.marker = L.marker(e.latlng, { icon: bootstrapIcon, draggable: true }).addTo(this.map);
-
-            // Update iframe when the marker is added or moved
-            this.updateIframe(e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6), form);
-
-            // Event: Drag the marker to change its position
-            this.marker.on('dragend', () => {
-                const position = this.marker.getLatLng();
-                this.updateIframe(position.lat.toFixed(6), position.lng.toFixed(6), form);
-            });
-        });
-    }
-
-    // Update iframe in the form when marker position changes
-    private updateIframe(lat: string, lng: string, form: FormGroup): void {
-        form.patchValue({
-            iframe: `<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${lng},${lat},${lng},${lat}&layer=mapnik" width="500" height="450"></iframe>`
-        });
-    }
-
-    getIframe(userId: number): Observable<string> {
-        let url = `/api/v1/users/${userId}/iframe`;
-        return this.http.get<string>(url);
-    }
+  updateIframe(lat: string, lng: string): string {
+    return `<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${lng},${lat},${lng},${lat}&layer=mapnik" width="500" height="450"></iframe>`;
+  }
+  
 }
