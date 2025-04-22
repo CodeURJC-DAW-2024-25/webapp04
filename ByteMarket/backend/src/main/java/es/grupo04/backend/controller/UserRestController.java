@@ -65,23 +65,22 @@ public class UserRestController {
     @Autowired
     private ChatService chatService;
 
-
-    @Operation (summary= "Retrieve details of the authenticated user")
+    @Operation(summary = "Retrieve details of the authenticated user")
     @GetMapping("/me")
     public ResponseEntity<?> getAuthenticatedUser(Principal principal) {
         if (principal == null) {
             return ResponseEntity.status(401).body("Not authenticated");
         }
         Optional<UserBasicDTO> userOptional = userService.findByMail(principal.getName());
-        
+
         if (userOptional.isEmpty()) {
             return ResponseEntity.status(404).body("User not found");
         }
-        
+
         return ResponseEntity.ok(userOptional.get());
     }
 
-    @Operation (summary= "Retrieve a list of all users")
+    @Operation(summary = "Retrieve a list of all users")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers().stream()
@@ -90,7 +89,7 @@ public class UserRestController {
         return ResponseEntity.ok(users);
     }
 
-    @Operation (summary= "Retrieve user by its ID")
+    @Operation(summary = "Retrieve user by its ID")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Long userId) {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(userId);
@@ -100,7 +99,7 @@ public class UserRestController {
         return ResponseEntity.ok(userOptional.get());
     }
 
-    @Operation (summary= "Create new user")
+    @Operation(summary = "Create new user")
     @PostMapping("/signin")
     public ResponseEntity<?> createUser(@RequestBody NewUserDTO user) {
         if (!userService.validateUser(user)) {
@@ -112,16 +111,16 @@ public class UserRestController {
         if (!userOptional.isPresent()) {
             return ResponseEntity.badRequest().body("User already exists");
         }
-        
+
         URI location = ServletUriComponentsBuilder
-            .fromCurrentRequestUri()
-            .replacePath(String.format("/api/v1/users/%d", userOptional.get().id()))
-            .build()
-            .toUri();
+                .fromCurrentRequestUri()
+                .replacePath(String.format("/api/v1/users/%d", userOptional.get().id()))
+                .build()
+                .toUri();
         return ResponseEntity.created(location).body(userOptional.get());
     }
 
-    @Operation (summary= "Retrieve a list of favorite products of the user")
+    @Operation(summary = "Retrieve a list of favorite products of the user")
     @GetMapping("{userId}/favorites")
     public ResponseEntity<Page<ProductDTO>> getFavoriteProducts(
             HttpServletRequest request,
@@ -136,29 +135,29 @@ public class UserRestController {
 
         UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
 
-        if(userId != userDTO.id()){
+        if (userId != userDTO.id()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
         return ResponseEntity.ok(productsPage);
     }
-    
-    @Operation (summary= "Mark a product as favorite by its ID")
+
+    @Operation(summary = "Mark a product as favorite by its ID")
     @PostMapping("/{userId}/favorites")
     public ResponseEntity<Page<ProductDTO>> addToFavorites(HttpServletRequest request,
             @PathVariable Long userId,
             @RequestBody NewFavoriteDTO favoriteDTO,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
-        
+
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-        if(userId != userDTO.id()){
+        if (userId != userDTO.id()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -167,40 +166,40 @@ public class UserRestController {
         if (productOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    
+
         ProductDTO productDTO = productOpt.get();
-    
+
         if (productDTO.owner().id() == userDTO.id()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        
+
         boolean isFavorite = userService.isFavorite(userDTO, productId);
-        if(!isFavorite){
+        if (!isFavorite) {
             userService.addToFavorite(productId, userDTO);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        //returns the updated list of favorite products
+        // returns the updated list of favorite products
         Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
         return ResponseEntity.ok(productsPage);
     }
 
-    @Operation (summary= "Delete a product from favorites by its ID")
+    @Operation(summary = "Delete a product from favorites by its ID")
     @DeleteMapping("/{userId}/favorites/{productId}")
     public ResponseEntity<Page<ProductDTO>> deleteFromFavorites(HttpServletRequest request,
             @PathVariable Long userId,
             @PathVariable Long productId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
-        
+
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         UserDTO userDTO = userService.findByMailExtendedInfo(principal.getName()).get();
-        if(userId != userDTO.id()){
+        if (userId != userDTO.id()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
@@ -208,26 +207,26 @@ public class UserRestController {
         if (productOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    
+
         ProductDTO productDTO = productOpt.get();
-    
+
         if (productDTO.owner().id() == userDTO.id()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        
+
         boolean isFavorite = userService.isFavorite(userDTO, productId);
-        if(isFavorite){
+        if (isFavorite) {
             userService.removeFromFavorite(productId, userDTO);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        //returns the updated list of favorite products
+        // returns the updated list of favorite products
         Page<ProductDTO> productsPage = productService.getFavoriteProducts(userDTO, page, size);
         return ResponseEntity.ok(productsPage);
     }
 
-    @Operation (summary= "Delete a user by its ID")
+    @Operation(summary = "Delete a user by its ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable Long id, HttpServletRequest request) {
         Optional<UserBasicDTO> userOptional = userService.findById(id);
@@ -269,9 +268,10 @@ public class UserRestController {
         return ResponseEntity.ok("User deleted successfully");
     }
 
-    @Operation (summary= "Update user profile information")
+    @Operation(summary = "Update user profile information")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfile(HttpServletRequest request, @RequestBody EditUserDTO updatedUser) throws IOException {
+    public ResponseEntity<?> updateProfile(HttpServletRequest request, @RequestBody EditUserDTO updatedUser)
+            throws IOException {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(401).body("Not authenticated");
@@ -281,14 +281,14 @@ public class UserRestController {
         if (currentUserOptional.isEmpty()) {
             return ResponseEntity.status(403).body("Unauthorized");
         }
-        
+
         System.out.println("Mi usuario a editar es:" + currentUserOptional.get());
         System.out.println("Mi usuario editado sería:" + updatedUser);
         Optional<String> message = userService.editProfile(currentUserOptional.get(), updatedUser);
         if (message.isPresent()) {
             return ResponseEntity.status(400).body(message.get());
         }
-        
+
         Optional<UserBasicDTO> updated = userService.findByMail(principal.getName());
         return ResponseEntity.ok(updated.get());
     }
@@ -303,22 +303,22 @@ public class UserRestController {
 
         UserBasicDTO userDTO = userService.findByMail(principal.getName()).get();
         userService.saveProfilePic(userDTO, image);
-        
+
         URI location = ServletUriComponentsBuilder
-            .fromCurrentRequestUri()
-            .build()
-            .toUri();
+                .fromCurrentRequestUri()
+                .build()
+                .toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @Operation (summary= "Retrieve a user image by user ID")
+    @Operation(summary = "Retrieve a user image by user ID")
     @GetMapping("/{id}/images")
     public ResponseEntity<?> getProfileImage(@PathVariable Long id) throws SQLException, IOException {
         Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(id);
         if (userOptional.isEmpty()) {
             throw new NoSuchElementException("User with id " + id + " not found");
         }
-        
+
         if (!userOptional.get().hasImage()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with id " + id + " has no image");
         }
@@ -331,7 +331,7 @@ public class UserRestController {
                 .body(file);
     }
 
-    @Operation (summary= "Retrieve user's purchases and sales statistics")
+    @Operation(summary = "Retrieve user's purchases and sales statistics")
     @GetMapping("/{id}/stats")
     public ResponseEntity<?> stats(@AuthenticationPrincipal UserDetails userDetails) {
         Optional<UserBasicDTO> optionalUser = userService.findByMail(userDetails.getUsername());
@@ -342,27 +342,27 @@ public class UserRestController {
 
         return ResponseEntity.ok(data);
     }
-    
+
     @Operation(summary = "Mark a product as sold in a chat by its ID")
     @PostMapping("/{userID}/purchases")
     public ResponseEntity<?> sellProduct(@PathVariable Long userID, @RequestBody NewPurchaseDTO purchaseDTO,
-        HttpServletRequest request) {
-        
-            Principal principal = request.getUserPrincipal();
+            HttpServletRequest request) {
+
+        Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        
+
         UserBasicDTO seller = userService.findByMail(principal.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-        
+
         if (!userID.equals(seller.id())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        
+
         ChatDTO chat = chatService.findChatById(purchaseDTO.chatID())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Chat no encontrado"));
-        
+
         if (!chat.userSeller().equals(seller)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No tienes permisos para vender este producto");
         }
@@ -370,28 +370,30 @@ public class UserRestController {
         if (chat.product().sold()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El producto ya está vendido");
         }
-        
+
         PurchaseDTO purchase = purchaseService.createPurchase(chat);
         if (purchase == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No se pudo completar la venta");
         }
-        
+
         return ResponseEntity.ok(purchase);
     }
 
     @Operation(summary = "Get purchases filtered by user role")
     @GetMapping("/{userID}/purchases")
-    public ResponseEntity<List<PurchaseDTO>> getPurchases(@PathVariable Long userID, @RequestParam(required = false) String role, 
-        HttpServletRequest request, @RequestParam(required = false) Long sellerId, @RequestParam(required = false) Long productId) {
-        
-            Principal principal = request.getUserPrincipal();
+    public ResponseEntity<List<PurchaseDTO>> getPurchases(@PathVariable Long userID,
+            @RequestParam(required = false) String role,
+            HttpServletRequest request, @RequestParam(required = false) Long sellerId,
+            @RequestParam(required = false) Long productId) {
+
+        Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        
+
         UserBasicDTO loggedInUser = userService.findByMail(principal.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-        
+
         if (!userID.equals(loggedInUser.id())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -408,8 +410,23 @@ public class UserRestController {
         } else {
             purchases = purchaseService.findAllUserPurchases(userID);
         }
-        
+
         return ResponseEntity.ok(purchases);
+    }
+
+    @Operation(summary = "Retrieve iframe of a user by their ID")
+    @GetMapping("/{userId}/iframe")
+    public ResponseEntity<String> getIframe(@PathVariable Long userId) {
+        Optional<UserDTO> userOptional = userService.findByIdExtendedInfo(userId);
+        if (userOptional.isEmpty()) {
+            throw new NoSuchElementException("User with id " + userId + " not found");
+        }
+
+        String iframe = userOptional.get().iframe(); // Getting the iframe URL from UserDTO
+        if (iframe == null || iframe.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No iframe found for this user");
+        }
+        return ResponseEntity.ok(iframe);
     }
 
 }

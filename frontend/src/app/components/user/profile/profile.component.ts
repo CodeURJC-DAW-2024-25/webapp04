@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { UserDTO } from '../../../dtos/user.dto';
 import { UserService } from '../../../services/user.service';
@@ -8,11 +7,12 @@ import { SafeHtml } from '@angular/platform-browser';
 import { ProductDTO } from '../../../dtos/product.dto';
 import { ReviewDTO } from '../../../dtos/review.dto';
 import { ReviewReportService } from '../../../services/review.report.service';
+import { MapService } from '../../../services/map.service'; // Import MapService
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'] 
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
   currentUser: UserBasicDTO | undefined;  // Current user
@@ -22,20 +22,42 @@ export class ProfileComponent {
   favorites: ProductDTO[] = [];           // User favorites
   filter: string = '';                    // Category selected from profile navbar
   loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
-  reviews: ReviewDTO[] = [];
+  reviews: ReviewDTO[] = [];              // Reviews of other users
+  filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
+  iframeSafe: SafeHtml | undefined;       // Safe iframe for displaying
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer,private reviewService: ReviewReportService) {
+         
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    // private sanitizer: DomSanitizer,
+    private reviewService: ReviewReportService,
+    private mapService: MapService // Inject MapService
+  ) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
 
   ngOnInit() {
-    if (this.profileId === undefined) {
-      this.loadOwnProfile();
-    } else {
-      this.loadOtherProfile(this.profileId);
-    }
+    this.userService.getUser().subscribe({
+      next: (currentUser: UserBasicDTO) => {
+        this.currentUser = currentUser;
+        if (this.profileId === undefined) {
+          this.loadOwnProfile();
+        } else {
+          this.loadOtherProfile(this.profileId);
+        }
+      },
+      error: () => {
+        if (this.profileId !== undefined) {
+          this.loadOtherProfile(this.profileId); // Load other profile
+        } else {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
-  //Loads the profile of the current user
+
   private loadOwnProfile() {
     this.isOwnProfile = true;
     this.userService.getUser().subscribe({
@@ -44,7 +66,11 @@ export class ProfileComponent {
         this.userService.getUserById(currentUser.id).subscribe({
           next: (user: UserDTO) => {
             this.user = user;
-            this.setFilterFromQueryParams();
+            this.mapService.getIframe(currentUser.id).subscribe({
+              next: (iframeUrl: string) => {
+                this.iframeSafe = this.mapService.getSafeIframe(iframeUrl); // Get sanitized iframe
+              }
+            });
           },
           error: () => {
             this.router.navigate(['/login']);
@@ -57,49 +83,28 @@ export class ProfileComponent {
     });
   }
 
-  //Loads the profile of another user
-  private loadOtherProfile(profileId:number) {
+  private loadOtherProfile(profileId: number) {
     this.isOwnProfile = false;
-      this.userService.getUserById(profileId).subscribe({
-        next: (user: UserDTO) => {
-          this.user = user;
-          this.userService.getUser().subscribe({
-            next: (currentUser: UserBasicDTO) => {
-              this.currentUser = currentUser;
-              this.setFilterFromQueryParams();
-              if (this.user && this.user.id === this.currentUser?.id) {
-                this.isOwnProfile = true;
-              }
-            }
-          });          
-        },
-        error: () => {
-          //cambiar a página de error de que no se encontró el usuario
-          console.log("Error: No se encuentra el perfil");
-          this.router.navigate(['']);
+    this.userService.getUserById(profileId).subscribe({
+      next: (user: UserDTO) => {
+        this.user = user;
+        if (this.currentUser && this.user.id === this.currentUser.id) {
+          this.isOwnProfile = true;
         }
-      });
-    }
-
-
-  //Detects if the filter has changed in the URL and updates the filter variable accordingly
-  setFilterFromQueryParams() {
-    this.route.queryParams.subscribe(params => {
-      const filterFromUrl = params['filter'];
-      if (filterFromUrl && filterFromUrl !== this.filter) {
-        this.filter = filterFromUrl;
-        this.onCategorySelected(this.filter);
+      },
+      error: () => {
+        console.log("Error: No se encuentra el perfil");
+        this.router.navigate(['']);
       }
     });
   }
 
-  //Logout function
   logout(): void {
     this.userService.logout().subscribe({
       next: () => {
-        sessionStorage.removeItem('userEmail'); //Delete the email from session storage
+        sessionStorage.removeItem('userEmail');
         this.router.navigateByUrl('/').then(() => {
-          window.location.reload(); 
+          window.location.reload();
         });
       },
       error: (err) => {
@@ -109,9 +114,9 @@ export class ProfileComponent {
   }
   
   //Function to get the iframe from the backend and sanitize it
-  getSafeIframe(iframe: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(iframe);
-  }
+  // getSafeIframe(iframe: string): SafeHtml {
+  //   return this.sanitizer.bypassSecurityTrustHtml(iframe);
+  // }
 
   //Loads the correct list of favorites/reviews/sales/purchases depending on the selected filter
   onCategorySelected(filter: string) {

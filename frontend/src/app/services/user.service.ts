@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserBasicDTO } from '../dtos/user.basic.dto';
 import { UserDTO } from '../dtos/user.dto';
 import { ProductDTO } from '../dtos/product.dto';
-import { map } from 'rxjs/operators';
-import { PurchaseDTO } from '../dtos/purchase.dto';
-import { ReviewDTO } from '../dtos/review.dto';
+import { map, tap } from 'rxjs/operators';
 import { EditUserDTO } from '../dtos/edit.user.dto';
 
 
@@ -14,11 +12,16 @@ import { EditUserDTO } from '../dtos/edit.user.dto';
     providedIn: 'root'
 })
 export class UserService {
+    private userSubject = new BehaviorSubject<UserBasicDTO | undefined>(undefined);
+    userChanges$ = this.userSubject.asObservable();
+
     constructor(private http: HttpClient) { }
 
     getUser(): Observable<UserBasicDTO> {
         let url = '/api/v1/users/me';
-        return this.http.get<UserBasicDTO>(url);
+        return this.http.get<UserBasicDTO>(url).pipe(
+            tap(user => this.userSubject.next(user)) 
+        );
     }
 
     getBasicUserById(userId: number): Observable<UserBasicDTO> {
@@ -85,30 +88,34 @@ export class UserService {
     }
 
     isFavorite(userId: number, productId: number): Observable<boolean> {
-        let totalElements = 0;
-        this.http.get<{ totalElements: number }>(
-            `/api/v1/users/${userId}/favorites`
-        ).subscribe({
-            next: (response) => {
-                totalElements = response.totalElements;
-            }
-        });
-
-        if (totalElements > 0) {
-            let ids: number[] = [];
-            return this.http.get<{ content: ProductDTO[], last: boolean }>(
-                `/api/v1/users/${userId}/favorites?size=${totalElements}`
-            ).pipe(
-                map(response => ids.push(...response.content.map(product => product.id))),
-                map(() => ids.includes(productId)),
-            );
-        } else {
-            return new Observable<boolean>(observer => {
-                observer.next(false);
-                observer.complete();
+        return new Observable<boolean>((observer) => {
+            this.http.get<{ totalElements: number }>(
+                `/api/v1/users/${userId}/favorites`
+            ).subscribe({
+                next: (response) => {
+                    const total = response.totalElements;
+    
+                    if (total === 0) {
+                        observer.next(false);
+                        observer.complete();
+                        return;
+                    }
+    
+                    this.http.get<{ content: ProductDTO[] }>(
+                        `/api/v1/users/${userId}/favorites?size=${total}`
+                    ).subscribe({
+                        next: (res) => {
+                            const isFav = res.content.some(p => p.id === productId);
+                            observer.next(isFav);
+                            observer.complete();
+                        },
+                        error: (err) => observer.error(err)
+                    });
+                },
+                error: (err) => observer.error(err)
             });
-        }
-    }
+        });
+    }    
 
     logout(): Observable<{ status: string }> {
         let url = '/api/v1/auth/logout';
@@ -116,19 +123,26 @@ export class UserService {
     }
 
     updateUser(user: EditUserDTO, userId: number): Observable<any> {
-        let url = `/api/v1/users/${userId}`;
-        return this.http.put<any>(url, user);
+        const url = `/api/v1/users/${userId}`;
+        return this.http.put<any>(url, user).pipe(
+            tap(() => this.refreshUser()) // Refresh user after update
+        );
     }
-
+    
     updateProfileImage(image: FormData, userId: number): Observable<any> {
-        console.log(image);
-        let url = `/api/v1/users/${userId}/images`;
-        return this.http.post(url, image);
+        const url = `/api/v1/users/${userId}/images`;
+        return this.http.post(url, image).pipe(
+            tap(() => this.refreshUser()) // Refresh user after image update
+        );
+    }
+    
+    private refreshUser(): void {
+        // Re-fetch the updated user details and broadcast the changes
+        this.getUser().subscribe();
     }
 
-    getImage(userId: number): Observable<string> {
-        let url = `/api/v1/users/${userId}/images`;
-        return this.http.get(url, { responseType: 'text' });
-    }
-
+    getProfileImageUrl(userId: number): string {
+        const timestamp = new Date().getTime();
+        return `/api/v1/users/${userId}/images?t=${timestamp}`;
+      }
 }

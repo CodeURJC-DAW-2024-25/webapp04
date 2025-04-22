@@ -58,7 +58,6 @@ export class ProductDetailComponent {
                   this.hasBoughtProduct = hasBoughtProduct;
                 }
               });
-    
             }
           },
           error: (error) => {
@@ -73,7 +72,6 @@ export class ProductDetailComponent {
     });
   }
   
-
   addToFavorites() {
     if (!this.user) {
       this.router.navigate(['login'], { queryParams: { returnUrl: this.router.url } });
@@ -126,7 +124,6 @@ export class ProductDetailComponent {
     }
   
     if (!this.product?.id) return;
-  
     this.chatService.createChat(this.product.id).subscribe({
       next: (chat) => {
         this.router.navigate(['/chats', chat.id]);

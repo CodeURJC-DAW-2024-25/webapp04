@@ -3,7 +3,6 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../services/product.service';
 import { ProductDTO } from '../../../dtos/product.dto';
-import { ProductBasicDTO } from '../../../dtos/product.basic.dto';
 
 @Component({
   selector: 'app-product-list',
@@ -85,7 +84,6 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.isLast = (this.currentPage + 1) * 8 >= this.productsFromParent.length;
     const startIdx = this.currentPage * 8;
     const endIdx = Math.min(startIdx + 8, this.productsFromParent.length);
-    
 
     for (let i = startIdx; i < endIdx; i++) {
       this.productService.getProductDetail(this.productsFromParent[i].id).subscribe((detailedProduct: ProductDTO) => {
@@ -95,6 +93,6 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.currentPage++;  
     this.isLoading = false;
   }
-  
+
 }
 
