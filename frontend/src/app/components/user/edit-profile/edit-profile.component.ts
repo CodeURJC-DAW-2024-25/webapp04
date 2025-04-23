@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UserDTO } from '../../../dtos/user.dto';
-import { UserService } from '../../../services/user.service';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MapService } from '../../../services/map.service'; // Import the MapService
+import { MapService } from '../../../services/map.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,7 +12,6 @@ import { MapService } from '../../../services/map.service'; // Import the MapSer
 })
 export class EditProfileComponent implements OnInit {
   currentUser!: UserBasicDTO;
-  editUser!: UserDTO;
   userEmail: string | null = sessionStorage.getItem('userEmail'); // User email from session storage
   form: FormGroup;
   selectedFile!: File;
@@ -26,7 +24,7 @@ export class EditProfileComponent implements OnInit {
     private mapService: MapService // Inject MapService
   ) {
     this.form = this.fb.group({
-      name: [this.editUser?.name || '', Validators.required],
+      name: ['', Validators.required],
       newPass: [''],
       repeatPass: [''],
       iframe: ['']
@@ -42,19 +40,25 @@ export class EditProfileComponent implements OnInit {
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
-        this.userService.getUserById(currentUser.id).subscribe({
-          next: (user: UserDTO) => {
-            this.editUser = user;
+
+        // Fetch iframe separately from API
+        this.mapService.getUserIframe(currentUser.id).subscribe({
+          next: (iframe: string) => {
             this.form.patchValue({
-              name: user.name,
-              iframe: user.iframe
+              name: currentUser.name,
+              iframe: iframe
             });
 
             // Load the iframe and initialize the map
-            this.loadIframeAndInitializeMap(user.iframe);
+            this.loadIframeAndInitializeMap(iframe);
           },
           error: () => {
-            this.router.navigate(['/login']);
+            this.form.patchValue({
+              name: currentUser.name
+            });
+
+            // Initialize map with no iframe
+            this.loadIframeAndInitializeMap(null);
           }
         });
       },
@@ -132,11 +136,11 @@ export class EditProfileComponent implements OnInit {
     this.userService.updateProfileImage(formData, this.currentUser.id).subscribe({
       next: () => {
         const timestamp = new Date().getTime();
-        this.editUser.image = this.userService.getProfileImageUrl(this.currentUser.id);
+        this.currentUser.image = this.userService.getProfileImageUrl(this.currentUser.id) + `?t=${timestamp}`;
+        this.currentUser.hasImage = true;
 
-        this.editUser.hasImage = true;
         this.cdr.detectChanges();
-        this.userService.getUser().subscribe();
+        this.userService.getUser().subscribe(); // Refresh user info
       },
       error: err => {
         console.error('Error uploading profile image', err);

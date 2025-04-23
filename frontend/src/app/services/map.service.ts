@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ export class MapService {
   private map!: L.Map;
   private marker!: L.Marker;
 
+  constructor(private http: HttpClient) { }
+  
   // Initialize map from iframe URL or with default coordinates (Madrid)
   initializeMapFromIframe(
     iframeUrl: string | null,
@@ -76,5 +80,12 @@ export class MapService {
   updateIframe(lat: string, lng: string): string {
     return `<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${lng},${lat},${lng},${lat}&layer=mapnik" width="500" height="450"></iframe>`;
   }
+
+  getUserIframe(userId: number): Observable<string> {
+    
+    let url = `/api/v1/users/${userId}/iframe`;
+    return this.http.get(url, { responseType: 'text' });
+  }
+  
   
 }
