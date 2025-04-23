@@ -150,21 +150,5 @@ export class ProfileComponent {
         }
       });
     }
-    // else if (filter === 'reviews' && this.user?.id !== undefined) {
-    //   console.log("Cargar reseñas para el usuario", this.user.id);
-    //   this.loaded = false;
-  
-    //   this.reviewService.getReviews(this.user.id).subscribe({
-    //     next: (response) => {
-    //       this.reviews = response;
-    //       this.loaded = true;
-    //       console.log("Reseñas cargadas:", this.reviews);
-    //     },
-    //     error: (err) => {
-    //       console.error("Error al obtener reseñas", err);
-    //       this.loaded = true;
-    //     }
-    //   });
-    // }
   }
 }

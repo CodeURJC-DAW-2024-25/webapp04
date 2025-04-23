@@ -1,5 +1,5 @@
-<div *ngIf="filter === 'reviews'">
-    <div *ngIf="reviews.length > 0; else noReviews">
+
+    <div *ngIf="reviews.length > 0;">
       <h3>Reseñas</h3>
       <div class="scrolling-wrapper">
         <div *ngFor="let review of reviews" class="card">
@@ -20,10 +20,5 @@
       </div>
       <hr>
     </div>
-  
 
-    <!-- <ng-template #noReviews>
-      <h3 class="text-secondary">Este usuario aún no tiene reseñas.</h3>
-    </ng-template> -->
-  </div>
   
