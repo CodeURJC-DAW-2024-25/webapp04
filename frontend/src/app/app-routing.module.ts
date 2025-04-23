@@ -15,7 +15,6 @@ import { ReportListComponent } from './components/reports/report-list/report-lis
 const routes: Routes = [
   {path: '', component: HomePageComponent},
   {path: 'login', component: LoginSigninComponent},
-  {path: 'profileFavorites', component: ProductListComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'editProfile', component: EditProfileComponent},
   {path: 'profile/:id', component: ProfileComponent},

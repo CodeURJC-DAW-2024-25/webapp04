@@ -21,6 +21,7 @@ export class ReviewListComponent {
   constructor(private reviewService: ReviewReportService) {  }
 
   ngOnInit() {
+    console.log('User ID recibido en review-list:', this.userId);
     this.reviewAddedSubscription = this.reviewService.reviewAdded$.subscribe(() => {
       this.refreshReviews();
     });
@@ -30,13 +31,15 @@ export class ReviewListComponent {
   refreshReviews() {
     this.reviewService.getReviews(this.userId).subscribe({
       next: (reviews: ReviewDTO[]) => {
-        console.log('Reviews:', reviews);
+        console.log('Reviews:', reviews); // Verifica si el backend está enviando datos
         this.reviews = reviews;
+        console.log('Reviews after assignment:', this.reviews); // Verifica si reviews se actualiza correctamente
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
       }
     });
   }
+  
 
 }

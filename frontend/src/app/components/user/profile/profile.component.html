@@ -55,9 +55,12 @@
         </div>
     </div>
     <div *ngIf="filter && filter == 'reviews'">
-        <p>{{filter}}</p>
-        <!-- <app-profile-list [title]="category" [productsFromParent]="user?.products || []"></app-product-list> -->
+        <app-review-list 
+            [title]="'Reseñas'" 
+            [userId]="user?.id">
+        </app-review-list>
     </div>
+    
     <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile">
         <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
             [fromProfile]="true"></app-product-list>
