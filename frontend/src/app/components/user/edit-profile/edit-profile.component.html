@@ -32,8 +32,7 @@
                 <input type="email" class="form-control" [value]="userEmail" title="Correo" name="mail" disabled />
             </div>
 
-            <!-- Div para los no administradores -->
-            <div class="mb-3 text-start">
+            <div *ngIf="!isAdmin" class="mb-3 text-start">
                 <h2>Selecciona una ubicación</h2>
                 <div id="map" style="z-index: 0;"></div>
                 <input type="hidden" formControlName="iframe" id="iframeCode" />

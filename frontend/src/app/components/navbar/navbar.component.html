@@ -1,40 +1,65 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container px-4 px-lg-5 navbarContent">
-    <!-- Button to go back to the home page without reload -->
-    <a class="navbar-brand" role="button" (click)="selectCategory('')" [routerLink]="[profileScreen ? '/profile' : '/']">{{ profileScreen ? 'Perfil' : 'Inicio' }}</a>
+    <a class="navbar-brand" role="button"
+      [routerLink]="profileScreen ? (isOwner ? ['/profile'] : ['/profile', userId]) : ['/']"
+      (click)="selectCategory('')">
+      {{ profileScreen ? 'Perfil' : 'Inicio' }}
+    </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul ngbNav #nav="ngbNav" class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-        <li ngbNavItem *ngIf="!profileScreen">
-          <a ngbNavLink (click)="selectCategory('Móviles')">Móviles</a>
-        </li>
-        <li ngbNavItem *ngIf="!profileScreen">
-          <a ngbNavLink (click)="selectCategory('Ordenadores')">Ordenadores</a>
-        </li>
-        <li ngbNavItem *ngIf="!profileScreen">
-          <a ngbNavLink (click)="selectCategory('Auriculares')" [class.active]="selectedCategory === 'Auriculares'">Auriculares</a>
-        </li>
-        <li ngbNavItem *ngIf="!profileScreen">
-          <a ngbNavLink (click)="selectCategory('SmartWatches')" [class.active]="selectedCategory === 'SmartWatches'">SmartWatches</a>
-        </li>
-        <li ngbNavItem *ngIf="!profileScreen">
-          <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'">Otros</a>
-        </li>
-        <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('favorites')" [class.active]="selectedCategory === 'favorites'" [routerLink]="['/profile']" [queryParams]="{filter: 'favorites'}">Favoritos</a>
-        </li>
-        <li ngbNavItem *ngIf="profileScreen && !isOwner && userId">
+
+        <!-- Categorías principales -->
+        <ng-container *ngIf="showCategories">
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('Móviles')">Móviles</a>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('Ordenadores')">Ordenadores</a>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('Auriculares')" [class.active]="selectedCategory === 'Auriculares'">Auriculares</a>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('SmartWatches')" [class.active]="selectedCategory === 'SmartWatches'">SmartWatches</a>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'">Otros</a>
+          </li>
+        </ng-container>
+
+        <!-- Favoritos y Reseñas (dueño del perfil) -->
+        <ng-container *ngIf="showFavorites">
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('favorites')" [class.active]="selectedCategory === 'favorites'" [routerLink]="['/profile']" [queryParams]="{filter: 'favorites'}">Favoritos</a>
+          </li>
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('reviews')" [class.active]="selectedCategory === 'reviews'" [routerLink]="['/profile']" [queryParams]="{filter: 'reviews'}">Reseñas</a>
+          </li>
+        </ng-container>
+
+        <!-- Reseñas (de otro usuario) -->
+        <li ngbNavItem *ngIf="showUserReviews">
           <a ngbNavLink (click)="selectCategory('reviews')" [class.active]="selectedCategory === 'reviews'" [routerLink]="['/profile', userId]" [queryParams]="{filter: 'reviews'}">Reseñas</a>
         </li>
-        <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('historyPurchase')" [class.active]="selectedCategory === 'historyPurchase'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchase'}">Últimas compras</a>
-        </li>
-        <li ngbNavItem *ngIf="profileScreen && isOwner">
-          <a ngbNavLink (click)="selectCategory('historySales')" [class.active]="selectedCategory === 'historySales'"  [routerLink]="['/profile']" [queryParams]="{filter: 'historySales'}">Últimas ventas</a>
-        </li>
+
+        <!-- Historial de compras y ventas -->
+        <ng-container *ngIf="showHistory">
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('historyPurchase')" [class.active]="selectedCategory === 'historyPurchase'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchase'}">Últimas compras</a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="showSales">
+          <li ngbNavItem>
+            <a ngbNavLink (click)="selectCategory('historySales')" [class.active]="selectedCategory === 'historySales'" [routerLink]="['/profile']" [queryParams]="{filter: 'historySales'}">Últimas ventas</a>
+          </li>
+        </ng-container>
+
       </ul>
     </div>
   </div>

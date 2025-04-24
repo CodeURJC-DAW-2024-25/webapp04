@@ -20,7 +20,7 @@ export class UserService {
     getUser(): Observable<UserBasicDTO> {
         let url = '/api/v1/users/me';
         return this.http.get<UserBasicDTO>(url).pipe(
-            tap(user => this.userSubject.next(user)) 
+            tap(user => this.userSubject.next(user))
         );
     }
 
@@ -94,13 +94,13 @@ export class UserService {
             ).subscribe({
                 next: (response) => {
                     const total = response.totalElements;
-    
+
                     if (total === 0) {
                         observer.next(false);
                         observer.complete();
                         return;
                     }
-    
+
                     this.http.get<{ content: ProductDTO[] }>(
                         `/api/v1/users/${userId}/favorites?size=${total}`
                     ).subscribe({
@@ -115,7 +115,7 @@ export class UserService {
                 error: (err) => observer.error(err)
             });
         });
-    }    
+    }
 
     logout(): Observable<{ status: string }> {
         let url = '/api/v1/auth/logout';
@@ -128,14 +128,14 @@ export class UserService {
             tap(() => this.refreshUser()) // Refresh user after update
         );
     }
-    
+
     updateProfileImage(image: FormData, userId: number): Observable<any> {
         const url = `/api/v1/users/${userId}/images`;
         return this.http.post(url, image).pipe(
             tap(() => this.refreshUser()) // Refresh user after image update
         );
     }
-    
+
     private refreshUser(): void {
         // Re-fetch the updated user details and broadcast the changes
         this.getUser().subscribe();
@@ -144,5 +144,9 @@ export class UserService {
     getProfileImageUrl(userId: number): string {
         const timestamp = new Date().getTime();
         return `/api/v1/users/${userId}/images?t=${timestamp}`;
-      }
+    }
+    
+    checkAdmin(roles: string[]): boolean {
+        return roles.some(role => role.toUpperCase() === 'ADMIN');
+    }
 }

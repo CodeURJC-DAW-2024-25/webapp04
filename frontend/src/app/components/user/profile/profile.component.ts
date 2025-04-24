@@ -4,7 +4,6 @@ import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { UserDTO } from '../../../dtos/user.dto';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SafeHtml } from '@angular/platform-browser';
 import { ProductDTO } from '../../../dtos/product.dto';
 import { ReviewDTO } from '../../../dtos/review.dto';
 import { ReviewReportService } from '../../../services/review.report.service';
@@ -23,21 +22,19 @@ export class ProfileComponent {
   favorites: ProductDTO[] = [];           // User favorites
   filter: string = '';                    // Category selected from profile navbar
   loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
-  reviews: ReviewDTO[] = [];              // Reviews of other users
   filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
-  iframeSafe: SafeHtml | undefined;       // Safe iframe for displaying
+  isAdmin: boolean = false;               // Is the user an admin
 
-         
+
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer,
-    private reviewService: ReviewReportService,
     private mapService: MapService // Inject MapService
   ) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
+
   // Verify if the user is logged in or anonymous
   ngOnInit() {
     this.userService.getUser().subscribe({
@@ -69,8 +66,11 @@ export class ProfileComponent {
         this.userService.getUserById(currentUser.id).subscribe({
           next: (user: UserDTO) => {
             this.user = user;
-            this.setFilterFromQueryParams();
-            this.loadUserMap(user.id);
+            this.isAdmin = this.userService.checkAdmin(user.roles);
+            if (!this.isAdmin) {
+              this.setFilterFromQueryParams();
+              this.loadUserMap(user.id);
+            }
           },
           error: () => {
             this.router.navigate(['/login']);
@@ -89,6 +89,10 @@ export class ProfileComponent {
     this.userService.getUserById(profileId).subscribe({
       next: (user: UserDTO) => {
         this.user = user;
+        this.isAdmin = this.userService.checkAdmin(user.roles);
+        if (!this.isAdmin) {
+          this.loadUserMap(user.id);
+        }
         this.loadUserMap(user.id);
         if (this.currentUser && this.user.id === this.currentUser.id) {
           this.isOwnProfile = true;
@@ -130,15 +134,15 @@ export class ProfileComponent {
 
   //Function to get the iframe from the backend and sanitize it
   private loadUserMap(userId: number): void {
-  this.mapService.visualizeMapFromUserIframe(userId);
-}
+    this.mapService.visualizeMapFromUserIframe(userId);
+  }
 
 
   //Loads the correct list of favorites/historySalee/historyPurchase depending on the selected filter
   onCategorySelected(filter: string) {
     this.filter = filter;
     console.log("Filter seleccionado:", this.filter);
-    if(this.user == undefined){
+    if (this.user == undefined) {
       console.log("No se ha cargado el usuario");
       return;
     }
@@ -158,10 +162,9 @@ export class ProfileComponent {
         }
       });
     }
-    else if (filter === 'historyPurchase'){
-      
-    }
-  
+    else if (filter === 'historyPurchase') {
 
+    }
   }
+  
 }

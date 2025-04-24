@@ -12,6 +12,7 @@ import { MapService } from '../../../services/map.service';
 })
 export class EditProfileComponent implements OnInit {
   currentUser!: UserBasicDTO;
+  isAdmin: boolean = false; // Is the user an admin
   userEmail: string | null = sessionStorage.getItem('userEmail'); // User email from session storage
   form: FormGroup;
   selectedFile!: File;
@@ -40,27 +41,33 @@ export class EditProfileComponent implements OnInit {
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
+        this.isAdmin = this.userService.checkAdmin(currentUser.roles);
+        if (this.isAdmin) {
+          this.form.patchValue({
+            name: currentUser.name,
+          });
+        } else {
+          // Fetch iframe separately from API
+          this.mapService.getUserIframe(currentUser.id).subscribe({
+            next: (iframe: string) => {
+              this.form.patchValue({
+                name: currentUser.name,
+                iframe: iframe
+              });
 
-        // Fetch iframe separately from API
-        this.mapService.getUserIframe(currentUser.id).subscribe({
-          next: (iframe: string) => {
-            this.form.patchValue({
-              name: currentUser.name,
-              iframe: iframe
-            });
+              // Load the iframe and initialize the map
+              this.loadIframeAndInitializeMap(iframe);
+            },
+            error: () => {
+              this.form.patchValue({
+                name: currentUser.name
+              });
 
-            // Load the iframe and initialize the map
-            this.loadIframeAndInitializeMap(iframe);
-          },
-          error: () => {
-            this.form.patchValue({
-              name: currentUser.name
-            });
-
-            // Initialize map with no iframe
-            this.loadIframeAndInitializeMap(null);
-          }
-        });
+              // Initialize map with no iframe
+              this.loadIframeAndInitializeMap(null);
+            }
+          });
+        }
       },
       error: () => {
         this.router.navigate(['/login']);

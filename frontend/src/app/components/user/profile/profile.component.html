@@ -1,4 +1,4 @@
-<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" [userId]="user?.id" 
+<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" [userId]="user?.id" [isAdmin]="isAdmin" 
     (categorySelected)="onCategorySelected($event)"></app-navbar>
 <section class="py-4">
     <div *ngIf="!filter" class="container-fluid py-5">
@@ -36,7 +36,7 @@
                     </h5>
                 </div>
             </form>
-            <div *ngIf="user?.iframe" class="mb-3 text-start">
+            <div *ngIf="!isAdmin && user?.iframe" class="mb-3 text-start">
                 <h5 class="fw-bolder">Ubicación:</h5>
                 <div id="profile-map" style="height: 450px; width: 100%; border-radius: 8px;"></div>
             </div>
@@ -49,21 +49,22 @@
                 </form>
             </div>
         </div>
-        <div *ngIf="user">
+        <div *ngIf="user && !isAdmin">
             <app-product-list [title]="'Productos'" [productsFromParent]="user.products || []"
                 [fromProfile]="true"></app-product-list>
         </div>
     </div>
 
-    <div *ngIf="filter && filter == 'reviews' && profileId;">
+    <div *ngIf="filter && filter == 'reviews' && profileId && !isAdmin">
         <app-profile-reviews 
             [title]="'Reseñas'" 
             [userId]="profileId">
         </app-profile-reviews>
     </div>
     
-    <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile">
+    <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile && !isAdmin">
         <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
             [fromProfile]="true"></app-product-list>
     </div>
+
 </section>
