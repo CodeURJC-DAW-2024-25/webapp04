@@ -1,13 +1,11 @@
-import { Component } from '@angular/core'; 
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { UserDTO } from '../../../dtos/user.dto';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductDTO } from '../../../dtos/product.dto';
-import { ReviewDTO } from '../../../dtos/review.dto';
-import { ReviewReportService } from '../../../services/review.report.service';
-import { MapService } from '../../../services/map.service'; // Import MapService
+import { MapService } from '../../../services/map.service';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +17,7 @@ export class ProfileComponent {
   user?: UserDTO;                         // Profile preview user
   isOwnProfile: boolean = false;          // Is the profile being previewed the owner
   profileId: number | undefined;          // Profile id
-  favorites: ProductDTO[] = [];           // User favorites
+  filteredProductList: ProductDTO[] = [];           // User filtered list of favorites/purchases/sales
   filter: string = '';                    // Category selected from profile navbar
   loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
   filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
@@ -30,7 +28,8 @@ export class ProfileComponent {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private mapService: MapService 
+    private mapService: MapService,
+    private productService: ProductService,
   ) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
@@ -92,7 +91,7 @@ export class ProfileComponent {
     this.isOwnProfile = false;
     this.userService.getUserById(profileId).subscribe({
       next: (user: UserDTO) => {
-        this.user = user; 
+        this.user = user;
         if (!this.isAdmin) {
           this.loadUserMap(user.id);
         }
@@ -112,7 +111,7 @@ export class ProfileComponent {
   isAdminProfile() {
     return this.userService.checkAdmin(this.user?.roles || []);
   }
-  
+
   // Detects if the filter has changed in the URL and updates the filter variable accordingly
   setFilterFromQueryParams() {
     this.route.queryParams.subscribe(params => {
@@ -149,7 +148,6 @@ export class ProfileComponent {
       if (!this.user.roles.includes('ADMIN')) {
         this.userService.deleteUser(this.profileId, this.isOwnProfile).subscribe({
           next: () => {
-            // Realiza alguna acción después de la eliminación (por ejemplo, redirigir a la página principal)
             this.router.navigate(['/']);
           },
           error: (err) => {
@@ -163,36 +161,56 @@ export class ProfileComponent {
       alert("Solo los administradores pueden eliminar cuentas de otros usuarios.");
     }
   }
-  
+
   // Loads the correct list of favorites/historySalee/historyPurchase depending on the selected filter
   onCategorySelected(filter: string) {
     this.filter = filter;
-    console.log("Filter seleccionado:", this.filter);
-    if (this.user == undefined) {
+    this.filterLoaded = false;      // Reset loading state
+    this.filteredProductList = [];  // Clear previous list
+  
+    if (this.user == undefined || this.profileId == undefined) {
       console.log("No se ha cargado el usuario");
       return;
     }
+  
     if (filter === 'favorites') {
-      this.filterLoaded = false;
-      console.log(this.user);
-      console.log(this.user.id);
-      this.userService.getAllFavorites(this.user.id).subscribe({
-        next: (response) => {
-          this.favorites = response;
-          this.filterLoaded = true;
-          console.log("Favoritos cargados:", this.favorites);
-        },
-        error: (err) => {
-          console.error("Error al obtener favoritos", err);
-          this.filterLoaded = true;
-        }
-      });
+      this.loadFavorites(this.profileId);
     }
-    else if (filter === 'historyPurchase') {
-
+    else if (filter === 'historyPurchases') {
+      this.loadPurchaseHistory('buyer', this.profileId);
+    } else if (filter === 'historySales') {
+      this.loadPurchaseHistory('seller', this.profileId);
     }
   }
-
-
   
+  // Private method to load favorites
+  private loadFavorites(userId: number) {
+    this.filterLoaded = false;
+    this.userService.getAllFavorites(userId).subscribe({
+      next: (response) => {
+        this.filteredProductList = response;
+        this.filterLoaded = true;
+        console.log("Favoritos cargados:", this.filteredProductList);
+      },
+      error: (err) => {
+        console.error("Error al obtener favoritos", err);
+        this.filterLoaded = true;
+      }
+    });
+  }
+  
+  // Private method to load purchase or sale history
+  private loadPurchaseHistory(role: string, userId: number) {
+    this.productService.getPurchases(userId, role).subscribe({
+      next: (purchases) => {
+        const productsFromPurchases = purchases.map(purchase => purchase.product);
+        this.filteredProductList = productsFromPurchases;
+        this.filterLoaded = true;
+      },
+      error: (err) => {
+        console.error(`${role === 'buyer' ? 'Error al obtener historial de compras' : 'Error al obtener historial de ventas'}`, err);
+        this.filterLoaded = true;
+      }
+    });
+  }
 }

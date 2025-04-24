@@ -51,7 +51,7 @@
         <!-- Historial de compras y ventas -->
         <ng-container *ngIf="showHistory">
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('historyPurchase')" [class.active]="selectedCategory === 'historyPurchase'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchase'}">Últimas compras</a>
+            <a ngbNavLink (click)="selectCategory('historyPurchases')" [class.active]="selectedCategory === 'historyPurchases'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchases'}">Últimas compras</a>
           </li>
         </ng-container>
         <ng-container *ngIf="showSales">

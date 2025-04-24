@@ -62,14 +62,27 @@
         </div>
     </div>
 
-    <div *ngIf="filter && filter == 'reviews' && profileId && !isAdmin">
-        <app-profile-reviews [title]="'Reseñas'" [userId]="profileId">
+    <div *ngIf="filter && !isAdmin">
+        <!-- Reviews -->
+        <app-profile-reviews *ngIf="filter === 'reviews' && profileId" [title]="'Reseñas'" [userId]="profileId">
         </app-profile-reviews>
+
+        <!-- Favorites/Purchases/Sales -->
+        <ng-container *ngIf="filterLoaded && isOwnProfile">
+            <app-product-list *ngIf="filter === 'favorites'" [title]="'Favoritos'"
+                [productsFromParent]="filteredProductList" [fromProfile]="true">
+            </app-product-list>
+
+            <app-product-list *ngIf="filter === 'historyPurchases'" [title]="'Historial de compras'"
+                [productsFromParent]="filteredProductList" [fromProfile]="true">
+            </app-product-list>
+
+            <app-product-list *ngIf="filter === 'historySales'" [title]="'Historial de ventas'"
+                [productsFromParent]="filteredProductList" [fromProfile]="true">
+            </app-product-list>
+        </ng-container>
     </div>
 
-    <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile && !isAdmin">
-        <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
-            [fromProfile]="true"></app-product-list>
-    </div>
+
 
 </section>
