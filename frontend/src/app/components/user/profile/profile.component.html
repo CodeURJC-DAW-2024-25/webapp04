@@ -1,4 +1,4 @@
-<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile"
+<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" [userId]="user?.id" 
     (categorySelected)="onCategorySelected($event)"></app-navbar>
 <section class="py-4">
     <div *ngIf="!filter" class="container-fluid py-5">
@@ -38,7 +38,7 @@
             </form>
             <div *ngIf="user?.iframe" class="mb-3 text-start">
                 <h5 class="fw-bolder">Ubicación:</h5>
-                <div class="map-container" [innerHTML]="getSafeIframe(user?.iframe || '')"></div>
+                <div id="profile-map" style="height: 450px; width: 100%; border-radius: 8px;"></div>
             </div>
 
             <div *ngIf="isOwnProfile">
