@@ -54,11 +54,17 @@
                 [fromProfile]="true"></app-product-list>
         </div>
     </div>
-    <div *ngIf="filter && filter == 'reviews'">
-        <app-review-list 
+    <div *ngIf="filter && filter == 'reviews' && profileId">
+        <app-profile-reviews 
             [title]="'Reseñas'" 
-            [userId]="user?.id">
-        </app-review-list>
+            [userId]="profileId">
+        </app-profile-reviews>
+    </div>
+    <div *ngIf="filter && filter == 'reviews' && user">
+        <app-profile-reviews 
+            [title]="'Reseñas'" 
+            [userId]="user.id">
+        </app-profile-reviews>
     </div>
     
     <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile">
