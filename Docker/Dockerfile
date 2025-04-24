@@ -4,7 +4,7 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
-RUN npm run build -- --configuration production --base-href=/spa/
+RUN npm run build -- --configuration production --base-href=/new/
 
 # Stage 2: Build Spring Boot backend with Maven
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
@@ -16,7 +16,7 @@ RUN mvn dependency:go-offline
 
 # Copy source code and compiled frontend
 COPY ByteMarket/backend/src /app/src
-COPY --from=frontend-build /frontend/dist/frontend/browser/ /app/src/main/resources/static/spa
+COPY --from=frontend-build /frontend/dist/frontend/browser/ /app/src/main/resources/public/new
 
 # Build the Spring Boot app
 RUN mvn clean package -DskipTests
