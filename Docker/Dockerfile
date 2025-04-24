@@ -1,42 +1,44 @@
-# Stage 1: Build Angular frontend
-FROM node:22-slim AS frontend-build
+# Build Angular project
+FROM node:23-slim AS frontbuilder
 WORKDIR /frontend
-COPY frontend/package*.json ./
-RUN npm install
 COPY frontend/ ./
-RUN npm run build -- --configuration production --base-href=/new/
+RUN npm install
+RUN npx ng build --configuration production --base-href="/spa/" 
 
-# Stage 2: Build Spring Boot backend with Maven
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
-WORKDIR /app
 
-# Cache dependencies to speed up builds
-COPY ByteMarket/backend/pom.xml ./
-RUN mvn dependency:go-offline
 
-# Copy source code and compiled frontend
-COPY ByteMarket/backend/src /app/src
-COPY --from=frontend-build /frontend/dist/frontend/browser/ /app/src/main/resources/public/new
+# Base image for the build container
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS builder
 
-# Build the Spring Boot app
-RUN mvn clean package -DskipTests
+# Set the working directory to execute commands
+WORKDIR /ByteMarket/backend/
 
-# Stage 3: Final image with Java and required fonts
-FROM eclipse-temurin:21-jre
+# Copy the project dependencies
+COPY /ByteMarket/backend/pom.xml .
 
-# Install fonts for PDF/chart generation
-RUN apt-get update && apt-get install -y \
-    libfreetype6 \
-    libfontconfig1 \
-    && rm -rf /var/lib/apt/lists/*
+# Download the project dependencies
+RUN mvn clean verify
 
-WORKDIR /app
+# Copy the project source code
+COPY ByteMarket/backend/src/ ./src
+COPY --from=frontbuilder /frontend/dist/frontend/browser/* ./src/main/resources/static/spa
 
-# Copy the final JAR from builder stage
-COPY --from=builder /app/target/*.jar webapp04.jar
+# Build the project
+RUN mvn package -DskipTests
 
-# Expose application port
+
+
+# Use an official OpenJDK runtime as a parent image
+FROM eclipse-temurin:21-jre-alpine
+
+# Set the working directory
+WORKDIR /ByteMarket/backend/
+
+# Copy the jar file into the container
+COPY --from=builder /ByteMarket/backend/target/*.jar ./webapp04.jar
+
+# Expose the port the app runs on
 EXPOSE 8443
 
-# Run the application
+# Define the command to run the app
 ENTRYPOINT ["java", "-jar", "webapp04.jar"]
