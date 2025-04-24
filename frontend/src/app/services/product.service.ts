@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductDTO } from '../dtos/product.dto';
 import { ProductBasicDTO } from '../dtos/product.basic.dto';
+import { PurchaseDTO } from '../dtos/purchase.dto';
 
 
 @Injectable({
@@ -61,6 +62,9 @@ export class ProductService {
         return this.http.delete(`/api/v1/products/${productId}/images/${imageId}`);
     }
 
-
+    getPurchases(userId: number, role: string): Observable<PurchaseDTO[]> {
+        let url = `/api/v1/users/${userId}/purchases?role=${encodeURIComponent(role)}`;
+        return this.http.get<PurchaseDTO[]>(url);
+    }
       
 }

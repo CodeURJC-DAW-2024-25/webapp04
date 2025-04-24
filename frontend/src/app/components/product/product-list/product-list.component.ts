@@ -58,41 +58,51 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   loadProductsByName(name: string) {
-      this.isLoading = true;
-      this.productService.getProductsByName(name, this.currentPage).subscribe((data: { content: ProductDTO[], last: boolean }) => {
+    this.isLoading = true;
+    this.productService.getProductsByName(name, this.currentPage).subscribe((data: { content: ProductDTO[], last: boolean }) => {
       this.products = data.content;
       this.isLast = data.last;
       this.isLoading = false;
     });
   }
-    
+
   loadMore() {
     if (!this.isLast) {
       this.isLoading = true;
       if(!this.fromParent){
         this.productService.getProductsByCategory(this.selectedCategory, ++this.currentPage)
-        .subscribe((data: { content: ProductDTO[], last: boolean }) => {
-          this.products = [...this.products, ...data.content];
-          this.isLast = data.last;
-          this.isLoading = false;
-        });
+          .subscribe((data: { content: ProductDTO[], last: boolean }) => {
+            this.products = [...this.products, ...data.content];
+            this.isLast = data.last;
+            this.isLoading = false;
+          });
       }
     }
-  }  
-  
+  }
+
   loadMoreFromParent() {
+    this.isLoading = true;
+    // Gives Angular time to update the view and show the spinner before the fast responses hide it again
+    setTimeout(() => {
+      this.loadParentProductsBatch();
+    }, 300); 
+  }
+  private loadParentProductsBatch() {
     this.isLast = (this.currentPage + 1) * 8 >= this.productsFromParent.length;
     const startIdx = this.currentPage * 8;
     const endIdx = Math.min(startIdx + 8, this.productsFromParent.length);
-
+    let pendingRequests = endIdx - startIdx;
+  
     for (let i = startIdx; i < endIdx; i++) {
       this.productService.getProductDetail(this.productsFromParent[i].id).subscribe((detailedProduct: ProductDTO) => {
         this.products.push(detailedProduct);
+        pendingRequests--;
+        if (pendingRequests === 0) {
+          this.isLoading = false;
+          this.currentPage++;
+        }
       });
     }
-    this.currentPage++;  
-    this.isLoading = false;
   }
-
 }
 
