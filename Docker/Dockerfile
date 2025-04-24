@@ -1,29 +1,42 @@
-# Use a base image with Node.js for the frontend
-FROM node:18 AS build
-
-# Set the working directory inside the container
+# Stage 1: Build Angular frontend
+FROM node:22-slim AS frontend-build
 WORKDIR /frontend
-
-# Copy the project's configuration files (package.json, package-lock.json)
-COPY package*.json ./
-
-# Install the dependencies
+COPY frontend/package*.json ./
 RUN npm install
+COPY frontend/ ./
+RUN npm run build -- --configuration production --base-href=/spa/
 
-# Copy the source code (ensure it's in the context of the build)
-COPY . .
+# Stage 2: Build Spring Boot backend with Maven
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
+WORKDIR /app
 
-# Build the application for production
-RUN npm run build --prod
+# Cache dependencies to speed up builds
+COPY ByteMarket/backend/pom.xml ./
+RUN mvn dependency:go-offline
 
-# Use a lightweight image to serve the application (nginx)
-FROM nginx:alpine
+# Copy source code and compiled frontend
+COPY ByteMarket/backend/src /app/src
+COPY --from=frontend-build /frontend/dist/frontend/browser/ /app/src/main/resources/static/spa
 
-# Copy the built frontend files from the previous container to nginx's default directory
-COPY --from=build /frontend/dist/ /usr/share/nginx/html
+# Build the Spring Boot app
+RUN mvn clean package -DskipTests
 
-# Expose the port the app is served on
-EXPOSE 80
+# Stage 3: Final image with Java and required fonts
+FROM eclipse-temurin:21-jre
 
-# Start nginx to serve the app
-CMD ["nginx", "-g", "daemon off;"]
+# Install fonts for PDF/chart generation
+RUN apt-get update && apt-get install -y \
+    libfreetype6 \
+    libfontconfig1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy the final JAR from builder stage
+COPY --from=builder /app/target/*.jar webapp04.jar
+
+# Expose application port
+EXPOSE 8443
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "webapp04.jar"]
