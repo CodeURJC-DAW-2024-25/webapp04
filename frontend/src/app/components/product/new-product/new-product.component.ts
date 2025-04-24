@@ -78,11 +78,25 @@ export class NewProductComponent {
 
   // Handle file selection
   onFileSelected(event: any): void {
-    const files = Array.from(event.target.files);
+
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    const files = Array.from(input.files);
+
     if (files.length > 5) {
       this.imageError = 'No puedes subir más de 5 imágenes.';
       return;
     }
+
+    for (let file of files) {
+      if (file.size > 5 * 1024 * 1024) { // 5 MB
+        this.imageError = `La imagen "${file.name}" pesa más de 5 MB. Por favor, reduce su tamaño.`;
+        this.imageInput.nativeElement.value = '';
+        return;
+      }
+    }
+
     this.imageError = '';
     this.selectedFiles = files as File[];
   }
