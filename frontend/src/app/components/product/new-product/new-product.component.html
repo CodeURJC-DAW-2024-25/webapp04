@@ -46,7 +46,7 @@
 
       <div *ngIf="!(productId)" class="mb-3">
         <label for="imageUpload" class="form-label">Subir Imágenes (máx. 5)</label>
-        <input type="file" class="form-control" id="imageUpload" (change)="onFileSelected($event)" multiple accept="image/*" />
+        <input #imageInput type="file" class="form-control" id="imageUpload" (change)="onFileSelected($event)" multiple accept="image/*" />
         <div *ngIf="imageError" class="text-danger mt-1">
           <i class="bi bi-exclamation-circle"></i> {{ imageError }}
         </div>
