@@ -154,4 +154,19 @@ export class EditProfileComponent implements OnInit {
       }
     });
   }
+
+  deleteOwnAccount() {
+    const userId = this.currentUser.id;
+    if (confirm('Are you sure you want to delete your account?')) {
+      this.userService.deleteUser(userId, true).subscribe({
+        next: () => {
+          sessionStorage.removeItem('userEmail');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Error deleting account', err);
+        }
+      });
+    }
+  }
 }

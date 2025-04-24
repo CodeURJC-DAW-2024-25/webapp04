@@ -149,4 +149,15 @@ export class UserService {
     checkAdmin(roles: string[]): boolean {
         return roles.some(role => role.toUpperCase() === 'ADMIN');
     }
+
+    deleteUser(userId: number, own: boolean): Observable<any> {
+        let url = `/api/v1/users/${userId}`;
+        return this.http.delete<void>(url).pipe(
+            tap(() => {
+                if (own) {
+                    this.userSubject.next(undefined); // Set the userSubject to undefined if own is true
+                }
+            })
+        );
+    }   
 }

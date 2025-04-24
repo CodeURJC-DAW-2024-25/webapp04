@@ -10,7 +10,7 @@
                     </ng-container>
                     <ng-template #noImage>
                         <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp" />
-                    </ng-template>                    
+                    </ng-template>
                     <span class="edit-icon">
                         <i class="bi bi-upload"></i>
                     </span>
@@ -51,6 +51,7 @@
             <button type="submit" class="btn btn-custom w-100 mb-2" [disabled]="form.invalid">
                 Guardar Cambios
             </button>
+            <button type="submit" class="btn btn-custom w-100 mb-2" (click)="deleteOwnAccount()">Eliminar Cuenta</button>
         </form>
     </div>
 </div>

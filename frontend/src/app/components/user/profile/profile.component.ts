@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'; 
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserBasicDTO } from '../../../dtos/user.basic.dto';
 import { UserDTO } from '../../../dtos/user.dto';
@@ -23,14 +23,14 @@ export class ProfileComponent {
   filter: string = '';                    // Category selected from profile navbar
   loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
   filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
-  isAdmin: boolean = false;               // Is the user an admin
+  isAdmin: boolean = false;               // Is the logged user an admin
 
 
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private mapService: MapService // Inject MapService
+    private mapService: MapService 
   ) {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
@@ -40,11 +40,16 @@ export class ProfileComponent {
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
+        this.isAdmin = this.userService.checkAdmin(currentUser.roles);
         if (this.profileId === undefined) {
           this.loadOwnProfile();
           this.profileId = currentUser.id;
         } else {
           this.loadOtherProfile(this.profileId);
+        }
+        // Check if the user is an admin and is viewing their own profile
+        if (this.isAdmin && this.profileId === currentUser.id) {
+          this.router.navigate(['/adminProfile']);
         }
       },
       error: () => {
@@ -57,7 +62,7 @@ export class ProfileComponent {
     });
   }
 
-  //Load own profile
+  // Load own profile
   private loadOwnProfile() {
     this.isOwnProfile = true;
     this.userService.getUser().subscribe({
@@ -66,7 +71,6 @@ export class ProfileComponent {
         this.userService.getUserById(currentUser.id).subscribe({
           next: (user: UserDTO) => {
             this.user = user;
-            this.isAdmin = this.userService.checkAdmin(user.roles);
             if (!this.isAdmin) {
               this.setFilterFromQueryParams();
               this.loadUserMap(user.id);
@@ -83,13 +87,12 @@ export class ProfileComponent {
     });
   }
 
-  //Load other user profile
+  // Load other user profile
   private loadOtherProfile(profileId: number) {
     this.isOwnProfile = false;
     this.userService.getUserById(profileId).subscribe({
       next: (user: UserDTO) => {
-        this.user = user;
-        this.isAdmin = this.userService.checkAdmin(user.roles);
+        this.user = user; 
         if (!this.isAdmin) {
           this.loadUserMap(user.id);
         }
@@ -105,8 +108,12 @@ export class ProfileComponent {
     });
   }
 
-
-  //Detects if the filter has changed in the URL and updates the filter variable accordingly
+  // Check if the profile is an admin profile
+  isAdminProfile() {
+    return this.userService.checkAdmin(this.user?.roles || []);
+  }
+  
+  // Detects if the filter has changed in the URL and updates the filter variable accordingly
   setFilterFromQueryParams() {
     this.route.queryParams.subscribe(params => {
       const filterFromUrl = params['filter'];
@@ -117,11 +124,11 @@ export class ProfileComponent {
     });
   }
 
-  //Logout function
+  // Logout function
   logout(): void {
     this.userService.logout().subscribe({
       next: () => {
-        sessionStorage.removeItem('userEmail'); //Delete the email from session storage
+        sessionStorage.removeItem('userEmail'); // Delete the email from session storage
         this.router.navigateByUrl('/').then(() => {
           window.location.reload();
         });
@@ -132,13 +139,32 @@ export class ProfileComponent {
     });
   }
 
-  //Function to get the iframe from the backend and sanitize it
+  // Function to get the iframe from the backend and sanitize it
   private loadUserMap(userId: number): void {
     this.mapService.visualizeMapFromUserIframe(userId);
   }
 
-
-  //Loads the correct list of favorites/historySalee/historyPurchase depending on the selected filter
+  deleteOtherAccount() {
+    if (this.isAdmin && this.user && this.profileId) {
+      if (!this.user.roles.includes('ADMIN')) {
+        this.userService.deleteUser(this.profileId, this.isOwnProfile).subscribe({
+          next: () => {
+            // Realiza alguna acción después de la eliminación (por ejemplo, redirigir a la página principal)
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            console.error("Error al eliminar la cuenta", err);
+          }
+        });
+      } else {
+        alert("No puedes eliminar la cuenta de un administrador.");
+      }
+    } else {
+      alert("Solo los administradores pueden eliminar cuentas de otros usuarios.");
+    }
+  }
+  
+  // Loads the correct list of favorites/historySalee/historyPurchase depending on the selected filter
   onCategorySelected(filter: string) {
     this.filter = filter;
     console.log("Filter seleccionado:", this.filter);
@@ -166,5 +192,7 @@ export class ProfileComponent {
 
     }
   }
+
+
   
 }

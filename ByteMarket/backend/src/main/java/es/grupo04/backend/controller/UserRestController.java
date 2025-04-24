@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -239,13 +240,13 @@ public class UserRestController {
         Principal principal = request.getUserPrincipal();
 
         if (principal == null) {
-            return ResponseEntity.status(401).body("Not authenticated");
+            return ResponseEntity.status(401).body(Map.of("message", "Not authenticated"));
         }
 
         Optional<UserBasicDTO> currentUserOptional = userService.findByMail(principal.getName());
 
         if (currentUserOptional.isEmpty()) {
-            return ResponseEntity.status(403).body("Unauthorized");
+            return ResponseEntity.status(403).body(Map.of("message", "Unauthorized"));
         }
 
         UserBasicDTO currentUser = currentUserOptional.get();
@@ -256,16 +257,16 @@ public class UserRestController {
         // A user that is not adim can only delete their own account
         if (!isCurrentUserAdmin) {
             if (!currentUser.id().equals(userToDelete.id())) {
-                return ResponseEntity.status(403).body("You can only delete your own account");
+                return ResponseEntity.status(403).body(Map.of("message", "You can only delete your own account"));
             }
         } else {
             // An admin cannot delete another admin but can delete a regular user
-            if (isTargetUserAdmin) {
-                return ResponseEntity.status(403).body("Admins cannot delete other admins");
+            if (!currentUser.id().equals(userToDelete.id()) && isTargetUserAdmin) {
+                return ResponseEntity.status(403).body(Map.of("message", "Admins cannot delete other admins"));
             }
         }
         userService.delete(userToDelete);
-        return ResponseEntity.ok("User deleted successfully");
+        return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
     }
 
     @Operation(summary = "Update user profile information")

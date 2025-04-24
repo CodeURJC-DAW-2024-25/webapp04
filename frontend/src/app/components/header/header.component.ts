@@ -23,7 +23,7 @@ export class HeaderComponent {
         this.user = user;
         this.isAdmin = user.roles.includes('ADMIN');
         this.isLogged = true;
-      }, 
+      },
       error: error => {
         this.isAdmin = false;
         this.isLogged = false;
@@ -36,16 +36,20 @@ export class HeaderComponent {
         this.isAdmin = user.roles.includes('ADMIN');
         this.isLogged = true;
         this.user.image = this.userService.getProfileImageUrl(user.id);
+      } else {
+        this.isAdmin = false;
+        this.isLogged = false;
+        this.user = undefined;
       }
     });
-  }  
+  }
 
-  
+
 
   onSearch(event: Event): void {
 
     const trimmed = this.searchQuery.trim();
-    
+
     if (trimmed) {
       this.router.navigate(['/products'], { queryParams: { name: trimmed } });
     } else {
@@ -54,5 +58,5 @@ export class HeaderComponent {
 
     this.searchQuery = '';
   }
-  
+
 }

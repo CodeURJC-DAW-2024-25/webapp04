@@ -1,4 +1,4 @@
-<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" [userId]="user?.id" [isAdmin]="isAdmin" 
+<app-navbar [profileScreen]="true" [isOwner]="isOwnProfile" [userId]="user?.id" [isAdmin]="isAdminProfile()"
     (categorySelected)="onCategorySelected($event)"></app-navbar>
 <section class="py-4">
     <div *ngIf="!filter" class="container-fluid py-5">
@@ -7,61 +7,66 @@
             <div class="profile-pic-wrapper">
                 <a class="d-inline-block position-relative" [routerLink]="isOwnProfile ? ['/editProfile'] : null">
                     <ng-template #hasImage [ngTemplateOutlet]="user?.hasImage ? hasImage : noImage">
-                      <img class="profile-pic mb-3" [src]="user?.image" alt="pfp">
+                        <img class="profile-pic mb-3" [src]="user?.image" alt="pfp">
                     </ng-template>
                     <ng-template #noImage>
-                      <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
+                        <img class="profile-pic mb-3" src="assets/images/default_pfp.jpg" alt="pfp">
                     </ng-template>
                     <ng-container *ngIf="isOwnProfile">
-                      <a>
-                        <span class="edit-icon">
-                          <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
-                        </span>
-                      </a>
+                        <a>
+                            <span class="edit-icon">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Editar">
+                            </span>
+                        </a>
                     </ng-container>
-                  </a>
-                  
+                </a>
+
             </div>
-            <form>
-                <div class="mb-3 text-start">
-                    <h5 class="fw-bolder">Ventas: <span class="fw-normal">{{user?.sales?.length || 0}}</span>
-                    </h5>
+            <section *ngIf="!isAdminProfile()">
+                <form>
+                    <div class="mb-3 text-start">
+                        <h5 class="fw-bolder">Ventas: <span class="fw-normal">{{user?.sales?.length || 0}}</span>
+                        </h5>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <h5 class="fw-bolder">Compras: <span class="fw-normal">{{user?.purchases?.length || 0}}</span>
+                        </h5>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <h5 class="fw-bolder">Reseñas: <span class="fw-normal">{{user?.reviews?.length || 0}}</span>
+                        </h5>
+                    </div>
+                </form>
+                <div *ngIf="user?.iframe" class="mb-3 text-start">
+                    <h5 class="fw-bolder">Ubicación:</h5>
+                    <div id="profile-map" style="height: 450px; width: 100%; border-radius: 8px;"></div>
                 </div>
-                <div class="mb-3 text-start">
-                    <h5 class="fw-bolder">Compras: <span class="fw-normal">{{user?.purchases?.length || 0}}</span>
-                    </h5>
-                </div>
-                <div class="mb-3 text-start">
-                    <h5 class="fw-bolder">Reseñas: <span class="fw-normal">{{user?.reviews?.length || 0}}</span>
-                    </h5>
-                </div>
-            </form>
-            <div *ngIf="!isAdmin && user?.iframe" class="mb-3 text-start">
-                <h5 class="fw-bolder">Ubicación:</h5>
-                <div id="profile-map" style="height: 450px; width: 100%; border-radius: 8px;"></div>
+            </section>
+
+            <div *ngIf="isAdmin && !isOwnProfile">
+                <button class="btn btn-custom" (click)="deleteOtherAccount()">
+                    <span>Eliminar Cuenta</span>
+                </button>
             </div>
 
             <div *ngIf="isOwnProfile">
-                <form action="/logout" method="POST">
-                    <button class="btn btn-custom" type="submit" (click)="logout()">
-                        <span>Cerrar Sesión</span>
-                    </button>
-                </form>
+                <button class="btn btn-custom" (click)="logout()">
+                    <span>Cerrar Sesión</span>
+                </button>
+
             </div>
         </div>
-        <div *ngIf="user && !isAdmin">
+        <div *ngIf="user && !isAdminProfile()">
             <app-product-list [title]="'Productos'" [productsFromParent]="user.products || []"
                 [fromProfile]="true"></app-product-list>
         </div>
     </div>
 
     <div *ngIf="filter && filter == 'reviews' && profileId && !isAdmin">
-        <app-profile-reviews 
-            [title]="'Reseñas'" 
-            [userId]="profileId">
+        <app-profile-reviews [title]="'Reseñas'" [userId]="profileId">
         </app-profile-reviews>
     </div>
-    
+
     <div *ngIf="filter && filter == 'favorites' && filterLoaded && isOwnProfile && !isAdmin">
         <app-product-list [title]="'Favoritos'" [productsFromParent]="favorites"
             [fromProfile]="true"></app-product-list>
