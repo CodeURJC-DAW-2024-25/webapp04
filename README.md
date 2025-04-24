@@ -648,3 +648,124 @@ During this phase, my main focus was on everything related to the chat, in addit
 | [3º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/ChatService.java) | ChatService |
 | [4º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/MessageService.java) | MessageService |
 | [5º](ByteMarket/backend/src/main/java/es/grupo04/backend/service/PurchaseService.java) | PurchaseService |
+
+
+
+
+***   
+# 🌀 Phase 4 - - SPA Implementation with Angular.
+***
+
+
+## 🛠️ Development Environment Setup
+To set up the development environment for the SPA application using Angular, follow these steps:
+
+**Prerequisites**
+1. Node.js: Ensure that Node.js is installed on your system. You can download it from Node.js official website.
+
+```
+   npm install
+```
+
+```
+cd webapp04
+```
+
+```
+cd frontend
+```
+
+```
+ng serve --proxy-config proxy.conf.json
+```
+
+Run the application with SpringBoot
+
+
+
+## 📌 Class diagram and SPA templates
+
+
+## ⚙️ Members participation
+
+### 👤 Olga Chubinova Bortsova
+...
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+| File | Name |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+
+### 👤 Marcos García García
+...
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+| File | Name |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+
+### 👤 Naroa Martín Simón
+...
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+| File | Name |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+
+
+### 👤 Adrián Muñoz Serrano
+...
+
+| Commit | Description |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+| File | Name |
+| :----: | :---------: |
+| [1º]() | |
+| [2º]() | |
+| [3º]() | |
+| [4º]() | |
+| [5º]() | |
+
+
