@@ -45,6 +45,7 @@ export class ProfileComponent {
         this.currentUser = currentUser;
         if (this.profileId === undefined) {
           this.loadOwnProfile();
+          this.profileId = currentUser.id;
         } else {
           this.loadOtherProfile(this.profileId);
         }
