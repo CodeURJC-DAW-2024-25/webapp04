@@ -26,8 +26,8 @@
         <li ngbNavItem *ngIf="profileScreen && isOwner">
           <a ngbNavLink (click)="selectCategory('favorites')" [class.active]="selectedCategory === 'favorites'" [routerLink]="['/profile']" [queryParams]="{filter: 'favorites'}">Favoritos</a>
         </li>
-        <li ngbNavItem *ngIf="profileScreen">
-          <a ngbNavLink (click)="selectCategory('reviews')" [class.active]="selectedCategory === 'reviews'" [routerLink]="['/profile']" [queryParams]="{filter: 'reviews'}">Reseñas</a>
+        <li ngbNavItem *ngIf="profileScreen && !isOwner && userId">
+          <a ngbNavLink (click)="selectCategory('reviews')" [class.active]="selectedCategory === 'reviews'" [routerLink]="['/profile', userId]" [queryParams]="{filter: 'reviews'}">Reseñas</a>
         </li>
         <li ngbNavItem *ngIf="profileScreen && isOwner">
           <a ngbNavLink (click)="selectCategory('historyPurchase')" [class.active]="selectedCategory === 'historyPurchase'" [routerLink]="['/profile']" [queryParams]="{filter: 'historyPurchase'}">Últimas compras</a>

@@ -69,6 +69,7 @@ export class ProfileComponent {
           next: (user: UserDTO) => {
             this.user = user;
             this.setFilterFromQueryParams();
+            this.loadUserMap(user.id);
           },
           error: () => {
             this.router.navigate(['/login']);
@@ -87,6 +88,7 @@ export class ProfileComponent {
     this.userService.getUserById(profileId).subscribe({
       next: (user: UserDTO) => {
         this.user = user;
+        this.loadUserMap(user.id);
         if (this.currentUser && this.user.id === this.currentUser.id) {
           this.isOwnProfile = true;
         }
@@ -126,15 +128,20 @@ export class ProfileComponent {
   }
 
   //Function to get the iframe from the backend and sanitize it
-  getSafeIframe(iframe: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(iframe);
-  }
+  private loadUserMap(userId: number): void {
+  this.mapService.visualizeMapFromUserIframe(userId);
+}
 
-  //Loads the correct list of favorites/reviews/sales/purchases depending on the selected filter
+
+  //Loads the correct list of favorites/historySalee/historyPurchase depending on the selected filter
   onCategorySelected(filter: string) {
     this.filter = filter;
     console.log("Filter seleccionado:", this.filter);
-    if (filter === 'favorites' && this.user?.id !== undefined) {
+    if(this.user == undefined){
+      console.log("No se ha cargado el usuario");
+      return;
+    }
+    if (filter === 'favorites') {
       this.filterLoaded = false;
       console.log(this.user);
       console.log(this.user.id);
@@ -150,5 +157,10 @@ export class ProfileComponent {
         }
       });
     }
+    else if (filter === 'historyPurchase'){
+      
+    }
+  
+
   }
 }

@@ -11,7 +11,19 @@ export class MapService {
   private marker!: L.Marker;
 
   constructor(private http: HttpClient) { }
-  
+
+  // Initialize map with given coordinates, zoom level, and options
+  private initializeMap(centerLat: number, centerLng: number, zoomLevel: number, mapElementId: string, options?: L.MapOptions): L.Map {
+    const map = L.map(mapElementId, options).setView([centerLat, centerLng], zoomLevel);
+
+    // Add OpenStreetMap layer to the map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    return map;
+  }
+
   // Initialize map from iframe URL or with default coordinates (Madrid)
   initializeMapFromIframe(
     iframeUrl: string | null,
@@ -24,28 +36,48 @@ export class MapService {
     // Check if iframe URL contains bounding box coordinates
     const matches = iframeUrl?.match(/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
     if (matches) {
-      const minLng = parseFloat(matches[1]);
-      const minLat = parseFloat(matches[2]);
-      const maxLng = parseFloat(matches[3]);
-      const maxLat = parseFloat(matches[4]);
-
-      // Calculate the center of the bounding box
-      centerLat = (minLat + maxLat) / 2;
-      centerLng = (minLng + maxLng) / 2;
+      centerLat = this.calculateCenterFromBbox(matches);
+      centerLng = this.calculateCenterFromBbox(matches, true);
       zoomLevel = 12; // Increased zoom level
     }
 
-    // Initialize the map with calculated or default coordinates
-    this.map = L.map('map').setView([centerLat, centerLng], zoomLevel);
-
-    // Add OpenStreetMap layer to the map
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(this.map);
+    // Initialize the map
+    this.map = this.initializeMap(centerLat, centerLng, zoomLevel, 'map');
 
     // Event: Click on the map to add or move the marker
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.addOrMoveMarker(e.latlng, onLocationChange);
+    });
+  }
+
+  // Load map from user iframe
+  visualizeMapFromUserIframe(userId: number): void {
+    this.getUserIframe(userId).subscribe({
+      next: (iframe: string) => {
+        const matches = iframe.match(/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
+        let centerLat = 40.4168; // Default Madrid
+        let centerLng = -3.7038;
+        let zoomLevel = 10;
+
+        if (matches) {
+          centerLat = this.calculateCenterFromBbox(matches);
+          centerLng = this.calculateCenterFromBbox(matches, true);
+          zoomLevel = 12;
+        }
+
+        // Initialize the map with zoom enabled for the user iframe view
+        this.map = this.initializeMap(centerLat, centerLng, zoomLevel, 'profile-map', {
+          zoomControl: true, // Enable zoom control
+          dragging: true,    // Enable dragging
+          scrollWheelZoom: true, // Enable scroll zoom
+          doubleClickZoom: true, // Enable double click zoom
+          boxZoom: true, // Enable box zoom
+          keyboard: true, // Enable keyboard navigation
+        });
+      },
+      error: () => {
+        console.warn('Could not load iframe/map for user', userId);
+      }
     });
   }
 
@@ -60,13 +92,7 @@ export class MapService {
     }
 
     // Create a custom Bootstrap icon for the marker
-    const bootstrapIcon = L.divIcon({
-      className: 'leaflet-bootstrap-icon',
-      html: `<i class="bi bi-geo-fill" style="font-size: 24px; color: #007bff;"></i>`,
-      iconSize: [30, 30],
-      iconAnchor: [15, 30],
-      popupAnchor: [0, -30],
-    });
+    const bootstrapIcon = this.createMarkerIcon();
 
     // Marker management
     this.marker = L.marker(latlng, { icon: bootstrapIcon, draggable: true }).addTo(this.map);
@@ -77,15 +103,30 @@ export class MapService {
     });
   }
 
+  // Method to create custom marker icon
+  private createMarkerIcon(): L.DivIcon {
+    return L.divIcon({
+      className: 'leaflet-bootstrap-icon',
+      html: `<i class="bi bi-geo-fill" style="font-size: 24px; color: #007bff;"></i>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30],
+    });
+  }
+
+  // Method to calculate the center from a bounding box (either lat or lng)
+  private calculateCenterFromBbox(bbox: RegExpMatchArray, isLongitude: boolean = false): number {
+    const min = parseFloat(bbox[1]);
+    const max = parseFloat(bbox[3]);
+    return isLongitude ? (min + max) / 2 : (parseFloat(bbox[2]) + parseFloat(bbox[4])) / 2;
+  }
+
   updateIframe(lat: string, lng: string): string {
     return `<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${lng},${lat},${lng},${lat}&layer=mapnik" width="500" height="450"></iframe>`;
   }
 
   getUserIframe(userId: number): Observable<string> {
-    
     let url = `/api/v1/users/${userId}/iframe`;
     return this.http.get(url, { responseType: 'text' });
   }
-  
-  
 }
