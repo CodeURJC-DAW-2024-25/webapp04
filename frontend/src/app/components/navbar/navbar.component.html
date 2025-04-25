@@ -17,21 +17,21 @@
         <!-- Categorías principales -->
         <ng-container *ngIf="showCategories">
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('Móviles')">Móviles</a>
+            <a ngbNavLink (click)="selectCategory('Móviles')" [class.active]="selectedCategory === 'Móviles'" [routerLink]="[]" [queryParams]="{ category: 'Móviles' }">Móviles</a>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('Ordenadores')">Ordenadores</a>
+            <a ngbNavLink (click)="selectCategory('Ordenadores')" [class.active]="selectedCategory === 'Ordenadores'" [routerLink]="[]" [queryParams]="{ category: 'Ordenadores' }">Ordenadores</a>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('Auriculares')" [class.active]="selectedCategory === 'Auriculares'">Auriculares</a>
+            <a ngbNavLink (click)="selectCategory('Auriculares')" [class.active]="selectedCategory === 'Auriculares'" [routerLink]="[]" [queryParams]="{ category: 'Auriculares' }">Auriculares</a>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('SmartWatches')" [class.active]="selectedCategory === 'SmartWatches'">SmartWatches</a>
+            <a ngbNavLink (click)="selectCategory('SmartWatches')" [class.active]="selectedCategory === 'SmartWatches'" [routerLink]="[]" [queryParams]="{ category: 'SmartWatches' }">SmartWatches</a>
           </li>
           <li ngbNavItem>
-            <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'">Otros</a>
+            <a ngbNavLink (click)="selectCategory('Otros')" [class.active]="selectedCategory === 'Otros'" [routerLink]="[]" [queryParams]="{ category: 'Otros' }">Otros</a>
           </li>
-        </ng-container>
+        </ng-container>                   
 
         <!-- Favoritos y Reseñas (dueño del perfil) -->
         <ng-container *ngIf="showFavorites">

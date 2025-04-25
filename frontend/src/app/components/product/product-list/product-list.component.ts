@@ -21,6 +21,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   currentPage: number = 0;
   isLoading: boolean = false;
   fromParent: boolean = false;
+  private isCategoryLoaded: boolean = false;
 
   constructor(private route: ActivatedRoute, private productService: ProductService) { }
 
@@ -31,8 +32,11 @@ export class ProductListComponent implements OnInit, OnChanges {
         this.title = `Resultados para "${name}"`;
         this.loadProductsByName(name);
       } else if (this.selectedCategory) {
-        this.loadProductsByCategory();
-      } else if(this.productsFromParent.length > 0){
+        if (!this.isCategoryLoaded) {
+          this.isCategoryLoaded = true;
+          this.loadProductsByCategory();
+        }
+      } else if (this.productsFromParent.length > 0) {
         this.fromParent = true;
         this.loadMoreFromParent();
       }
@@ -43,6 +47,7 @@ export class ProductListComponent implements OnInit, OnChanges {
     if (changes['selectedCategory'] && !changes['selectedCategory'].firstChange) {
       this.currentPage = 0;
       this.products = [];
+      this.isCategoryLoaded = false;
       this.loadProductsByCategory();
     }
   }
@@ -85,14 +90,15 @@ export class ProductListComponent implements OnInit, OnChanges {
     // Gives Angular time to update the view and show the spinner before the fast responses hide it again
     setTimeout(() => {
       this.loadParentProductsBatch();
-    }, 300); 
+    }, 300);
   }
+
   private loadParentProductsBatch() {
     this.isLast = (this.currentPage + 1) * 8 >= this.productsFromParent.length;
     const startIdx = this.currentPage * 8;
     const endIdx = Math.min(startIdx + 8, this.productsFromParent.length);
     let pendingRequests = endIdx - startIdx;
-  
+
     for (let i = startIdx; i < endIdx; i++) {
       this.productService.getProductDetail(this.productsFromParent[i].id).subscribe((detailedProduct: ProductDTO) => {
         this.products.push(detailedProduct);
