@@ -13,16 +13,15 @@ import { ProductService } from '../../../services/product.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  currentUser: UserBasicDTO | undefined;  // Current user
-  user?: UserDTO;                         // Profile preview user
-  isOwnProfile: boolean = false;          // Is the profile being previewed the owner
-  profileId: number | undefined;          // Profile id
-  filteredProductList: ProductDTO[] = [];           // User filtered list of favorites/purchases/sales
-  filter: string = '';                    // Category selected from profile navbar
-  loaded: boolean = false;                // Is the favorites/reviews/purchases/sales list loaded
-  filterLoaded: boolean = false;          // Is the favorites/reviews/purchases/sales list filterLoaded
-  isAdmin: boolean = false;               // Is the logged user an admin
-
+  currentUser: UserBasicDTO | undefined;
+  user?: UserDTO;
+  isOwnProfile: boolean = false;
+  profileId: number | undefined;
+  filteredProductList: ProductDTO[] = [];
+  filter: string = '';
+  loaded: boolean = false;
+  filterLoaded: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -34,7 +33,6 @@ export class ProfileComponent {
     this.profileId = route.snapshot.paramMap.get('id') ? parseInt(route.snapshot.paramMap.get('id')!) : undefined;
   }
 
-  // Verify if the user is logged in or anonymous
   ngOnInit() {
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
@@ -50,6 +48,18 @@ export class ProfileComponent {
         if (this.isAdmin && this.profileId === currentUser.id) {
           this.router.navigate(['/adminProfile']);
         }
+
+        // Subscribe to query params to handle filter changes
+        this.route.queryParams.subscribe(params => {
+          const filterFromUrl = params['filter'] || '';
+          if (filterFromUrl !== this.filter) {
+            this.filter = filterFromUrl;
+            this.onCategorySelected(this.filter);
+          } else if (!filterFromUrl && this.filter) {
+            this.filter = '';
+            this.onCategorySelected('');
+          }
+        });
       },
       error: () => {
         if (this.profileId !== undefined) {
@@ -71,7 +81,6 @@ export class ProfileComponent {
           next: (user: UserDTO) => {
             this.user = user;
             if (!this.isAdmin) {
-              this.setFilterFromQueryParams();
               this.loadUserMap(user.id);
             }
           },
@@ -95,7 +104,6 @@ export class ProfileComponent {
         if (!this.isAdmin) {
           this.loadUserMap(user.id);
         }
-        this.loadUserMap(user.id);
         if (this.currentUser && this.user.id === this.currentUser.id) {
           this.isOwnProfile = true;
         }
@@ -112,17 +120,7 @@ export class ProfileComponent {
     return this.userService.checkAdmin(this.user?.roles || []);
   }
 
-  // Detects if the filter has changed in the URL and updates the filter variable accordingly
-  setFilterFromQueryParams() {
-    this.route.queryParams.subscribe(params => {
-      const filterFromUrl = params['filter'];
-      if (filterFromUrl && filterFromUrl !== this.filter) {
-        this.filter = filterFromUrl;
-        this.onCategorySelected(this.filter);
-      }
-    });
-  }
-
+  
   // Logout function
   logout(): void {
     this.userService.logout().subscribe({
@@ -167,22 +165,24 @@ export class ProfileComponent {
     this.filter = filter;
     this.filterLoaded = false;      // Reset loading state
     this.filteredProductList = [];  // Clear previous list
-  
+
     if (this.user == undefined || this.profileId == undefined) {
       console.log("No se ha cargado el usuario");
       return;
     }
-  
+
     if (filter === 'favorites') {
       this.loadFavorites(this.profileId);
-    }
+    } 
     else if (filter === 'historyPurchases') {
       this.loadPurchaseHistory('buyer', this.profileId);
     } else if (filter === 'historySales') {
       this.loadPurchaseHistory('seller', this.profileId);
+    } else {
+      this.loadUserMap(this.profileId);
     }
   }
-  
+
   // Private method to load favorites
   private loadFavorites(userId: number) {
     this.filterLoaded = false;
@@ -198,7 +198,7 @@ export class ProfileComponent {
       }
     });
   }
-  
+
   // Private method to load purchase or sale history
   private loadPurchaseHistory(role: string, userId: number) {
     this.productService.getPurchases(userId, role).subscribe({
