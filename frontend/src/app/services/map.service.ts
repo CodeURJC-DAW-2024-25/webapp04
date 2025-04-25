@@ -50,29 +50,38 @@ export class MapService {
     });
   }
 
+
+  // Load map in product detail page
+  visualizeMapInContainer(userId: number, containerId: string): void {
+    this.loadAndInitializeMap(userId, 15, containerId); // Increased zoom level 15
+  }
+
   // Load map from user iframe
   visualizeMapFromUserIframe(userId: number): void {
+    this.loadAndInitializeMap(userId, 10, 'profile-map'); // Default zoom level 10
+  }
+
+  // Private method to fetch iframe and initialize the map
+  private loadAndInitializeMap(userId: number, zoomLevel: number, containerId: string): void {
     this.getUserIframe(userId).subscribe({
       next: (iframe: string) => {
         const matches = iframe.match(/bbox=([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
         let centerLat = 40.4168; // Default Madrid
         let centerLng = -3.7038;
-        let zoomLevel = 10;
 
         if (matches) {
           centerLat = this.calculateCenterFromBbox(matches);
           centerLng = this.calculateCenterFromBbox(matches, true);
-          zoomLevel = 12;
         }
 
-        // Initialize the map with zoom enabled for the user iframe view
-        this.map = this.initializeMap(centerLat, centerLng, zoomLevel, 'profile-map', {
-          zoomControl: true, // Enable zoom control
-          dragging: true,    // Enable dragging
-          scrollWheelZoom: true, // Enable scroll zoom
-          doubleClickZoom: true, // Enable double click zoom
-          boxZoom: true, // Enable box zoom
-          keyboard: true, // Enable keyboard navigation
+        // Initialize the map with given zoom level and container
+        this.map = this.initializeMap(centerLat, centerLng, zoomLevel, containerId, {
+          zoomControl: true,
+          dragging: true,
+          scrollWheelZoom: true,
+          doubleClickZoom: true,
+          boxZoom: true,
+          keyboard: true,
         });
       },
       error: () => {
