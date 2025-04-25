@@ -62,10 +62,10 @@
         </div>
     </div>
 
-    <div *ngIf="filter && !isAdmin">
+    <div *ngIf="filter">
         <!-- Reviews -->
-        <app-profile-reviews *ngIf="filter === 'reviews' && profileId" [title]="'Reseñas'" [userId]="profileId">
-        </app-profile-reviews>
+        <app-review-list *ngIf="filter === 'reviews' && profileId" [title]="'Reseñas'" [userId]="profileId">
+        </app-review-list>
 
         <!-- Favorites/Purchases/Sales -->
         <ng-container *ngIf="filterLoaded && isOwnProfile">

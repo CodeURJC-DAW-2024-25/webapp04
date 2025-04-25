@@ -653,7 +653,7 @@ During this phase, my main focus was on everything related to the chat, in addit
 
 
 ***   
-# 🌀 Phase 4 - - SPA Implementation with Angular.
+# 🌀 Phase 4 - SPA Implementation with Angular.
 ***
 
 
