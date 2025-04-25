@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 
 export class NavbarComponent {
-  selectedCategory: string = '';
+  @Input() selectedCategory: string = '';
   @Input() profileScreen: boolean = false;
   @Input() isOwner: boolean = false;
   @Input() userId: number | undefined;

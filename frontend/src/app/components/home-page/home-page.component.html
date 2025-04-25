@@ -1,4 +1,4 @@
-<app-navbar (categorySelected)="onCategorySelected($event)"></app-navbar>
+<app-navbar (categorySelected)="onCategorySelected($event)"  [selectedCategory]="selectedCategory"></app-navbar>
 
 <ng-container *ngIf="!selectedCategory">
   <app-top-product-list></app-top-product-list>
