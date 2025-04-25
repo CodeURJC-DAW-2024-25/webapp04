@@ -662,9 +662,10 @@ To set up the development environment for the SPA application using Angular, fol
 
 **Prerequisites**
 1. Node.js: Ensure that Node.js is installed on your system. You can download it from Node.js official website.
+2. Execute this commands:
 
 ```
-   npm install
+npm install
 ```
 
 ```
@@ -678,10 +679,10 @@ cd frontend
 ```
 ng serve --proxy-config proxy.conf.json
 ```
+3. Run the application with SpringBoot
 
-Run the application with SpringBoot
-
-
+### 🌐 URL App (Deployment on Virtual Machine)
+The application is deployed and can be accessed at the following URL: https://appweb04.dawgis.etsii.urjc.es:443 
 
 ## 📌 Class diagram and SPA templates
 
@@ -769,3 +770,4 @@ Run the application with SpringBoot
 | [5º]() | |
 
 
+## 🔗 Youtube link video 
