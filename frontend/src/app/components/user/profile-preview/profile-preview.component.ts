@@ -4,6 +4,7 @@ import { UserDTO } from '../../../dtos/user.dto';
 import { Subscription } from 'rxjs';
 import { ReviewReportService } from '../../../services/review.report.service';
 import { ReviewDTO } from '../../../dtos/review.dto';
+import { MapService } from '../../../services/map.service';
 
 @Component({
   selector: 'app-profile-preview',
@@ -20,7 +21,7 @@ export class ProfilePreviewComponent {
   user?: UserDTO;
   rating: number = 0;
 
-  constructor(private userService: UserService, private reviewService: ReviewReportService) { 
+  constructor(private userService: UserService, private reviewService: ReviewReportService, private mapService: MapService) { 
     this.reviewAddedSubscription = this.reviewService.reviewAdded$.subscribe(() => {
       this.ngOnInit();
     });
@@ -31,6 +32,7 @@ export class ProfilePreviewComponent {
       this.userService.getUserById(this.userId).subscribe({
         next: (user) => {
           this.user = user;
+          this.mapService.visualizeMapInContainer(user.id, 'preview-map');
           console.log('User:', user);
           this.rating = 0;
           for (let i=0; i < user.reviews.length; i++) {
