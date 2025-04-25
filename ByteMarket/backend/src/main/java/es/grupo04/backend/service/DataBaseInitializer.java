@@ -14,11 +14,10 @@ import javax.sql.rowset.serial.SerialException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import es.grupo04.backend.model.Chat;
 import es.grupo04.backend.model.Image;
@@ -281,7 +280,7 @@ public class DataBaseInitializer {
         purchaseRepository.save(purchase2);
         p2.setSold(true);
         productRepository.save(p2);
-        Review review2 = new Review(user1,user4, "Muy majo y el producto en perfecto estado", 5);
+        Review review2 = new Review(user1,user4, "Muy majo, el producto en perfecto estado", 5);
         reviewRepository.save(review2);
         Chat chat2 = new Chat(user1, user4, p2);
         chatRepository.save(chat2);

@@ -18,6 +18,9 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     getUser(): Observable<UserBasicDTO> {
+        // Refresh session before fetching user data
+        this.http.post('/api/v1/auth/refresh', {}).subscribe();
+
         let url = '/api/v1/users/me';
         return this.http.get<UserBasicDTO>(url).pipe(
             tap(user => this.userSubject.next(user))

@@ -19,6 +19,10 @@
                 </span>
             </div>
         </ng-template>
-    </div>
-
+    </div>      
 </div>
+<div *ngIf="user?.iframe" class="mt-4">
+    <h5 class="fw-bold">Ubicación:</h5>
+    <div id="preview-map" style="height: 350px; width: 100%; border-radius: 8px;"></div>
+  </div>
+

@@ -62,10 +62,10 @@
         </div>
     </div>
 
-    <div *ngIf="filter && !isAdmin">
+    <div *ngIf="filter">
         <!-- Reviews -->
-        <app-profile-reviews *ngIf="filter === 'reviews' && profileId" [title]="'Reseñas'" [userId]="profileId">
-        </app-profile-reviews>
+        <app-review-list *ngIf="filter === 'reviews' && profileId" [title]="'Reseñas'" [userId]="profileId">
+        </app-review-list>
 
         <!-- Favorites/Purchases/Sales -->
         <ng-container *ngIf="filterLoaded && isOwnProfile">
@@ -73,6 +73,9 @@
                 [productsFromParent]="filteredProductList" [fromProfile]="true">
             </app-product-list>
 
+            <div *ngIf="profileId && (filter === 'historyPurchases' || filter === 'historySales')" class="d-flex justify-content-center my-4">
+                <app-user-stats-chart [userId]="profileId!"></app-user-stats-chart>
+            </div>
             <app-product-list *ngIf="filter === 'historyPurchases'" [title]="'Historial de compras'"
                 [productsFromParent]="filteredProductList" [fromProfile]="true">
             </app-product-list>
