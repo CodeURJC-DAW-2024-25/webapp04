@@ -21,7 +21,7 @@ RUN mvn clean verify
 
 # Copy the project source code
 COPY ByteMarket/backend/src/ ./src
-COPY --from=frontbuilder /frontend/dist/frontend/browser/* ./src/main/resources/static/spa
+COPY --from=frontbuilder /frontend/dist/frontend/browser/ ./src/main/resources/static/spa
 
 # Build the project
 RUN mvn package -DskipTests

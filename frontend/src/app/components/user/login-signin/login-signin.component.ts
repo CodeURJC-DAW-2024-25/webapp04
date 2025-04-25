@@ -46,7 +46,7 @@ export class LoginSigninComponent {
                   this.userService.getUser().subscribe({
                     next: (user) => {
                       sessionStorage.setItem('userEmail', this.email);  // Save the email in session storage
-                      window.location.href = '/';  // Redirecting with refresh after login
+                      this.router.navigate(['/'])
                     },
                     error: (err) => {
                       sessionStorage.removeItem('userEmail');  // Remove the email from session storage if there's an error
