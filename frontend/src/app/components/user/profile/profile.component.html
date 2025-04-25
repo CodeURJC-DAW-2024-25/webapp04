@@ -73,6 +73,9 @@
                 [productsFromParent]="filteredProductList" [fromProfile]="true">
             </app-product-list>
 
+            <div *ngIf="profileId && (filter === 'historyPurchases' || filter === 'historySales')" class="d-flex justify-content-center my-4">
+                <app-user-stats-chart [userId]="profileId!"></app-user-stats-chart>
+            </div>
             <app-product-list *ngIf="filter === 'historyPurchases'" [title]="'Historial de compras'"
                 [productsFromParent]="filteredProductList" [fromProfile]="true">
             </app-product-list>

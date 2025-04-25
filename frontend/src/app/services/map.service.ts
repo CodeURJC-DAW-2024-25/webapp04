@@ -53,12 +53,12 @@ export class MapService {
 
   // Load map in product detail page
   visualizeMapInContainer(userId: number, containerId: string): void {
-    this.loadAndInitializeMap(userId, 15, containerId); // Increased zoom level 15
+    this.loadAndInitializeMap(userId, 15, containerId); 
   }
 
   // Load map from user iframe
   visualizeMapFromUserIframe(userId: number): void {
-    this.loadAndInitializeMap(userId, 10, 'profile-map'); // Default zoom level 10
+    this.loadAndInitializeMap(userId, 17, 'profile-map'); 
   }
 
   // Private method to fetch iframe and initialize the map

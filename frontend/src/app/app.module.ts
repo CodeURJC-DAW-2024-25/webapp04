@@ -25,6 +25,8 @@ import { ReviewFormComponent } from './components/reviews/review-form/review-for
 import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
 import { ProfileListComponent } from './components/user/profile-list/profile-list.component';
 import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { UserStatsChartComponent } from './components/user/user-stats-chart/user-stats-chart.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { EditProfileComponent } from './components/user/edit-profile/edit-profil
     ReviewListComponent,
     ProfileListComponent,
     EditProfileComponent,
+    UserStatsChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { EditProfileComponent } from './components/user/edit-profile/edit-profil
     HttpClientModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
