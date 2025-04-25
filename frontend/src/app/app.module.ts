@@ -25,7 +25,6 @@ import { ReviewFormComponent } from './components/reviews/review-form/review-for
 import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
 import { ProfileListComponent } from './components/user/profile-list/profile-list.component';
 import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
-import { ProfileReviewsComponent } from './components/reviews/profile-reviews/profile-reviews.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +48,6 @@ import { ProfileReviewsComponent } from './components/reviews/profile-reviews/pr
     ReviewListComponent,
     ProfileListComponent,
     EditProfileComponent,
-    ProfileReviewsComponent
   ],
   imports: [
     BrowserModule,
