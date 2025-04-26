@@ -38,8 +38,14 @@ export class ProfileComponent {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const filterFromUrl = params['filter'] || '';
-      this.filter = filterFromUrl;
-      this.pendingFilter = filterFromUrl;
+      if (filterFromUrl !== this.filter) {
+        this.filter = filterFromUrl;
+        if (this.loaded) { 
+          this.onCategorySelected(this.filter);
+        } else {
+          this.pendingFilter = this.filter;
+        }
+      }
     });
 
     this.userService.getUser().subscribe({
@@ -80,6 +86,7 @@ export class ProfileComponent {
             if (!this.isAdmin) {
               this.loadUserMap(user.id);
             }
+            this.loaded = true;
             if (this.pendingFilter !== undefined) {
               this.onCategorySelected(this.pendingFilter);
               this.pendingFilter = undefined;
@@ -108,6 +115,7 @@ export class ProfileComponent {
         if (this.currentUser && this.user.id === this.currentUser.id) {
           this.isOwnProfile = true;
         }
+        this.loaded = true;
         if (this.pendingFilter !== undefined) {
           this.onCategorySelected(this.pendingFilter);
           this.pendingFilter = undefined;
