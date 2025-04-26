@@ -71,7 +71,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/user/*/image").permitAll()
 					.requestMatchers("/profile/**").permitAll()
 					.requestMatchers("/v3/api-docs", "/v3/api-docs**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // to generate the OpenAPI documentation
-					.requestMatchers("/spa/**").permitAll()
+					.requestMatchers("/new/**").permitAll()
 					// PRIVATE PAGES
 					.requestMatchers("/profile").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/adminProfile").hasAnyRole("ADMIN")
