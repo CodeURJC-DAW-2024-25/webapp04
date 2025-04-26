@@ -19,7 +19,7 @@ RUN mvn clean verify
 
 # Copy the project source code
 COPY ByteMarket/backend/src/ ./src
-COPY --from=frontbuilder /frontend/dist/frontend/browser/ ./src/main/resources/public/new
+COPY --from=frontbuilder /frontend/dist/frontend/browser/ ./src/main/resources/static/new
 
 # Build the Spring Boot app
 RUN mvn package -DskipTests

@@ -138,9 +138,7 @@ export class ProfileComponent {
     this.userService.logout().subscribe({
       next: () => {
         sessionStorage.removeItem('userEmail'); // Delete the email from session storage
-        this.router.navigateByUrl('/').then(() => {
-          window.location.reload();
-        });
+        this.router.navigate(['/']);
       },
       error: (err) => {
         console.error('Error al cerrar sesión', err);
