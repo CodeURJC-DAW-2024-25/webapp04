@@ -19,6 +19,7 @@ export class ProfileComponent {
   profileId: number | undefined;
   filteredProductList: ProductDTO[] = [];
   filter: string = '';
+  pendingFilter?: string;
   loaded: boolean = false;
   filterLoaded: boolean = false;
   isAdmin: boolean = false;
@@ -34,13 +35,20 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const filterFromUrl = params['filter'] || '';
+      this.filter = filterFromUrl;
+      this.pendingFilter = filterFromUrl;
+    });
+
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
         this.isAdmin = this.userService.checkAdmin(currentUser.roles);
+
         if (this.profileId === undefined) {
-          this.loadOwnProfile();
           this.profileId = currentUser.id;
+          this.loadOwnProfile();
         } else {
           this.loadOtherProfile(this.profileId);
         }
@@ -48,18 +56,6 @@ export class ProfileComponent {
         if (this.isAdmin && this.profileId === currentUser.id) {
           this.router.navigate(['/adminProfile']);
         }
-
-        // Subscribe to query params to handle filter changes
-        this.route.queryParams.subscribe(params => {
-          const filterFromUrl = params['filter'] || '';
-          if (filterFromUrl !== this.filter) {
-            this.filter = filterFromUrl;
-            this.onCategorySelected(this.filter);
-          } else if (!filterFromUrl && this.filter) {
-            this.filter = '';
-            this.onCategorySelected('');
-          }
-        });
       },
       error: () => {
         if (this.profileId !== undefined) {
@@ -82,6 +78,10 @@ export class ProfileComponent {
             this.user = user;
             if (!this.isAdmin) {
               this.loadUserMap(user.id);
+            }
+            if (this.pendingFilter !== undefined) {
+              this.onCategorySelected(this.pendingFilter);
+              this.pendingFilter = undefined;
             }
           },
           error: () => {
@@ -106,6 +106,10 @@ export class ProfileComponent {
         }
         if (this.currentUser && this.user.id === this.currentUser.id) {
           this.isOwnProfile = true;
+        }
+        if (this.pendingFilter !== undefined) {
+          this.onCategorySelected(this.pendingFilter);
+          this.pendingFilter = undefined;
         }
       },
       error: () => {
