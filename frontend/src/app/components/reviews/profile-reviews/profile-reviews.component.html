@@ -1,6 +1,8 @@
-<div *ngIf="reviews.length>0" class="container mt-4">
-    <h3>Reseñas</h3>
-    <div class="container mt-4">
+<section class="py-4">
+    <div *ngIf="reviews.length > 0" class="container otherProdContainer">
+      <div>
+        <h2 class="fw-bolder mb-3">Reseñas</h2>
+      </div>
         <div class="row">
             <div *ngFor="let review of reviews" class="col-md-6">
                 <div class="card mb-3">
@@ -20,10 +22,12 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
-<div *ngIf="reviews.length===0" class="container mt-4">
-    <h3>Reseñas</h3>
+<div *ngIf="reviews.length===0" class="container otherProdContainer">
+    <div>
+        <h2 class="fw-bolder mb-3">Reseñas</h2>
+      </div>
     <h3 class="py-4 mb-4 defaultText text-center">Todavía no hay reseñas</h3>
 </div>
 <br>
+</section>
