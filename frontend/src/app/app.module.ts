@@ -28,6 +28,7 @@ import { EditProfileComponent } from './components/user/edit-profile/edit-profil
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UserStatsChartComponent } from './components/user/user-stats-chart/user-stats-chart.component';
 import { ProfileReviewsComponent } from './components/reviews/profile-reviews/profile-reviews.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ProfileReviewsComponent } from './components/reviews/profile-reviews/pr
     NgbModule,
     ReactiveFormsModule,
     NgxChartsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

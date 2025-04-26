@@ -681,8 +681,19 @@ ng serve --proxy-config proxy.conf.json
 ```
 3. Run the application with SpringBoot
 
-### 🌐 URL App (Deployment on Virtual Machine)
-The application is deployed and can be accessed at the following URL: https://appweb04.dawgis.etsii.urjc.es:443 
+
+### 🌐 Deployment on Virtual Machine
+How to deploy:
+```
+ng build --configuration production --base-href="/new/"
+```
+
+```
+cp dist/frontend/browser/* ../backend/src/main/resources/public/new/
+```
+
+### 🔗 URL App (Deployment on Virtual Machine)
+The application is deployed and can be accessed at the following URL: https://appweb04.dawgis.etsii.urjc.es:8443/new 
 
 ## 📌 Class diagram and SPA templates
 
