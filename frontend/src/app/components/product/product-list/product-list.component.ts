@@ -26,21 +26,22 @@ export class ProductListComponent implements OnInit, OnChanges {
   constructor(private route: ActivatedRoute, private productService: ProductService) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const name = params['name'];
-      if (name) {
-        this.title = `Resultados para "${name}"`;
-        this.loadProductsByName(name);
-      } else if (this.selectedCategory) {
-        if (!this.isCategoryLoaded) {
-          this.isCategoryLoaded = true;
+    if (this.selectedCategory) {
+      this.loadProductsByCategory();
+    } else {
+      this.route.queryParams.subscribe(params => {
+        const name = params['name'];
+        if (name) {
+          this.title = `Resultados para "${name}"`;
+          this.loadProductsByName(name);
+        } else if (this.selectedCategory) {
           this.loadProductsByCategory();
+        } else if (this.productsFromParent.length > 0) {
+          this.fromParent = true;
+          this.loadMoreFromParent();
         }
-      } else if (this.productsFromParent.length > 0) {
-        this.fromParent = true;
-        this.loadMoreFromParent();
-      }
-    });
+      });
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -53,11 +54,13 @@ export class ProductListComponent implements OnInit, OnChanges {
   }
 
   loadProductsByCategory() {
+    if (this.isLoading || this.isCategoryLoaded) return;  // Prevent multiple requests
     this.isLoading = true;
     this.productService.getProductsByCategory(this.selectedCategory, this.currentPage)
       .subscribe((data: { content: ProductDTO[], last: boolean }) => {
         this.products = data.content;
         this.isLast = data.last;
+        this.isCategoryLoaded = true;
         this.isLoading = false;
       });
   }
@@ -75,12 +78,12 @@ export class ProductListComponent implements OnInit, OnChanges {
     if (!this.isLast) {
       this.isLoading = true;
       if(!this.fromParent){
-        this.productService.getProductsByCategory(this.selectedCategory, ++this.currentPage)
-          .subscribe((data: { content: ProductDTO[], last: boolean }) => {
-            this.products = [...this.products, ...data.content];
-            this.isLast = data.last;
-            this.isLoading = false;
-          });
+      this.productService.getProductsByCategory(this.selectedCategory, ++this.currentPage)
+        .subscribe((data: { content: ProductDTO[], last: boolean }) => {
+          this.products = [...this.products, ...data.content];
+          this.isLast = data.last;
+          this.isLoading = false;
+        });
       }
     }
   }
