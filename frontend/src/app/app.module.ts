@@ -27,6 +27,7 @@ import { ProfileListComponent } from './components/user/profile-list/profile-lis
 import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UserStatsChartComponent } from './components/user/user-stats-chart/user-stats-chart.component';
+import { ProfileReviewsComponent } from './components/reviews/profile-reviews/profile-reviews.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UserStatsChartComponent } from './components/user/user-stats-chart/user
     ProfileListComponent,
     EditProfileComponent,
     UserStatsChartComponent,
+    ProfileReviewsComponent,
   ],
   imports: [
     BrowserModule,
