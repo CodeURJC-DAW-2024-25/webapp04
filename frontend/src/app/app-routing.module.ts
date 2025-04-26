@@ -11,23 +11,32 @@ import { ProfilePreviewComponent } from './components/user/profile-preview/profi
 import { ProfileComponent } from './components/user/profile/profile.component';
 import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
 import { ReportListComponent } from './components/reports/report-list/report-list.component';
+import { AuthGuard } from './auth/auth.guard';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent},
-  {path: 'login', component: LoginSigninComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: 'editProfile', component: EditProfileComponent},
-  {path: 'profile/:id', component: ProfileComponent},
-  {path: 'adminProfile', component: ProfileComponent},
-  {path: 'product/:id', component: ProductDetailComponent},
-  {path: 'chats', component: ChatComponent},
-  {path: 'confirm-sale/:chatId', component: ConfirmSaleComponent},
-  {path: 'products', component: ProductListComponent},
-  {path: 'newProduct', component: NewProductComponent},
-  {path: 'editProduct/:id', component: NewProductComponent},
-  {path: 'chats/:id', component: ChatComponent},
-  {path: 'reports', component: ReportListComponent}
+  { path: '', component: HomePageComponent },
+  { path: 'login', component: LoginSigninComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'products', component: ProductListComponent },
+
+  // Protected with AuthGuard
+  { path: 'editProfile', component: EditProfileComponent, canActivate: [AuthGuard], data: { roles: ['USER','ADMIN'] } },
+  { path: 'newProduct', component: NewProductComponent, canActivate: [AuthGuard], data: { roles: ['USER'] } },
+  { path: 'editProduct/:id', component: NewProductComponent, canActivate: [AuthGuard], data: { roles: ['USER'] } },
+  { path: 'chats', component: ChatComponent, canActivate: [AuthGuard], data: { roles: ['USER'] } },
+  { path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuard], data: { roles: ['USER'] } },
+  { path: 'confirm-sale/:chatId', component: ConfirmSaleComponent, canActivate: [AuthGuard], data: { roles: ['USER'] } },
+
+  { path: 'adminProfile', component: ProfileComponent, canActivate: [AuthGuard], data: { roles: ['ADMIN'] } },
+  { path: 'reports', component: ReportListComponent, canActivate: [AuthGuard], data: { roles: ['ADMIN'] } },
+
+  // Denied access page
+  { path: 'access-denied', component: AccessDeniedComponent }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
