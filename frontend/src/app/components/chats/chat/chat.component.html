@@ -54,7 +54,7 @@
       </div>
 
       <div class="flex-grow-1 p-3 overflow-auto bg-light" #messagesContainer>
-        <div class="d-flex mb-4 justify-content-start align-items-center" *ngFor="let msg of currentChat.messages">
+        <div class="d-flex mb-4 justify-content-start align-items-center" *ngFor="let msg of currentChat.messages; trackBy: trackByMessageId">
           <div class="p-3 rounded shadow-sm d-flex align-items-center w-100 bg-white">
             <a [routerLink]="['/profile', msg.sender.id]" class="d-flex align-items-center text-decoration-none">
               <ng-container *ngIf="msg.sender?.hasImage; else noImage">

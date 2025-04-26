@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ChatDTO } from '../../../dtos/chat.dto';
 import { ChatService } from '../../../services/chat.service';
 import { UserService } from '../../../services/user.service';
-import { Router, ActivatedRoute  } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -15,53 +15,71 @@ export class ChatComponent {
   currentChat: ChatDTO | null = null;
   currentChatName: string = '';
   newMessage: string = '';
+  currentUser: any;
   @ViewChild('messagesContainer') messagesContainerRef!: ElementRef;
 
-  constructor(private router: Router, private route: ActivatedRoute,  private chatService: ChatService,  private userService: UserService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private chatService: ChatService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.refreshChatPeriodically();
     // Check if user is logged in
     this.userService.getUser().subscribe({
       next: (user) => {
+        this.currentUser = user;
         console.log('User is logged in', user);
       },
       error: () => {
         this.router.navigate(['/login']);
       }
     });
-  
+
     // Get chats of buyer
     this.chatService.getBuyerChats().subscribe((response) => {
       this.buyChats = response.content.reverse();
     });
-  
+
     // Get chats of seller
     this.chatService.getSellerChats().subscribe((data: { content: ChatDTO[] }) => {
       this.sellChats = data.content.reverse();
     });
-  
+
     // Navigate to the selected chat (or null if '')
     this.route.params.subscribe(params => {
       const chatId = +params['id'];
       if (chatId) {
-          this.goToChat(chatId);
+        this.goToChat(chatId);
       } else {
         this.currentChat = null;
       }
     });
-  } 
+  }
+
+  refreshChatPeriodically() {
+    setInterval(() => {
+      if (this.currentChat) {
+        this.chatService.getChatById(this.currentChat.id).subscribe({
+          next: (chat) => {
+            if (this.currentChat) {
+              this.currentChat.messages = chat.messages; 
+              this.scrollToBottom();
+            }
+          }
+        });
+      }
+    }, 3000);
+  }
 
   ngAfterViewInit(): void {
     this.scrollToBottom();
   }
-  
+
   scrollToBottom(): void {
     setTimeout(() => {
       const messagesContainer = this.messagesContainerRef?.nativeElement;
       if (messagesContainer) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
-    }, 0); 
+    }, 0);
   }
 
   goToChat(chatId: number): void {
@@ -99,10 +117,12 @@ export class ChatComponent {
         id: 0,
         sender: {
           id: 2,
-          name: 'Pedro',
-          image: 'https://localhost:8443/user/2/image',
-          hasImage: false,
-          roles: ['USER'],
+          name: this.currentUser.name,
+          image: this.currentUser.hasImage
+            ? `https://localhost:8443/user/${this.currentUser.id}/image`
+            : 'default-image-url',
+          hasImage: this.currentUser.hasImage,
+          roles: this.currentUser.roles,
         },
         message: this.newMessage,
         sentAt: formattedDate,
@@ -120,5 +140,10 @@ export class ChatComponent {
   goToConfirmSale(chatId: number): void {
     this.router.navigate(['/confirm-sale', chatId]);
   }
+
+  trackByMessageId(index: number, message: any): any {
+    return message.id;
+  }
+  
 
 }
