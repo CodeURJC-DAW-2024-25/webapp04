@@ -51,6 +51,8 @@ export class LoginSigninComponent {
             this.userService.getUser().subscribe({
               next: (user) => {
                 sessionStorage.setItem('userEmail', this.email);
+                sessionStorage.setItem('userRoles', JSON.stringify(user.roles));
+                console.log('Email', sessionStorage.getItem('userEmail'));
                 this.router.navigate(['/'])
               },
               error: (err) => {
