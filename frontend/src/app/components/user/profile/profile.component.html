@@ -41,12 +41,24 @@
                     <h5 class="fw-bolder">Ubicación:</h5>
                     <div id="profile-map" style="height: 450px; width: 100%; border-radius: 8px;"></div>
                 </div>
-            </section>
 
-            <div *ngIf="isAdmin && !isOwnProfile">
-                <button class="btn btn-custom" (click)="deleteOtherAccount()">
-                    <span>Eliminar Cuenta</span>
-                </button>
+                <div *ngIf="isAdmin && !isOwnProfile && !shouldShowDeleteConfirmation()">
+                    <button class="btn btn-custom" (click)="openDeleteConfirmation()">
+                        <span>Eliminar Cuenta</span>
+                    </button>
+                </div>
+            </section>
+            <div *ngIf="shouldShowDeleteConfirmation()" class="modal-overlay">
+                <div class="modal-content">
+                    <h4>¡Atención!</h4>
+                    <p>Esta acción es irreversible. ¿Estás seguro de que deseas eliminar la cuenta del usuario
+                        <strong>{{user?.name}}</strong>?
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button class="btn btn-danger" (click)="deleteOtherAccount()">Aceptar</button>
+                        <button class="btn btn-secondary" (click)="closeDeleteConfirmation()">Cancelar</button>
+                    </div>
+                </div>
             </div>
 
             <div *ngIf="isOwnProfile">
@@ -73,7 +85,8 @@
                 [productsFromParent]="filteredProductList" [fromProfile]="true">
             </app-product-list>
 
-            <div *ngIf="profileId && (filter === 'historyPurchases' || filter === 'historySales')" class="d-flex justify-content-center my-4">
+            <div *ngIf="profileId && (filter === 'historyPurchases' || filter === 'historySales')"
+                class="d-flex justify-content-center my-4">
                 <app-user-stats-chart [userId]="profileId!"></app-user-stats-chart>
             </div>
             <app-product-list *ngIf="filter === 'historyPurchases'" [title]="'Historial de compras'"
@@ -85,7 +98,4 @@
             </app-product-list>
         </ng-container>
     </div>
-
-
-
 </section>

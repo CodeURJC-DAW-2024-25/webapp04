@@ -25,11 +25,15 @@
             <div class="mb-3 text-start">
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-control" formControlName="name" title="Usuario" />
+                <div *ngIf="validName === 1" class="text-danger">El nombre no puede estar vacío.</div>
+                <div *ngIf="validName === 2" class="text-danger">El nombre es demasiado largo (máximo 16 caracteres).</div>
             </div>
 
             <div class="mb-3 text-start">
                 <label class="form-label">Correo</label>
                 <input type="email" class="form-control" [value]="userEmail" title="Correo" name="mail" disabled />
+                <div *ngIf="validEmail === 1" class="text-danger">El correo no puede estar vacío.</div>
+                <div *ngIf="validEmail === 2" class="text-danger">El correo no es válido.</div>
             </div>
 
             <div *ngIf="!isAdmin" class="mb-3 text-start">
@@ -41,17 +45,32 @@
             <div class="mb-3 text-start">
                 <label class="form-label">Nueva Contraseña</label>
                 <input type="password" class="form-control" formControlName="newPass" title="Contraseña" />
+                <div *ngIf="validPassword === 1" class="text-danger">La contraseña no puede estar vacía.</div>
             </div>
 
             <div class="mb-3 text-start">
                 <label class="form-label">Confirmar Contraseña</label>
                 <input type="password" class="form-control" formControlName="repeatPass" title="Contraseña" />
+                <div *ngIf="validPassword === 2" class="text-danger">Las contraseñas no coinciden.</div>
             </div>
-
+            <section *ngIf="!shouldShowDeleteConfirmation()">
             <button type="submit" class="btn btn-custom w-100 mb-2" [disabled]="form.invalid">
                 Guardar Cambios
             </button>
-            <button type="submit" class="btn btn-custom w-100 mb-2" (click)="deleteOwnAccount()">Eliminar Cuenta</button>
+            <button type="button" class="btn btn-custom w-100 mb-2" (click)="openDeleteConfirmation()">
+                Eliminar Cuenta
+            </button>
+            </section>
         </form>
+        <div *ngIf="shouldShowDeleteConfirmation()" class="modal-overlay">
+            <div class="modal-content">
+                <h4>¡Atención!</h4>
+                <p>Esta acción es irreversible. ¿Estás seguro de que deseas eliminar tu cuenta?</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <button class="btn btn-danger" (click)="deleteOwnAccount()">Aceptar</button>
+                    <button class="btn btn-secondary" (click)="closeDeleteConfirmation()">Cancelar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

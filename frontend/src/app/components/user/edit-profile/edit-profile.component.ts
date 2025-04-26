@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MapService } from '../../../services/map.service';
+import { ValidationService } from '../../../services/validation.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,13 +17,18 @@ export class EditProfileComponent implements OnInit {
   userEmail: string | null = sessionStorage.getItem('userEmail'); // User email from session storage
   form: FormGroup;
   selectedFile!: File;
+  validName: number = 0;
+  validEmail: number = 0;
+  validPassword: number = 0;
+  showDeleteConfirmationFlag: boolean = false; // Flag to control the visibility of the confirmation modal
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private mapService: MapService // Inject MapService
+    private mapService: MapService,
+    private validationService: ValidationService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -109,11 +115,26 @@ export class EditProfileComponent implements OnInit {
 
     const { name, newPass, repeatPass, iframe } = this.form.value;
 
-    if (newPass !== repeatPass) {
-      alert("Passwords do not match");
+    // Validar Nombre
+    const nameValidation = this.validationService.validateName(name);
+    this.validName = nameValidation.errorCode;
+    if (!nameValidation.valid) {
       return;
     }
 
+    // Validar Correo
+    const emailValidation = this.validationService.validateMail(this.userEmail || '');
+    this.validEmail = emailValidation.errorCode;
+    if (!emailValidation.valid) {
+      return;
+    }
+
+    // Validar Contraseñas
+    const passwordValidation = this.validationService.updatePassword(newPass, repeatPass);
+    this.validPassword = passwordValidation.errorCode;
+    if (!passwordValidation.valid) {
+      return;
+    }
     const editUserDTO = {
       name,
       address: '',
@@ -155,18 +176,32 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+
+  // This method returns a boolean to control the visibility of the confirmation modal
+  shouldShowDeleteConfirmation(): boolean {
+    return this.showDeleteConfirmationFlag;
+  }
+
+  // Open the confirmation modal by setting the flag to true
+  openDeleteConfirmation(): void {
+    this.showDeleteConfirmationFlag = true;
+  }
+
+  // Close the confirmation modal by setting the flag to false
+  closeDeleteConfirmation(): void {
+    this.showDeleteConfirmationFlag = false;
+  }
+
   deleteOwnAccount() {
     const userId = this.currentUser.id;
-    if (confirm('Are you sure you want to delete your account?')) {
-      this.userService.deleteUser(userId, true).subscribe({
-        next: () => {
-          sessionStorage.removeItem('userEmail');
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          console.error('Error deleting account', err);
-        }
-      });
-    }
+    this.userService.deleteUser(userId, true).subscribe({
+      next: () => {
+        sessionStorage.removeItem('userEmail');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error('Error deleting account', err);
+      }
+    });
   }
 }

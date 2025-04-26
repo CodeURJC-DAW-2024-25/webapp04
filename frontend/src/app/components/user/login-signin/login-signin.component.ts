@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
+import { ValidationService } from '../../../services/validation.service';  // Import validation service
 
 @Component({
   selector: 'app-login-signin',
   templateUrl: './login-signin.component.html',
-  styleUrl: './login-signin.component.css'
+  styleUrls: ['./login-signin.component.css']
 })
 export class LoginSigninComponent {
 
@@ -21,7 +22,11 @@ export class LoginSigninComponent {
   loginError: boolean = false;
   signinError: boolean = false;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService, 
+    private router: Router, 
+    private validationService: ValidationService  // Inject validation service
+  ) { }
 
   toggleLogin() {
     this.login = !this.login;
@@ -39,102 +44,61 @@ export class LoginSigninComponent {
   }
 
   submitForm() {
-      if (this.login) {
-          this.userService.loginUser(this.email, this.password).subscribe({
-              next: (response) => {
-                if (response.status === 'SUCCESS') {
-                  this.userService.getUser().subscribe({
-                    next: (user) => {
-                      sessionStorage.setItem('userEmail', this.email);  // Save the email in session storage
-                      this.router.navigate(['/'])
-                    },
-                    error: (err) => {
-                      sessionStorage.removeItem('userEmail');  // Remove the email from session storage if there's an error
-                      console.error('Error obteniendo el usuario tras login:', err);
-                      this.loginError = true;
-                    }
-                  });
-                } else {
-                  sessionStorage.removeItem('userEmail');
-                  this.loginError = true;
-                }
+    if (this.login) {
+      this.userService.loginUser(this.email, this.password).subscribe({
+        next: (response) => {
+          if (response.status === 'SUCCESS') {
+            this.userService.getUser().subscribe({
+              next: (user) => {
+                sessionStorage.setItem('userEmail', this.email);
+                this.router.navigate(['/'])
               },
-              error: (error) => {
+              error: (err) => {
                 sessionStorage.removeItem('userEmail');
+                console.error('Error obteniendo el usuario tras login:', err);
                 this.loginError = true;
-                console.error('Login error:', error);
               }
-          });
-      } else {
-          if (this.validateForm()) {
-              this.userService.registerUser(this.name, this.email, this.password, this.password2).subscribe({
-                  next: (response) => {
-                      if (response) {
-                        this.signinError = false;
-                        this.login = true;
-                      } else {
-                        this.signinError = true;
-                      }
-                  },
-                  error: (error) => {
-                    this.signinError = true;
-                    console.error('Registration error:', error);
-                  }
-              });
+            });
+          } else {
+            sessionStorage.removeItem('userEmail');
+            this.loginError = true;
           }
+        },
+        error: (error) => {
+          sessionStorage.removeItem('userEmail');
+          this.loginError = true;
+          console.error('Login error:', error);
+        }
+      });
+    } else {
+      if (this.validateForm()) {
+        this.userService.registerUser(this.name, this.email, this.password, this.password2).subscribe({
+          next: (response) => {
+            if (response) {
+              this.signinError = false;
+              this.login = true;
+            } else {
+              this.signinError = true;
+            }
+          },
+          error: (error) => {
+            this.signinError = true;
+            console.error('Registration error:', error);
+          }
+        });
       }
+    }
   }
 
   private validateForm(): boolean {
+    const isNameValid = this.validationService.validateName(this.name);
+    const isEmailValid = this.validationService.validateMail(this.email);
+    const isPasswordValid = this.validationService.validatePassword(this.password, this.password2);
 
-    const isNameValid = this.validateName(this.name);
-    const isEmailValid = this.validateMail(this.email);
-    const isPasswordValid = this.validatePassword(this.password, this.password2);
+    this.validName = isNameValid.errorCode;
+    this.validEmail = isEmailValid.errorCode;
+    this.validPassword = isPasswordValid.errorCode;
 
-    return isNameValid && isEmailValid && isPasswordValid;
+    return isNameValid.valid && isEmailValid.valid && isPasswordValid.valid;
   }
-
-  // Validate username
-  private validateName(name: string): boolean {
-    if (!name) {  // Check if the name is empty
-      this.validName = 1;
-      return false;
-    } else if (name.length > 16) {  // Check if the name is longer than 16 characters
-      this.validName = 2;
-      return false;
-    } else {
-      this.validName = 0;
-      return true;
-    }
-  }
-
-  // Validate mail
-  private validateMail(mail: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;  // Email regular expression
-    if (!mail) {  // Check if the email is empty
-      this.validEmail = 1;
-      return false;
-    } else if (!emailRegex.test(mail)) {  // Check if the email is valid
-      this.validEmail = 2;
-      return false;
-    } else {
-      this.validEmail = 0;
-      return true;
-    }
-  }
-
-  // Validate passwords
-  private validatePassword(password: string, confirmPassword: string): boolean {
-    if (!password || !confirmPassword) {  // Check if the password is empty
-      this.validPassword = 1;
-      return false;
-    } else if (password !== confirmPassword) {  // Check if the passwords match
-      this.validPassword = 2;
-      return false;
-    } else {
-      this.validPassword = 0;
-      return true;
-    }
-  }
-
 }

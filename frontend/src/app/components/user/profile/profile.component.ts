@@ -22,6 +22,7 @@ export class ProfileComponent {
   loaded: boolean = false;
   filterLoaded: boolean = false;
   isAdmin: boolean = false;
+  showDeleteConfirmation: boolean = false; // Flag to control the visibility of the confirmation modal
 
   constructor(
     private userService: UserService,
@@ -34,6 +35,17 @@ export class ProfileComponent {
   }
 
   ngOnInit() {
+    // Subscribe to query params to handle filter changes
+    this.route.queryParams.subscribe(params => {
+      const filterFromUrl = params['filter'] || '';
+      if (filterFromUrl !== this.filter) {
+        this.filter = filterFromUrl;
+        this.onCategorySelected(this.filter);
+      } else if (!filterFromUrl && this.filter) {
+        this.filter = '';
+        this.onCategorySelected('');
+      }
+    });
     this.userService.getUser().subscribe({
       next: (currentUser: UserBasicDTO) => {
         this.currentUser = currentUser;
@@ -120,7 +132,6 @@ export class ProfileComponent {
     return this.userService.checkAdmin(this.user?.roles || []);
   }
 
-  
   // Logout function
   logout(): void {
     this.userService.logout().subscribe({
@@ -139,6 +150,20 @@ export class ProfileComponent {
   // Function to get the iframe from the backend and sanitize it
   private loadUserMap(userId: number): void {
     this.mapService.visualizeMapFromUserIframe(userId);
+  }
+
+  // Function to show delete confirmation modal
+  openDeleteConfirmation() {
+    this.showDeleteConfirmation = true;
+  }
+
+  // Function to hide delete confirmation modal
+  closeDeleteConfirmation() {
+    this.showDeleteConfirmation = false;
+  }
+  
+  shouldShowDeleteConfirmation() {
+    return this.showDeleteConfirmation;
   }
 
   deleteOtherAccount() {
