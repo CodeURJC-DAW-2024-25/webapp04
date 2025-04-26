@@ -122,7 +122,11 @@ export class UserService {
 
     logout(): Observable<{ status: string }> {
         let url = '/api/v1/auth/logout';
-        return this.http.post<{ status: string }>(url, {});
+        return this.http.post<{ status: string }>(url, {}).pipe(
+            tap(() => {
+                this.userSubject.next(undefined); // Set the userSubject to undefined
+            })
+        );;
     }
 
     updateUser(user: EditUserDTO, userId: number): Observable<any> {
