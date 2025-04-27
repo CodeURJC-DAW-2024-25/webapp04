@@ -47,6 +47,10 @@ export class ReviewReportService {
         return this.http.post<ReviewDTO>(url, { rating, description, userId });
     }
 
+    deleteReview(reviewId: number): Observable<string> {
+        const url = `/api/v1/reviews/${reviewId}`;
+        return this.http.delete(url, { responseType: 'text' });
+    }
 
     //For refreshing the reviews list when a new review is added
     private reviewAddedSource = new Subject<void>();

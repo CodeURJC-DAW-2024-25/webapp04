@@ -87,7 +87,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/chat/sell/**").hasRole("USER")
 					.requestMatchers("/reports").hasAnyRole("ADMIN")
 					.requestMatchers("/stats/get").hasAnyRole("USER")
-					.requestMatchers("/review/*/delete").hasRole("ADMIN")
+					.requestMatchers("/review/*").hasRole("ADMIN")
 					.requestMatchers("/solve-report/**").hasRole("ADMIN")
 					.requestMatchers("/add/image/**").hasAnyRole("USER")
 			)
