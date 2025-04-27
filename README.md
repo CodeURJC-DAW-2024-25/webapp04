@@ -703,23 +703,23 @@ Also it can be accessed by the following URL: https://localhost:8443/new/
 ## ⚙️ Members participation
 
 ### 👤 Olga Chubinova Bortsova
-...
+In this project, which involved migrating the application to Angular and adopting SPA architecture, I actively contributed to the development and improvement of the platform. I implemented a new favorites section for users, developed a complete reports management section for administrators, and reinforced security by properly configuring role-based permissions. Throughout the migration, I created and integrated several new components and services, modified existing routes to adapt to the new structure, and corrected issues related to user reviews. Additionally, I configured the Dockerfile to optimize the application's deployment process. These contributions helped improve the overall functionality, scalability, and user experience of the newly Angular-based SPA.
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/9b2703c62fb0de53947bb2b002c20fb98bbacd84) | Favorites section and functionality |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/ff35dea1fbf7fc96d5972446cfa3e6a8f9a0a37f) | Reports section for admin |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/0bd08e3a9b0b668b1d3a8951cacd9c33a0a25e1a) | Security and permissions between roles |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/bee4926825e02b43a470eb93d50224c471d10e59) | Reviews fixed |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/9e45fe0dee81ea0c2e3d759aee42f03d8d6a4e75) | Dockerfile |
 
 | File | Name |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/services/review.report.service.ts) | Report component |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/components/user/profile/profile.component.ts) | Profile component |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/components/reviews/profile-reviews/profile-reviews.component.ts) | Profile reviews component |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/frontend/src/app/components/reports/report-list/report-list.component.ts) | Reports component |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/Docker/Dockerfile) | Dockerfile |
 
 
 ### 👤 Marcos García García
@@ -786,3 +786,4 @@ I've been involved in the creation of various components for the SPA website, in
 
 
 ## 🔗 Youtube link video 
+![YoutubeVideo](https://youtu.be/9sV2_5ZRpso)
