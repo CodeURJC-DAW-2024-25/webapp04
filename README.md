@@ -689,7 +689,7 @@ ng build --configuration production --base-href="/new/"
 ```
 
 ```
-cp dist/frontend/browser/* ../backend/src/main/resources/public/new/
+cp -r dist/frontend/browser/* ../ByteMarket/backend/src/main/resources/static/new/
 ```
 
 ### 🔗 URL App
@@ -723,23 +723,24 @@ In this project, which involved migrating the application to Angular and adoptin
 
 
 ### 👤 Marcos García García
-...
+During this final phase of the project I was responsible for initializing the angular project at first. I implemented the product detail page and its components, which includes the product information, reviews, and report sections and all the necessary logic. I also worked on the home page and its components, including the header and product list. Additionally, I implemented the pages and logic for user login and sign-in, including frontend form validation. I also made changes to the user and product services to support these functionalities. Furthermore, I worked on the edit and delete product features, ensuring that product images were handled correctly and that reviews were reloaded properly after any changes. Finally, I updated the docker image and deployed the application on the virtual machine provided by the university, ensuring that everything was working correctly.
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/a8352839affbe6901803e8ffbd0348c44be59a4a) | HomePage and its necessary components implemented, header component, user and product services started, changes in config and proxy for dev |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/991c9c49e0153eed2f69dfac161b27ad7f98d9ca) | Review and report service, added review form and list, and report form in the product detail page and implemented all the necessary logic |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/0e1e13c827857303e9cefa57299b3629654d0ecc) | Login and signin logic and screens, frontend form validation |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/7fabda05dee71d534a6affa1a3f578d7a75b5fee) | Edit and delete product and product images logic, API request in product service and reload reviews correctly |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/accd1a31b810e708a593c7f1d9203c05d2e27638) | Product information component in the product detail page |
 
 | File | Name |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](frontend/src/app/components/product/new-product/new-product.component.ts) | New Product Component |
+| [2º](frontend/src/app/services/product.service.ts) | Product Service |
+| [3º](frontend/src/app/components/reviews/review-list/review-list.component.ts) | Review List Component |
+| [4º](frontend/src/app/services/review.report.service.ts) | Review and Report Service |
+| [5º](frontend/src/app/components/user/profile-preview/profile-preview.component.ts) | Profile Preview Component |
+
 
 
 ### 👤 Naroa Martín Simón
