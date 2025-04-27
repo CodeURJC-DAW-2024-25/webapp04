@@ -697,7 +697,8 @@ The application is deployed and can be accessed at the following URL: https://ap
 Also it can be accessed by the following URL: https://localhost:8443/new/
 
 ## 📌 Class diagram and SPA templates
-![JavaClass](./Screenshots/Diagrams/Class%20Diagram%SPA.jpg) 
+![JavaClass](./Screenshots/Diagrams/Class%20Diagram%20SPA.jpg)
+
 
 ## ⚙️ Members participation
 
