@@ -23,17 +23,23 @@ export class ProfileReviewsComponent implements OnInit {
   constructor(private reviewService: ReviewReportService, private userService: UserService) {  }
 
   ngOnInit() {
-    this.userService.getUser().subscribe({
-      next: (currentUser: UserBasicDTO) => {
-        this.currentUser = currentUser;
-        this.isAdmin = this.userService.checkAdmin(currentUser.roles);
-        this.loadReviews();
-      },
-      error: () => {
-        console.error('Error fetching user.');
-      }
-    });
+      this.userService.getUser().subscribe({
+          next: (currentUser: UserBasicDTO | null) => {
+              if (currentUser) {
+                  this.currentUser = currentUser;
+                  this.isAdmin = this.userService.checkAdmin(currentUser.roles);
+              } else {
+                  console.log('Usuario no autenticado, mostrando reseñas públicas');
+              }
+              this.loadReviews();
+          },
+          error: (err) => {
+              console.error('Error fetching user:', err);
+              this.loadReviews();
+          }
+      });
   }
+
 
 
   loadReviews(): void {
