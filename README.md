@@ -786,4 +786,4 @@ I've been involved in the creation of various components for the SPA website, in
 
 
 ## 🔗 Youtube link video 
-![YoutubeVideo](https://youtu.be/9sV2_5ZRpso)
+https://youtu.be/9sV2_5ZRpso
