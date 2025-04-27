@@ -764,23 +764,23 @@ Also it can be accessed by the following URL: https://localhost:8443/new/
 
 
 ### 👤 Adrián Muñoz Serrano
-...
+I've been involved in the creation of various components for the SPA website, including the implementation of the navigation bar on the main page, which allows making requests to fetch products from different categories and display them using a reusable component for listing products. This component is used on screens such as favorite products, user products, and the sales and purchase history. Additionally, I developed a component for managing chats, including the logic for sending and receiving messages, as well as another for confirming sales. I also designed a product creation form with the corresponding validations. I implemented the search bar in the header, which allows users to search for products or redirects them to the main screen. I also fixed minor issues, mostly related to route redirection within the application. Finally, I created the class diagram with the SPA templates, reflecting the relationship between the components.
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/863f01c350698798bfe313a5ec111139beee0df3) | navbar with categories in the home-page |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/e57877b026776e2185f4fda136723381327e2e7d) | view chats and messages |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/7037dae0f1561234534d12e8e4feb7289cd1a1a6) | send messages |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/1a530ea85d945f26635739470e2abe26416e93c9) | create a new product |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/11f2672fbdea43cde32090d75bac2bc8c88f29ef) | sell product with a confirmation screen |
 
 | File | Name |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/services/chat.service.ts) | chat.service |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/components/chats/chat/chat.component.ts) | chat.component |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/components/navbar/navbar.component.ts) | navbar.component |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blob/main/frontend/src/app/components/product/new-product/new-product.component.ts) | new-product.component |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/blame/main/frontend/src/app/components/product/product-list/product-list.component.ts) | product-list.component |
 
 
 ## 🔗 Youtube link video 
