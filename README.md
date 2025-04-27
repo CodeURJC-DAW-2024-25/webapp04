@@ -662,7 +662,7 @@ To set up the development environment for the SPA application using Angular, fol
 
 **Prerequisites**
 1. Node.js: Ensure that Node.js is installed on your system. You can download it from Node.js official website.
-2. Execute this commands:
+2. Open a terminal on your system and execute the following commands:
 
 ```
 npm install
@@ -692,8 +692,9 @@ ng build --configuration production --base-href="/new/"
 cp dist/frontend/browser/* ../backend/src/main/resources/public/new/
 ```
 
-### 🔗 URL App (Deployment on Virtual Machine)
+### 🔗 URL App
 The application is deployed and can be accessed at the following URL: https://appweb04.dawgis.etsii.urjc.es:8443/new 
+Also it can be accessed by the following URL: https://localhost:8443/new/
 
 ## 📌 Class diagram and SPA templates
 

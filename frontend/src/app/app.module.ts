@@ -23,7 +23,6 @@ import { ReportFormComponent } from './components/reports/report-form/report-for
 import { ReportListComponent } from './components/reports/report-list/report-list.component';
 import { ReviewFormComponent } from './components/reviews/review-form/review-form.component';
 import { ReviewListComponent } from './components/reviews/review-list/review-list.component';
-import { ProfileListComponent } from './components/user/profile-list/profile-list.component';
 import { EditProfileComponent } from './components/user/edit-profile/edit-profile.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UserStatsChartComponent } from './components/user/user-stats-chart/user-stats-chart.component';
@@ -51,7 +50,6 @@ import { AccessDeniedComponent } from './components/access-denied/access-denied.
     ReportListComponent,
     ReviewFormComponent,
     ReviewListComponent,
-    ProfileListComponent,
     EditProfileComponent,
     UserStatsChartComponent,
     ProfileReviewsComponent,

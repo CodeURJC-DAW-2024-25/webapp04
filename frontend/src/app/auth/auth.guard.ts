@@ -23,13 +23,12 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    const requiredRoles = route.data['roles'];  // Los roles necesarios para la ruta (array de roles)
+    const requiredRoles = route.data['roles'];
   
-    // Si la ruta tiene roles específicos requeridos y el usuario no tiene uno de esos roles, se deniega el acceso
     if (requiredRoles && !requiredRoles.some((role: string) => userRoles.includes(role))) {
       console.log('User does not have the required role, redirecting to access-denied');
       this.router.navigate(['/access-denied']);
-      return false;  // Impide el acceso
+      return false;
     }
 
     console.log('User is authenticated, granting access');
