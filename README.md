@@ -743,23 +743,25 @@ Also it can be accessed by the following URL: https://localhost:8443/new/
 
 
 ### 👤 Naroa Martín Simón
-...
+I have been primarily responsible for the development of the user profile section. This includes the creation of the main profile screen, as well as the display of the favorites, purchase history and sales sections. I also managed all navigation related to the profile, ensuring proper access for both registered and anonymous users.
+In addition, I implemented the profile editing functionality, allowing users to modify their data and update their information efficiently. I integrated interactive maps in the edit form to select locations, and I took care of the visualization of these maps in the different screens associated to each user's profile.
+Within the history section, I developed the data mapping to associate purchases with their respective products and designed a graphical representation that allows a clear, intuitive and dynamic visualization of this information. Finally, I also implemented the logout and account deletion functionalities, both for the deletion of the user account itself and for its deletion by an administrator.
 
 | Commit | Description |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/4a241255c3a78284d0863d147af6792b1d765fd5) | Basic User Profile and Profile and Chat images fix |
+| [2º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/01f9a0267866b796586ce4854e355091975a431d) | Logout, Favorites visualitation and basic EditProfile Form |
+| [3º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/22ac2197be2748419e7224a7ca7a613385ab7cd0) | User iframe update and rendering management |
+| [4º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/40dfb238fa830bc655c8defad65ab41c1fdac99a) | Sale and purchase history grafic |
+| [5º](https://github.com/CodeURJC-DAW-2024-25/webapp04/commit/757b521afa67cd3756a1a75b1c0de41d32122e49) | Delete users account from own profile or admin |
 
 | File | Name |
 | :----: | :---------: |
-| [1º]() | |
-| [2º]() | |
-| [3º]() | |
-| [4º]() | |
-| [5º]() | |
+| [1º](frontend/src/app/components/user/profile/profile.component.ts) | Profile Component |
+| [2º](frontend/src/app/components/user/edit-profile/edit-profile.component.ts) | Edit-Profile Component |
+| [3º](frontend/src/app/components/user/user-stats-chart/user-stats-chart.component.ts) | User-Stats-Chart Component |
+| [4º](frontend/src/app/services/map.service.ts) | Map Service |
+| [5º](frontend/src/app/components/navbar/navbar.component.ts) | Navbar Component|
 
 
 
