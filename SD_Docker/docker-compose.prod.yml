@@ -1,0 +1,31 @@
+services: 
+  web:
+    image: marcosgrc/webapp04:latest
+    ports:
+      - 8443:8443
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db/bytemarket
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DLL_AUTO=update #create-drop #change to update
+    depends_on:      
+      db:        
+        condition: service_healthy
+  db:
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=bytemarket
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+
+volumes:
+  db_data:
