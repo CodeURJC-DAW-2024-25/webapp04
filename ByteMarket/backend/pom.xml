@@ -10,7 +10,7 @@
     </parent>
     <groupId>es.grupo04</groupId>
     <artifactId>backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>backend</name>
     <description>Demo project for Spring Boot</description>
     <url/>
@@ -115,6 +115,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>es.grupo04.backend.Application</mainClass> <!-- Aquí pones tu clase principal -->
+                    <image> 
+                        <name>group04/bytemarket:${project.version}</name> 
+                    </image>
                 </configuration>
             </plugin>
 
