@@ -7,7 +7,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db/bytemarket
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DLL_AUTO=update #create-drop #change to update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update #create-drop #change to update
     depends_on:      
       db:        
         condition: service_healthy
