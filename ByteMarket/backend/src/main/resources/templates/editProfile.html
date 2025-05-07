@@ -28,11 +28,11 @@
 <div class="container py-5">
     <div class="profile-container text-center">
         <h2 class="mb-4">Editar Perfil</h2>
-        <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
+        <form class="form" method="POST" action="/editImage" enctype="multipart/form-data" id="profilePicForm">
             <div class="profile-pic-wrapper">
                 <label for="profilePicInput">
                     {{#user.hasImage}}
-                    <img class="profile-pic mb-3" src="/user/image/{{user.id}}" id="pfp-preview" alt="pfp">
+                    <img class="profile-pic mb-3" src="/user/{{user.id}}/image" id="pfp-preview" alt="pfp">
                     {{/user.hasImage}}
                     {{^user.hasImage}}
                     <img class="profile-pic mb-3" src="/images/default_pfp.jpg" id="pfp-preview" alt="pfp">
@@ -41,10 +41,13 @@
                         <i class="bi bi-upload"></i>
                     </span>
                 </label>
-                <input type="file" id="profilePicInput" class="file-input" name="profilePicInput"
-                    accept="image/jpeg, image/png, image/jpg">
+                <input type="file" id="profilePicInput" class="file-input" name="profilePicInput" accept="image/jpeg, image/png, image/jpg" onchange="this.form.submit()">
             </div>
+            <input type="hidden" name="_csrf" value="{{token}}"/>
+        </form>
+        
 
+        <form class="form" method="POST" action="/editProfile" enctype="multipart/form-data">
             <div class="mb-3 text-start">
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-control" value="{{user.name}}" title="Usuario" name="name">
