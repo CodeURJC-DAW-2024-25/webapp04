@@ -70,6 +70,11 @@ public class DataBaseInitializer {
 
     @PostConstruct
     public void init() throws IOException, URISyntaxException, SerialException, SQLException {
+
+        if(userRepository.count() > 0) {
+            return; // Database already initialized
+        }
+
         // Create users
         User deleteUser = new User ();
         deleteUser.setName("Usuario Eliminado");

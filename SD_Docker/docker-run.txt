@@ -1,0 +1,17 @@
+## Run mysql container
+sudo docker run -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=bytemarket -p 3306:3306 -d -v ./db_data:/var/lib/mysql mysql:9.2
+
+## Run web application container
+sudo docker run -e SPRING_DATASOURCE_URL=jdbc:mysql://192.168.110.154/bytemarket -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=password -e SPRING_JPA_HIBERNATE_DDL_AUTO=update -p 8443:8443 -d marcosgrc/webapp04:1.0.0
+
+## Remove all containers, images, and volumes
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+docker volume prune -f
+
+
+## Buildpacks command
+mvn spring-boot:build-image -DskipTests
+
+## In case of not having maven globally installed
+./mvnw spring-boot:build-image -DskipTests

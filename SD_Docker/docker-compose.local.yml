@@ -1,6 +1,8 @@
 services: 
   web:
-    image: marcosgrc/webapp04:1.0.0
+    build: 
+      context: ..
+      dockerfile: ./SD_Docker/Dockerfile
     ports:
       - 8443:8443
     environment:
