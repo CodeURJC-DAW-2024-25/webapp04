@@ -14,4 +14,4 @@ read -p "Docker Hub username: " DOCKER_USER
 docker login -u $DOCKER_USER
 
 # Publish the compose file
-docker compose -f docker-compose.prod.yml publish $DOCKER_USER/$COMPOSE_NAME:$COMPOSE_TAG
+docker compose -f docker-compose.prod.yml publish $DOCKER_USER/$COMPOSE_NAME:$COMPOSE_TAG --with-env
