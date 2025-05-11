@@ -788,3 +788,118 @@ I've been involved in the creation of various components for the SPA website, in
 
 ## 🔗 Youtube link video 
 https://youtu.be/9sV2_5ZRpso
+
+# SD - Distributed deployment
+During this last phase for the Distributed Systems project, we have worked on the deployment of the application in a distributed way. We were provided with 2 virtual machines from the universitiy, one of the machines will be running the web application and the other one will be running the database, both of them will run in a docker container. The database is accessible from the web application. The web application is accessible from any browser using the following URL: 
+https://193.147.60.44:8443, to access it you need to be sure that you are connected to the university network.
+
+## Deployment steps
+To deploy the application in a distributed way, we need to follow the following steps:
+1. Connnect to the virtual machine using SSH:
+```
+# Machine 1
+ssh -i ssh-keys/sidi04.key vmuser@193.147.60.44
+
+# Machine 2
+ssh -t -i ssh-keys/sidi04.key vmuser@193.147.60.44 ssh sidi04-2
+```
+
+2. Install Docker in both machines in case it is not installed, follow the instructions from: https://docs.docker.com/engine/install/ubuntu/
+
+3. Given that the necessary images are already in the Docker Hub, we can execute the following commands to run the application:
+First we need to run the database container at the second machine:
+```
+sudo docker run -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=bytemarket -p 3306:3306 -d -v ./db_data:/var/lib/mysql mysql:9.2
+```
+Then we need to run the web application container at the first machine:
+```
+sudo docker run -e SPRING_DATASOURCE_URL=jdbc:mysql://192.168.110.154/bytemarket -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=password -e SPRING_JPA_HIBERNATE_DDL_AUTO=update -p 8443:8443 -d marcosgrc/webapp04:1.0.0
+```
+Once both containers are running the app will be working and we can access the web application at: https://193.147.60.44:8443
+
+4. In case we want to stop the containers we can use the following commands in both machines:
+```
+# To check the container id
+sudo docker ps
+
+# To stop the container
+sudo docker stop <container_id>
+```
+If we want to remove the container, images and volumes we can use the following commands:
+```
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+# Remove all volumes that are not in use
+docker volume prune -f
+```
+
+## Docker image creation and upload to Docker Hub
+You need to have Docker installed in your machine.
+To create the images and upload them to Docker Hub, we need to follow the following steps:
+1. If you don't have the project repository, clone it from GitHub:
+```
+git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
+```
+2. Navigate to the Docker folder:
+```
+cd webapp04/SD_Docker
+```
+3. Build the webapp image executing this script:
+```
+./create_image.sh
+```
+4. Upload the image to Docker Hub with the following script:
+```
+./publish_image.sh
+```
+
+## Docker compose execution
+To run this commands you need to have Docker and Docker compose installed in your machine.
+To run the application using Docker compose, we need to follow the following steps:
+1. Given that you already have the project repository, navigate to the Docker folder:
+```
+cd webapp04/SD_Docker
+```
+
+2. Run docker compose using the following command:
+```
+docker compose -f docker-compose.prod.yml up -d
+```
+In case we want to run it using the docker compose local file:
+```
+docker compose -f docker-compose.local.yml up -d
+```
+In both cases the application is accessible at: https://localhost:8443
+
+3. To stop the containers we can use the following command:
+```
+docker compose -f docker-compose.prod.yml down
+```
+In case we want to stop it using the docker compose local file:
+```
+docker compose -f docker-compose.local.yml down
+```
+
+## Buildpacks image creation
+To create the buildpacks image we need to follow the following steps:
+1. If you don't have the project repository, clone it from GitHub:
+```
+git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
+```
+2. Navigate to the Docker folder:
+```
+cd webapp04/SD_Docker
+```
+3. Build the image using the following command:
+```
+# Buildpacks command
+mvn spring-boot:build-image -DskipTests
+
+# In case of not having maven globally installed you may use a command similar to this:
+./mvnw spring-boot:build-image -DskipTests
+```
+
