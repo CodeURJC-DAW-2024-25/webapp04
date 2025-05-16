@@ -890,7 +890,11 @@ To create the buildpacks image we need to follow the following steps:
 ```
 git clone https://github.com/CodeURJC-DAW-2024-25/webapp04
 ```
-2. Build the image using the following command:
+2. Navigate to the Docker folder:
+```
+cd webapp04/ByteMarket/backend
+```
+3. Build the image using the following command:
 ```
 # Buildpacks command
 mvn spring-boot:build-image -DskipTests
